@@ -38,6 +38,10 @@ export const swagger = (app: OpenAPIHono<Env>, basePath: string) => {
         name: "user-poc",
         description: "User POC Domain",
       },
+      {
+        name: "user-poc-information",
+        description: "User POC Information Domain",
+      },
     ],
     servers: [
       {

@@ -5,6 +5,7 @@ import { pino } from "pino";
 
 import { swagger } from "./app.swagger.ts";
 import { userPOC } from "./domain/user-poc/user-poc.ts";
+import { userPOCInformation } from "./domain/user-poc-information/user-poc-information.ts";
 import type { Env } from "./env.ts";
 import { auth } from "./infrastructure/adapter/auth/auth.ts";
 import { casbin } from "./infrastructure/adapter/casbin/casbin.ts";
@@ -51,6 +52,15 @@ userPOC(
   config,
   db,
   "user-poc",
+  generate,
+  new Logger(pino({ level })),
+);
+userPOCInformation(
+  app,
+  basePath,
+  config,
+  db,
+  "user-poc-information",
   generate,
   new Logger(pino({ level })),
 );

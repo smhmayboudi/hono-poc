@@ -1,0 +1,9 @@
+@startuml UserPOCInformation UseCase Create
+actor Client
+Client -> DrivingUserPOCInformationCreate
+DrivingUserPOCInformationCreate -> UseCaseUserPOCInformationCreate: execute
+UseCaseUserPOCInformationCreate -> DrivenUserPOCInformationCreate: create
+DrivenUserPOCInformationCreate --> UseCaseUserPOCInformationCreate: { id }
+UseCaseUserPOCInformationCreate --> DrivingUserPOCInformationCreate: { id }
+DrivingUserPOCInformationCreate --> Client
+@enduml

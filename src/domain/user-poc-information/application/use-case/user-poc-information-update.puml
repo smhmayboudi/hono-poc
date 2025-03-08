@@ -1,0 +1,9 @@
+@startuml UserPOCInformation UseCase Update
+actor Client
+Client -> DrivingUserPOCInformationUpdate
+DrivingUserPOCInformationUpdate -> UseCaseUserPOCInformationUpdate: execute
+UseCaseUserPOCInformationUpdate -> DrivenUserPOCInformationUpdate: update
+DrivenUserPOCInformationUpdate --> UseCaseUserPOCInformationUpdate: void
+UseCaseUserPOCInformationUpdate --> DrivingUserPOCInformationUpdate: { id }
+DrivingUserPOCInformationUpdate --> Client
+@enduml
