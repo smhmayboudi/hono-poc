@@ -1,0 +1,15 @@
+import type { z } from "@hono/zod-openapi";
+import type { Input } from "hono";
+
+import { requestQuerySchema } from "../../../../shared/adapter/driving/request-query.ts";
+import { {{camelCase domain}}ReadResponseSchema } from "./{{kebabCase domain}}-read.response.ts";
+
+export const {{camelCase domain}}ReadQuerySchema = requestQuerySchema(
+  {{camelCase domain}}ReadResponseSchema,
+);
+
+export interface {{pascalCase domain}}ReadRequestValidationTarget extends Input {
+  out: {
+    query: z.infer<typeof {{camelCase domain}}ReadQuerySchema>;
+  };
+}

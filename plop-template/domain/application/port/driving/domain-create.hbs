@@ -1,0 +1,14 @@
+import type { PortDrivingUseCase } from "../../../../shared/application/port/driving/use-case.ts";
+import type { Domain{{pascalCase domain}} } from "../../domain/{{kebabCase domain}}.ts";
+
+export interface PortDriving{{pascalCase domain}}Create
+  extends PortDrivingUseCase<
+    PortDriving{{pascalCase domain}}CreateRequest,
+    PortDriving{{pascalCase domain}}CreateResponse
+  > {
+  execute(
+    data: PortDriving{{pascalCase domain}}CreateRequest,
+  ): Promise<PortDriving{{pascalCase domain}}CreateResponse>;
+}
+export type PortDriving{{pascalCase domain}}CreateRequest = Omit<Domain{{pascalCase domain}}, "id">;
+export type PortDriving{{pascalCase domain}}CreateResponse = Pick<Domain{{pascalCase domain}}, "id">;

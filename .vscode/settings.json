@@ -1,0 +1,50 @@
+{
+  "[dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.guides.bracketPairs": "active",
+  "editor.tabSize": 2,
+  "npm.packageManager": "pnpm",
+  "plantuml.server": "http://127.0.0.1:8083",
+  "redhat.telemetry.enabled": true,
+  "sqltools.connections": [
+    {
+      "connectString": "mysql://mysql_user:mysql_password@localhost:3306/hono-poc?charset=utf8mb4&connectionLimit=1",
+      "driver": "MySQL",
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "name": "hono-poc-localhost",
+      "previewLimit": 50,
+      "server": "localhost"
+    },
+    {
+      "connectString": "mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1",
+      "driver": "MySQL",
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "name": "hono-poc-docker-compose",
+      "previewLimit": 50,
+      "server": "localhost"
+    }
+  ],
+  "terminal.integrated.allowedLinkSchemes": [
+    "docker-desktop",
+    "file",
+    "http",
+    "https",
+    "mailto",
+    "vscode",
+    "vscode-insiders"
+  ],
+  "typescript.tsserver.maxTsServerMemory": 4096,
+  "yaml.customTags": ["!reference sequence"]
+}

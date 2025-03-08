@@ -1,0 +1,42 @@
+import { ATTR_CODE_FUNCTION } from "@opentelemetry/semantic-conventions/incubating";
+import type { Kysely } from "kysely";
+
+import type { PortConfig } from "../../../infrastructure/config/config.ts";
+import type { Database } from "../../../infrastructure/database/schema/schema.ts";
+import type { PortLogger } from "../../../infrastructure/logger/logger.ts";
+import { tracer } from "../../../infrastructure/opentelemetry/opentelemetry.ts";
+import type {
+  PortDriven{{pascalCase domain}}Create,
+  PortDriven{{pascalCase domain}}CreateRequest,
+  PortDriven{{pascalCase domain}}CreateResponse,
+} from "../../application/port/driven/{{kebabCase domain}}-create.ts";
+
+export class AdapterDriven{{pascalCase domain}}Create implements PortDriven{{pascalCase domain}}Create {
+  constructor(
+    private readonly config: PortConfig,
+    private readonly database: Kysely<Database>,
+    private readonly logger: PortLogger,
+  ) {}
+
+  create(
+    data: PortDriven{{pascalCase domain}}CreateRequest,
+  ): Promise<PortDriven{{pascalCase domain}}CreateResponse> {
+    return tracer.startActiveSpan("{{kebabCase domain}}-create.driven", async () => {
+      this.logger.assign({
+        [ATTR_CODE_FUNCTION]: "{{kebabCase domain}}-create.driven",
+        config: this.config,
+        data,
+      });
+      this.logger.info({});
+      const result = await this.database
+        .insertInto("{{kebabCase domain}}")
+        .values(data)
+        .execute();
+      this.logger.debug({ result });
+      const id = Number((result[0] ?? { insertId: 0n }).insertId ?? 0);
+      this.logger.debug({ id });
+
+      return { id };
+    });
+  }
+}

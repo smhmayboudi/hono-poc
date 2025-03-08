@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "exclude": [
+    "**/build/**",
+    "**/coverage/**",
+    "**/doc/**",
+    "**/drizzle/**",
+    "**/node_modules/**",
+    "**/plop-template/**",
+    "./src/**/*.test.ts"
+  ],
+  "extends": ["./tsconfig.json"],
+  "include": ["./src/**/*.ts"]
+}

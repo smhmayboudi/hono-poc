@@ -1,0 +1,11 @@
+@startuml {{pascalCase domain}} UseCase Create
+actor Client
+Client -> Driving{{pascalCase domain}}Create
+Driving{{pascalCase domain}}Create -> UseCase{{pascalCase domain}}Create: execute
+UseCase{{pascalCase domain}}Create -> Driven{{pascalCase domain}}Create: create
+Driven{{pascalCase domain}}Create --> UseCase{{pascalCase domain}}Create: { id }
+UseCase{{pascalCase domain}}Create -> Driving{{pascalCase domain}}Update: execute
+Driving{{pascalCase domain}}Update --> UseCase{{pascalCase domain}}Create: { slug }
+UseCase{{pascalCase domain}}Create --> Driving{{pascalCase domain}}Create: { id, slug }
+Driving{{pascalCase domain}}Create --> Client
+@enduml

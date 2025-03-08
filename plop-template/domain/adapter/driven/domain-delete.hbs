@@ -1,0 +1,38 @@
+import { ATTR_CODE_FUNCTION } from "@opentelemetry/semantic-conventions/incubating";
+import type { Kysely } from "kysely";
+
+import type { PortConfig } from "../../../infrastructure/config/config.ts";
+import type { Database } from "../../../infrastructure/database/schema/schema.ts";
+import type { PortLogger } from "../../../infrastructure/logger/logger.ts";
+import { tracer } from "../../../infrastructure/opentelemetry/opentelemetry.ts";
+import type {
+  PortDriven{{pascalCase domain}}Delete,
+  PortDriven{{pascalCase domain}}DeleteRequest,
+  PortDriven{{pascalCase domain}}DeleteResponse,
+} from "../../application/port/driven/{{kebabCase domain}}-delete.ts";
+
+export class AdapterDriven{{pascalCase domain}}Delete implements PortDriven{{pascalCase domain}}Delete {
+  constructor(
+    private readonly config: PortConfig,
+    private readonly database: Kysely<Database>,
+    private readonly logger: PortLogger,
+  ) {}
+
+  delete(
+    data: PortDriven{{pascalCase domain}}DeleteRequest,
+  ): Promise<PortDriven{{pascalCase domain}}DeleteResponse> {
+    return tracer.startActiveSpan("{{kebabCase domain}}-delete.driven", async () => {
+      this.logger.assign({
+        [ATTR_CODE_FUNCTION]: "{{kebabCase domain}}-delete.driven",
+        config: this.config,
+        data,
+      });
+      this.logger.info({});
+      const result = await this.database
+        .deleteFrom("{{kebabCase domain}}")
+        .where("id", "=", data.id)
+        .execute();
+      this.logger.debug({ result });
+    });
+  }
+}

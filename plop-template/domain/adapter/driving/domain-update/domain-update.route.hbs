@@ -1,0 +1,38 @@
+import { createRoute, type RouteConfig } from "@hono/zod-openapi";
+
+import { successResponseSchema } from "../../../../shared/adapter/driving/response/success.ts";
+import { routeResponses } from "../../../../shared/adapter/driving/route.ts";
+import {
+  {{camelCase domain}}UpdateJSONSchema,
+  {{camelCase domain}}UpdateParamSchema,
+  {{camelCase domain}}UpdateQuerySchema,
+} from "./{{kebabCase domain}}-update.request.ts";
+import { {{camelCase domain}}UpdateResponseSchema } from "./{{kebabCase domain}}-update.response.ts";
+
+export const {{camelCase domain}}UpdateRoute = (
+  basePath: string,
+  domainType: string,
+): RouteConfig =>
+  createRoute<string, RouteConfig>({
+    description: "Update a {{camelCase domain}} by id",
+    method: "patch",
+    path: `${basePath}/${domainType}/{id}`,
+    request: {
+      body: {
+        content: {
+          "application/vnd.api+json": {
+            schema: {{camelCase domain}}UpdateJSONSchema,
+          },
+        },
+        description: "Data to update a {{camelCase domain}} from",
+        required: true,
+      },
+      params: {{camelCase domain}}UpdateParamSchema,
+      query: {{camelCase domain}}UpdateQuerySchema,
+    },
+    responses: routeResponses(
+      successResponseSchema({{camelCase domain}}UpdateResponseSchema, domainType),
+    ),
+    summary: "Update a {{camelCase domain}}",
+    tags: [domainType],
+  });

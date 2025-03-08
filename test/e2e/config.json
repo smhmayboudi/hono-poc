@@ -1,0 +1,7 @@
+{
+  "discardResponseBodies": false,
+  "insecureSkipTLSVerify": true,
+  "iterations": 1,
+  "thresholds": { "checks": [{ "threshold": "rate == 1.00" }] },
+  "vus": 1
+}

@@ -1,0 +1,10 @@
+import { z } from "@hono/zod-openapi";
+
+export const {{camelCase domain}}ReadResponseSchema = z
+  .object({
+    age: z.string().optional().openapi({ examples: ["age"] }),
+    email: z.string().optional().openapi({ examples: ["email"] }),
+    id: z.number().optional().openapi({ examples: [1234567890] }),
+    name: z.string().optional().openapi({ examples: ["name"] }),
+  })
+  .openapi("{{pascalCase domain}}ReadResponse");

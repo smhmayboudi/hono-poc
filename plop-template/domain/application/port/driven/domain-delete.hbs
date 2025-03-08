@@ -1,0 +1,9 @@
+import type { Domain{{pascalCase domain}} } from "../../domain/{{kebabCase domain}}.ts";
+
+export interface PortDriven{{pascalCase domain}}Delete {
+  delete(
+    data: PortDriven{{pascalCase domain}}DeleteRequest,
+  ): Promise<PortDriven{{pascalCase domain}}DeleteResponse>;
+}
+export type PortDriven{{pascalCase domain}}DeleteRequest = Pick<Domain{{pascalCase domain}}, "id">;
+export type PortDriven{{pascalCase domain}}DeleteResponse = void;

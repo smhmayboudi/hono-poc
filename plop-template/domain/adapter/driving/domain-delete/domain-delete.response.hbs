@@ -1,0 +1,7 @@
+import { z } from "@hono/zod-openapi";
+
+export const {{camelCase domain}}DeleteResponseSchema = z
+  .object({
+    id: z.number().optional().openapi({ examples: [1234567890] }),
+  })
+  .openapi("{{pascalCase domain}}DeleteResponse");

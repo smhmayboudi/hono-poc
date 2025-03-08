@@ -1,0 +1,13 @@
+import { z } from "@hono/zod-openapi";
+
+export const {{camelCase domain}}CreateResponseSchema = z
+  .object({
+    displayOrder: z.number().optional().openapi({ examples: [1234567890] }),
+    id: z.number().optional().openapi({ examples: [1234567890] }),
+    isDeleted: z.boolean().optional().openapi({ examples: [false] }),
+    nameAr: z.string().optional().openapi({ examples: ["nameAr"] }),
+    nameEn: z.string().optional().openapi({ examples: ["nameEn"] }),
+    originCountryCode: z.string().optional().openapi({ examples: ["originCountryCode"] }),
+    slug: z.string().optional().openapi({ examples: ["slug"] }),
+  })
+  .openapi("{{pascalCase domain}}CreateResponse");

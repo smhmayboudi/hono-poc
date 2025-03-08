@@ -1,0 +1,9 @@
+@startuml UserPOC UseCase Create
+actor Client
+Client -> DrivingUserPOCCreate
+DrivingUserPOCCreate -> UseCaseUserPOCCreate: execute
+UseCaseUserPOCCreate -> DrivenUserPOCCreate: create
+DrivenUserPOCCreate --> UseCaseUserPOCCreate: { id }
+UseCaseUserPOCCreate --> DrivingUserPOCCreate: { id }
+DrivingUserPOCCreate --> Client
+@enduml

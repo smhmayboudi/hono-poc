@@ -1,0 +1,52 @@
+import type { RouteHandler } from "@hono/zod-openapi";
+import { ATTR_CODE_FUNCTION } from "@opentelemetry/semantic-conventions/incubating";
+import type { Context } from "hono";
+
+import type { Env } from "../../../../env.ts";
+import type { PortConfig } from "../../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../../infrastructure/logger/logger.ts";
+import { tracer } from "../../../../infrastructure/opentelemetry/opentelemetry.ts";
+import { successResponse } from "../../../../shared/adapter/driving/response/success.ts";
+import type { PortDriving{{pascalCase domain}}Update } from "../../../application/port/driving/{{kebabCase domain}}-update.ts";
+import type { {{pascalCase domain}}UpdateRequestValidationTarget } from "./{{kebabCase domain}}-update.request.ts";
+import { {{camelCase domain}}UpdateResponseSchema } from "./{{kebabCase domain}}-update.response.ts";
+import type { {{camelCase domain}}UpdateRoute } from "./{{kebabCase domain}}-update.route.ts";
+
+export const {{camelCase domain}}UpdateHandler =
+  (
+    config: PortConfig,
+    domainType: string,
+    logger: PortLogger,
+    driving{{pascalCase domain}}Update: PortDriving{{pascalCase domain}}Update,
+  ): RouteHandler<ReturnType<typeof {{camelCase domain}}UpdateRoute>, Env> =>
+  (ctx: Context<Env, typeof domainType, {{pascalCase domain}}UpdateRequestValidationTarget>) =>
+    tracer.startActiveSpan("{{kebabCase domain}}-update.driving", async () => {
+      logger.assign({
+        [ATTR_CODE_FUNCTION]: "{{kebabCase domain}}-update.driving",
+        config,
+      });
+      logger.info({});
+      const origin = new URL(ctx.req.url).origin;
+      logger.debug({ origin });
+      const json = ctx.req.valid("json");
+      logger.debug({ json });
+      const param = ctx.req.valid("param");
+      logger.debug({ param });
+      const query = ctx.req.valid("query");
+      logger.debug({ query });
+      const { slug } = await driving{{pascalCase domain}}Update.execute({
+        ...json,
+        ...param,
+        id: Number(param.id),
+      });
+      logger.debug({ slug });
+      const response = {{camelCase domain}}UpdateResponseSchema.parse({
+        ...json,
+        ...param,
+        id: Number(param.id),
+        slug,
+      });
+      logger.debug({ response });
+
+      return successResponse(ctx, domainType, query, response);
+    });

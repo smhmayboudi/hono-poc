@@ -1,0 +1,46 @@
+import type { RouteHandler } from "@hono/zod-openapi";
+import { ATTR_CODE_FUNCTION } from "@opentelemetry/semantic-conventions/incubating";
+import type { Context } from "hono";
+
+import type { Env } from "../../../../env.ts";
+import type { PortConfig } from "../../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../../infrastructure/logger/logger.ts";
+import { tracer } from "../../../../infrastructure/opentelemetry/opentelemetry.ts";
+import { successArrayResponse } from "../../../../shared/adapter/driving/response/success-array.ts";
+import type { PortDriving{{pascalCase domain}}Read } from "../../../application/port/driving/{{kebabCase domain}}-read.ts";
+import type { {{pascalCase domain}}ReadRequestValidationTarget } from "./{{kebabCase domain}}-read.request.ts";
+import { {{camelCase domain}}ReadResponseSchema } from "./{{kebabCase domain}}-read.response.ts";
+import type { {{camelCase domain}}ReadRoute } from "./{{kebabCase domain}}-read.route.ts";
+
+export const {{camelCase domain}}ReadHandler =
+  (
+    config: PortConfig,
+    domainType: string,
+    logger: PortLogger,
+    driving{{pascalCase domain}}Read: PortDriving{{pascalCase domain}}Read,
+  ): RouteHandler<ReturnType<typeof {{camelCase domain}}ReadRoute>, Env> =>
+  (ctx: Context<Env, typeof domainType, {{pascalCase domain}}ReadRequestValidationTarget>) =>
+    tracer.startActiveSpan("{{kebabCase domain}}-read.driving", async () => {
+      logger.assign({
+        [ATTR_CODE_FUNCTION]: "{{kebabCase domain}}-read.driving",
+        config,
+      });
+      logger.info({});
+      const origin = new URL(ctx.req.url).origin;
+      logger.debug({ origin });
+      const query = ctx.req.valid("query");
+      logger.debug({ query });
+      const list = await driving{{pascalCase domain}}Read.execute(query);
+      logger.debug({ list });
+      const response = list.map((value) =>
+        {{camelCase domain}}ReadResponseSchema.parse({
+          age: value.age,
+          email: value.email,
+          id: value.id,
+          name: value.name,
+        }),
+      );
+      logger.debug({ response });
+
+      return successArrayResponse(ctx, domainType, query, response);
+    });

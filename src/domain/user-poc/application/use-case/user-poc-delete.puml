@@ -1,0 +1,9 @@
+@startuml UserPOC UseCase Delete
+actor Client
+Client -> DrivingUserPOCDelete
+DrivingUserPOCDelete -> UseCaseUserPOCDelete: execute
+UseCaseUserPOCDelete -> DrivenUserPOCDelete: delete
+DrivenUserPOCDelete --> UseCaseUserPOCDelete: void
+UseCaseUserPOCDelete --> DrivingUserPOCDelete: { id }
+DrivingUserPOCDelete --> Client
+@enduml

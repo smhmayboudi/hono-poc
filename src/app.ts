@@ -1,0 +1,67 @@
+import { OpenAPIHono } from "@hono/zod-openapi";
+import { cors } from "hono/cors";
+import { csrf } from "hono/csrf";
+import { pino } from "pino";
+
+import { swagger } from "./app.swagger.ts";
+import { userPOC } from "./domain/user-poc/user-poc.ts";
+import type { Env } from "./env.ts";
+import { auth } from "./infrastructure/adapter/auth/auth.ts";
+import { casbin } from "./infrastructure/adapter/casbin/casbin.ts";
+import { config } from "./infrastructure/adapter/config/config.ts";
+import { database } from "./infrastructure/adapter/database/database.ts";
+import { generate } from "./infrastructure/adapter/generate/generate.ts";
+import { Logger } from "./infrastructure/adapter/logger/logger.ts";
+import { casbinMiddleware } from "./infrastructure/adapter/middleware/casbin.ts";
+import { loggerMiddleware } from "./infrastructure/adapter/middleware/logger.ts";
+import { opentelemetryMiddleware } from "./infrastructure/adapter/middleware/opentelemetry.ts";
+import { defaultHook } from "./shared/adapter/driving/default-hook.ts";
+import { notFoundHandler } from "./shared/adapter/driving/handler/not-found.ts";
+import { onErrorHandler } from "./shared/adapter/driving/handler/on-error.ts";
+
+const level = "trace";
+const db = database(config, new Logger(pino({ level })));
+const basePath = "/api/v1";
+const auth2 = auth(config, db, new Logger(pino({ level })));
+const app = new OpenAPIHono<Env>({ defaultHook });
+
+app.use(
+  opentelemetryMiddleware(config, new Logger(pino({ level }))),
+  cors(),
+  csrf({
+    origin: (origin) =>
+      ["127.0.0.1", "localhost"].includes(new URL(origin).hostname),
+  }),
+  loggerMiddleware({ http: false, pino: new Logger(pino({ level })) }),
+  casbinMiddleware(
+    casbin(auth2, config, new Logger(pino({ level }))),
+    config,
+    new Logger(pino({ level })),
+  ),
+);
+
+app.on(["POST", "GET"], "/api/v1/auth/**", (ctx) => auth2.handler(ctx.req.raw));
+
+// /health/liveness, /health/readiness
+app.get(`${basePath}/healthy`, (ctx) => ctx.text(""));
+
+userPOC(
+  app,
+  basePath,
+  config,
+  db,
+  "user-poc",
+  generate,
+  new Logger(pino({ level })),
+);
+
+swagger(app, basePath);
+
+app.notFound(notFoundHandler(config, new Logger(pino({ level }))));
+app.onError(onErrorHandler(config, new Logger(pino({ level }))));
+
+export default {
+  fetch: app.fetch,
+  logger: new Logger(pino({ level })),
+  port: config.server().port(),
+};

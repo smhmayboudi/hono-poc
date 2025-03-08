@@ -1,0 +1,4 @@
+p, public, /api/v1/auth/*, *
+p, public, /api/v1/*, *
+
+g, anonymous, public

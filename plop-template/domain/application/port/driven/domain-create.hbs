@@ -1,0 +1,9 @@
+import type { Domain{{pascalCase domain}} } from "../../domain/{{kebabCase domain}}.ts";
+
+export interface PortDriven{{pascalCase domain}}Create {
+  create(
+    data: PortDriven{{pascalCase domain}}CreateRequest,
+  ): Promise<PortDriven{{pascalCase domain}}CreateResponse>;
+}
+export type PortDriven{{pascalCase domain}}CreateRequest = Omit<Domain{{pascalCase domain}}, "id">;
+export type PortDriven{{pascalCase domain}}CreateResponse = Pick<Domain{{pascalCase domain}}, "id">;

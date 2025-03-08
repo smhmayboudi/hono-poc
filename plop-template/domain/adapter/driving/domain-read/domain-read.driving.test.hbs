@@ -1,0 +1,82 @@
+import { faker } from "@faker-js/faker";
+import { OpenAPIHono } from "@hono/zod-openapi";
+import { describe, expect, it, vi } from "vitest";
+import { mock } from "vitest-mock-extended";
+
+import type { Env } from "../../../../env.ts";
+import type { PortConfig } from "../../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../../infrastructure/logger/logger.ts";
+import { honoDefaultHook } from "../../../../shared/util/hono-default-hook.ts";
+import type { Domain{{pascalCase domain}} } from "../../../application/domain/{{kebabCase domain}}.ts";
+import type { PortDriven{{pascalCase domain}}Read } from "../../../application/port/driven/{{kebabCase domain}}-read.ts";
+import { UseCase{{pascalCase domain}}Read } from "../../../application/use-case/{{kebabCase domain}}-read.ts";
+import { adapterDriving{{pascalCase domain}}Read } from "./{{kebabCase domain}}-read.driving.ts";
+
+describe("{{pascalCase domain}} Driving Read", () => {
+  const readMocks = () => {
+  const config = mock<PortConfig>({});
+  const id = faker.number.int();
+    const domain{{pascalCase domain}}: Domain{{pascalCase domain}} = {
+      age: faker.number.int({ min: 1, max: 99 }).toString(),
+      email: faker.internet.email(),
+      id,
+      name: faker.person.fullName(),
+    };
+    const driven{{pascalCase domain}}Read = mock<PortDriven{{pascalCase domain}}Read>({
+      read: vi.fn().mockReturnValue([domain{{pascalCase domain}}]),
+    });
+    const logger = mock<PortLogger>({ assign: vi.fn(), info: vi.fn() });
+    const useCase{{pascalCase domain}}Read = new UseCase{{pascalCase domain}}Read(
+      config,
+      driven{{pascalCase domain}}Read,
+      logger,
+    );
+
+    return {
+      config,
+      domain{{pascalCase domain}},
+      id,
+      logger,
+      useCase{{pascalCase domain}}Read,
+    };
+  };
+
+  it("should call get with correct data", async () => {
+    expect.assertions(3);
+
+    const { config, domain{{pascalCase domain}}, id, logger, useCase{{pascalCase domain}}Read } = await readMocks();
+    const mockApp = new OpenAPIHono<Env>({ defaultHook: honoDefaultHook });
+    const basePath = "/api/v1";
+    const domainType = "{{kebabCase domain}}";
+    adapterDriving{{pascalCase domain}}Read(
+      mockApp,
+      basePath,
+      config,
+      domainType,
+      logger,
+      useCase{{pascalCase domain}}Read,
+    );
+    const response = await mockApp.request(`${basePath}/${domainType}`, {
+      headers: [["Content-Type", "application/vnd.api+json"]],
+      method: "GET",
+    });
+
+    expect(response).not.toBeNull();
+    await expect(response.json()).resolves.toStrictEqual({
+      data: [
+        {
+          attributes: domain{{pascalCase domain}},
+          id: String(id),
+          links: {
+            self: `http://localhost/{{kebabCase domain}}/${id}`,
+          },
+          type: "{{kebabCase domain}}",
+        },
+      ],
+      links: {
+        self: "http://localhost/{{kebabCase domain}}",
+      },
+    });
+    expect(response.status).toBe(200);
+  });
+});

@@ -1,0 +1,52 @@
+import { faker } from "@faker-js/faker";
+import { describe, expect, it, vi } from "vitest";
+import { mock } from "vitest-mock-extended";
+
+import type { PortConfig } from "../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../infrastructure/logger/logger.ts";
+import type { Domain{{pascalCase domain}} } from "../domain/{{kebabCase domain}}.ts";
+import type { PortDriven{{pascalCase domain}}Read } from "../port/driven/{{kebabCase domain}}-read.ts";
+import { UseCase{{pascalCase domain}}Read } from "./{{kebabCase domain}}-read.ts";
+
+describe("{{pascalCase domain}} UseCase Read", () => {
+  const readMocks = () => {
+    const config = mock<PortConfig>({});
+    const domain{{pascalCase domain}}: Domain{{pascalCase domain}} = {
+      age: faker.number.int({ min: 1, max: 99 }).toString(),
+      email: faker.internet.email(),
+      id: faker.number.int(),
+      name: faker.person.fullName(),
+    };
+    const driven{{pascalCase domain}}Read = mock<PortDriven{{pascalCase domain}}Read>({
+      read: vi.fn().mockReturnValue([domain{{pascalCase domain}}]),
+    });
+    const logger = mock<PortLogger>({ assign: vi.fn(), info: vi.fn() });
+    const useCase{{pascalCase domain}}Read = new UseCase{{pascalCase domain}}Read(
+      config,
+      driven{{pascalCase domain}}Read,
+      logger,
+    );
+
+    return {
+      config,
+      domain{{pascalCase domain}},
+      driven{{pascalCase domain}}Read,
+      useCase{{pascalCase domain}}Read,
+    };
+  };
+
+  it("should call execute with correct data", async () => {
+    expect.assertions(2);
+
+    const {
+      domain{{pascalCase domain}},
+      driven{{pascalCase domain}}Read,
+      useCase{{pascalCase domain}}Read,
+    } = await readMocks();
+    const updateSpy = vi.spyOn(driven{{pascalCase domain}}Read, "read");
+    const list = await useCase{{pascalCase domain}}Read.execute({});
+
+    expect(updateSpy).toHaveBeenCalledWith({});
+    expect(list).toStrictEqual([domain{{pascalCase domain}}]);
+  });
+});

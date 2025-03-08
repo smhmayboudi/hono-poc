@@ -1,0 +1,43 @@
+import { ATTR_CODE_FUNCTION } from "@opentelemetry/semantic-conventions/incubating";
+
+import type { PortConfig } from "../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../infrastructure/logger/logger.ts";
+import { tracer } from "../../../infrastructure/opentelemetry/opentelemetry.ts";
+import type { PortDriven{{pascalCase domain}}Create } from "../port/driven/{{kebabCase domain}}-create.ts";
+import type {
+  PortDriving{{pascalCase domain}}Create,
+  PortDriving{{pascalCase domain}}CreateRequest,
+  PortDriving{{pascalCase domain}}CreateResponse,
+} from "../port/driving/{{kebabCase domain}}-create.ts";
+import type { PortDriving{{pascalCase domain}}Update } from "../port/driving/{{kebabCase domain}}-update.ts";
+
+export class UseCase{{pascalCase domain}}Create implements PortDriving{{pascalCase domain}}Create {
+  constructor(
+    private readonly config: PortConfig,
+    private readonly driven{{pascalCase domain}}Create: PortDriven{{pascalCase domain}}Create,
+    private readonly driving{{pascalCase domain}}Update: PortDriving{{pascalCase domain}}Update,
+    private readonly logger: PortLogger,
+  ) {}
+
+  execute(
+    data: PortDriving{{pascalCase domain}}CreateRequest,
+  ): Promise<PortDriving{{pascalCase domain}}CreateResponse> {
+    return tracer.startActiveSpan("{{kebabCase domain}}-create.use-case", async () => {
+      this.logger.assign({
+        [ATTR_CODE_FUNCTION]: "{{kebabCase domain}}-create.use-case",
+        data,
+        config: this.config,
+      });
+      this.logger.info({});
+      const { id } = await this.driven{{pascalCase domain}}Create.create({
+        ...data,
+        isDeleted: false,
+      });
+      this.logger.debug({ id });
+      const { slug } = await this.driving{{pascalCase domain}}Update.execute({ ...data, id });
+      this.logger.debug({ slug });
+
+      return { id, slug };
+    });
+  }
+}

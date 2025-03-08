@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+pnpm audit --prod
+pnpm run build:esbuild:pre-push
+pnpm run test
+pnpm run lint

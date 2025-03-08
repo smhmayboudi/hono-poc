@@ -1,0 +1,9 @@
+@startuml {{pascalCase domain}} UseCase Delete
+actor Client
+Client -> Driving{{pascalCase domain}}Delete
+Driving{{pascalCase domain}}Delete -> UseCase{{pascalCase domain}}Delete: execute
+UseCase{{pascalCase domain}}Delete -> Driven{{pascalCase domain}}Delete: delete
+Driven{{pascalCase domain}}Delete --> UseCase{{pascalCase domain}}Delete: void
+UseCase{{pascalCase domain}}Delete --> Driving{{pascalCase domain}}Delete: void
+Driving{{pascalCase domain}}Delete --> Client
+@enduml

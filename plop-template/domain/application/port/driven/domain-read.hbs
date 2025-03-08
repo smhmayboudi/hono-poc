@@ -1,0 +1,8 @@
+import type { RequestQuery } from "../../../../shared/application/port/request-query.ts";
+import type { Domain{{pascalCase domain}} } from "../../domain/{{kebabCase domain}}.ts";
+
+export interface PortDriven{{pascalCase domain}}Read {
+  read(data: PortDriven{{pascalCase domain}}ReadRequest): Promise<PortDriven{{pascalCase domain}}ReadResponse>;
+}
+export type PortDriven{{pascalCase domain}}ReadRequest = RequestQuery<Domain{{pascalCase domain}}>;
+export type PortDriven{{pascalCase domain}}ReadResponse = Domain{{pascalCase domain}}[];

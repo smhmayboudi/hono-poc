@@ -1,0 +1,11 @@
+@startuml {{pascalCase domain}} UseCase Update
+actor Client
+Client -> Driving{{pascalCase domain}}Update
+Driving{{pascalCase domain}}Update -> UseCase{{pascalCase domain}}Update: execute
+UseCase{{pascalCase domain}}Update -> Slug: Slugify
+Slug --> UseCase{{pascalCase domain}}Update: string
+UseCase{{pascalCase domain}}Update -> Driven{{pascalCase domain}}Update: update
+Driven{{pascalCase domain}}Update --> UseCase{{pascalCase domain}}Update: void
+UseCase{{pascalCase domain}}Update --> Driving{{pascalCase domain}}Update: { slug }
+Driving{{pascalCase domain}}Update --> Client
+@enduml

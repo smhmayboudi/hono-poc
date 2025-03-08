@@ -1,0 +1,9 @@
+# Auto detect text files and perform LF normalization
+pnpm-lock.yaml -diff -merge
+pnpm-lock.yaml linguist-generated=true
+* text=auto
+
+# JS, JSON and TS files must always use LF for tools to work
+*.js eol=lf
+*.json eol=lf
+*.ts eol=lf

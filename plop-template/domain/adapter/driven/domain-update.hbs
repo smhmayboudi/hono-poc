@@ -1,0 +1,39 @@
+import { ATTR_CODE_FUNCTION } from "@opentelemetry/semantic-conventions/incubating";
+import type { Kysely } from "kysely";
+
+import type { PortConfig } from "../../../infrastructure/config/config.ts";
+import type { Database } from "../../../infrastructure/database/schema/schema.ts";
+import type { PortLogger } from "../../../infrastructure/logger/logger.ts";
+import { tracer } from "../../../infrastructure/opentelemetry/opentelemetry.ts";
+import type {
+  PortDriven{{pascalCase domain}}Update,
+  PortDriven{{pascalCase domain}}UpdateRequest,
+  PortDriven{{pascalCase domain}}UpdateResponse,
+} from "../../application/port/driven/{{kebabCase domain}}-update.ts";
+
+export class AdapterDriven{{pascalCase domain}}Update implements PortDriven{{pascalCase domain}}Update {
+  constructor(
+    private readonly config: PortConfig,
+    private readonly database: Kysely<Database>,
+    private readonly logger: PortLogger,
+  ) {}
+
+  update(
+    data: PortDriven{{pascalCase domain}}UpdateRequest,
+  ): Promise<PortDriven{{pascalCase domain}}UpdateResponse> {
+    return tracer.startActiveSpan("{{kebabCase domain}}-update.driven", async () => {
+      this.logger.assign({
+        [ATTR_CODE_FUNCTION]: "{{kebabCase domain}}-update.driven",
+        config: this.config,
+        data,
+      });
+      this.logger.info({});
+      const result = await this.database
+        .updateTable("{{kebabCase domain}}")
+        .set({})
+        .where("id", "=", data.id)
+        .execute();
+      this.logger.debug({ result });
+    });
+  }
+}

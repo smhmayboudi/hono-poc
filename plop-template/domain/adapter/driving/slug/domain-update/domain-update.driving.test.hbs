@@ -1,0 +1,90 @@
+import { faker } from "@faker-js/faker";
+import { OpenAPIHono } from "@hono/zod-openapi";
+import { describe, expect, it, vi } from "vitest";
+import { mock } from "vitest-mock-extended";
+
+import type { Env } from "../../../../env.ts";
+import type { PortConfig } from "../../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../../infrastructure/logger/logger.ts";
+import type { PortSlug } from "../../../../infrastructure/slugify/slugify.ts";
+import { honoDefaultHook } from "../../../../shared/util/hono-default-hook.ts";
+import { objectPropertiesOmit } from "../../../../shared/util/object-properties-omit.ts";
+import type { Domain{{pascalCase domain}} } from "../../../application/domain/{{kebabCase domain}}.ts";
+import type { PortDriven{{pascalCase domain}}Update } from "../../../application/port/driven/{{kebabCase domain}}-update.ts";
+import { UseCase{{pascalCase domain}}Update } from "../../../application/use-case/{{kebabCase domain}}-update.ts";
+import { adapterDriving{{pascalCase domain}}Update } from "./{{kebabCase domain}}-update.driving.ts";
+
+describe("{{pascalCase domain}} Driving Update", () => {
+  const updateMocks = () => {
+  const config = mock<PortConfig>({});
+  const id = faker.number.int();
+    const nameEn = faker.person.fullName();
+    const slug = mock<PortSlug>({ slugify: () => `${nameEn}-br-${id}` });
+    const domain{{pascalCase domain}}: Domain{{pascalCase domain}} = {
+      displayOrder: 999,
+      id,
+      isDeleted: false,
+      nameAr: faker.person.fullName(),
+      nameEn,
+      originCountryCode: faker.location.countryCode(),
+      slug: slug.slugify(),
+    };
+    const driven{{pascalCase domain}}Update = mock<PortDriven{{pascalCase domain}}Update>({
+      update: vi.fn(),
+    });
+    const logger = mock<PortLogger>({ assign: vi.fn(), info: vi.fn() });
+    const useCase{{pascalCase domain}}Update = new UseCase{{pascalCase domain}}Update(
+      config,
+      driven{{pascalCase domain}}Update,
+      logger,
+      slug,
+    );
+
+    return {
+      config,
+      domain{{pascalCase domain}},
+      id,
+      logger,
+      useCase{{pascalCase domain}}Update,
+    };
+  };
+
+  it("should call post with correct data", async () => {
+    expect.assertions(3);
+
+    const { config, domain{{pascalCase domain}}, id, logger, useCase{{pascalCase domain}}Update } = await updateMocks();
+    const mockApp = new OpenAPIHono<Env>({ defaultHook: honoDefaultHook });
+    const basePath = "/api/v1";
+    const domainType = "{{kebabCase domain}}";
+    adapterDriving{{pascalCase domain}}Update(
+      mockApp,
+      basePath,
+      config,
+      domainType,
+      logger,
+      useCase{{pascalCase domain}}Update,
+    );
+    const response = await mockApp.request(
+      `${basePath}/${domainType}/${domain{{pascalCase domain}}.id}`,
+      {
+        body: JSON.stringify(objectPropertiesOmit(domain{{pascalCase domain}}, ["id", "slug"])),
+        headers: [["Content-Type", "application/vnd.api+json"]],
+        method: "PATCH",
+      },
+    );
+
+
+    expect(response).not.toBeNull();
+    await expect(response.json()).resolves.toStrictEqual({
+      data: {
+        attributes: domain{{pascalCase domain}},
+        id: String(id),
+        links: {
+          self: `http://localhost/{{kebabCase domain}}/${id}`,
+        },
+        type: "{{kebabCase domain}}",
+      },
+    });
+    expect(response.status).toBe(200);
+  });
+});

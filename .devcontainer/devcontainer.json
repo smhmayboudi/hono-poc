@@ -1,0 +1,112 @@
+/**
+ * For a detailed explanation regarding each configuration property, visit:
+ * https://containers.dev/
+ * https://containers.dev/features
+ * https://containers.dev/guide/dockerfile
+ * https://containers.dev/implementors/json_reference/
+ * https://github.com/devcontainers/templates/tree/main/src/typescript-node
+ * https://mcr.microsoft.com/en-us/product/devcontainers/javascript-node/about
+ */
+
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "DavidAnson.vscode-markdownlint",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "IBM.output-colorizer",
+        "PascalReitermann93.vscode-yaml-sort",
+        "Tyriar.sort-lines",
+        "WakaTime.vscode-wakatime",
+        "YoavBls.pretty-ts-errors",
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode-remote.vscode-remote-extensionpack",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-mysql",
+        "redhat.vscode-yaml",
+        "richie5um2.vscode-sort-json",
+        "streetsidesoftware.code-spell-checker",
+        "vitest.explorer",
+        "vscode-icons-team.vscode-icons"
+      ]
+    }
+  },
+  "dockerComposeFile": "${localWorkspaceFolder}/compose.yaml",
+  "features": {
+    "ghcr.io/devcontainers-contrib/features/zsh-plugins:0.0.4": {
+      "omzPlugins": "https://github.com/zsh-users/zsh-syntax-highlighting.git",
+      "plugins": "docker docker-compose zsh-syntax-highlighting",
+      "username": "node"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2.5.2": {
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true,
+      "installOhMyZshConfig": true,
+      "installZsh": true,
+      "nonFreePackages": false,
+      "upgradePackages": true,
+      "userGid": "1000",
+      "userUid": "1000",
+      "username": "node"
+    },
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1.6.0": {
+      "dockerDashComposeVersion": "v2",
+      "installDockerBuildx": true,
+      "moby": true,
+      "mobyBuildxVersion": "latest",
+      "version": "latest"
+    }
+    // "ghcr.io/devcontainers/features/git:1.3.2": {
+    //   "ppa": "true",
+    //   "version": "2.46.0"
+    // },
+    // "ghcr.io/devcontainers/features/node:1.6.1": {
+    //   "nodeGypDependencies": true,
+    //   "nvmInstallPath": "/usr/local/share/nvm",
+    //   "nvmVersion": "0.40.1",
+    //   "pnpmVersion": "10.6.1",
+    //   "version": "22.13.1"
+    // }
+  },
+  "forwardPorts": [3000, 9229],
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.wakatime.cfg,target=/home/node/.wakatime.cfg,type=bind",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.zsh_history,target=/home/node/.zsh_history,type=bind",
+    "source=${localWorkspaceFolder}/,target=${containerWorkspaceFolder}/,type=bind",
+    "source=hoc-node-modules,target=${containerWorkspaceFolder}/node_modules,type=bind"
+  ],
+  "name": "hono-poc",
+  "portsAttributes": {
+    "3000": {
+      "elevateIfNeeded": false,
+      "label": "hono-poc",
+      "onAutoForward": "silent",
+      "protocol": "http",
+      "requireLocalPort": true
+    },
+    "9229": {
+      "elevateIfNeeded": false,
+      "label": "hono-poc-inspect",
+      "onAutoForward": "silent",
+      "protocol": "http",
+      "requireLocalPort": true
+    }
+  },
+  "postCreateCommand": {
+    "gi": "echo \"function gi() { curl --fail --location --show-error --silent --write-out \\\"\\\\\\n\\\" https://www.toptal.com/developers/gitignore/api/\\$@ ;}\" >> ~/.zshrc",
+    "prompt": "echo \"\\nPROMPT='%{\\$fg[yellow]%}[%*] '\\$PROMPT\"  >> ~/.zshrc",
+    "sudo-git-config": "sudo git config --system --add safe.directory ${containerWorkspaceFolder}"
+  },
+  "remoteEnv": {
+    "NODE_ENV": "development"
+  },
+  "remoteUser": "node",
+  "service": "devcontainer",
+  "shutdownAction": "stopCompose",
+  "workspaceFolder": "/workspace"
+}

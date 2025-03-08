@@ -1,0 +1,6 @@
+**/build/**
+**/coverage/**
+**/doc/**
+**/drizzle/**
+**/node_modules/**
+**/plop-template/**

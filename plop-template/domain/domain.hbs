@@ -1,0 +1,51 @@
+import type { OpenAPIHono } from "@hono/zod-openapi";
+import type { Kysely } from "kysely";
+
+import type { Env } from "../env.ts";
+import type { PortConfig } from "../infrastructure/config/config.ts";
+import type { Database } from "../infrastructure/database/schema/schema.ts";
+import type { PortLogger } from "../infrastructure/logger/logger.ts";
+{{#each dataList}}
+import { AdapterDriven{{pascalCase domain}}{{pascalCase crud}} } from "./adapter/driven/{{kebabCase domain}}-{{kebabCase crud}}.ts";
+{{/each}}
+{{#each dataList}}
+import { adapterDriving{{pascalCase domain}}{{pascalCase crud}} } from "./adapter/driving/{{kebabCase domain}}-{{kebabCase crud}}/{{kebabCase domain}}-{{kebabCase crud}}.driving.ts";
+{{/each}}
+{{#each dataList}}
+import { UseCase{{pascalCase domain}}{{pascalCase crud}} } from "./application/use-case/{{kebabCase domain}}-{{kebabCase crud}}.ts";
+{{/each}}
+
+export const {{camelCase domain}} = (
+  app: OpenAPIHono<Env>,
+  basePath: string,
+  config: PortConfig,
+  domainType: string,
+  database: Kysely<Database>,
+  logger: PortLogger,
+) => {
+  {{#each dataList}}
+  const adapterDriven{{pascalCase domain}}{{pascalCase crud}} = new AdapterDriven{{pascalCase domain}}{{pascalCase crud}}(
+    config,
+    database,
+    logger,
+  );
+  const useCase{{pascalCase domain}}{{pascalCase crud}} = new UseCase{{pascalCase domain}}{{pascalCase crud}}(
+    adapterDriven{{pascalCase domain}}{{pascalCase crud}},
+    logger,
+  );
+  adapterDriving{{pascalCase domain}}{{pascalCase crud}}(
+    app,
+    basePath,
+    config,
+    domainType,
+    logger,
+    useCase{{pascalCase domain}}{{pascalCase crud}},
+  );
+  {{/each}}
+
+  return {
+    {{#each dataList}}
+    useCase{{pascalCase domain}}{{pascalCase crud}},
+    {{/each}}
+  };
+};

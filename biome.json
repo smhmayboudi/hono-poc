@@ -1,0 +1,301 @@
+{
+  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "ignore": [
+      "**/build/**",
+      "**/coverage/**",
+      "**/doc/**",
+      "**/drizzle/**",
+      "**/node_modules/**",
+      "**/plop-template/**",
+      "./tsconfig.base.json"
+    ],
+    "ignoreUnknown": true,
+    "include": ["**/*.js", "**/*.json", "**/*.ts"]
+  },
+  "formatter": {
+    "attributePosition": "auto",
+    "enabled": true,
+    "formatWithErrors": false,
+    "ignore": ["package.json"],
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80
+  },
+  "javascript": {
+    "formatter": {
+      "arrowParentheses": "always",
+      "attributePosition": "auto",
+      "bracketSameLine": false,
+      "bracketSpacing": true,
+      "enabled": true,
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "jsxQuoteStyle": "double",
+      "lineEnding": "lf",
+      "lineWidth": 80,
+      "quoteProperties": "asNeeded",
+      "quoteStyle": "double",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
+  "json": {
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineEnding": "lf",
+      "lineWidth": 80,
+      "trailingCommas": "none"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "all": true,
+      "recommended": false,
+      "style": {
+        "noDefaultExport": "off",
+        "noParameterProperties": "off",
+        "useNamingConvention": "off"
+      }
+    }
+  },
+  "organizeImports": {
+    "enabled": false
+  },
+  "overrides": [
+    {
+      "include": ["**/*.config.*"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off"
+          },
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["**/*.test.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": [
+        "**/application/port/driven/*-create.ts",
+        "**/application/port/driven/*-delete.ts",
+        "**/application/port/driven/*-update.ts",
+        "**/application/port/driving/*-create.ts",
+        "**/application/port/driving/*-delete.ts",
+        "**/application/port/driving/*-disabled.ts",
+        "**/application/port/driving/*-update.ts",
+        "**/application/port/driving/*-upsert.ts"
+      ],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConfusingVoidType": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["app.deno.ts", "app.env.ts"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUndeclaredVariables": "off"
+          },
+          "style": {
+            "noUselessElse": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["app.node.ts", "app.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["app.opentelemetry.ts"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off"
+          },
+          "style": {
+            "noNamespaceImport": "off",
+            "noNonNullAssertion": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["infrastructure/adapter/logger/logger.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["infrastructure/adapter/middleware/logger.test.ts"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off",
+            "useOptionalChain": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["infrastructure/adapter/middleware/logger.ts"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noExcessiveCognitiveComplexity": "off",
+            "useLiteralKeys": "off"
+          },
+          "suspicious": {
+            "noAssignInExpressions": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["infrastructure/adapter/middleware/opentelemetry.ts"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noExcessiveCognitiveComplexity": "off"
+          },
+          "style": {
+            "noNamespaceImport": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["infrastructure/adapter/opentelemetry/opentelemetry.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noNamespaceImport": "off",
+            "noParameterAssign": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["infrastructure/application/port/database/database.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["script/*"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off"
+          },
+          "correctness": {
+            "noNodejsModules": "off"
+          },
+          "style": {
+            "noNamespaceImport": "off"
+          },
+          "suspicious": {
+            "noConsole": "off",
+            "noConsoleLog": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["shared/adapter/driven/request-query.ts"],
+      "linter": {
+        "rules": {
+          "style": { "noParameterAssign": "off" }
+        }
+      }
+    },
+    {
+      "include": ["shared/adapter/driving/request-query.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noUselessElse": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["shared/adapter/driving/response/json-api.ts"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["test/e2e/src/**"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off"
+          },
+          "correctness": {
+            "noUndeclaredDependencies": "off",
+            "noUndeclaredVariables": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["test/e2e/webpack.config.js"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noNodejsModules": "off",
+            "noUndeclaredDependencies": "off"
+          },
+          "style": {
+            "useNodejsImportProtocol": "off"
+          }
+        }
+      }
+    }
+  ],
+  "vcs": {
+    "clientKind": "git",
+    "defaultBranch": "main",
+    "enabled": true,
+    "useIgnoreFile": true
+  }
+}

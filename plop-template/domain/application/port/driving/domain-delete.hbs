@@ -1,0 +1,14 @@
+import type { PortDrivingUseCase } from "../../../../shared/application/port/driving/use-case.ts";
+import type { Domain{{pascalCase domain}} } from "../../domain/{{kebabCase domain}}.ts";
+
+export interface PortDriving{{pascalCase domain}}Delete
+  extends PortDrivingUseCase<
+    PortDriving{{pascalCase domain}}DeleteRequest,
+    PortDriving{{pascalCase domain}}DeleteResponse
+  > {
+  execute(
+    data: PortDriving{{pascalCase domain}}DeleteRequest,
+  ): Promise<PortDriving{{pascalCase domain}}DeleteResponse>;
+}
+export type PortDriving{{pascalCase domain}}DeleteRequest = Pick<Domain{{pascalCase domain}}, "id">;
+export type PortDriving{{pascalCase domain}}DeleteResponse = void;

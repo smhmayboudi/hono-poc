@@ -1,0 +1,24 @@
+import { createRoute, type RouteConfig } from "@hono/zod-openapi";
+
+import { successResponseSchema } from "../../../../shared/adapter/driving/response/success.ts";
+import { routeResponses } from "../../../../shared/adapter/driving/route.ts";
+import { {{camelCase domain}}DeleteParamSchema } from "./{{kebabCase domain}}-delete.request.ts";
+import { {{camelCase domain}}DeleteResponseSchema } from "./{{kebabCase domain}}-delete.response.ts";
+
+export const {{camelCase domain}}DeleteRoute = (
+  basePath: string,
+  domainType: string,
+): RouteConfig =>
+  createRoute<string, RouteConfig>({
+    description: "Delete a {{camelCase domain}} by id",
+    method: "delete",
+    path: `${basePath}/${domainType}/{id}`,
+    request: {
+      params: {{camelCase domain}}DeleteParamSchema,
+    },
+    responses: routeResponses(
+      successResponseSchema({{camelCase domain}}DeleteResponseSchema, domainType),
+    ),
+    summary: "Delete a {{camelCase domain}}",
+    tags: [domainType],
+  });

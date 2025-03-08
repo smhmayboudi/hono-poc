@@ -1,0 +1,51 @@
+import { faker } from "@faker-js/faker";
+import { describe, expect, it, vi } from "vitest";
+import { mock } from "vitest-mock-extended";
+
+import type { PortConfig } from "../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../infrastructure/logger/logger.ts";
+import type { Domain{{pascalCase domain}} } from "../domain/{{kebabCase domain}}.ts";
+import type { PortDriven{{pascalCase domain}}Delete } from "../port/driven/{{kebabCase domain}}-delete.ts";
+import { UseCase{{pascalCase domain}}Delete } from "./{{kebabCase domain}}-delete.ts";
+
+describe("{{pascalCase domain}} UseCase Delete", () => {
+  const deleteMocks = () => {
+    const config = mock<PortConfig>({});
+    const domain{{pascalCase domain}}: Domain{{pascalCase domain}} = {
+      age: faker.number.int({ min: 1, max: 99 }).toString(),
+      email: faker.internet.email(),
+      id: faker.number.int(),
+      name: faker.person.fullName(),
+    };
+    const driven{{pascalCase domain}}Delete = mock<PortDriven{{pascalCase domain}}Delete>(
+      { delete: vi.fn() },
+    );
+    const logger = mock<PortLogger>({ assign: vi.fn(), info: vi.fn() });
+    const useCase{{pascalCase domain}}Delete = new UseCase{{pascalCase domain}}Delete(
+      config,
+      driven{{pascalCase domain}}Delete,
+      logger,
+    );
+
+    return {
+      config,
+      domain{{pascalCase domain}},
+      driven{{pascalCase domain}}Delete,
+      useCase{{pascalCase domain}}Delete,
+    };
+  };
+
+  it("should call execute with correct data", async () => {
+    expect.assertions(1);
+
+    const {
+      domain{{pascalCase domain}},
+      driven{{pascalCase domain}}Delete,
+      useCase{{pascalCase domain}}Delete,
+    } = await deleteMocks();
+    const deleteSpy = vi.spyOn(driven{{pascalCase domain}}Delete, "delete");
+    await useCase{{pascalCase domain}}Delete.execute(domain{{pascalCase domain}});
+
+    expect(deleteSpy).toHaveBeenCalledWith(domain{{pascalCase domain}});
+  });
+});

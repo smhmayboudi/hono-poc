@@ -1,0 +1,41 @@
+import type { RouteHandler } from "@hono/zod-openapi";
+import { ATTR_CODE_FUNCTION } from "@opentelemetry/semantic-conventions/incubating";
+import type { Context } from "hono";
+
+import type { Env } from "../../../../env.ts";
+import type { PortConfig } from "../../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../../infrastructure/logger/logger.ts";
+import { tracer } from "../../../../infrastructure/opentelemetry/opentelemetry.ts";
+import { successResponse } from "../../../../shared/adapter/driving/response/success.ts";
+import type { PortDriving{{pascalCase domain}}Create } from "../../../application/port/driving/{{kebabCase domain}}-create.ts";
+import type { {{pascalCase domain}}CreateRequestValidationTarget } from "./{{kebabCase domain}}-create.request.ts";
+import { {{camelCase domain}}CreateResponseSchema } from "./{{kebabCase domain}}-create.response.ts";
+import type { {{camelCase domain}}CreateRoute } from "./{{kebabCase domain}}-create.route.ts";
+
+export const {{camelCase domain}}CreateHandler =
+  (
+    config: PortConfig,
+    domainType: string,
+    logger: PortLogger,
+    driving{{pascalCase domain}}Create: PortDriving{{pascalCase domain}}Create,
+  ): RouteHandler<ReturnType<typeof {{camelCase domain}}CreateRoute>, Env> =>
+  (ctx: Context<Env, typeof domainType, {{pascalCase domain}}CreateRequestValidationTarget>) =>
+    tracer.startActiveSpan("{{kebabCase domain}}-create.driving", async () => {
+      logger.assign({
+        [ATTR_CODE_FUNCTION]: "{{kebabCase domain}}-create.driving",
+        config,
+      });
+      logger.info({});
+      const origin = new URL(ctx.req.url).origin;
+      logger.debug({ origin });
+      const json = ctx.req.valid("json");
+      logger.debug({ json });
+      const query = ctx.req.valid("query");
+      logger.debug({ query });
+      const { id } = await driving{{pascalCase domain}}Create.execute(json);
+      logger.debug({ id });
+      const response = {{camelCase domain}}CreateResponseSchema.parse({ ...json, id });
+      logger.debug({ response });
+
+      return successResponse(ctx, domainType, query, response);
+    });

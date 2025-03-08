@@ -1,0 +1,13 @@
+import type { PartialUndefinable } from "../../../../shared/application/port/partial-undefinable.ts";
+import type { Domain{{pascalCase domain}} } from "../../domain/{{kebabCase domain}}.ts";
+
+export interface PortDriven{{pascalCase domain}}Update {
+  update(
+    data: PortDriven{{pascalCase domain}}UpdateRequest,
+  ): Promise<PortDriven{{pascalCase domain}}UpdateResponse>;
+}
+export type PortDriven{{pascalCase domain}}UpdateRequest = PartialUndefinable<
+  Omit<Domain{{pascalCase domain}}, "id">
+> &
+  Readonly<Pick<Domain{{pascalCase domain}}, "id">>;
+export type PortDriven{{pascalCase domain}}UpdateResponse = void;

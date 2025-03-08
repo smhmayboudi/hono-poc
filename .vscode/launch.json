@@ -1,0 +1,36 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Docker: Attach",
+      "port": 9229,
+      "remoteRoot": "/usr/node/hono-poc/",
+      "request": "attach",
+      "type": "node"
+    },
+    {
+      "dockerServerReadyAction": {
+        "uriFormat": "%s://localhost:%s"
+      },
+      "name": "Docker: Launch",
+      "platform": "node",
+      "preLaunchTask": "docker-run: debug",
+      "request": "launch",
+      "type": "docker"
+    },
+    {
+      "name": "Local: Attach",
+      "port": 9229,
+      "request": "attach",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node"
+    },
+    {
+      "name": "Local: Launch",
+      "program": "${workspaceFolder}/build/app.node.js",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node"
+    }
+  ]
+}

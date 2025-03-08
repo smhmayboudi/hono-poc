@@ -1,0 +1,24 @@
+{
+  "recommendations": [
+    "DavidAnson.vscode-markdownlint",
+    "GitHub.copilot",
+    "GitHub.copilot-chat",
+    "IBM.output-colorizer",
+    "PascalReitermann93.vscode-yaml-sort",
+    "Tyriar.sort-lines",
+    "WakaTime.vscode-wakatime",
+    "YoavBls.pretty-ts-errors",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.vscode-remote-extensionpack",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-mysql",
+    "redhat.vscode-yaml",
+    "richie5um2.vscode-sort-json",
+    "streetsidesoftware.code-spell-checker",
+    "vitest.explorer",
+    "vscode-icons-team.vscode-icons"
+  ]
+}

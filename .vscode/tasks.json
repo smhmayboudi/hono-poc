@@ -1,0 +1,40 @@
+{
+  "tasks": [
+    {
+      "dockerBuild": {
+        "context": "${workspaceFolder}",
+        "dockerfile": "${workspaceFolder}/Dockerfile",
+        "pull": true
+      },
+      "label": "docker-build",
+      "platform": "node",
+      "type": "docker-build"
+    },
+    {
+      "dependsOn": ["docker-build"],
+      "dockerRun": {
+        "env": {
+          "NODE_ENV": "production"
+        }
+      },
+      "label": "docker-run: release",
+      "platform": "node",
+      "type": "docker-run"
+    },
+    {
+      "dependsOn": ["docker-build"],
+      "dockerRun": {
+        "env": {
+          "DEBUG": "*",
+          "NODE_ENV": "development"
+        }
+      },
+      "label": "docker-run: debug",
+      "node": {
+        "enableDebugging": true
+      },
+      "type": "docker-run"
+    }
+  ],
+  "version": "2.0.0"
+}

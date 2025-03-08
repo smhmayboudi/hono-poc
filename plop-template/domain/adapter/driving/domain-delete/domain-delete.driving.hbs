@@ -1,0 +1,26 @@
+import type { OpenAPIHono } from "@hono/zod-openapi";
+
+import type { Env } from "../../../../env.ts";
+import type { PortConfig } from "../../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../../infrastructure/logger/logger.ts";
+import { notFoundHandler } from "../../../../shared/adapter/driving/handler/not-found.ts";
+import { onErrorHandler } from "../../../../shared/adapter/driving/handler/on-error.ts";
+import type { PortDriving{{pascalCase domain}}Delete } from "../../../application/port/driving/{{kebabCase domain}}-delete.ts";
+import { {{camelCase domain}}DeleteHandler } from "./{{kebabCase domain}}-delete.handler.ts";
+import { {{camelCase domain}}DeleteRoute } from "./{{kebabCase domain}}-delete.route.ts";
+
+export const adapterDriving{{pascalCase domain}}Delete = (
+  app: OpenAPIHono<Env>,
+  basePath: string,
+  config: PortConfig,
+  domainType: string,
+  logger: PortLogger,
+  driving{{pascalCase domain}}Delete: PortDriving{{pascalCase domain}}Delete,
+) => {
+  app.notFound(notFoundHandler(config, logger));
+  app.onError(onErrorHandler(config, logger));
+  app.openapi(
+    {{camelCase domain}}DeleteRoute(basePath, domainType),
+    {{camelCase domain}}DeleteHandler(config, domainType, logger, driving{{pascalCase domain}}Delete),
+  );
+};

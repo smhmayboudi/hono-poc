@@ -1,0 +1,26 @@
+import type { OpenAPIHono } from "@hono/zod-openapi";
+
+import type { Env } from "../../../../env.ts";
+import type { PortConfig } from "../../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../../infrastructure/logger/logger.ts";
+import { notFoundHandler } from "../../../../shared/adapter/driving/handler/not-found.ts";
+import { onErrorHandler } from "../../../../shared/adapter/driving/handler/on-error.ts";
+import type { PortDriving{{pascalCase domain}}Update } from "../../../application/port/driving/{{kebabCase domain}}-update.ts";
+import { {{camelCase domain}}UpdateHandler } from "./{{kebabCase domain}}-update.handler.ts";
+import { {{camelCase domain}}UpdateRoute } from "./{{kebabCase domain}}-update.route.ts";
+
+export const adapterDriving{{pascalCase domain}}Update = (
+  app: OpenAPIHono<Env>,
+  basePath: string,
+  config: PortConfig,
+  domainType: string,
+  logger: PortLogger,
+  driving{{pascalCase domain}}Update: PortDriving{{pascalCase domain}}Update,
+) => {
+  app.notFound(notFoundHandler(config, logger));
+  app.onError(onErrorHandler(config, logger));
+  app.openapi(
+    {{camelCase domain}}UpdateRoute(basePath, domainType),
+    {{camelCase domain}}UpdateHandler(config, domainType, logger, driving{{pascalCase domain}}Update),
+  );
+};

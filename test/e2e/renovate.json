@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "assignees": ["renovatebot"],
+  "enabled": false,
+  "extends": ["config:base"],
+  "labels": [
+    "dev::build",
+    "product::hono-poc-e2e",
+    "status::work in progress",
+    "team::backend"
+  ],
+  "reviewers": ["mh.mayboudi"],
+  "reviewersFromCodeOwners": true
+}

@@ -1,0 +1,39 @@
+import { ATTR_CODE_FUNCTION } from "@opentelemetry/semantic-conventions/incubating";
+
+import type { PortConfig } from "../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../infrastructure/logger/logger.ts";
+import { tracer } from "../../../infrastructure/opentelemetry/opentelemetry.ts";
+import type { PortSlug } from "../../../infrastructure/slugify/slugify.ts";
+import type { PortDriven{{pascalCase domain}}Update } from "../port/driven/{{kebabCase domain}}-update.ts";
+import type {
+  PortDriving{{pascalCase domain}}Update,
+  PortDriving{{pascalCase domain}}UpdateRequest,
+  PortDriving{{pascalCase domain}}UpdateResponse,
+} from "../port/driving/{{kebabCase domain}}-update.ts";
+
+export class UseCase{{pascalCase domain}}Update implements PortDriving{{pascalCase domain}}Update {
+  constructor(
+    private readonly config: PortConfig,
+    private readonly driven{{pascalCase domain}}Update: PortDriven{{pascalCase domain}}Update,
+    private readonly slug: PortSlug,
+    private readonly logger: PortLogger,
+  ) {}
+
+  execute(
+    data: PortDriving{{pascalCase domain}}UpdateRequest,
+  ): Promise<PortDriving{{pascalCase domain}}UpdateResponse> {
+    return tracer.startActiveSpan("{{kebabCase domain}}-update.use-case", async () => {
+      this.logger.assign({
+        [ATTR_CODE_FUNCTION]: "{{kebabCase domain}}-update.use-case",
+        data,
+        config: this.config,
+      });
+      this.logger.info({});
+      const slug = this.slug.slugify(data.nameEn, "br", data.id);
+      this.logger.debug({ slug });
+      await this.driven{{pascalCase domain}}Update.update({ ...data, slug });
+
+      return { slug };
+    });
+  }
+}

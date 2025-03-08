@@ -1,0 +1,28 @@
+import { z } from "@hono/zod-openapi";
+import type { Input } from "hono";
+
+import { requestQuerySchema } from "../../../../shared/adapter/driving/request-query.ts";
+import { {{camelCase domain}}CreateResponseSchema } from "./{{kebabCase domain}}-create.response.ts";
+
+export const {{camelCase domain}}CreateJSONSchema = z
+  .object({
+    displayOrder: z.number().openapi({ examples: [999] }),
+    id: z.number().openapi({ examples: [1234567890] }),
+    isDeleted: z.boolean().openapi({ examples: [false] }),
+    nameAr: z.string().openapi({ examples: ["nameAr"] }),
+    nameEn: z.string().openapi({ examples: ["nameEn"] }),
+    originCountryCode: z.string().optional().openapi({ examples: ["originCountryCode"] }),
+  })
+  .strict()
+  .openapi("{{pascalCase domain}}CreateRequest");
+
+export const {{camelCase domain}}CreateQuerySchema = requestQuerySchema(
+  {{camelCase domain}}CreateResponseSchema,
+);
+
+export interface {{pascalCase domain}}CreateRequestValidationTarget extends Input {
+  out: {
+    json: z.infer<typeof {{camelCase domain}}CreateJSONSchema>;
+    query: z.infer<typeof {{camelCase domain}}CreateQuerySchema>;
+  };
+}

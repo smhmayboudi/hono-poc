@@ -1,0 +1,438 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+
+x-default-logging: &logging
+  driver: json-file
+  options:
+    max-file: 2
+    max-size: 5m
+
+services:
+  devcontainer:
+    command:
+      - /bin/sh
+      - -c
+      - -Eefuvx
+      - >-
+        export DEBIAN_FRONTEND=noninteractive
+        && apt update
+        && apt --yes upgrade &&
+        && apt --yes install --no-install-recommends git
+        && apt clean &&
+        && rm -rf /var/lib/apt/lists/*
+        && sleep infinity
+    container_name: hono-devcontainer
+    depends_on:
+      mysql:
+        condition: service_healthy
+    image: node:22.13.1-bookworm
+    labels:
+      namespace: devcontainer
+    logging: *logging
+    restart: "no"
+
+  elasticsearch:
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    expose:
+      - 9200 # API Call
+      - 9300 # Custom Binary Protocol
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - curl "http://elasticsearch:9200/_cluster/health"
+      timeout: 5s
+    image: elasticsearch:7.17.27
+    labels:
+      namespace: elasticsearch
+    logging: *logging
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    restart: "no"
+
+  hono-poc:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: hono-hono-poc
+    depends_on:
+      hono-poc-migration:
+        condition: service_completed_successfully
+    environment:
+      - CLIENT_DATABASE_URI=mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1
+      - SERVER_PORT=80
+    expose:
+      - 8081
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - wget --no-verbose --spider --tries=1 http://hono-poc:80/api/v1/healthy
+      timeout: 5s
+    labels:
+      namespace: hono-poc
+    logging: *logging
+    ports:
+      - "8081:80"
+    restart: "no"
+
+  hono-poc-migration:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command:
+      - /bin/sh
+      - -c
+      - -Eefuvx
+      - >-
+        pnpm run db:migrate
+        && pnpm run db:seed:development
+    container_name: hono-hono-poc-migration
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - CLIENT_DATABASE_URI=mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1
+      - SERVER_PORT=80
+    expose:
+      - 8081
+    labels:
+      namespace: hono-poc-migration
+    logging: *logging
+    restart: "no"
+
+  k6:
+    command:
+      - run
+      - /home/k6/workspace/test/e2e/build/server.js
+      - --compatibility-mode=base
+      - --config=/home/k6/workspace/test/e2e/config.json
+    container_name: hono-k6
+    environment:
+      - BASE_URL=http://hono-poc:8081/api/v1
+      - SLEEP_DURATION=0.1
+    depends_on:
+      hono-poc:
+        condition: service_healthy
+    image: grafana/k6:0.56.0
+    labels:
+      namespace: k6
+    logging: *logging
+    restart: "no"
+    volumes:
+      - .:/home/k6/workspace
+
+  kroki:
+    container_name: hono-kroki
+    depends_on:
+      kroki-bpmn:
+        condition: service_healthy
+      kroki-diagramsnet:
+        condition: service_healthy
+      kroki-excalidraw:
+        condition: service_healthy
+      kroki-mermaid:
+        condition: service_healthy
+    environment:
+      - KROKI_BPMN_HOST=kroki-bpmn
+      - KROKI_BPMN_PORT=8003
+      - KROKI_DIAGRAMSNET_HOST=kroki-diagramsnet
+      - KROKI_DIAGRAMSNET_PORT=8005
+      - KROKI_EXCALIDRAW_HOST=kroki-excalidraw
+      - KROKI_EXCALIDRAW_PORT=8004
+      - KROKI_MERMAID_HOST=kroki-mermaid
+      - KROKI_MERMAID_PORT=8002
+    expose:
+      - 8000
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - wget --no-verbose --spider --tries=1 http://kroki:8000 || exit 0
+      timeout: 5s
+    image: yuzutech/kroki:0.26.0
+    labels:
+      namespace: kroki
+    ports:
+      - "8000:8000"
+    restart: "no"
+
+  kroki-bpmn:
+    container_name: hono-kroki-bpmn
+    expose:
+      - 8003
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - wget --no-verbose --spider --tries=1 http://kroki-bpmn:8003 || exit 0
+      timeout: 5s
+    image: yuzutech/kroki-bpmn:0.26.0
+    labels:
+      namespace: kroki
+    ports:
+      - "8003:8003"
+    restart: "no"
+
+  kroki-diagramsnet:
+    container_name: hono-kroki-diagramsnet
+    expose:
+      - 8005
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - wget --no-verbose --spider --tries=1 http://kroki-diagramsnet:8005 || exit 0
+      timeout: 5s
+    image: yuzutech/kroki-diagramsnet:0.26.0
+    labels:
+      namespace: kroki
+    ports:
+      - "8005:8005"
+    restart: "no"
+
+  kroki-excalidraw:
+    container_name: hono-kroki-excalidraw
+    expose:
+      - 8004
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - wget --no-verbose --spider --tries=1 http://kroki-excalidraw:8004 || exit 0
+      timeout: 5s
+    image: yuzutech/kroki-excalidraw:0.26.0
+    labels:
+      namespace: kroki
+    ports:
+      - "8004:8004"
+    restart: "no"
+
+  kroki-mermaid:
+    container_name: hono-kroki-mermaid
+    expose:
+      - 8002
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - wget --no-verbose --spider --tries=1 http://kroki-mermaid:8002 || exit 0
+      timeout: 5s
+    image: yuzutech/kroki-mermaid:0.26.0
+    labels:
+      namespace: kroki
+    logging: *logging
+    ports:
+      - "8002:8002"
+    restart: "no"
+
+  minio:
+    command: server /minio/data/ --console-address ":9001"
+    container_name: minio
+    environment:
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-ec_access_key}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-ec-root-password}
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-ec-root-user}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-ec_secret_key}
+    expose:
+      - 9000 # API Call
+      - 9001 # Console Address
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - mc ready local
+      timeout: 5s
+    image: minio/minio:RELEASE.2025-01-18T00-31-37Z
+    labels:
+      namespace: minio
+    logging: *logging
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    restart: "no"
+    volumes:
+      - minio:/minio/data/
+
+  minio-createbuckets:
+    container_name: minio-createbuckets
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add minio http://minio:9000 ${MINIO_ROOT_USER:-ec-root-user} ${MINIO_ROOT_PASSWORD:-ec-root-password};
+      /usr/bin/mc mb --ignore-existing minio/default;
+      /usr/bin/mc anonymous set public minio/default;
+      exit 0;
+      "
+    image: minio/mc:RELEASE.2025-01-17T23-25-50Z
+    labels:
+      namespace: minio-createbuckets
+    logging: *logging
+    restart: "no"
+
+  mysql:
+    command:
+      - --mysql-native-password=ON
+    container_name: hono-mysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=hono-poc
+      - MYSQL_PASSWORD=mysql_password
+      - MYSQL_ROOT_PASSWORD=mysql_root_password
+      - MYSQL_USER=mysql_user
+    expose:
+      - 3306 # Default Protocol
+      - 33060 # X Protocol
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - mysqladmin ping --host=127.0.0.1 --password=$$MYSQL_PASSWORD --user=$$MYSQL_USER
+      timeout: 5s
+    image: mysql:8.4.3-oraclelinux9
+    labels:
+      namespace: mysql
+    logging: *logging
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    restart: "no"
+    volumes:
+      - ./.docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - mysql:/var/lib/mysql
+
+  phpmyadmin:
+    container_name: hono-phpmyadmin
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PASSWORD=mysql_root_password
+      - PMA_USER=root
+      - UPLOAD_LIMIT=128M
+    expose:
+      - 80 # Panel
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - curl --fail http://phpmyadmin:80 || exit 1
+      timeout: 5s
+    image: phpmyadmin:5.2.1-apache
+    ports:
+      - "8082:80"
+    labels:
+      namespace: phpmyadmin
+    logging: *logging
+    restart: "no"
+
+  plantuml-server:
+    container_name: hono-plantuml-server
+    # depends_on:
+    #   mysql:
+    #     condition: service_healthy
+    # environment:
+    #   - PMA_HOST=mysql
+    #   - PMA_PASSWORD=mysql_root_password
+    #   - PMA_USER=root
+    #   - UPLOAD_LIMIT=128M
+    expose:
+      - 8080 # Panel
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        # - curl --fail http://plantuml-server:8080 || exit 1
+        - wget --no-verbose --spider --tries=1 http://plantuml-server:8080
+      timeout: 5s
+    image: plantuml/plantuml-server:jetty-v1.2024.8
+    ports:
+      - "8083:8080"
+    labels:
+      namespace: plantuml-server
+    logging: *logging
+    restart: "no"
+    volumes:
+      - plantuml-server:/tmp/jetty
+
+  redis:
+    container_name: redis
+    expose:
+      - 6379 # Default Protocol
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - redis-cli --raw incr ping
+      timeout: 5s
+    image: redis:7.4.2-bookworm
+    labels:
+      namespace: redis
+    logging: *logging
+    ports:
+      - "6379:6379"
+    restart: "no"
+    volumes:
+      - redis:/data
+
+  swagger-ui:
+    container_name: hono-swagger-ui
+    depends_on:
+      hono-poc:
+        condition: service_healthy
+    environment:
+      - SWAGGER_JSON_URL=http://127.0.0.1:8081/api/v1/swagger.json
+      - PORT=80
+    expose:
+      - 80
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        # - curl --fail http://swagger-ui:80 || exit 1
+        - wget --no-verbose --spider --tries=1 http://swagger-ui:80
+      timeout: 5s
+    image: swaggerapi/swagger-ui:v5.18.2
+    labels:
+      namespace: swagger-ui
+    logging: *logging
+    ports:
+      - "8084:80"
+    restart: "no"
+
+volumes:
+  minio: {}
+  mysql: {}
+  plantuml-server: {}
+  redis: {}

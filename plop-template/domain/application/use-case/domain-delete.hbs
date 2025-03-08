@@ -1,0 +1,35 @@
+import { ATTR_CODE_FUNCTION } from "@opentelemetry/semantic-conventions/incubating";
+
+import type { PortConfig } from "../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../infrastructure/logger/logger.ts";
+import { tracer } from "../../../infrastructure/opentelemetry/opentelemetry.ts";
+import type { PortDriven{{pascalCase domain}}Delete } from "../port/driven/{{kebabCase domain}}-delete.ts";
+import type {
+  PortDriving{{pascalCase domain}}Delete,
+  PortDriving{{pascalCase domain}}DeleteRequest,
+  PortDriving{{pascalCase domain}}DeleteResponse,
+} from "../port/driving/{{kebabCase domain}}-delete.ts";
+
+export class UseCase{{pascalCase domain}}Delete
+  implements PortDriving{{pascalCase domain}}Delete
+{
+  constructor(
+    private readonly config: PortConfig,
+    private readonly driven{{pascalCase domain}}Delete: PortDriven{{pascalCase domain}}Delete,
+    private readonly logger: PortLogger,
+  ) {}
+
+  execute(
+    data: PortDriving{{pascalCase domain}}DeleteRequest,
+  ): Promise<PortDriving{{pascalCase domain}}DeleteResponse> {
+    return tracer.startActiveSpan("{{kebabCase domain}}-delete.use-case", async () => {
+      this.logger.assign({
+        [ATTR_CODE_FUNCTION]: "{{kebabCase domain}}-delete.use-case",
+        data,
+        config: this.config,
+      });
+      this.logger.info({});
+      await this.driven{{pascalCase domain}}Delete.delete(data);
+    });
+  }
+}

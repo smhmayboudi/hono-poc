@@ -1,0 +1,9 @@
+@startuml UserPOC UseCase ReadID
+actor Client
+Client -> DrivingUserPOCReadID
+DrivingUserPOCReadID -> UseCaseUserPOCReadID: execute
+UseCaseUserPOCReadID -> DrivenUserPOCReadID: readID
+DrivenUserPOCReadID --> UseCaseUserPOCReadID: DomainUserPOC
+UseCaseUserPOCReadID --> DrivingUserPOCReadID: DomainUserPOC
+DrivingUserPOCReadID --> Client
+@enduml

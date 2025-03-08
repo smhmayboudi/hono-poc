@@ -1,0 +1,9 @@
+@startuml {{pascalCase domain}} UseCase Read
+actor Client
+Client -> Driving{{pascalCase domain}}Read
+Driving{{pascalCase domain}}Read -> UseCase{{pascalCase domain}}Read: execute
+UseCase{{pascalCase domain}}Read -> Driven{{pascalCase domain}}Read: read
+Driven{{pascalCase domain}}Read --> UseCase{{pascalCase domain}}Read: Domain{{pascalCase domain}}[]
+UseCase{{pascalCase domain}}Read --> Driving{{pascalCase domain}}Read: Domain{{pascalCase domain}}[]
+Driving{{pascalCase domain}}Read --> Client
+@enduml

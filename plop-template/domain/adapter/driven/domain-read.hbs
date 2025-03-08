@@ -1,0 +1,66 @@
+import { ATTR_CODE_FUNCTION } from "@opentelemetry/semantic-conventions/incubating";
+import type { Kysely } from "kysely";
+
+import type { PortConfig } from "../../../infrastructure/config/config.ts";
+import type { Database } from "../../../infrastructure/database/schema/schema.ts";
+import type { PortLogger } from "../../../infrastructure/logger/logger.ts";
+import { tracer } from "../../../infrastructure/opentelemetry/opentelemetry.ts";
+import { kyselyApplyRequestQuery } from "../../../shared/util/kysely-apply-request-query.ts";
+import type { Domain{{pascalCase domain}} } from "../../application/domain/{{kebabCase domain}}.ts";
+import type {
+  PortDriven{{pascalCase domain}}Read,
+  PortDriven{{pascalCase domain}}ReadRequest,
+  PortDriven{{pascalCase domain}}ReadResponse,
+} from "../../application/port/driven/{{kebabCase domain}}-read.ts";
+
+export class AdapterDriven{{pascalCase domain}}Read implements PortDriven{{pascalCase domain}}Read {
+  constructor(
+    private readonly config: PortConfig,
+    private readonly database: Kysely<Database>,
+    private readonly logger: PortLogger,
+  ) {}
+
+  read(
+    data: PortDriven{{pascalCase domain}}ReadRequest,
+  ): Promise<PortDriven{{pascalCase domain}}ReadResponse> {
+    return tracer.startActiveSpan("{{kebabCase domain}}-read.driven", async () => {
+      this.logger.assign({
+        [ATTR_CODE_FUNCTION]: "{{kebabCase domain}}-read.driven",
+        config: this.config,
+        data,
+      });
+      this.logger.info({});
+      const result = (
+        await kyselyApplyRequestQuery<
+          Domain{{pascalCase domain}},
+          Database,
+          "{{kebabCase domain}}",
+          Domain{{pascalCase domain}}
+        >(
+          data,
+          (key) => {
+            switch (key) {
+              case "id":
+                return "id";
+              default:
+                return key;
+            }
+          },
+          this.database
+            .selectFrom("{{kebabCase domain}}")
+            .select([
+              "age as age",
+              "email as email",
+              "id as id",
+              "name as name",
+            ]),
+        ).execute()
+      ).map((value) => ({
+        ...value,
+      }));
+      this.logger.debug({ result });
+
+      return result;
+    });
+  }
+}

@@ -1,0 +1,15 @@
+import type { PortDrivingUseCase } from "../../../../shared/application/port/driving/use-case.ts";
+import type { RequestQuery } from "../../../../shared/application/port/request-query.ts";
+import type { Domain{{pascalCase domain}} } from "../../domain/{{kebabCase domain}}.ts";
+
+export interface PortDriving{{pascalCase domain}}Read
+  extends PortDrivingUseCase<
+    PortDriving{{pascalCase domain}}ReadRequest,
+    PortDriving{{pascalCase domain}}ReadResponse
+  > {
+  execute(
+    data: PortDriving{{pascalCase domain}}ReadRequest,
+  ): Promise<PortDriving{{pascalCase domain}}ReadResponse>;
+}
+export type PortDriving{{pascalCase domain}}ReadRequest = RequestQuery<Domain{{pascalCase domain}}>;
+export type PortDriving{{pascalCase domain}}ReadResponse = Domain{{pascalCase domain}}[];

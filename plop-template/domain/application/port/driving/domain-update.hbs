@@ -1,0 +1,18 @@
+import type { PortDrivingUseCase } from "../../../../shared/application/port/driving/use-case.ts";
+import type { PartialUndefinable } from "../../../../shared/application/port/partial-undefinable.ts";
+import type { Domain{{pascalCase domain}} } from "../../domain/{{kebabCase domain}}.ts";
+
+export interface PortDriving{{pascalCase domain}}Update
+  extends PortDrivingUseCase<
+    PortDriving{{pascalCase domain}}UpdateRequest,
+    PortDriving{{pascalCase domain}}UpdateResponse
+  > {
+  execute(
+    data: PortDriving{{pascalCase domain}}UpdateRequest,
+  ): Promise<PortDriving{{pascalCase domain}}UpdateResponse>;
+}
+export type PortDriving{{pascalCase domain}}UpdateRequest = PartialUndefinable<
+  Omit<Domain{{pascalCase domain}}, "id">
+> &
+  Readonly<Pick<Domain{{pascalCase domain}}, "id">>;
+export type PortDriving{{pascalCase domain}}UpdateResponse = void;

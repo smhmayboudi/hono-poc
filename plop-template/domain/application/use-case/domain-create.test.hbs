@@ -1,0 +1,59 @@
+import { faker } from "@faker-js/faker";
+import { describe, expect, it, vi } from "vitest";
+import { mock } from "vitest-mock-extended";
+
+import type { PortConfig } from "../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../infrastructure/logger/logger.ts";
+import type { Domain{{pascalCase domain}} } from "../domain/{{kebabCase domain}}.ts";
+import type { PortDriven{{pascalCase domain}}Create } from "../port/driven/{{kebabCase domain}}-create.ts";
+import { UseCase{{pascalCase domain}}Create } from "./{{kebabCase domain}}-create.ts";
+
+describe("{{pascalCase domain}} UseCase Create", () => {
+  const createMocks = () => {
+    const config = mock<PortConfig>({});
+    const id = faker.number.int();
+    const domain{{pascalCase domain}}: Domain{{pascalCase domain}} = {
+      age: faker.number.int({ min: 1, max: 99 }).toString(),
+      email: faker.internet.email(),
+      id,
+      name: faker.person.fullName(),
+    };
+    const driven{{pascalCase domain}}Create = mock<PortDriven{{pascalCase domain}}Create>(
+      {
+        create: vi.fn().mockReturnValue({ id }),
+      },
+    );
+    const logger = mock<PortLogger>({ assign: vi.fn(), info: vi.fn() });
+    const useCase{{pascalCase domain}}Create = new UseCase{{pascalCase domain}}Create(
+      config,
+      driven{{pascalCase domain}}Create,
+      logger,
+    );
+
+    return {
+      config,
+      domain{{pascalCase domain}},
+      driven{{pascalCase domain}}Create,
+      id,
+      useCase{{pascalCase domain}}Create,
+    };
+  };
+
+  it("should call execute with correct data", async () => {
+    expect.assertions(2);
+
+    const {
+      domain{{pascalCase domain}},
+      driven{{pascalCase domain}}Create,
+      id,
+      useCase{{pascalCase domain}}Create,
+    } = await createMocks();
+    const createSpy = vi.spyOn(driven{{pascalCase domain}}Create, "create");
+    const { id: idE } = await useCase{{pascalCase domain}}Create.execute(
+      domain{{pascalCase domain}},
+    );
+
+    expect(createSpy).toHaveBeenCalledWith(domain{{pascalCase domain}});
+    expect(idE).toStrictEqual(id);
+  });
+});

@@ -1,0 +1,51 @@
+import { faker } from "@faker-js/faker";
+import { describe, expect, it, vi } from "vitest";
+import { mock } from "vitest-mock-extended";
+
+import type { PortConfig } from "../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../infrastructure/logger/logger.ts";
+import type { Domain{{pascalCase domain}} } from "../domain/{{kebabCase domain}}.ts";
+import type { PortDriven{{pascalCase domain}}Update } from "../port/driven/{{kebabCase domain}}-update.ts";
+import { UseCase{{pascalCase domain}}Update } from "./{{kebabCase domain}}-update.ts";
+
+describe("{{pascalCase domain}} UseCase Update", () => {
+  const updateMocks = () => {
+    const config = mock<PortConfig>({});
+    const domain{{pascalCase domain}}: Domain{{pascalCase domain}} = {
+      age: faker.number.int({ min: 1, max: 99 }).toString(),
+      email: faker.internet.email(),
+      id: faker.number.int(),
+      name: faker.person.fullName(),
+    };
+    const driven{{pascalCase domain}}Update = mock<PortDriven{{pascalCase domain}}Update>(
+      { update: vi.fn() },
+    );
+    const logger = mock<PortLogger>({ assign: vi.fn(), info: vi.fn() });
+    const useCase{{pascalCase domain}}Update = new UseCase{{pascalCase domain}}Update(
+      config,
+      driven{{pascalCase domain}}Update,
+      logger,
+    );
+
+    return {
+      config,
+      domain{{pascalCase domain}},
+      driven{{pascalCase domain}}Update,
+      useCase{{pascalCase domain}}Update,
+    };
+  };
+
+  it("should call execute with correct data", async () => {
+    expect.assertions(1);
+
+    const {
+      domain{{pascalCase domain}},
+      driven{{pascalCase domain}}Update,
+      useCase{{pascalCase domain}}Update,
+    } = await updateMocks();
+    const updateSpy = vi.spyOn(driven{{pascalCase domain}}Update, "update");
+    await useCase{{pascalCase domain}}Update.execute(domain{{pascalCase domain}});
+
+    expect(updateSpy).toHaveBeenCalledWith(domain{{pascalCase domain}});
+  });
+});

@@ -1,0 +1,38 @@
+import { ATTR_CODE_FUNCTION } from "@opentelemetry/semantic-conventions/incubating";
+
+import type { PortConfig } from "../../../infrastructure/config/config.ts";
+import type { PortLogger } from "../../../infrastructure/logger/logger.ts";
+import { tracer } from "../../../infrastructure/opentelemetry/opentelemetry.ts";
+import type { PortDriven{{pascalCase domain}}Read } from "../port/driven/{{kebabCase domain}}-read.ts";
+import type {
+  PortDriving{{pascalCase domain}}Read,
+  PortDriving{{pascalCase domain}}ReadRequest,
+  PortDriving{{pascalCase domain}}ReadResponse,
+} from "../port/driving/{{kebabCase domain}}-read.ts";
+
+export class UseCase{{pascalCase domain}}Read
+  implements PortDriving{{pascalCase domain}}Read
+{
+  constructor(
+    private readonly config: PortConfig,
+    private readonly driven{{pascalCase domain}}Read: PortDriven{{pascalCase domain}}Read,
+    private readonly logger: PortLogger,
+  ) {}
+
+  execute(
+    data: PortDriving{{pascalCase domain}}ReadRequest,
+  ): Promise<PortDriving{{pascalCase domain}}ReadResponse> {
+    return tracer.startActiveSpan("{{kebabCase domain}}-read.use-case", async () => {
+      this.logger.assign({
+        [ATTR_CODE_FUNCTION]: "{{kebabCase domain}}-read.use-case",
+        data,
+        config: this.config,
+      });
+      this.logger.info({});
+      const list = await this.driven{{pascalCase domain}}Read.read(data);
+      this.logger.debug({ list });
+
+      return list;
+    });
+  }
+}

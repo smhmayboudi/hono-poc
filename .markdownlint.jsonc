@@ -1,0 +1,6 @@
+{
+  "$schema": "./node_modules/markdownlint-cli2/schema/markdownlint-config-schema.json",
+  "no-multiple-space-atx": false,
+  "no-trailing-spaces": false,
+  "single-trailing-newline": false,
+}

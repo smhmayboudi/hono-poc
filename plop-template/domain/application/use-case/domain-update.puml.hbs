@@ -1,0 +1,9 @@
+@startuml {{pascalCase domain}} UseCase Update
+actor Client
+Client -> Driving{{pascalCase domain}}Update
+Driving{{pascalCase domain}}Update -> UseCase{{pascalCase domain}}Update: execute
+UseCase{{pascalCase domain}}Update -> Driven{{pascalCase domain}}Update: update
+Driven{{pascalCase domain}}Update --> UseCase{{pascalCase domain}}Update: void
+UseCase{{pascalCase domain}}Update --> Driving{{pascalCase domain}}Update: void
+Driving{{pascalCase domain}}Update --> Client
+@enduml

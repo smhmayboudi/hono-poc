@@ -1,0 +1,37 @@
+import { createRoute, type RouteConfig } from "@hono/zod-openapi";
+
+import { successResponseSchema } from "../../../../shared/adapter/driving/response/success.ts";
+import { routeResponses } from "../../../../shared/adapter/driving/route.ts";
+import {
+  {{camelCase domain}}CreateJSONSchema,
+  {{camelCase domain}}CreateQuerySchema,
+} from "./{{kebabCase domain}}-create.request.ts";
+import { {{camelCase domain}}CreateResponseSchema } from "./{{kebabCase domain}}-create.response.ts";
+
+export const {{camelCase domain}}CreateRoute = (
+  basePath: string,
+  domainType: string,
+): RouteConfig =>
+  createRoute<string, RouteConfig>({
+    description: "Create a new {{camelCase domain}}",
+    method: "post",
+    path: `${basePath}/${domainType}`,
+    request: {
+      body: {
+        content: {
+          "application/vnd.api+json": {
+            schema: {{camelCase domain}}CreateJSONSchema,
+          },
+        },
+        description: "Data to create a new {{camelCase domain}} from",
+        required: true,
+      },
+      query: {{camelCase domain}}CreateQuerySchema,
+    },
+    responses: routeResponses(
+      successResponseSchema({{camelCase domain}}CreateResponseSchema, domainType),
+      false,
+    ),
+    summary: "Create a new {{camelCase domain}}",
+    tags: [domainType],
+  });
