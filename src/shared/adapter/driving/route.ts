@@ -14,7 +14,7 @@ export const routeResponses = <S extends z.ZodTypeAny>(
   if (statusCode.includes(200)) {
     responses[200] = {
       content: {
-        "application/vnd.api+json": {
+        "application/json": {
           schema,
         },
       },
@@ -23,7 +23,7 @@ export const routeResponses = <S extends z.ZodTypeAny>(
   } else if (statusCode.includes(201)) {
     responses[201] = {
       content: {
-        "application/vnd.api+json": {
+        "application/json": {
           schema,
         },
       },
@@ -33,7 +33,7 @@ export const routeResponses = <S extends z.ZodTypeAny>(
   if (statusCode.includes(400)) {
     responses[400] = {
       content: {
-        "application/vnd.api+json": {
+        "application/json": {
           schema: badRequestResponseSchema,
         },
       },
@@ -43,7 +43,7 @@ export const routeResponses = <S extends z.ZodTypeAny>(
   if (statusCode.includes(401)) {
     responses[401] = {
       content: {
-        "application/vnd.api+json": {
+        "application/json": {
           schema: unauthorizedResponseSchema,
         },
       },
@@ -53,7 +53,7 @@ export const routeResponses = <S extends z.ZodTypeAny>(
   if (statusCode.includes(404)) {
     responses[404] = {
       content: {
-        "application/vnd.api+json": {
+        "application/json": {
           schema: notFoundResponseSchema,
         },
       },
@@ -63,7 +63,7 @@ export const routeResponses = <S extends z.ZodTypeAny>(
   if (statusCode.includes(422)) {
     responses[422] = {
       content: {
-        "application/vnd.api+json": {
+        "application/json": {
           schema: unprocessableContentResponseSchema,
         },
       },
@@ -73,7 +73,7 @@ export const routeResponses = <S extends z.ZodTypeAny>(
   if (statusCode.includes(500)) {
     responses[500] = {
       content: {
-        "application/vnd.api+json": {
+        "application/json": {
           schema: internalServerErrorResponseSchema,
         },
       },

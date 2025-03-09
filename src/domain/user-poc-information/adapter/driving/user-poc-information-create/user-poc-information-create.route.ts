@@ -16,7 +16,7 @@ export const userPOCCreateRoute = (
     request: {
       body: {
         content: {
-          "application/vnd.api+json": {
+          "application/json": {
             schema: userPOCCreateJSONSchema,
           },
         },

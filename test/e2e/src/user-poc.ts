@@ -28,7 +28,7 @@ export default function () {
     const url = `${BASE_URL}/user-poc/${id}`;
     const body = JSON.stringify({});
     const params = {
-      headers: { "Content-Type": "application/vnd.api+json" },
+      headers: { "Content-Type": "application/json" },
     };
     const response = http.del(url, body, params);
     check(response, {
@@ -39,7 +39,7 @@ export default function () {
   group("/user-poc:get", () => {
     const url = `${BASE_URL}/user-poc`;
     const params = {
-      headers: { "Content-Type": "application/vnd.api+json" },
+      headers: { "Content-Type": "application/json" },
     };
     const response = http.get(url, params);
     check(response, {
@@ -51,7 +51,7 @@ export default function () {
     const id = 1234567890;
     const url = `${BASE_URL}/user-poc/${id}`;
     const params = {
-      headers: { "Content-Type": "application/vnd.api+json" },
+      headers: { "Content-Type": "application/json" },
     };
     const response = http.get(url, params);
     check(response, {
@@ -66,7 +66,7 @@ export default function () {
       fullname: randomString(10),
     });
     const params = {
-      headers: { "Content-Type": "application/vnd.api+json" },
+      headers: { "Content-Type": "application/json" },
     };
     const response = http.patch(url, body, params);
     check(response, {
@@ -80,7 +80,7 @@ export default function () {
       fullname: randomString(10),
     });
     const params = {
-      headers: { "Content-Type": "application/vnd.api+json" },
+      headers: { "Content-Type": "application/json" },
     };
     const response = http.post(url, body, params);
     check(response, {

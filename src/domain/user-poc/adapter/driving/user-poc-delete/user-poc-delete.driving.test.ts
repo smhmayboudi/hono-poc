@@ -64,7 +64,7 @@ describe("UserPOC Driving Delete", () => {
     const response = await app.request(
       `${basePath}/${domainType}/${drivingUserPOCDeleteRequest.id}`,
       {
-        headers: [["Content-Type", "application/vnd.api+json"]],
+        headers: [["Content-Type", "application/json"]],
         method: "DELETE",
       },
     );

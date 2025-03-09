@@ -63,7 +63,7 @@ describe("UserPOC Driving Read", () => {
     const drivingUserPOCReadSpy = vi.spyOn(drivingUserPOCRead, "execute");
 
     const response = await app.request(`${basePath}/${domainType}`, {
-      headers: [["Content-Type", "application/vnd.api+json"]],
+      headers: [["Content-Type", "application/json"]],
       method: "GET",
     });
 

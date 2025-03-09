@@ -69,7 +69,7 @@ describe("UserPOC Driving Update", () => {
         body: JSON.stringify(
           objectPropertiesOmit(drivingUserPOCUpdateRequest, ["id"]),
         ),
-        headers: [["Content-Type", "application/vnd.api+json"]],
+        headers: [["Content-Type", "application/json"]],
         method: "PATCH",
       },
     );

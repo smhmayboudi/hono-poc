@@ -79,7 +79,7 @@ describe("UserPOCInformation Driving Read", () => {
     );
 
     const response = await app.request(`${basePath}/${domainType}`, {
-      headers: [["Content-Type", "application/vnd.api+json"]],
+      headers: [["Content-Type", "application/json"]],
       method: "GET",
     });
 

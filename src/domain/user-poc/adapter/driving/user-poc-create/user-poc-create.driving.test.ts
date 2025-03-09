@@ -63,7 +63,7 @@ describe("UserPOC Driving Create", () => {
 
     const response = await app.request(`${basePath}/${domainType}`, {
       body: JSON.stringify(drivingUserPOCCreateRequest),
-      headers: [["Content-Type", "application/vnd.api+json"]],
+      headers: [["Content-Type", "application/json"]],
       method: "POST",
     });
 

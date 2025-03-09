@@ -65,7 +65,7 @@ describe("UserPOC Driving ReadID", () => {
     const response = await app.request(
       `${basePath}/${domainType}/${drivingUserPOCReadIDRequest.id}`,
       {
-        headers: [["Content-Type", "application/vnd.api+json"]],
+        headers: [["Content-Type", "application/json"]],
         method: "GET",
       },
     );
