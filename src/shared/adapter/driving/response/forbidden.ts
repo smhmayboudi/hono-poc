@@ -11,22 +11,21 @@ export const forbiddenResponseSchema = errorResponseSchema(
   "Forbidden",
 );
 
-export const forbiddenResponse = (ctx: Context<Env>, detail?: string) => {
-  const origin = new URL(ctx.req.url).origin;
-  ctx.status(403);
-
-  return ctx.json<z.infer<ReturnType<typeof errorResponseSchema>>, 403>({
-    errors: [
-      {
-        code: "FORBIDDEN",
-        detail: detail ?? "authorization is required to access this resource",
-        links: {
-          about: `${origin}/docs/errors/FORBIDDEN`,
+export const forbiddenResponse = (ctx: Context<Env>, detail?: string) =>
+  ctx.json<z.infer<ReturnType<typeof errorResponseSchema>>, 403>(
+    {
+      errors: [
+        {
+          code: "FORBIDDEN",
+          detail: detail ?? "authorization is required to access this resource",
+          links: {
+            about: `${new URL(ctx.req.url).origin}/docs/errors/FORBIDDEN`,
+          },
+          status: 403,
+          title: "Forbidden",
         },
-        status: 403,
-        title: "Forbidden",
-      },
-    ],
-    jsonapi: { version: "1.0" },
-  });
-};
+      ],
+      jsonapi: { version: "1.0" },
+    },
+    403,
+  );

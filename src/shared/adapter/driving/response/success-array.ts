@@ -52,27 +52,26 @@ export const successArrayResponse = <
   domainType: string,
   responses: R[],
   requestQuery?: z.infer<ReturnType<typeof requestQuerySchema<RQ>>>,
-) => {
-  const origin = new URL(ctx.req.url).origin;
-  ctx.status(200);
-
-  return ctx.json<z.infer<ReturnType<typeof successArrayResponseSchema>>, 200>({
-    data: responses.map((response) => ({
-      attributes: objectPropertiesPick(
-        response,
-        requestQuery?.fields?.split(","),
-      ),
-      id: response.id,
+) =>
+  ctx.json<z.infer<ReturnType<typeof successArrayResponseSchema>>, 200>(
+    {
+      data: responses.map((response) => ({
+        attributes: objectPropertiesPick(
+          response,
+          requestQuery?.fields?.split(","),
+        ),
+        id: response.id,
+        links: {
+          self: `${new URL(ctx.req.url).origin}${basePath}/${domainType}/${response.id}`,
+        },
+        type: domainType,
+      })),
       links: {
-        self: `${origin}${basePath}/${domainType}/${response.id}`,
+        self: `${new URL(ctx.req.url).origin}${basePath}/${domainType}${objectPropertiesBuildUrlQueryString(
+          requestQuery,
+        )}`,
       },
-      type: domainType,
-    })),
-    links: {
-      self: `${origin}${basePath}/${domainType}${objectPropertiesBuildUrlQueryString(
-        requestQuery,
-      )}`,
+      jsonapi: { version: "1.0" },
     },
-    jsonapi: { version: "1.0" },
-  });
-};
+    200,
+  );

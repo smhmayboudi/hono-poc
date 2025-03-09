@@ -33,24 +33,23 @@ export const unprocessableContentResponseSchema = errorResponseSchema(
 export const unprocessableContentResponse = (
   ctx: Context<Env>,
   errors: z.ZodIssue[],
-) => {
-  const origin = new URL(ctx.req.url).origin;
-  ctx.status(422);
-
-  return ctx.json<z.infer<ReturnType<typeof errorResponseSchema>>, 422>({
-    errors: errors.map((issue) => ({
-      code: "UNPROCESSABLE_CONTENT",
-      detail: issue.message,
-      links: {
-        about: `${origin}/docs/errors/UNPROCESSABLE_CONTENT`,
-      },
-      meta: issue,
-      source: {
-        pointer: `/data/attributes/${issue.path.join("/")}`,
-      },
-      status: 422,
-      title: "Unprocessable Content",
-    })),
-    jsonapi: { version: "1.0" },
-  });
-};
+) =>
+  ctx.json<z.infer<ReturnType<typeof errorResponseSchema>>, 422>(
+    {
+      errors: errors.map((issue) => ({
+        code: "UNPROCESSABLE_CONTENT",
+        detail: issue.message,
+        links: {
+          about: `${new URL(ctx.req.url).origin}/docs/errors/UNPROCESSABLE_CONTENT`,
+        },
+        meta: issue,
+        source: {
+          pointer: `/data/attributes/${issue.path.join("/")}`,
+        },
+        status: 422,
+        title: "Unprocessable Content",
+      })),
+      jsonapi: { version: "1.0" },
+    },
+    422,
+  );

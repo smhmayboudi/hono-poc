@@ -11,22 +11,21 @@ export const badRequestResponseSchema = errorResponseSchema(
   "Bad Request",
 );
 
-export const badRequestResponse = (ctx: Context<Env>, detail?: string) => {
-  const origin = new URL(ctx.req.url).origin;
-  ctx.status(400);
-
-  return ctx.json<z.infer<ReturnType<typeof errorResponseSchema>>, 400>({
-    errors: [
-      {
-        code: "BAD_REQUEST",
-        detail: detail ?? "there was an error while processing the request",
-        links: {
-          about: `${origin}/docs/errors/BAD_REQUEST`,
+export const badRequestResponse = (ctx: Context<Env>, detail?: string) =>
+  ctx.json<z.infer<ReturnType<typeof errorResponseSchema>>, 400>(
+    {
+      errors: [
+        {
+          code: "BAD_REQUEST",
+          detail: detail ?? "there was an error while processing the request",
+          links: {
+            about: `${new URL(ctx.req.url).origin}/docs/errors/BAD_REQUEST`,
+          },
+          status: 400,
+          title: "Bad Request",
         },
-        status: 400,
-        title: "Bad Request",
-      },
-    ],
-    jsonapi: { version: "1.0" },
-  });
-};
+      ],
+      jsonapi: { version: "1.0" },
+    },
+    400,
+  );

@@ -11,22 +11,22 @@ export const unauthorizedResponseSchema = errorResponseSchema(
   "Unauthorized",
 );
 
-export const unauthorizedResponse = (ctx: Context<Env>, detail?: string) => {
-  const origin = new URL(ctx.req.url).origin;
-  ctx.status(401);
-
-  return ctx.json<z.infer<ReturnType<typeof errorResponseSchema>>, 401>({
-    errors: [
-      {
-        code: "UNAUTHORIZED",
-        detail: detail ?? "authentication is required to access this resource",
-        links: {
-          about: `${origin}/docs/errors/UNAUTHORIZED`,
+export const unauthorizedResponse = (ctx: Context<Env>, detail?: string) =>
+  ctx.json<z.infer<ReturnType<typeof errorResponseSchema>>, 401>(
+    {
+      errors: [
+        {
+          code: "UNAUTHORIZED",
+          detail:
+            detail ?? "authentication is required to access this resource",
+          links: {
+            about: `${new URL(ctx.req.url).origin}/docs/errors/UNAUTHORIZED`,
+          },
+          status: 401,
+          title: "Unauthorized",
         },
-        status: 401,
-        title: "Unauthorized",
-      },
-    ],
-    jsonapi: { version: "1.0" },
-  });
-};
+      ],
+      jsonapi: { version: "1.0" },
+    },
+    401,
+  );

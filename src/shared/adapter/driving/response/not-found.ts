@@ -11,22 +11,21 @@ export const notFoundResponseSchema = errorResponseSchema(
   "Not Found",
 );
 
-export const notFoundResponse = (ctx: Context<Env>, detail?: string) => {
-  const origin = new URL(ctx.req.url).origin;
-  ctx.status(404);
-
-  return ctx.json<z.infer<ReturnType<typeof errorResponseSchema>>, 404>({
-    errors: [
-      {
-        code: "NOT_FOUND",
-        detail: detail ?? "the resource does not exist",
-        links: {
-          about: `${origin}/docs/errors/NOT_FOUND`,
+export const notFoundResponse = (ctx: Context<Env>, detail?: string) =>
+  ctx.json<z.infer<ReturnType<typeof errorResponseSchema>>, 404>(
+    {
+      errors: [
+        {
+          code: "NOT_FOUND",
+          detail: detail ?? "the resource does not exist",
+          links: {
+            about: `${new URL(ctx.req.url).origin}/docs/errors/NOT_FOUND`,
+          },
+          status: 404,
+          title: "Not Found",
         },
-        status: 404,
-        title: "Not Found",
-      },
-    ],
-    jsonapi: { version: "1.0" },
-  });
-};
+      ],
+      jsonapi: { version: "1.0" },
+    },
+    404,
+  );

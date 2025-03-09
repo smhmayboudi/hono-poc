@@ -50,26 +50,21 @@ export const successResponse = <
   response: R,
   statusCode200: boolean,
   requestQuery?: z.infer<ReturnType<typeof requestQuerySchema<RQ>>>,
-) => {
-  const origin = new URL(ctx.req.url).origin;
-  const statucCode = statusCode200 ? 200 : 201;
-  ctx.status(statucCode);
-
-  return ctx.json<
-    z.infer<ReturnType<typeof successResponseSchema>>,
-    typeof statucCode
-  >({
-    data: {
-      attributes: objectPropertiesPick(
-        response,
-        requestQuery?.fields?.split(","),
-      ),
-      id: response.id,
-      links: {
-        self: `${origin}${basePath}/${domainType}/${response.id}`,
+) =>
+  ctx.json<z.infer<ReturnType<typeof successResponseSchema>>, 200 | 201>(
+    {
+      data: {
+        attributes: objectPropertiesPick(
+          response,
+          requestQuery?.fields?.split(","),
+        ),
+        id: response.id,
+        links: {
+          self: `${new URL(ctx.req.url).origin}${basePath}/${domainType}/${response.id}`,
+        },
+        type: domainType,
       },
-      type: domainType,
+      jsonapi: { version: "1.0" },
     },
-    jsonapi: { version: "1.0" },
-  });
-};
+    statusCode200 ? 200 : 201,
+  );
