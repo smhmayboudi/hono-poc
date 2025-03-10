@@ -1,5 +1,6 @@
 import { type Cache, createCache } from "cache-manager";
 import Keyv from "keyv";
+import { LRUCache } from "lru-cache";
 
 import type { PortCacher } from "../../application/port/cacher/cacher.ts";
 import { tracer } from "../opentelemetry/opentelemetry.ts";
@@ -9,7 +10,7 @@ export class Cacher implements PortCacher {
 
   constructor() {
     this.cache = createCache({
-      stores: [new Keyv()],
+      stores: [new Keyv({ store: new LRUCache({ max: 5000 }) })],
     });
   }
 
