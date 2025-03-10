@@ -9,6 +9,7 @@ import { userPOCInformation } from "./domain/user-poc-information/user-poc-infor
 import { userPOCView } from "./domain/user-poc-view/user-poc-view.ts";
 import type { Env } from "./env.ts";
 import { auth } from "./infrastructure/adapter/auth/auth.ts";
+import { cacher } from "./infrastructure/adapter/cacher/cacher.ts";
 import { casbin } from "./infrastructure/adapter/casbin/casbin.ts";
 import { config } from "./infrastructure/adapter/config/config.ts";
 import { database } from "./infrastructure/adapter/database/database.ts";
@@ -22,9 +23,11 @@ import { notFoundHandler } from "./shared/adapter/driving/handler/not-found.ts";
 import { onErrorHandler } from "./shared/adapter/driving/handler/on-error.ts";
 
 const level = "trace";
-const db = database(config, new Logger(pino({ level })));
 const basePath = "/api/v1";
+const db = database(config, new Logger(pino({ level })));
+const cacher2 = cacher();
 const auth2 = auth(config, db, new Logger(pino({ level })));
+
 const app = new OpenAPIHono<Env>({ defaultHook });
 
 app.use(
@@ -51,6 +54,7 @@ const { useCaseUserPOCCreate, useCaseUserPOCDelete, useCaseUserPOCUpdate } =
   userPOC(
     app,
     basePath,
+    cacher2,
     config,
     db,
     "user-poc",
@@ -73,6 +77,7 @@ const {
 userPOCView(
   app,
   basePath,
+  cacher2,
   config,
   db,
   "user-poc-view",

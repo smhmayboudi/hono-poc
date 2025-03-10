@@ -1,6 +1,7 @@
 import type { OpenAPIHono } from "@hono/zod-openapi";
 
 import type { Env } from "../../env.ts";
+import type { PortCacher } from "../../infrastructure/application/port/cacher/cacher.ts";
 import type { PortConfig } from "../../infrastructure/application/port/config/config.ts";
 import type { PortDatabase } from "../../infrastructure/application/port/database/database.ts";
 import type { PortLogger } from "../../infrastructure/application/port/logger/logger.ts";
@@ -26,6 +27,7 @@ import { UseCaseUserPOCViewUpdate } from "./application/use-case/user-poc-view-u
 export const userPOCView = (
   app: OpenAPIHono<Env>,
   basePath: string,
+  cacher: PortCacher,
   config: PortConfig,
   database: PortDatabase,
   domainType: string,
@@ -66,6 +68,7 @@ export const userPOCView = (
     useCaseUserPOCViewDelete,
   );
   const adapterDrivenUserPOCViewRead = new AdapterDrivenUserPOCViewRead(
+    cacher,
     config,
     database,
     logger,
@@ -84,6 +87,7 @@ export const userPOCView = (
     useCaseUserPOCViewRead,
   );
   const adapterDrivenUserPOCViewReadID = new AdapterDrivenUserPOCViewReadID(
+    cacher,
     config,
     database,
     logger,
