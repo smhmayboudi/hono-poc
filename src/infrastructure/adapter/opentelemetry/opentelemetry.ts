@@ -8,6 +8,11 @@ import {
 } from "@opentelemetry/api";
 import * as opentelemetry from "@opentelemetry/api";
 
+import type {
+  PortTracer,
+  SpanName,
+} from "../../application/port/opentelemetry/opentelemetry.ts";
+
 export const iife = <T extends unknown[], U>(
   fn: (...args: T) => U,
   ...args: T
@@ -15,18 +20,6 @@ export const iife = <T extends unknown[], U>(
 
 let rawMeter: Meter | undefined;
 let rawTracer: Tracer | undefined;
-
-export type SpanName<M extends string> =
-  `${M}.${"driven" | "driving" | "infrastructure" | "use-case"}`;
-
-export interface PortTracer {
-  startActiveSpan<M extends string, F extends (span?: Span) => unknown>(
-    name: SpanName<M>,
-    optionsOrFn: SpanOptions | F,
-    contextOrFn?: Context | F,
-    fn?: F,
-  ): ReturnType<F>;
-}
 
 export const tracer: PortTracer = {
   startActiveSpan<M extends string, F extends (span?: Span) => unknown>(
