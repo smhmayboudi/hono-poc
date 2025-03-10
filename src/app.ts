@@ -6,6 +6,7 @@ import { pino } from "pino";
 import { swagger } from "./app.swagger.ts";
 import { userPOC } from "./domain/user-poc/user-poc.ts";
 import { userPOCInformation } from "./domain/user-poc-information/user-poc-information.ts";
+import { userPOCView } from "./domain/user-poc-view/user-poc-view.ts";
 import type { Env } from "./env.ts";
 import { auth } from "./infrastructure/adapter/auth/auth.ts";
 import { casbin } from "./infrastructure/adapter/casbin/casbin.ts";
@@ -46,22 +47,41 @@ app.on(["POST", "GET"], "/api/v1/auth/**", (ctx) => auth2.handler(ctx.req.raw));
 // /health/liveness, /health/readiness
 app.get(`${basePath}/healthy`, (ctx) => ctx.text(""));
 
-userPOC(
-  app,
-  basePath,
-  config,
-  db,
-  "user-poc",
-  generate,
-  new Logger(pino({ level })),
-);
-userPOCInformation(
+const { useCaseUserPOCCreate, useCaseUserPOCDelete, useCaseUserPOCUpdate } =
+  userPOC(
+    app,
+    basePath,
+    config,
+    db,
+    "user-poc",
+    generate,
+    new Logger(pino({ level })),
+  );
+const {
+  useCaseUserPOCInformationCreate,
+  useCaseUserPOCInformationDeleteUserId,
+  useCaseUserPOCInformationUpdateUserId,
+} = userPOCInformation(
   app,
   basePath,
   config,
   db,
   "user-poc-information",
   generate,
+  new Logger(pino({ level })),
+);
+userPOCView(
+  app,
+  basePath,
+  config,
+  db,
+  "user-poc-view",
+  useCaseUserPOCCreate,
+  useCaseUserPOCDelete,
+  useCaseUserPOCUpdate,
+  useCaseUserPOCInformationCreate,
+  useCaseUserPOCInformationDeleteUserId,
+  useCaseUserPOCInformationUpdateUserId,
   new Logger(pino({ level })),
 );
 

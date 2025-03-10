@@ -1,0 +1,11 @@
+@startuml UserPOCView UseCase Create
+actor Client
+Client -> DrivingUserPOCViewCreate
+DrivingUserPOCViewCreate -> UseCaseUserPOCViewCreate: execute
+UseCaseUserPOCViewCreate -> UseCaseUserPOCInformationCreate: execute
+UseCaseUserPOCInformationCreate --> UseCaseUserPOCViewCreate: { id }
+UseCaseUserPOCViewCreate -> UseCaseUserPOCCreate: execute
+UseCaseUserPOCCreate --> UseCaseUserPOCViewCreate: { id }
+UseCaseUserPOCViewCreate --> DrivingUserPOCViewCreate: { id }
+DrivingUserPOCViewCreate --> Client
+@enduml

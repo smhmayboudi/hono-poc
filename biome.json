@@ -92,9 +92,9 @@
     },
     {
       "include": [
-        "**/application/port/driven/*-create.ts",
-        "**/application/port/driven/*-delete.ts",
-        "**/application/port/driven/*-update.ts",
+        "**/application/port/driven/*-create*.ts",
+        "**/application/port/driven/*-delete*.ts",
+        "**/application/port/driven/*-update*.ts",
         "**/application/port/driving/*-create.ts",
         "**/application/port/driving/*-delete.ts",
         "**/application/port/driving/*-disabled.ts",

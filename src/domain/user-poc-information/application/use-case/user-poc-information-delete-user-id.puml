@@ -1,0 +1,9 @@
+@startuml UserPOCInformation UseCase Delete UserId
+actor Client
+Client -> DrivingUserPOCInformationDeleteUserId
+DrivingUserPOCInformationDeleteUserId -> UseCaseUserPOCInformationDeleteUserId: execute
+UseCaseUserPOCInformationDeleteUserId -> DrivenUserPOCInformationDeleteUserId: delete
+DrivenUserPOCInformationDeleteUserId --> UseCaseUserPOCInformationDeleteUserId: void
+UseCaseUserPOCInformationDeleteUserId --> DrivingUserPOCInformationDeleteUserId: { userId }
+DrivingUserPOCInformationDeleteUserId --> Client
+@enduml

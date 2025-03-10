@@ -1,0 +1,17 @@
+import { z } from "@hono/zod-openapi";
+import type { Input } from "hono";
+
+export const userPOCCreateJSONSchema = z
+  .object({
+    address: z.string().openapi({ examples: ["address"] }),
+    age: z.number().openapi({ examples: [0] }),
+    fullname: z.string().openapi({ examples: ["fullname"] }),
+  })
+  .strict()
+  .openapi("UserPOCViewCreateRequest");
+
+export interface UserPOCViewCreateRequestValidationTarget extends Input {
+  out: {
+    json: z.infer<typeof userPOCCreateJSONSchema>;
+  };
+}
