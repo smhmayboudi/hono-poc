@@ -30,29 +30,31 @@ services:
     logging: *logging
     restart: "no"
 
-  elasticsearch:
-    container_name: elasticsearch
-    environment:
-      - discovery.type=single-node
-    expose:
-      - 9200 # API Call
-      - 9300 # Custom Binary Protocol
-    healthcheck:
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      test:
-        - CMD-SHELL
-        - curl "http://elasticsearch:9200/_cluster/health"
-      timeout: 5s
-    image: elasticsearch:7.17.27
-    labels:
-      namespace: elasticsearch
-    logging: *logging
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    restart: "no"
+  # elasticsearch:
+  #   container_name: hono-elasticsearch
+  #   environment:
+  #     - discovery.type=single-node
+  #     # - logger.discovery.name = org.elasticsearch.discovery
+  #     # - logger.discovery.level = trace
+  #   expose:
+  #     - 9200 # API Call
+  #     - 9300 # Custom Binary Protocol
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       - curl "http://elasticsearch:9200/_cluster/health"
+  #     timeout: 5s
+  #   image: elasticsearch:7.17.27
+  #   labels:
+  #     namespace: elasticsearch
+  #   logging: *logging
+  #   ports:
+  #     - "9200:9200"
+  #     - "9300:9300"
+  #   restart: "no"
 
   hono-poc:
     build:
@@ -91,8 +93,7 @@ services:
       - -c
       - -Eefuvx
       - >-
-        pnpm run db:migrate
-        && pnpm run db:seed:development
+        pnpm run db
     container_name: hono-hono-poc-migration
     depends_on:
       mysql:
@@ -128,167 +129,167 @@ services:
     volumes:
       - .:/home/k6/workspace
 
-  kroki:
-    container_name: hono-kroki
-    depends_on:
-      kroki-bpmn:
-        condition: service_healthy
-      kroki-diagramsnet:
-        condition: service_healthy
-      kroki-excalidraw:
-        condition: service_healthy
-      kroki-mermaid:
-        condition: service_healthy
-    environment:
-      - KROKI_BPMN_HOST=kroki-bpmn
-      - KROKI_BPMN_PORT=8003
-      - KROKI_DIAGRAMSNET_HOST=kroki-diagramsnet
-      - KROKI_DIAGRAMSNET_PORT=8005
-      - KROKI_EXCALIDRAW_HOST=kroki-excalidraw
-      - KROKI_EXCALIDRAW_PORT=8004
-      - KROKI_MERMAID_HOST=kroki-mermaid
-      - KROKI_MERMAID_PORT=8002
-    expose:
-      - 8000
-    healthcheck:
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      test:
-        - CMD-SHELL
-        - wget --no-verbose --spider --tries=1 http://kroki:8000 || exit 0
-      timeout: 5s
-    image: yuzutech/kroki:0.26.0
-    labels:
-      namespace: kroki
-    ports:
-      - "8000:8000"
-    restart: "no"
+  # kroki:
+  #   container_name: hono-kroki
+  #   depends_on:
+  #     kroki-bpmn:
+  #       condition: service_healthy
+  #     kroki-diagramsnet:
+  #       condition: service_healthy
+  #     kroki-excalidraw:
+  #       condition: service_healthy
+  #     kroki-mermaid:
+  #       condition: service_healthy
+  #   environment:
+  #     - KROKI_BPMN_HOST=kroki-bpmn
+  #     - KROKI_BPMN_PORT=8003
+  #     - KROKI_DIAGRAMSNET_HOST=kroki-diagramsnet
+  #     - KROKI_DIAGRAMSNET_PORT=8005
+  #     - KROKI_EXCALIDRAW_HOST=kroki-excalidraw
+  #     - KROKI_EXCALIDRAW_PORT=8004
+  #     - KROKI_MERMAID_HOST=kroki-mermaid
+  #     - KROKI_MERMAID_PORT=8002
+  #   expose:
+  #     - 8000
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       - wget --no-verbose --spider --tries=1 http://kroki:8000 || exit 0
+  #     timeout: 5s
+  #   image: yuzutech/kroki:0.26.0
+  #   labels:
+  #     namespace: kroki
+  #   ports:
+  #     - "8000:8000"
+  #   restart: "no"
 
-  kroki-bpmn:
-    container_name: hono-kroki-bpmn
-    expose:
-      - 8003
-    healthcheck:
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      test:
-        - CMD-SHELL
-        - wget --no-verbose --spider --tries=1 http://kroki-bpmn:8003 || exit 0
-      timeout: 5s
-    image: yuzutech/kroki-bpmn:0.26.0
-    labels:
-      namespace: kroki
-    ports:
-      - "8003:8003"
-    restart: "no"
+  # kroki-bpmn:
+  #   container_name: hono-kroki-bpmn
+  #   expose:
+  #     - 8003
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       - wget --no-verbose --spider --tries=1 http://kroki-bpmn:8003 || exit 0
+  #     timeout: 5s
+  #   image: yuzutech/kroki-bpmn:0.26.0
+  #   labels:
+  #     namespace: kroki
+  #   ports:
+  #     - "8003:8003"
+  #   restart: "no"
 
-  kroki-diagramsnet:
-    container_name: hono-kroki-diagramsnet
-    expose:
-      - 8005
-    healthcheck:
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      test:
-        - CMD-SHELL
-        - wget --no-verbose --spider --tries=1 http://kroki-diagramsnet:8005 || exit 0
-      timeout: 5s
-    image: yuzutech/kroki-diagramsnet:0.26.0
-    labels:
-      namespace: kroki
-    ports:
-      - "8005:8005"
-    restart: "no"
+  # kroki-diagramsnet:
+  #   container_name: hono-kroki-diagramsnet
+  #   expose:
+  #     - 8005
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       - wget --no-verbose --spider --tries=1 http://kroki-diagramsnet:8005 || exit 0
+  #     timeout: 5s
+  #   image: yuzutech/kroki-diagramsnet:0.26.0
+  #   labels:
+  #     namespace: kroki
+  #   ports:
+  #     - "8005:8005"
+  #   restart: "no"
 
-  kroki-excalidraw:
-    container_name: hono-kroki-excalidraw
-    expose:
-      - 8004
-    healthcheck:
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      test:
-        - CMD-SHELL
-        - wget --no-verbose --spider --tries=1 http://kroki-excalidraw:8004 || exit 0
-      timeout: 5s
-    image: yuzutech/kroki-excalidraw:0.26.0
-    labels:
-      namespace: kroki
-    ports:
-      - "8004:8004"
-    restart: "no"
+  # kroki-excalidraw:
+  #   container_name: hono-kroki-excalidraw
+  #   expose:
+  #     - 8004
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       - wget --no-verbose --spider --tries=1 http://kroki-excalidraw:8004 || exit 0
+  #     timeout: 5s
+  #   image: yuzutech/kroki-excalidraw:0.26.0
+  #   labels:
+  #     namespace: kroki
+  #   ports:
+  #     - "8004:8004"
+  #   restart: "no"
 
-  kroki-mermaid:
-    container_name: hono-kroki-mermaid
-    expose:
-      - 8002
-    healthcheck:
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      test:
-        - CMD-SHELL
-        - wget --no-verbose --spider --tries=1 http://kroki-mermaid:8002 || exit 0
-      timeout: 5s
-    image: yuzutech/kroki-mermaid:0.26.0
-    labels:
-      namespace: kroki
-    logging: *logging
-    ports:
-      - "8002:8002"
-    restart: "no"
+  # kroki-mermaid:
+  #   container_name: hono-kroki-mermaid
+  #   expose:
+  #     - 8002
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       - wget --no-verbose --spider --tries=1 http://kroki-mermaid:8002 || exit 0
+  #     timeout: 5s
+  #   image: yuzutech/kroki-mermaid:0.26.0
+  #   labels:
+  #     namespace: kroki
+  #   logging: *logging
+  #   ports:
+  #     - "8002:8002"
+  #   restart: "no"
 
-  minio:
-    command: server /minio/data/ --console-address ":9001"
-    container_name: minio
-    environment:
-      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-ec_access_key}
-      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-ec-root-password}
-      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-ec-root-user}
-      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-ec_secret_key}
-    expose:
-      - 9000 # API Call
-      - 9001 # Console Address
-    healthcheck:
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      test:
-        - CMD-SHELL
-        - mc ready local
-      timeout: 5s
-    image: minio/minio:RELEASE.2025-01-18T00-31-37Z
-    labels:
-      namespace: minio
-    logging: *logging
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    restart: "no"
-    volumes:
-      - minio:/minio/data/
+  # minio:
+  #   command: server /minio/data/ --console-address ":9001"
+  #   container_name: hono-minio
+  #   environment:
+  #     - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-ec_access_key}
+  #     - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-ec-root-password}
+  #     - MINIO_ROOT_USER=${MINIO_ROOT_USER:-ec-root-user}
+  #     - MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-ec_secret_key}
+  #   expose:
+  #     - 9000 # API Call
+  #     - 9001 # Console Address
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       - mc ready local
+  #     timeout: 5s
+  #   image: minio/minio:RELEASE.2025-01-18T00-31-37Z
+  #   labels:
+  #     namespace: minio
+  #   logging: *logging
+  #   ports:
+  #     - "9000:9000"
+  #     - "9001:9001"
+  #   restart: "no"
+  #   volumes:
+  #     - minio:/minio/data/
 
-  minio-createbuckets:
-    container_name: minio-createbuckets
-    depends_on:
-      minio:
-        condition: service_healthy
-    entrypoint: >
-      /bin/sh -c "
-      /usr/bin/mc config host add minio http://minio:9000 ${MINIO_ROOT_USER:-ec-root-user} ${MINIO_ROOT_PASSWORD:-ec-root-password};
-      /usr/bin/mc mb --ignore-existing minio/default;
-      /usr/bin/mc anonymous set public minio/default;
-      exit 0;
-      "
-    image: minio/mc:RELEASE.2025-01-17T23-25-50Z
-    labels:
-      namespace: minio-createbuckets
-    logging: *logging
-    restart: "no"
+  # minio-createbuckets:
+  #   container_name: hono-minio-createbuckets
+  #   depends_on:
+  #     minio:
+  #       condition: service_healthy
+  #   entrypoint: >
+  #     /bin/sh -c "
+  #     /usr/bin/mc config host add minio http://minio:9000 ${MINIO_ROOT_USER:-ec-root-user} ${MINIO_ROOT_PASSWORD:-ec-root-password};
+  #     /usr/bin/mc mb --ignore-existing minio/default;
+  #     /usr/bin/mc anonymous set public minio/default;
+  #     exit 0;
+  #     "
+  #   image: minio/mc:RELEASE.2025-01-17T23-25-50Z
+  #   labels:
+  #     namespace: minio-createbuckets
+  #   logging: *logging
+  #   restart: "no"
 
   mysql:
     command:
@@ -351,41 +352,45 @@ services:
     logging: *logging
     restart: "no"
 
-  plantuml-server:
-    container_name: hono-plantuml-server
-    # depends_on:
-    #   mysql:
-    #     condition: service_healthy
-    # environment:
-    #   - PMA_HOST=mysql
-    #   - PMA_PASSWORD=mysql_root_password
-    #   - PMA_USER=root
-    #   - UPLOAD_LIMIT=128M
-    expose:
-      - 8080 # Panel
-    healthcheck:
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      test:
-        - CMD-SHELL
-        # - curl --fail http://plantuml-server:8080 || exit 1
-        - wget --no-verbose --spider --tries=1 http://plantuml-server:8080
-      timeout: 5s
-    image: plantuml/plantuml-server:jetty-v1.2024.8
-    ports:
-      - "8083:8080"
-    labels:
-      namespace: plantuml-server
-    logging: *logging
-    restart: "no"
-    volumes:
-      - plantuml-server:/tmp/jetty
+  # plantuml-server:
+  #   container_name: hono-plantuml-server
+  #   # depends_on:
+  #   #   mysql:
+  #   #     condition: service_healthy
+  #   # environment:
+  #   #   - PMA_HOST=mysql
+  #   #   - PMA_PASSWORD=mysql_root_password
+  #   #   - PMA_USER=root
+  #   #   - UPLOAD_LIMIT=128M
+  #   expose:
+  #     - 8080 # Panel
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       # - curl --fail http://plantuml-server:8080 || exit 1
+  #       - wget --no-verbose --spider --tries=1 http://plantuml-server:8080
+  #     timeout: 5s
+  #   image: plantuml/plantuml-server:jetty-v1.2024.8
+  #   ports:
+  #     - "8083:8080"
+  #   labels:
+  #     namespace: plantuml-server
+  #   logging: *logging
+  #   restart: "no"
+  #   volumes:
+  #     - plantuml-server:/tmp/jetty
 
   redis:
-    container_name: redis
+    command:
+      - /usr/local/etc/redis/redis.conf
+    container_name: hono-redis
     expose:
       - 6379 # Default Protocol
+    extra_hosts:
+      - host.docker.internal:host-gateway
     healthcheck:
       interval: 10s
       retries: 5
@@ -402,37 +407,68 @@ services:
       - "6379:6379"
     restart: "no"
     volumes:
+      - ./.docker/redis/init.sql:/usr/local/etc/redis/redis.conf:ro
       - redis:/data
 
-  swagger-ui:
-    container_name: hono-swagger-ui
-    depends_on:
-      hono-poc:
-        condition: service_healthy
-    environment:
-      - SWAGGER_JSON_URL=http://127.0.0.1:8081/api/v1/swagger.json
-      - PORT=80
-    expose:
-      - 80
-    healthcheck:
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      test:
-        - CMD-SHELL
-        # - curl --fail http://swagger-ui:80 || exit 1
-        - wget --no-verbose --spider --tries=1 http://swagger-ui:80
-      timeout: 5s
-    image: swaggerapi/swagger-ui:v5.18.2
-    labels:
-      namespace: swagger-ui
-    logging: *logging
-    ports:
-      - "8084:80"
-    restart: "no"
+  # redis-insight:
+  #   container_name: hono-redis-insight
+  #   # environment:
+  #   #   - RI_LOG_LEVEL=silly
+  #   depends_on:
+  #     redis:
+  #       condition: service_healthy
+  #   expose:
+  #     - 5540 # Default Protocol
+  #   extra_hosts:
+  #     - host.docker.internal:host-gateway
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       - wget --no-verbose --spider --tries=1 http://redis-insight:5540/api/health
+  #     timeout: 5s
+  #   image: redis/redisinsight:2.66.0
+  #   labels:
+  #     namespace: redis-insight
+  #   logging: *logging
+  #   ports:
+  #     - "5540:5540"
+  #   restart: "no"
+  #   volumes:
+  #     - redis-insight:/data
+
+  # swagger-ui:
+  #   container_name: hono-swagger-ui
+  #   depends_on:
+  #     hono-poc:
+  #       condition: service_healthy
+  #   environment:
+  #     - SWAGGER_JSON_URL=http://127.0.0.1:8081/api/v1/swagger.json
+  #     - PORT=80
+  #   expose:
+  #     - 80
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       # - curl --fail http://swagger-ui:80 || exit 1
+  #       - wget --no-verbose --spider --tries=1 http://swagger-ui:80
+  #     timeout: 5s
+  #   image: swaggerapi/swagger-ui:v5.18.2
+  #   labels:
+  #     namespace: swagger-ui
+  #   logging: *logging
+  #   ports:
+  #     - "8084:80"
+  #   restart: "no"
 
 volumes:
-  minio: {}
+  # minio: {}
   mysql: {}
-  plantuml-server: {}
+  # plantuml-server: {}
   redis: {}
+  # redis-insight: {}
