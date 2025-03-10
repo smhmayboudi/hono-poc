@@ -2,7 +2,7 @@
 actor Client
 Client -> DrivingUserPOCInformationReadID
 DrivingUserPOCInformationReadID -> UseCaseUserPOCInformationReadID: execute
-UseCaseUserPOCInformationReadID -> DrivenUserPOCInformationReadID: readID
+UseCaseUserPOCInformationReadID -> DrivenUserPOCInformationReadID: read
 DrivenUserPOCInformationReadID --> UseCaseUserPOCInformationReadID: DomainUserPOCInformation
 UseCaseUserPOCInformationReadID --> DrivingUserPOCInformationReadID: DomainUserPOCInformation
 DrivingUserPOCInformationReadID --> Client

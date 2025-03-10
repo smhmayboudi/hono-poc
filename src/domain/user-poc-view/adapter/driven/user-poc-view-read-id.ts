@@ -22,7 +22,7 @@ export class AdapterDrivenUserPOCViewReadID
     private readonly logger: PortLogger,
   ) {}
 
-  readID(
+  read(
     data: PortDrivenUserPOCViewReadIDRequest,
   ): Promise<PortDrivenUserPOCViewReadIDResponse> {
     return tracer.startActiveSpan("user-poc-view-read-id.driven", async () => {

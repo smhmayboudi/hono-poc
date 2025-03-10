@@ -27,7 +27,7 @@ export class UseCaseUserPOCReadID implements PortDrivingUserPOCReadID {
         config: this.config,
       });
       this.logger.info({});
-      const list = await this.drivenUserPOCReadID.readID(data);
+      const list = await this.drivenUserPOCReadID.read(data);
       this.logger.debug({ list });
 
       return list;

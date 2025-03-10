@@ -1,7 +1,7 @@
 import type { DomainUserPOC } from "../../domain/user-poc.ts";
 
 export interface PortDrivenUserPOCReadID {
-  readID(
+  read(
     data: PortDrivenUserPOCReadIDRequest,
   ): Promise<PortDrivenUserPOCReadIDResponse>;
 }
