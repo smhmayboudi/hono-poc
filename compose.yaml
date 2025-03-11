@@ -45,7 +45,7 @@ services:
   #     start_period: 10s
   #     test:
   #       - CMD-SHELL
-  #       - curl "http://elasticsearch:9200/_cluster/health"
+  #       - curl --fail http://elasticsearch:9200/_cluster/health || exit 1
   #     timeout: 5s
   #   image: elasticsearch:7.17.27
   #   labels:
@@ -324,6 +324,66 @@ services:
       - ./.docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
       - mysql:/var/lib/mysql
 
+  # # https://opensearch.org/docs/latest/install-and-configure/install-opensearch/docker/
+  # opensearch:
+  #   container_name: hono-opensearch
+  #   environment:
+  #     - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Pass!4321@
+  #     - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+  #     - discovery.type=single-node
+  #     # - logger.discovery.name = org.opensearch.discovery
+  #     # - logger.discovery.level = trace
+  #   expose:
+  #     - 9200 # API Call
+  #     - 9600 # Performance Analyzer
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       - curl --fail http://opensearch:9200/_cluster/health || exit 1
+  #     timeout: 5s
+  #   image: opensearchproject/opensearch:2.19.1
+  #   labels:
+  #     namespace: opensearch
+  #   logging: *logging
+  #   ports:
+  #     - "9200:9200"
+  #     - "9600:9600"
+  #   restart: "no"
+  #   volumes:
+  #     # - ./.docker/opensearch/opensearch_security.yml:/usr/share/opensearch/config/opensearch-security/config.yml:ro
+  #     # - ./.docker/opensearch/opensearch.yml:/usr/share/opensearch/config/opensearch.yml:ro
+  #     - opensearch:/usr/share/opensearch/data
+
+  # opensearch-dashboards:
+  #   container_name: hono-opensearch-dashboards
+  #   depends_on:
+  #     opensearch:
+  #       condition: service_healthy
+  #   environment:
+  #     - OPENSEARCH_HOSTS=http://opensearch:9200
+  #   expose:
+  #     - 5601 # OpenSearch Dashboards
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       - curl --fail http://opensearch-dashboards:5601/api/status || exit 1
+  #     timeout: 5s
+  #   image: opensearchproject/opensearch-dashboards:2.19.1
+  #   labels:
+  #     namespace: opensearch-dashboards
+  #   logging: *logging
+  #   ports:
+  #     - "5601:5601"
+  #   restart: "no"
+  #   # volumes:
+  #   #   - ./.docker/opensearch-dashboards/opensearch_dashboards.yml:/usr/share/opensearch-dashboards/config/opensearch_dashboards.yml:ro
+
   phpmyadmin:
     container_name: hono-phpmyadmin
     depends_on:
@@ -383,32 +443,32 @@ services:
   #   volumes:
   #     - plantuml-server:/tmp/jetty
 
-  redis:
-    command:
-      - /usr/local/etc/redis/redis.conf
-    container_name: hono-redis
-    expose:
-      - 6379 # Default Protocol
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    healthcheck:
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      test:
-        - CMD-SHELL
-        - redis-cli --raw incr ping
-      timeout: 5s
-    image: redis:7.4.2-bookworm
-    labels:
-      namespace: redis
-    logging: *logging
-    ports:
-      - "6379:6379"
-    restart: "no"
-    volumes:
-      - ./.docker/redis/init.sql:/usr/local/etc/redis/redis.conf:ro
-      - redis:/data
+  # redis:
+  #   command:
+  #     - /usr/local/etc/redis/redis.conf
+  #   container_name: hono-redis
+  #   expose:
+  #     - 6379 # Default Protocol
+  #   extra_hosts:
+  #     - host.docker.internal:host-gateway
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 5
+  #     start_period: 10s
+  #     test:
+  #       - CMD-SHELL
+  #       - redis-cli --raw incr ping
+  #     timeout: 5s
+  #   image: redis:7.4.2-bookworm
+  #   labels:
+  #     namespace: redis
+  #   logging: *logging
+  #   ports:
+  #     - "6379:6379"
+  #   restart: "no"
+  #   volumes:
+  #     - ./.docker/redis/init.sql:/usr/local/etc/redis/redis.conf:ro
+  #     - redis:/data
 
   # redis-insight:
   #   container_name: hono-redis-insight
@@ -469,6 +529,7 @@ services:
 volumes:
   # minio: {}
   mysql: {}
+  # opensearch: {}
   # plantuml-server: {}
-  redis: {}
+  # redis: {}
   # redis-insight: {}
