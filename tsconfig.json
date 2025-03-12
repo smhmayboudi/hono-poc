@@ -6,6 +6,7 @@
     "declaration": false,
     "esModuleInterop": false,
     "incremental": true,
+    "lib": ["dom"],
     "noEmit": true,
     "noEmitOnError": false,
     "noErrorTruncation": true,
