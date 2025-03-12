@@ -22,7 +22,7 @@ export class Cacher implements PortCacher {
 
   del(key: string): Promise<boolean> {
     this.logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "del",
+      [ATTR_CODE_FUNCTION_NAME]: "infrastructure.adapter.cacher.del",
       config: this.config,
       key,
     });
@@ -35,7 +35,7 @@ export class Cacher implements PortCacher {
     data: unknown,
   ): Record<"userPOCViewReadDriven" | "userPOCViewReadIdDriven", string> {
     this.logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "key",
+      [ATTR_CODE_FUNCTION_NAME]: "infrastructure.adapter.cacher.key",
       config: this.config,
       data,
     });
@@ -50,7 +50,7 @@ export class Cacher implements PortCacher {
 
   wrap<T, F extends () => T | Promise<T>>(key: string, fn: F): ReturnType<F> {
     this.logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "wrap",
+      [ATTR_CODE_FUNCTION_NAME]: "infrastructure.adapter.cacher.wrap",
       config: this.config,
       key,
     });

@@ -17,7 +17,7 @@ export class Logger2 implements Logger {
 
   logQuery(query: string, params: unknown[]): void {
     this.logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "logQuery",
+      [ATTR_CODE_FUNCTION_NAME]: "infrastructure.adapter.database.logQuery",
       config: this.config,
       params,
       query,

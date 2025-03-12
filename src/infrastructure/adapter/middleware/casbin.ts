@@ -27,7 +27,10 @@ export const casbinMiddleware =
     logger: PortLogger,
   ): MiddlewareHandler =>
   async (ctx, next) => {
-    logger.assign({ [ATTR_CODE_FUNCTION_NAME]: "casbinMiddleware", config });
+    logger.assign({
+      [ATTR_CODE_FUNCTION_NAME]: "infrastructure.adapter.middleware.casbin",
+      config,
+    });
     logger.info({});
     const enforcer = await casbin.enforcer;
     if (!(enforcer instanceof Enforcer)) {

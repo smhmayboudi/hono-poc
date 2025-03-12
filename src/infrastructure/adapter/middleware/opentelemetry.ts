@@ -21,7 +21,8 @@ export const opentelemetryMiddleware =
   (config: PortConfig, logger: PortLogger): MiddlewareHandler<Env> =>
   async (ctx, next) => {
     logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "opentelemetryMiddleware",
+      [ATTR_CODE_FUNCTION_NAME]:
+        "infrastructure.adapter.middleware.opentelemetry",
       config,
     });
     if (!opentelemetry) {
