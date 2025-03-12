@@ -1,6 +1,6 @@
 import { z } from "@hono/zod-openapi";
 
-export const userPOCUpdateResponseSchema = z
+export const userPOCViewUpdateResponseSchema = z
   .object({
     id: z
       .string()

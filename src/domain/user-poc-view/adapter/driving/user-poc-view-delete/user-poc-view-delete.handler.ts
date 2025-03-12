@@ -9,17 +9,17 @@ import type { PortLogger } from "../../../../../infrastructure/application/port/
 import { successResponse } from "../../../../../shared/adapter/driving/response/success.ts";
 import type { PortDrivingUserPOCViewDelete } from "../../../application/port/driving/user-poc-view-delete.ts";
 import type { UserPOCViewDeleteRequestValidationTarget } from "./user-poc-view-delete.request.ts";
-import { userPOCDeleteResponseSchema } from "./user-poc-view-delete.response.ts";
-import type { userPOCDeleteRoute } from "./user-poc-view-delete.route.ts";
+import { userPOCViewDeleteResponseSchema } from "./user-poc-view-delete.response.ts";
+import type { userPOCViewDeleteRoute } from "./user-poc-view-delete.route.ts";
 
-export const userPOCDeleteHandler =
+export const userPOCViewDeleteHandler =
   (
     basePath: string,
     config: PortConfig,
     domainType: string,
     logger: PortLogger,
     drivingUserPOCViewDelete: PortDrivingUserPOCViewDelete,
-  ): RouteHandler<ReturnType<typeof userPOCDeleteRoute>, Env> =>
+  ): RouteHandler<ReturnType<typeof userPOCViewDeleteRoute>, Env> =>
   (
     ctx: Context<
       Env,
@@ -40,7 +40,7 @@ export const userPOCDeleteHandler =
       const { id } = await drivingUserPOCViewDelete.execute(param);
       logger.debug({ id });
       const response = {
-        ...userPOCDeleteResponseSchema.parse({ id }),
+        ...userPOCViewDeleteResponseSchema.parse({ id }),
         id,
       };
       logger.debug({ response });
