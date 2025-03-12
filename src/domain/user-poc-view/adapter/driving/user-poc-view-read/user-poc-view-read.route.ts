@@ -2,10 +2,10 @@ import { createRoute, type RouteConfig } from "@hono/zod-openapi";
 
 import { successArrayResponseSchema } from "../../../../../shared/adapter/driving/response/success-array.ts";
 import { routeResponses } from "../../../../../shared/adapter/driving/route.ts";
-import { userPOCReadQuerySchema } from "./user-poc-view-read.request.ts";
-import { userPOCReadResponseSchema } from "./user-poc-view-read.response.ts";
+import { userPOCViewReadQuerySchema } from "./user-poc-view-read.request.ts";
+import { userPOCViewReadResponseSchema } from "./user-poc-view-read.response.ts";
 
-export const userPOCReadRoute = (
+export const userPOCViewReadRoute = (
   basePath: string,
   domainType: string,
 ): RouteConfig =>
@@ -14,10 +14,10 @@ export const userPOCReadRoute = (
     method: "get",
     path: `${basePath}/${domainType}`,
     request: {
-      query: userPOCReadQuerySchema,
+      query: userPOCViewReadQuerySchema,
     },
     responses: routeResponses(
-      successArrayResponseSchema(userPOCReadResponseSchema, domainType),
+      successArrayResponseSchema(userPOCViewReadResponseSchema, domainType),
       [200, 400, 401, 404, 422, 500],
     ),
     summary: "Read UserPOCView(s)",

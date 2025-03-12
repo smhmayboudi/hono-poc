@@ -1,7 +1,7 @@
 import { z } from "@hono/zod-openapi";
 import type { Input } from "hono";
 
-export const userPOCReadIDParamSchema = z
+export const userPOCViewReadIDParamSchema = z
   .object({
     id: z.string().openapi({ examples: ["id"] }),
   })
@@ -9,6 +9,6 @@ export const userPOCReadIDParamSchema = z
 
 export interface UserPOCViewReadIDRequestValidationTarget extends Input {
   out: {
-    param: z.infer<typeof userPOCReadIDParamSchema>;
+    param: z.infer<typeof userPOCViewReadIDParamSchema>;
   };
 }
