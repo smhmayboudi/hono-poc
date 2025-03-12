@@ -12,7 +12,10 @@ export const notFoundHandler: (
   logger: PortLogger,
 ) => NotFoundHandler<Env> = (config, logger) => (ctx) => {
   const error = new ErrorNotFound();
-  logger.assign({ [ATTR_CODE_FUNCTION_NAME]: "notFoundHandler", config });
+  logger.assign({
+    [ATTR_CODE_FUNCTION_NAME]: "shared.driving.handler.not-found",
+    config,
+  });
   logger.error({ error });
 
   return notFoundResponse(ctx, error.message);

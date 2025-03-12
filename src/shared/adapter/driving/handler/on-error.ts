@@ -11,7 +11,10 @@ export const onErrorHandler: (
   config: PortConfig,
   logger: PortLogger,
 ) => ErrorHandler<Env> = (config, logger) => (error, ctx) => {
-  logger.assign({ [ATTR_CODE_FUNCTION_NAME]: "onErrorHandler", config });
+  logger.assign({
+    [ATTR_CODE_FUNCTION_NAME]: "shared.driving.handler.on-error",
+    config,
+  });
   logger.error({ error });
   if (error instanceof HTTPException) {
     return error.getResponse();
