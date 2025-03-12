@@ -1,4 +1,4 @@
-import slag from "slugify";
+import * as slag from "slugify";
 
 import type { PortSlug } from "../../application/port/slugify/slugify.ts";
 import { tracer } from "../opentelemetry/opentelemetry.ts";
