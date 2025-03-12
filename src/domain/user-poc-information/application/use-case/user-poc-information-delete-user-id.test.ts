@@ -24,7 +24,7 @@ describe("UserPOCInformation UseCase DeleteUserId", () => {
       };
     const drivenUserPOCInformationDeleteUserId =
       mock<PortDrivenUserPOCInformationDeleteUserId>({
-        delete: vi.fn(),
+        deleteUserId: vi.fn(),
       });
 
     const config = mock<PortConfig>();
@@ -59,7 +59,7 @@ describe("UserPOCInformation UseCase DeleteUserId", () => {
       );
     const drivenUserPOCInformationDeleteUserIdSpy = vi.spyOn(
       drivenUserPOCInformationDeleteUserId,
-      "delete",
+      "deleteUserId",
     );
 
     const brandDeleteUserId =

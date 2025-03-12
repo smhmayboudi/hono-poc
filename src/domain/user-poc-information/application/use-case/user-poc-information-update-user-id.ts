@@ -32,7 +32,7 @@ export class UseCaseUserPOCInformationUpdateUserId
           config: this.config,
         });
         this.logger.info({});
-        await this.drivenUserPOCInformationUpdateUserId.update(data);
+        await this.drivenUserPOCInformationUpdateUserId.updateUserId(data);
 
         return { userId: data.userId };
       },

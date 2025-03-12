@@ -22,7 +22,7 @@ export class AdapterDrivenUserPOCInformationUpdateUserId
     private readonly logger: PortLogger,
   ) {}
 
-  update(
+  updateUserId(
     data: PortDrivenUserPOCInformationUpdateUserIdRequest,
   ): Promise<PortDrivenUserPOCInformationUpdateUserIdResponse> {
     return tracer.startActiveSpan(

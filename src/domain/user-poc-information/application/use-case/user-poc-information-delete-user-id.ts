@@ -32,7 +32,7 @@ export class UseCaseUserPOCInformationDeleteUserId
           config: this.config,
         });
         this.logger.info({});
-        await this.drivenUserPOCInformationDeleteUserId.delete(data);
+        await this.drivenUserPOCInformationDeleteUserId.deleteUserId(data);
 
         return { userId: data.userId };
       },

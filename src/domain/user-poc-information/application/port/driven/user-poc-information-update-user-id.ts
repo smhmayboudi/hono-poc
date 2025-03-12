@@ -2,7 +2,7 @@ import type { PartialUndefinable } from "../../../../../shared/application/port/
 import type { DomainUserPOCInformation } from "../../domain/user-poc-information.ts";
 
 export interface PortDrivenUserPOCInformationUpdateUserId {
-  update(
+  updateUserId(
     data: PortDrivenUserPOCInformationUpdateUserIdRequest,
   ): Promise<PortDrivenUserPOCInformationUpdateUserIdResponse>;
 }

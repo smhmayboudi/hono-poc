@@ -22,7 +22,7 @@ export class AdapterDrivenUserPOCInformationDeleteUserId
     private readonly logger: PortLogger,
   ) {}
 
-  delete(
+  deleteUserId(
     data: PortDrivenUserPOCInformationDeleteUserIdRequest,
   ): Promise<PortDrivenUserPOCInformationDeleteUserIdResponse> {
     return tracer.startActiveSpan(

@@ -24,7 +24,7 @@ describe("UserPOCInformation UseCase UpdateUserId", () => {
       };
     const drivenUserPOCInformationUpdateUserId =
       mock<PortDrivenUserPOCInformationUpdateUserId>({
-        update: vi.fn(),
+        updateUserId: vi.fn(),
       });
 
     const config = mock<PortConfig>();
@@ -61,7 +61,7 @@ describe("UserPOCInformation UseCase UpdateUserId", () => {
       );
     const drivenUserPOCInformationUpdateUserIdSpy = vi.spyOn(
       drivenUserPOCInformationUpdateUserId,
-      "update",
+      "updateUserId",
     );
 
     const brandUpdateUserId =
