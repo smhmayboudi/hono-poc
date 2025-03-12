@@ -25,7 +25,7 @@ import { onErrorHandler } from "./shared/adapter/driving/handler/on-error.ts";
 const level = "trace";
 const basePath = "/api/v1";
 const db = database(config, new Logger(pino({ level })));
-const cacher2 = cacher();
+const cacher2 = cacher(config, new Logger(pino({ level })));
 const auth2 = auth(config, db, new Logger(pino({ level })));
 
 const app = new OpenAPIHono<Env>({ defaultHook });
