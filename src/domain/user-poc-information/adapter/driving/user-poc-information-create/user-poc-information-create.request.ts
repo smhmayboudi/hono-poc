@@ -1,7 +1,7 @@
 import { z } from "@hono/zod-openapi";
 import type { Input } from "hono";
 
-export const userPOCCreateJSONSchema = z
+export const userPOCInformationCreateJSONSchema = z
   .object({
     address: z.string().openapi({ examples: ["address"] }),
     age: z.number().openapi({ examples: [0] }),
@@ -12,6 +12,6 @@ export const userPOCCreateJSONSchema = z
 
 export interface UserPOCInformationCreateRequestValidationTarget extends Input {
   out: {
-    json: z.infer<typeof userPOCCreateJSONSchema>;
+    json: z.infer<typeof userPOCInformationCreateJSONSchema>;
   };
 }

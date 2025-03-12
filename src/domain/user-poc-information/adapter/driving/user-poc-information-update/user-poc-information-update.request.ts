@@ -1,7 +1,7 @@
 import { z } from "@hono/zod-openapi";
 import type { Input } from "hono";
 
-export const userPOCUpdateJSONSchema = z
+export const userPOCInformationUpdateJSONSchema = z
   .object({
     address: z
       .string()
@@ -19,7 +19,7 @@ export const userPOCUpdateJSONSchema = z
   .strict()
   .openapi("UserPOCInformationUpdateRequest");
 
-export const userPOCUpdateParamSchema = z
+export const userPOCInformationUpdateParamSchema = z
   .object({
     id: z.string().openapi({ examples: ["id"] }),
   })
@@ -27,7 +27,7 @@ export const userPOCUpdateParamSchema = z
 
 export interface UserPOCInformationUpdateRequestValidationTarget extends Input {
   out: {
-    json: z.infer<typeof userPOCUpdateJSONSchema>;
-    param: z.infer<typeof userPOCUpdateParamSchema>;
+    json: z.infer<typeof userPOCInformationUpdateJSONSchema>;
+    param: z.infer<typeof userPOCInformationUpdateParamSchema>;
   };
 }

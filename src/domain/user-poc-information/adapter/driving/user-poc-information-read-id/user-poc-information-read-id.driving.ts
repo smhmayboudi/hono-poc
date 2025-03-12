@@ -6,8 +6,8 @@ import type { PortLogger } from "../../../../../infrastructure/application/port/
 import { notFoundHandler } from "../../../../../shared/adapter/driving/handler/not-found.ts";
 import { onErrorHandler } from "../../../../../shared/adapter/driving/handler/on-error.ts";
 import type { PortDrivingUserPOCInformationReadID } from "../../../application/port/driving/user-poc-information-read-id.ts";
-import { userPOCReadIDHandler } from "./user-poc-information-read-id.handler.ts";
-import { userPOCReadIDRoute } from "./user-poc-information-read-id.route.ts";
+import { userPOCInformationReadIDHandler } from "./user-poc-information-read-id.handler.ts";
+import { userPOCInformationReadIDRoute } from "./user-poc-information-read-id.route.ts";
 
 export const adapterDrivingUserPOCInformationReadID = (
   app: OpenAPIHono<Env>,
@@ -20,8 +20,8 @@ export const adapterDrivingUserPOCInformationReadID = (
   app.notFound(notFoundHandler(config, logger));
   app.onError(onErrorHandler(config, logger));
   app.openapi(
-    userPOCReadIDRoute(basePath, domainType),
-    userPOCReadIDHandler(
+    userPOCInformationReadIDRoute(basePath, domainType),
+    userPOCInformationReadIDHandler(
       basePath,
       config,
       domainType,

@@ -9,17 +9,17 @@ import type { PortLogger } from "../../../../../infrastructure/application/port/
 import { successResponse } from "../../../../../shared/adapter/driving/response/success.ts";
 import type { PortDrivingUserPOCInformationReadID } from "../../../application/port/driving/user-poc-information-read-id.ts";
 import type { UserPOCInformationReadIDRequestValidationTarget } from "./user-poc-information-read-id.request.ts";
-import { userPOCReadIDResponseSchema } from "./user-poc-information-read-id.response.ts";
-import type { userPOCReadIDRoute } from "./user-poc-information-read-id.route.ts";
+import { userPOCInformationReadIDResponseSchema } from "./user-poc-information-read-id.response.ts";
+import type { userPOCInformationReadIDRoute } from "./user-poc-information-read-id.route.ts";
 
-export const userPOCReadIDHandler =
+export const userPOCInformationReadIDHandler =
   (
     basePath: string,
     config: PortConfig,
     domainType: string,
     logger: PortLogger,
     drivingUserPOCInformationReadID: PortDrivingUserPOCInformationReadID,
-  ): RouteHandler<ReturnType<typeof userPOCReadIDRoute>, Env> =>
+  ): RouteHandler<ReturnType<typeof userPOCInformationReadIDRoute>, Env> =>
   (
     ctx: Context<
       Env,
@@ -40,7 +40,7 @@ export const userPOCReadIDHandler =
       const result = await drivingUserPOCInformationReadID.execute(param);
       logger.debug({ result });
       const response = {
-        ...userPOCReadIDResponseSchema.parse(result),
+        ...userPOCInformationReadIDResponseSchema.parse(result),
         id: result.id,
       };
       logger.debug({ response });

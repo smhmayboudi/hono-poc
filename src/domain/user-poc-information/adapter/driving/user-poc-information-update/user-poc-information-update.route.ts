@@ -3,12 +3,12 @@ import { createRoute, type RouteConfig } from "@hono/zod-openapi";
 import { successResponseSchema } from "../../../../../shared/adapter/driving/response/success.ts";
 import { routeResponses } from "../../../../../shared/adapter/driving/route.ts";
 import {
-  userPOCUpdateJSONSchema,
-  userPOCUpdateParamSchema,
+  userPOCInformationUpdateJSONSchema,
+  userPOCInformationUpdateParamSchema,
 } from "./user-poc-information-update.request.ts";
-import { userPOCUpdateResponseSchema } from "./user-poc-information-update.response.ts";
+import { userPOCInformationUpdateResponseSchema } from "./user-poc-information-update.response.ts";
 
-export const userPOCUpdateRoute = (
+export const userPOCInformationUpdateRoute = (
   basePath: string,
   domainType: string,
 ): RouteConfig =>
@@ -20,16 +20,16 @@ export const userPOCUpdateRoute = (
       body: {
         content: {
           "application/json": {
-            schema: userPOCUpdateJSONSchema,
+            schema: userPOCInformationUpdateJSONSchema,
           },
         },
         description: "Data to update a UserPOCInformation from",
         required: true,
       },
-      params: userPOCUpdateParamSchema,
+      params: userPOCInformationUpdateParamSchema,
     },
     responses: routeResponses(
-      successResponseSchema(userPOCUpdateResponseSchema, domainType),
+      successResponseSchema(userPOCInformationUpdateResponseSchema, domainType),
       [200, 400, 401, 404, 422, 500],
     ),
     summary: "Update a UserPOCInformation",

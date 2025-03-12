@@ -1,7 +1,7 @@
 import { z } from "@hono/zod-openapi";
 import type { Input } from "hono";
 
-export const userPOCDeleteParamSchema = z
+export const userPOCInformationDeleteParamSchema = z
   .object({
     id: z.string().openapi({ examples: ["id"] }),
   })
@@ -9,6 +9,6 @@ export const userPOCDeleteParamSchema = z
 
 export interface UserPOCInformationDeleteRequestValidationTarget extends Input {
   out: {
-    param: z.infer<typeof userPOCDeleteParamSchema>;
+    param: z.infer<typeof userPOCInformationDeleteParamSchema>;
   };
 }

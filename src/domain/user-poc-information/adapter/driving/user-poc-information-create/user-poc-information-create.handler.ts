@@ -9,17 +9,17 @@ import type { PortLogger } from "../../../../../infrastructure/application/port/
 import { successResponse } from "../../../../../shared/adapter/driving/response/success.ts";
 import type { PortDrivingUserPOCInformationCreate } from "../../../application/port/driving/user-poc-information-create.ts";
 import type { UserPOCInformationCreateRequestValidationTarget } from "./user-poc-information-create.request.ts";
-import { userPOCCreateResponseSchema } from "./user-poc-information-create.response.ts";
-import type { userPOCCreateRoute } from "./user-poc-information-create.route.ts";
+import { userPOCInformationCreateResponseSchema } from "./user-poc-information-create.response.ts";
+import type { userPOCInformationCreateRoute } from "./user-poc-information-create.route.ts";
 
-export const userPOCCreateHandler =
+export const userPOCInformationCreateHandler =
   (
     basePath: string,
     config: PortConfig,
     domainType: string,
     logger: PortLogger,
     drivingUserPOCInformationCreate: PortDrivingUserPOCInformationCreate,
-  ): RouteHandler<ReturnType<typeof userPOCCreateRoute>, Env> =>
+  ): RouteHandler<ReturnType<typeof userPOCInformationCreateRoute>, Env> =>
   (
     ctx: Context<
       Env,
@@ -40,7 +40,7 @@ export const userPOCCreateHandler =
       const { id } = await drivingUserPOCInformationCreate.execute(json);
       logger.debug({ id });
       const response = {
-        ...userPOCCreateResponseSchema.parse({ ...json, id }),
+        ...userPOCInformationCreateResponseSchema.parse({ ...json, id }),
         id,
       };
       logger.debug({ response });

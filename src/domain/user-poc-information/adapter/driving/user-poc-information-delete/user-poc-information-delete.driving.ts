@@ -6,8 +6,8 @@ import type { PortLogger } from "../../../../../infrastructure/application/port/
 import { notFoundHandler } from "../../../../../shared/adapter/driving/handler/not-found.ts";
 import { onErrorHandler } from "../../../../../shared/adapter/driving/handler/on-error.ts";
 import type { PortDrivingUserPOCInformationDelete } from "../../../application/port/driving/user-poc-information-delete.ts";
-import { userPOCDeleteHandler } from "./user-poc-information-delete.handler.ts";
-import { userPOCDeleteRoute } from "./user-poc-information-delete.route.ts";
+import { userPOCInformationDeleteHandler } from "./user-poc-information-delete.handler.ts";
+import { userPOCInformationDeleteRoute } from "./user-poc-information-delete.route.ts";
 
 export const adapterDrivingUserPOCInformationDelete = (
   app: OpenAPIHono<Env>,
@@ -20,8 +20,8 @@ export const adapterDrivingUserPOCInformationDelete = (
   app.notFound(notFoundHandler(config, logger));
   app.onError(onErrorHandler(config, logger));
   app.openapi(
-    userPOCDeleteRoute(basePath, domainType),
-    userPOCDeleteHandler(
+    userPOCInformationDeleteRoute(basePath, domainType),
+    userPOCInformationDeleteHandler(
       basePath,
       config,
       domainType,

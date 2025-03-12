@@ -9,17 +9,17 @@ import type { PortLogger } from "../../../../../infrastructure/application/port/
 import { successResponse } from "../../../../../shared/adapter/driving/response/success.ts";
 import type { PortDrivingUserPOCInformationUpdate } from "../../../application/port/driving/user-poc-information-update.ts";
 import type { UserPOCInformationUpdateRequestValidationTarget } from "./user-poc-information-update.request.ts";
-import { userPOCUpdateResponseSchema } from "./user-poc-information-update.response.ts";
-import type { userPOCUpdateRoute } from "./user-poc-information-update.route.ts";
+import { userPOCInformationUpdateResponseSchema } from "./user-poc-information-update.response.ts";
+import type { userPOCInformationUpdateRoute } from "./user-poc-information-update.route.ts";
 
-export const userPOCUpdateHandler =
+export const userPOCInformationUpdateHandler =
   (
     basePath: string,
     config: PortConfig,
     domainType: string,
     logger: PortLogger,
     drivingUserPOCInformationUpdate: PortDrivingUserPOCInformationUpdate,
-  ): RouteHandler<ReturnType<typeof userPOCUpdateRoute>, Env> =>
+  ): RouteHandler<ReturnType<typeof userPOCInformationUpdateRoute>, Env> =>
   (
     ctx: Context<
       Env,
@@ -45,7 +45,7 @@ export const userPOCUpdateHandler =
       });
       logger.debug({ id });
       const response = {
-        ...userPOCUpdateResponseSchema.parse({ id }),
+        ...userPOCInformationUpdateResponseSchema.parse({ id }),
         id,
       };
       logger.debug({ response });

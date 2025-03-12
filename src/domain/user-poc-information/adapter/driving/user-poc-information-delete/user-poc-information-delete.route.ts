@@ -2,10 +2,10 @@ import { createRoute, type RouteConfig } from "@hono/zod-openapi";
 
 import { successResponseSchema } from "../../../../../shared/adapter/driving/response/success.ts";
 import { routeResponses } from "../../../../../shared/adapter/driving/route.ts";
-import { userPOCDeleteParamSchema } from "./user-poc-information-delete.request.ts";
-import { userPOCDeleteResponseSchema } from "./user-poc-information-delete.response.ts";
+import { userPOCInformationDeleteParamSchema } from "./user-poc-information-delete.request.ts";
+import { userPOCInformationDeleteResponseSchema } from "./user-poc-information-delete.response.ts";
 
-export const userPOCDeleteRoute = (
+export const userPOCInformationDeleteRoute = (
   basePath: string,
   domainType: string,
 ): RouteConfig =>
@@ -14,10 +14,10 @@ export const userPOCDeleteRoute = (
     method: "delete",
     path: `${basePath}/${domainType}/{id}`,
     request: {
-      params: userPOCDeleteParamSchema,
+      params: userPOCInformationDeleteParamSchema,
     },
     responses: routeResponses(
-      successResponseSchema(userPOCDeleteResponseSchema, domainType),
+      successResponseSchema(userPOCInformationDeleteResponseSchema, domainType),
       [200, 400, 401, 404, 422, 500],
     ),
     summary: "Delete a UserPOCInformation",

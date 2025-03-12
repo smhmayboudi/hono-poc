@@ -6,8 +6,8 @@ import type { PortLogger } from "../../../../../infrastructure/application/port/
 import { notFoundHandler } from "../../../../../shared/adapter/driving/handler/not-found.ts";
 import { onErrorHandler } from "../../../../../shared/adapter/driving/handler/on-error.ts";
 import type { PortDrivingUserPOCInformationCreate } from "../../../application/port/driving/user-poc-information-create.ts";
-import { userPOCCreateHandler } from "./user-poc-information-create.handler.ts";
-import { userPOCCreateRoute } from "./user-poc-information-create.route.ts";
+import { userPOCInformationCreateHandler } from "./user-poc-information-create.handler.ts";
+import { userPOCInformationCreateRoute } from "./user-poc-information-create.route.ts";
 
 export const adapterDrivingUserPOCInformationCreate = (
   app: OpenAPIHono<Env>,
@@ -20,8 +20,8 @@ export const adapterDrivingUserPOCInformationCreate = (
   app.notFound(notFoundHandler(config, logger));
   app.onError(onErrorHandler(config, logger));
   app.openapi(
-    userPOCCreateRoute(basePath, domainType),
-    userPOCCreateHandler(
+    userPOCInformationCreateRoute(basePath, domainType),
+    userPOCInformationCreateHandler(
       basePath,
       config,
       domainType,
