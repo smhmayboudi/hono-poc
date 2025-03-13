@@ -21,6 +21,7 @@
     "x64"
   ],
   "dependencies": {
+    "@elastic/elasticsearch": "^8.17.1",
     "@hono/node-server": "^1.13.8",
     "@hono/zod-openapi": "^0.19.2",
     "@hono/zod-validator": "^0.4.3",
@@ -164,6 +165,7 @@
     "diagram": "pnpm run diagram:tplant & pnpm run diagram:tsuml2",
     "diagram:tplant": "tplant --associations --input \"./src/**/application/**/*.ts\" --output ./doc/ARCHITECTURE.plantuml",
     "diagram:tsuml2": "tsuml2 --glob \"./src/**/application/**/*.ts\" --memberAssociations --mermaid --nomnoml --outDsl \"./doc/ARCHITECTURE.nomnoml\" --outFile \"./doc/ARCHITECTURE.svg\" --outMermaidDsl \"./doc/ARCHITECTURE.mermaid\" --tsconfig \"./tsconfig.json\"",
+    "elasticsearch:migrate": "dotenvx run -- node --import tsx ./script/elasticsearch.migrate.ts",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
     "lint": "pnpm run lint:es && pnpm run lint:ox && pnpm run lint:biome",

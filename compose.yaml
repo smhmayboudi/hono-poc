@@ -30,31 +30,31 @@ services:
     logging: *logging
     restart: "no"
 
-  # elasticsearch:
-  #   container_name: hono-elasticsearch
-  #   environment:
-  #     - discovery.type=single-node
-  #     # - logger.discovery.name = org.elasticsearch.discovery
-  #     # - logger.discovery.level = trace
-  #   expose:
-  #     - 9200 # API Call
-  #     - 9300 # Custom Binary Protocol
-  #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
-  #     start_period: 10s
-  #     test:
-  #       - CMD-SHELL
-  #       - curl --fail http://elasticsearch:9200/_cluster/health || exit 1
-  #     timeout: 5s
-  #   image: elasticsearch:7.17.27
-  #   labels:
-  #     namespace: elasticsearch
-  #   logging: *logging
-  #   ports:
-  #     - "9200:9200"
-  #     - "9300:9300"
-  #   restart: "no"
+  elasticsearch:
+    container_name: hono-elasticsearch
+    environment:
+      - discovery.type=single-node
+      # - logger.discovery.name = org.elasticsearch.discovery
+      # - logger.discovery.level = trace
+    expose:
+      - 9200 # API Call
+      - 9300 # Custom Binary Protocol
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - curl --fail http://elasticsearch:9200/_cluster/health || exit 1
+      timeout: 5s
+    image: elasticsearch:7.17.27
+    labels:
+      namespace: elasticsearch
+    logging: *logging
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    restart: "no"
 
   hono-poc:
     build:

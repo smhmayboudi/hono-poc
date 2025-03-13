@@ -1,0 +1,9 @@
+@startuml UserPOCView UseCase Search
+actor Client
+Client -> DrivingUserPOCViewSearch
+DrivingUserPOCViewSearch -> UseCaseUserPOCViewSearch: execute
+UseCaseUserPOCViewSearch -> DrivenUserPOCViewSearch: Search
+DrivenUserPOCViewSearch --> UseCaseUserPOCViewSearch: DomainUserPOCView[]
+UseCaseUserPOCViewSearch --> DrivingUserPOCViewSearch: DomainUserPOCView[]
+DrivingUserPOCViewSearch --> Client
+@enduml

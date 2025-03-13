@@ -13,6 +13,7 @@ import { cacher } from "./infrastructure/adapter/cacher/cacher.ts";
 import { casbin } from "./infrastructure/adapter/casbin/casbin.ts";
 import { config } from "./infrastructure/adapter/config/config.ts";
 import { database } from "./infrastructure/adapter/database/database.ts";
+import { elasticsearch } from "./infrastructure/adapter/elasticsearch/elasticsearch.ts";
 import { generate } from "./infrastructure/adapter/generate/generate.ts";
 import { Logger } from "./infrastructure/adapter/logger/logger.ts";
 import { casbinMiddleware } from "./infrastructure/adapter/middleware/casbin.ts";
@@ -24,9 +25,10 @@ import { onErrorHandler } from "./shared/adapter/driving/handler/on-error.ts";
 
 const level = "trace";
 const basePath = "/api/v1";
-const db = database(config, new Logger(pino({ level })));
+const elasticsearch2 = elasticsearch(config, new Logger(pino({ level })));
+const database2 = database(config, new Logger(pino({ level })));
 const cacher2 = cacher(config, new Logger(pino({ level })));
-const auth2 = auth(config, db, new Logger(pino({ level })));
+const auth2 = auth(config, database2, new Logger(pino({ level })));
 
 const app = new OpenAPIHono<Env>({ defaultHook });
 
@@ -56,7 +58,7 @@ const { useCaseUserPOCCreate, useCaseUserPOCDelete, useCaseUserPOCUpdate } =
     basePath,
     cacher2,
     config,
-    db,
+    database2,
     "user-poc",
     generate,
     new Logger(pino({ level })),
@@ -69,7 +71,7 @@ const {
   app,
   basePath,
   config,
-  db,
+  database2,
   "user-poc-information",
   generate,
   new Logger(pino({ level })),
@@ -79,7 +81,7 @@ userPOCView(
   basePath,
   cacher2,
   config,
-  db,
+  database2,
   "user-poc-view",
   useCaseUserPOCCreate,
   useCaseUserPOCDelete,
@@ -87,6 +89,7 @@ userPOCView(
   useCaseUserPOCInformationCreate,
   useCaseUserPOCInformationDeleteUserId,
   useCaseUserPOCInformationUpdateUserId,
+  elasticsearch2,
   new Logger(pino({ level })),
 );
 
