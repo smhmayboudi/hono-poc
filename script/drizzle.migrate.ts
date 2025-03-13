@@ -28,16 +28,4 @@ const db = drizzle(connection, {
 await migrate(db, {
   migrationsFolder: path.join(import.meta.dirname, "../drizzle/"),
 });
-// await db.execute(
-//   sql`CREATE INDEX search_idx_country_id_term ON search (country_id, term(255));`,
-// );
-// await db.execute(
-//   sql`CREATE INDEX search_idx_country_id_term_cdate ON search (country_id, term(255), CDate);`,
-// );
-// await db.execute(
-//   sql`CREATE INDEX search_idx_country_id_user_id_term_cdate ON search (country_id, user_id, term(255), CDate);`,
-// );
-// await db.execute(
-//   sql`CREATE INDEX search_idx_country_id_device_id_term_cdate ON search (country_id, device_id, term(255), CDate);`,
-// );
 await connection.end();
