@@ -28,7 +28,7 @@ export const casbinMiddleware =
   ): MiddlewareHandler =>
   async (ctx, next) => {
     logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "infrastructure.adapter.middleware.casbin",
+      [ATTR_CODE_FUNCTION_NAME]: "middleware.casbin",
       config,
     });
     logger.info({});

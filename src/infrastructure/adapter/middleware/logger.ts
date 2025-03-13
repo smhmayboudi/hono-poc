@@ -117,7 +117,7 @@ export const loggerMiddleware: (
     }
 
     logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "infrastructure.adapter.middleware.logger",
+      [ATTR_CODE_FUNCTION_NAME]: "middleware.logger",
     });
 
     let bindings = createRequestBindings(
