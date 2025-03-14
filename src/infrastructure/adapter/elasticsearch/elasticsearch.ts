@@ -21,7 +21,8 @@ export class Elasticsearch implements PortElasticsearch {
 
     this._client.diagnostic.on("deserialization", (error, result) => {
       this.logger.assign({
-        [ATTR_CODE_FUNCTION_NAME]: "elasticsearch.deserialization",
+        [ATTR_CODE_FUNCTION_NAME]:
+          "deserialization-elasticsearch.infrastructure",
         config: this.config,
       });
       if (error) {
@@ -33,7 +34,7 @@ export class Elasticsearch implements PortElasticsearch {
 
     this._client.diagnostic.on("request", (error, result) => {
       this.logger.assign({
-        [ATTR_CODE_FUNCTION_NAME]: "elasticsearch.request",
+        [ATTR_CODE_FUNCTION_NAME]: "request-elasticsearch.infrastructure",
         config: this.config,
       });
       if (error) {
@@ -45,7 +46,7 @@ export class Elasticsearch implements PortElasticsearch {
 
     this._client.diagnostic.on("response", (error, result) => {
       this.logger.assign({
-        [ATTR_CODE_FUNCTION_NAME]: "elasticsearch.response",
+        [ATTR_CODE_FUNCTION_NAME]: "response-elasticsearch.infrastructure",
         config: this.config,
       });
       if (error) {
@@ -57,7 +58,7 @@ export class Elasticsearch implements PortElasticsearch {
 
     this._client.diagnostic.on("resurrect", (error, result) => {
       this.logger.assign({
-        [ATTR_CODE_FUNCTION_NAME]: "elasticsearch.resurrect",
+        [ATTR_CODE_FUNCTION_NAME]: "resurrect-elasticsearch.infrastructure",
         config: this.config,
       });
       if (error) {
@@ -69,7 +70,7 @@ export class Elasticsearch implements PortElasticsearch {
 
     this._client.diagnostic.on("serialization", (error, result) => {
       this.logger.assign({
-        [ATTR_CODE_FUNCTION_NAME]: "elasticsearch.serialization",
+        [ATTR_CODE_FUNCTION_NAME]: "serialization-elasticsearch.infrastructure",
         config: this.config,
       });
       if (error) {
@@ -81,7 +82,7 @@ export class Elasticsearch implements PortElasticsearch {
 
     this._client.diagnostic.on("sniff", (error, result) => {
       this.logger.assign({
-        [ATTR_CODE_FUNCTION_NAME]: "elasticsearch.sniff",
+        [ATTR_CODE_FUNCTION_NAME]: "sniff-elasticsearch.infrastructure",
         config: this.config,
       });
       if (error) {
@@ -99,6 +100,6 @@ export class Elasticsearch implements PortElasticsearch {
 
 export const elasticsearch = (config: PortConfig, logger: PortLogger) =>
   tracer.startActiveSpan(
-    "elasticsearch.infrastructure",
+    "infrastructure-elasticsearch.infrastructure",
     () => new Elasticsearch(config, logger),
   );

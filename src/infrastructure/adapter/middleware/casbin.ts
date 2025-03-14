@@ -1,7 +1,7 @@
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
-import { Enforcer } from "casbin";
 import type { MiddlewareHandler } from "hono";
 
+import type { Env } from "../../../env.ts";
 import type { PortCasbin } from "../../application/port/casbin/casbin.ts";
 import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
@@ -25,25 +25,19 @@ export const casbinMiddleware =
     casbin: PortCasbin,
     config: PortConfig,
     logger: PortLogger,
-  ): MiddlewareHandler =>
+  ): MiddlewareHandler<Env, "casbin-middleware.infrastructure"> =>
   async (ctx, next) => {
     logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "middleware.casbin",
+      [ATTR_CODE_FUNCTION_NAME]: "casbin-middleware.infrastructure",
       config,
     });
     logger.info({});
-    const enforcer = await casbin.enforcer;
-    if (!(enforcer instanceof Enforcer)) {
-      logger.debug("!(enforcer instanceof Enforcer)");
-      throw new ErrorCasbinEnforcer();
-    }
-    logger.debug("(enforcer instanceof Enforcer)");
-    const isAllowed = await casbin.authorizer(ctx, enforcer);
-    logger.debug({ isAllowed });
-    if (!isAllowed) {
-      logger.debug("!isAllowed");
+    const isAuthorized = await casbin.authorizer(ctx);
+    logger.debug({ isAuthorized });
+    if (!isAuthorized) {
+      logger.debug("!isAuthorized");
       throw new ErrorCasbinForbidden();
     }
-    logger.debug("isAllowed");
+    logger.debug("isAuthorized");
     await next();
   };

@@ -100,7 +100,9 @@ const isPinoLogger = (value: unknown): value is pino.Logger =>
 
 export const loggerMiddleware: (
   loggerOption?: LoggerOption,
-) => MiddlewareHandler<Env, "logger"> = (loggerOption) => {
+) => MiddlewareHandler<Env, "logger-middleware.infrastructure"> = (
+  loggerOption,
+) => {
   let defaultReqId = 0n;
   const defaultReqIdGenerator = () => (defaultReqId += 1n);
   const rootLogger = isPinoLogger(loggerOption?.pino)
@@ -117,7 +119,7 @@ export const loggerMiddleware: (
     }
 
     logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "middleware.logger",
+      [ATTR_CODE_FUNCTION_NAME]: "logger-middleware.infrastructure",
     });
 
     let bindings = createRequestBindings(

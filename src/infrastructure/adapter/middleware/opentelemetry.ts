@@ -18,10 +18,13 @@ let rawMeter: Meter | undefined;
 let rawTracer: Tracer | undefined;
 
 export const opentelemetryMiddleware =
-  (config: PortConfig, logger: PortLogger): MiddlewareHandler<Env> =>
+  (
+    config: PortConfig,
+    logger: PortLogger,
+  ): MiddlewareHandler<Env, "opentelemetry-middleware.infrastructure"> =>
   async (ctx, next) => {
     logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "middleware.opentelemetry",
+      [ATTR_CODE_FUNCTION_NAME]: "opentelemetry-middleware.infrastructure",
       config,
     });
     if (!opentelemetry) {

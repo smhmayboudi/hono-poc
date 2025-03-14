@@ -1,5 +1,5 @@
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
-import { type Enforcer, newEnforcer } from "casbin";
+import { newEnforcer } from "casbin";
 import type { Context } from "hono";
 
 import type { Env } from "../../../env.ts";
@@ -21,7 +21,7 @@ export class Casbin implements PortCasbin {
     private readonly logger: PortLogger,
   ) {}
 
-  async authorizer(ctx: Context<Env>, enforcer: Enforcer): Promise<boolean> {
+  async authorizer(ctx: Context<Env>): Promise<boolean> {
     this.logger.assign({
       [ATTR_CODE_FUNCTION_NAME]: "casbin.authorizer",
       config: this.config,
@@ -34,7 +34,7 @@ export class Casbin implements PortCasbin {
     const user = session?.user.id ?? "anonymous";
     this.logger.debug({ method, path, user });
 
-    return await enforcer.enforce(user, path, method);
+    return (await this.enforcer).enforce(user, path, method);
   }
 }
 

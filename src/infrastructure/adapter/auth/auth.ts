@@ -80,7 +80,7 @@ export const auth2 = (
       phoneNumber({
         sendOTP: ({ code, phoneNumber }, request) => {
           logger.assign({
-            [ATTR_CODE_FUNCTION_NAME]: "infrastructure.adapter.auth.sendOTP",
+            [ATTR_CODE_FUNCTION_NAME]: "sendOTP-auth.infrastructure",
             code,
             config,
             phoneNumber,
@@ -91,8 +91,7 @@ export const auth2 = (
         signUpOnVerification: {
           getTempEmail: (phoneNumber: string) => {
             logger.assign({
-              [ATTR_CODE_FUNCTION_NAME]:
-                "infrastructure.adapter.auth.getTempEmail",
+              [ATTR_CODE_FUNCTION_NAME]: "getTempEmail-auth.infrastructure",
               config,
               phoneNumber,
             });
