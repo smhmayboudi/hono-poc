@@ -146,10 +146,17 @@ export type EventEmitterMap = {
   };
 };
 
-export interface PortEventEmitter<
-  K extends keyof EventEmitterMap = keyof EventEmitterMap,
-> {
-  emit(event: K, data: EventEmitterMap[K]): void;
-  off(event: K, listener: (data: EventEmitterMap[K]) => void): void;
-  on(event: K, listener: (data: EventEmitterMap[K]) => void): void;
+export interface PortEventEmitter {
+  emit<K extends keyof EventEmitterMap>(
+    event: K,
+    data: EventEmitterMap[K],
+  ): void;
+  off<K extends keyof EventEmitterMap>(
+    event: K,
+    listener: (data: EventEmitterMap[K]) => void,
+  ): void;
+  on<K extends keyof EventEmitterMap>(
+    event: K,
+    listener: (data: EventEmitterMap[K]) => void,
+  ): void;
 }

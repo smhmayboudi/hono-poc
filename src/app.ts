@@ -3,6 +3,7 @@ import { cors } from "hono/cors";
 import { csrf } from "hono/csrf";
 import { pino } from "pino";
 
+import { appEventEmitter } from "./app.event-emitter.ts";
 import { swagger } from "./app.swagger.ts";
 import { userPOC } from "./domain/user-poc/user-poc.ts";
 import { userPOCInformation } from "./domain/user-poc-information/user-poc-information.ts";
@@ -31,6 +32,8 @@ const elasticsearch2 = elasticsearch(config, new Logger(pino({ level })));
 const database2 = database(config, new Logger(pino({ level })));
 const cacher2 = cacher(config, new Logger(pino({ level })));
 const auth2 = auth(config, database2, new Logger(pino({ level })));
+
+appEventEmitter(database2, elasticsearch2, eventEmitter2);
 
 const app = new OpenAPIHono<Env>({ defaultHook });
 
