@@ -16,7 +16,7 @@ export class Elasticsearch implements PortElasticsearch {
     private readonly logger: PortLogger,
   ) {
     this._client = new Client({
-      node: "http://127.0.0.1:9200",
+      node: this.config.elasticsearch().node(),
     });
 
     this._client.diagnostic.on("deserialization", (error, result) => {
