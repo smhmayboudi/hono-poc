@@ -1,3 +1,4 @@
+import KeyvRedis from "@keyv/redis";
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
 import { type Cache, createCache } from "cache-manager";
 import Keyv from "keyv";
@@ -20,7 +21,10 @@ export class Cacher implements PortCacher {
     private readonly logger: PortLogger,
   ) {
     this.cache = createCache({
-      stores: [new Keyv({ store: new LRUCache({ max: 5000 }) })],
+      stores: [
+        new Keyv({ store: new KeyvRedis({ url: this.config.redis().url() }) }),
+        new Keyv({ store: new LRUCache({ max: 5000 }) }),
+      ],
     });
   }
 

@@ -67,6 +67,7 @@ services:
     environment:
       - CLIENT_DATABASE_URI=mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1
       - CLIENT_ELASTICSEARCH_NODE=http://elasticsearch:9200
+      - CLIENT_REDIS_URL=redis://redis:6379
       - SERVER_PORT=80
     expose:
       - 8081
@@ -102,6 +103,7 @@ services:
     environment:
       - CLIENT_DATABASE_URI=mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1
       - CLIENT_ELASTICSEARCH_NODE=http://elasticsearch:9200
+      - CLIENT_REDIS_URL=redis://redis:6379
       - SERVER_PORT=80
     expose:
       - 8081
@@ -445,61 +447,30 @@ services:
   #   volumes:
   #     - plantuml-server:/tmp/jetty
 
-  # redis:
-  #   command:
-  #     - /usr/local/etc/redis/redis.conf
-  #   container_name: hono-redis
-  #   expose:
-  #     - 6379 # Default Protocol
-  #   extra_hosts:
-  #     - host.docker.internal:host-gateway
-  #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
-  #     start_period: 10s
-  #     test:
-  #       - CMD-SHELL
-  #       - redis-cli --raw incr ping
-  #     timeout: 5s
-  #   image: redis:7.4.2-bookworm
-  #   labels:
-  #     namespace: redis
-  #   logging: *logging
-  #   ports:
-  #     - "6379:6379"
-  #   restart: "no"
-  #   volumes:
-  #     - ./.docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
-  #     - redis:/data
-
-  # redis-insight:
-  #   container_name: hono-redis-insight
-  #   # environment:
-  #   #   - RI_LOG_LEVEL=silly
-  #   depends_on:
-  #     redis:
-  #       condition: service_healthy
-  #   expose:
-  #     - 5540 # Default Protocol
-  #   extra_hosts:
-  #     - host.docker.internal:host-gateway
-  #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
-  #     start_period: 10s
-  #     test:
-  #       - CMD-SHELL
-  #       - wget --no-verbose --spider --tries=1 http://redis-insight:5540/api/health
-  #     timeout: 5s
-  #   image: redis/redisinsight:2.66.0
-  #   labels:
-  #     namespace: redis-insight
-  #   logging: *logging
-  #   ports:
-  #     - "5540:5540"
-  #   restart: "no"
-  #   volumes:
-  #     - redis-insight:/data
+  redis:
+    command:
+      - /usr/local/etc/redis/redis.conf
+    container_name: hono-redis
+    expose:
+      - 6379 # Default Protocol
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - redis-cli --raw incr ping
+      timeout: 5s
+    image: redis:7.4.2-bookworm
+    labels:
+      namespace: redis
+    logging: *logging
+    ports:
+      - "6379:6379"
+    restart: "no"
+    volumes:
+      - ./.docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis:/data
 
   # swagger-ui:
   #   container_name: hono-swagger-ui
@@ -533,5 +504,4 @@ volumes:
   mysql: {}
   # opensearch: {}
   # plantuml-server: {}
-  # redis: {}
-  # redis-insight: {}
+  redis: {}
