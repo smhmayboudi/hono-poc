@@ -1,9 +1,9 @@
 @startuml UserPOCInformation UseCase Update UserId
 actor Client
-Client -> DrivingUserPOCInformationUpdateUserId
-DrivingUserPOCInformationUpdateUserId -> UseCaseUserPOCInformationUpdateUserId: execute
-UseCaseUserPOCInformationUpdateUserId -> DrivenUserPOCInformationUpdateUserId: update
-DrivenUserPOCInformationUpdateUserId --> UseCaseUserPOCInformationUpdateUserId: void
-UseCaseUserPOCInformationUpdateUserId --> DrivingUserPOCInformationUpdateUserId: { userId }
-DrivingUserPOCInformationUpdateUserId --> Client
+Client -> DrivingUserPOCInformationUpdateUserID
+DrivingUserPOCInformationUpdateUserID -> UseCaseUserPOCInformationUpdateUserID: execute
+UseCaseUserPOCInformationUpdateUserID -> DrivenUserPOCInformationUpdateUserID: update
+DrivenUserPOCInformationUpdateUserID --> UseCaseUserPOCInformationUpdateUserID: void
+UseCaseUserPOCInformationUpdateUserID --> DrivingUserPOCInformationUpdateUserID: { userId }
+DrivingUserPOCInformationUpdateUserID --> Client
 @enduml

@@ -5,7 +5,7 @@ import type { PortConfig } from "../../../../infrastructure/application/port/con
 import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type { PortDrivingUserPOCUpdate } from "../../../user-poc/application/port/driving/user-poc-update.ts";
-import type { PortDrivingUserPOCInformationUpdateUserId } from "../../../user-poc-information/application/port/driving/user-poc-information-update-user-id.ts";
+import type { PortDrivingUserPOCInformationUpdateUserID } from "../../../user-poc-information/application/port/driving/user-poc-information-update-user-id.ts";
 import type {
   PortDrivingUserPOCViewUpdate,
   PortDrivingUserPOCViewUpdateRequest,
@@ -16,7 +16,7 @@ export class UseCaseUserPOCViewUpdate implements PortDrivingUserPOCViewUpdate {
   constructor(
     private readonly config: PortConfig,
     private readonly drivingUserPOCUpdate: PortDrivingUserPOCUpdate,
-    private readonly drivingUserPOCInformationUpdateUserId: PortDrivingUserPOCInformationUpdateUserId,
+    private readonly drivingUserPOCInformationUpdateUserID: PortDrivingUserPOCInformationUpdateUserID,
     private readonly eventEmitter: PortEventEmitter,
     private readonly logger: PortLogger,
   ) {}
@@ -32,7 +32,7 @@ export class UseCaseUserPOCViewUpdate implements PortDrivingUserPOCViewUpdate {
       });
       this.logger.info({});
       const { userId: userPOCInformationUserId } =
-        await this.drivingUserPOCInformationUpdateUserId.execute({
+        await this.drivingUserPOCInformationUpdateUserID.execute({
           address: data.address,
           age: data.age,
           userId: data.id,

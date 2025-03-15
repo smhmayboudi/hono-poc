@@ -8,13 +8,13 @@ import { userPOCInformation } from "../../../../infrastructure/application/port/
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import { ErrorNoRowsAffected } from "../../../../shared/application/error/no-rows-affected.ts";
 import type {
-  PortDrivenUserPOCInformationUpdateUserId,
-  PortDrivenUserPOCInformationUpdateUserIdRequest,
-  PortDrivenUserPOCInformationUpdateUserIdResponse,
+  PortDrivenUserPOCInformationUpdateUserID,
+  PortDrivenUserPOCInformationUpdateUserIDRequest,
+  PortDrivenUserPOCInformationUpdateUserIDResponse,
 } from "../../application/port/driven/user-poc-information-update-user-id.ts";
 
-export class AdapterDrivenUserPOCInformationUpdateUserId
-  implements PortDrivenUserPOCInformationUpdateUserId
+export class AdapterDrivenUserPOCInformationUpdateUserID
+  implements PortDrivenUserPOCInformationUpdateUserID
 {
   constructor(
     private readonly config: PortConfig,
@@ -23,8 +23,8 @@ export class AdapterDrivenUserPOCInformationUpdateUserId
   ) {}
 
   updateUserId(
-    data: PortDrivenUserPOCInformationUpdateUserIdRequest,
-  ): Promise<PortDrivenUserPOCInformationUpdateUserIdResponse> {
+    data: PortDrivenUserPOCInformationUpdateUserIDRequest,
+  ): Promise<PortDrivenUserPOCInformationUpdateUserIDResponse> {
     return tracer.startActiveSpan(
       "user-poc-information-update-user-id.driven",
       async () => {

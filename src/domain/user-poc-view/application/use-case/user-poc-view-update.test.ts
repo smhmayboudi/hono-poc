@@ -10,8 +10,8 @@ import type {
   PortDrivingUserPOCUpdateRequest,
 } from "../../../user-poc/application/port/driving/user-poc-update.ts";
 import type {
-  PortDrivingUserPOCInformationUpdateUserId,
-  PortDrivingUserPOCInformationUpdateUserIdRequest,
+  PortDrivingUserPOCInformationUpdateUserID,
+  PortDrivingUserPOCInformationUpdateUserIDRequest,
 } from "../../../user-poc-information/application/port/driving/user-poc-information-update-user-id.ts";
 import type {
   PortDrivingUserPOCViewUpdateRequest,
@@ -32,12 +32,12 @@ describe("UserPOCView UseCase Update", () => {
         .mockReturnValue({ id: drivingUserPOCViewUpdateRequest.id }),
     });
 
-    const drivingUserPOCInformationUpdateUserIdRequest: PortDrivingUserPOCInformationUpdateUserIdRequest =
+    const drivingUserPOCInformationUpdateUserIDRequest: PortDrivingUserPOCInformationUpdateUserIDRequest =
       {
         userId: drivingUserPOCViewUpdateRequest.id,
       };
-    const drivingUserPOCInformationUpdateUserId =
-      mock<PortDrivingUserPOCInformationUpdateUserId>({
+    const drivingUserPOCInformationUpdateUserID =
+      mock<PortDrivingUserPOCInformationUpdateUserID>({
         execute: vi
           .fn()
           .mockReturnValue({ id: drivingUserPOCViewUpdateRequest.id }),
@@ -49,8 +49,8 @@ describe("UserPOCView UseCase Update", () => {
 
     return {
       config,
-      drivingUserPOCInformationUpdateUserId,
-      drivingUserPOCInformationUpdateUserIdRequest,
+      drivingUserPOCInformationUpdateUserID,
+      drivingUserPOCInformationUpdateUserIDRequest,
       drivingUserPOCUpdate,
       drivingUserPOCUpdateRequest,
       eventEmitter,
@@ -67,8 +67,8 @@ describe("UserPOCView UseCase Update", () => {
       };
     const {
       config,
-      drivingUserPOCInformationUpdateUserId,
-      drivingUserPOCInformationUpdateUserIdRequest,
+      drivingUserPOCInformationUpdateUserID,
+      drivingUserPOCInformationUpdateUserIDRequest,
       drivingUserPOCUpdate,
       drivingUserPOCUpdateRequest,
       eventEmitter,
@@ -77,13 +77,13 @@ describe("UserPOCView UseCase Update", () => {
     const useCaseUserPOCViewUpdate = new UseCaseUserPOCViewUpdate(
       config,
       drivingUserPOCUpdate,
-      drivingUserPOCInformationUpdateUserId,
+      drivingUserPOCInformationUpdateUserID,
       eventEmitter,
       logger,
     );
     const drivingUserPOCUpdateSpy = vi.spyOn(drivingUserPOCUpdate, "execute");
-    const drivingUserPOCInformationUpdateUserIdSpy = vi.spyOn(
-      drivingUserPOCInformationUpdateUserId,
+    const drivingUserPOCInformationUpdateUserIDSpy = vi.spyOn(
+      drivingUserPOCInformationUpdateUserID,
       "execute",
     );
 
@@ -94,8 +94,8 @@ describe("UserPOCView UseCase Update", () => {
     expect(drivingUserPOCUpdateSpy).toHaveBeenCalledWith(
       drivingUserPOCUpdateRequest,
     );
-    expect(drivingUserPOCInformationUpdateUserIdSpy).toHaveBeenCalledWith(
-      drivingUserPOCInformationUpdateUserIdRequest,
+    expect(drivingUserPOCInformationUpdateUserIDSpy).toHaveBeenCalledWith(
+      drivingUserPOCInformationUpdateUserIDRequest,
     );
     const drivingUserPOCViewUpdateResponse: PortDrivingUserPOCViewUpdateResponse =
       {

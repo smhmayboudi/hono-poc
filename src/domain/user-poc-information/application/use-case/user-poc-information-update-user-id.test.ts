@@ -6,25 +6,25 @@ import type { PortConfig } from "../../../../infrastructure/application/port/con
 import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type {
-  PortDrivenUserPOCInformationUpdateUserId,
-  PortDrivenUserPOCInformationUpdateUserIdRequest,
+  PortDrivenUserPOCInformationUpdateUserID,
+  PortDrivenUserPOCInformationUpdateUserIDRequest,
 } from "../port/driven/user-poc-information-update-user-id.ts";
 import type {
-  PortDrivingUserPOCInformationUpdateUserIdRequest,
-  PortDrivingUserPOCInformationUpdateUserIdResponse,
+  PortDrivingUserPOCInformationUpdateUserIDRequest,
+  PortDrivingUserPOCInformationUpdateUserIDResponse,
 } from "../port/driving/user-poc-information-update-user-id.ts";
-import { UseCaseUserPOCInformationUpdateUserId } from "./user-poc-information-update-user-id.ts";
+import { UseCaseUserPOCInformationUpdateUserID } from "./user-poc-information-update-user-id.ts";
 
-describe("UserPOCInformation UseCase UpdateUserId", () => {
+describe("UserPOCInformation UseCase UpdateUserID", () => {
   const updateMocks = (
-    drivingUserPOCInformationUpdateUserIdRequest: PortDrivingUserPOCInformationUpdateUserIdRequest,
+    drivingUserPOCInformationUpdateUserIDRequest: PortDrivingUserPOCInformationUpdateUserIDRequest,
   ) => {
-    const drivenUserPOCInformationUpdateUserIdRequest: PortDrivenUserPOCInformationUpdateUserIdRequest =
+    const drivenUserPOCInformationUpdateUserIDRequest: PortDrivenUserPOCInformationUpdateUserIDRequest =
       {
-        ...drivingUserPOCInformationUpdateUserIdRequest,
+        ...drivingUserPOCInformationUpdateUserIDRequest,
       };
-    const drivenUserPOCInformationUpdateUserId =
-      mock<PortDrivenUserPOCInformationUpdateUserId>({
+    const drivenUserPOCInformationUpdateUserID =
+      mock<PortDrivenUserPOCInformationUpdateUserID>({
         updateUserId: vi.fn(),
       });
 
@@ -34,8 +34,8 @@ describe("UserPOCInformation UseCase UpdateUserId", () => {
 
     return {
       config,
-      drivenUserPOCInformationUpdateUserId,
-      drivenUserPOCInformationUpdateUserIdRequest,
+      drivenUserPOCInformationUpdateUserID,
+      drivenUserPOCInformationUpdateUserIDRequest,
       eventEmitter,
       logger,
     };
@@ -44,7 +44,7 @@ describe("UserPOCInformation UseCase UpdateUserId", () => {
   it("should call execute with correct data", async () => {
     expect.assertions(2);
 
-    const drivingUserPOCInformationUpdateUserIdRequest: PortDrivingUserPOCInformationUpdateUserIdRequest =
+    const drivingUserPOCInformationUpdateUserIDRequest: PortDrivingUserPOCInformationUpdateUserIDRequest =
       {
         address: faker.location.streetAddress(),
         age: faker.number.int(),
@@ -52,37 +52,37 @@ describe("UserPOCInformation UseCase UpdateUserId", () => {
       };
     const {
       config,
-      drivenUserPOCInformationUpdateUserId,
-      drivenUserPOCInformationUpdateUserIdRequest,
+      drivenUserPOCInformationUpdateUserID,
+      drivenUserPOCInformationUpdateUserIDRequest,
       eventEmitter,
       logger,
-    } = await updateMocks(drivingUserPOCInformationUpdateUserIdRequest);
-    const useCaseUserPOCInformationUpdateUserId =
-      new UseCaseUserPOCInformationUpdateUserId(
+    } = await updateMocks(drivingUserPOCInformationUpdateUserIDRequest);
+    const useCaseUserPOCInformationUpdateUserID =
+      new UseCaseUserPOCInformationUpdateUserID(
         config,
-        drivenUserPOCInformationUpdateUserId,
+        drivenUserPOCInformationUpdateUserID,
         eventEmitter,
         logger,
       );
-    const drivenUserPOCInformationUpdateUserIdSpy = vi.spyOn(
-      drivenUserPOCInformationUpdateUserId,
+    const drivenUserPOCInformationUpdateUserIDSpy = vi.spyOn(
+      drivenUserPOCInformationUpdateUserID,
       "updateUserId",
     );
 
-    const brandUpdateUserId =
-      await useCaseUserPOCInformationUpdateUserId.execute(
-        drivingUserPOCInformationUpdateUserIdRequest,
+    const brandUpdateUserID =
+      await useCaseUserPOCInformationUpdateUserID.execute(
+        drivingUserPOCInformationUpdateUserIDRequest,
       );
 
-    expect(drivenUserPOCInformationUpdateUserIdSpy).toHaveBeenCalledWith(
-      drivenUserPOCInformationUpdateUserIdRequest,
+    expect(drivenUserPOCInformationUpdateUserIDSpy).toHaveBeenCalledWith(
+      drivenUserPOCInformationUpdateUserIDRequest,
     );
-    const drivingUserPOCInformationUpdateUserIdResponse: PortDrivingUserPOCInformationUpdateUserIdResponse =
+    const drivingUserPOCInformationUpdateUserIDResponse: PortDrivingUserPOCInformationUpdateUserIDResponse =
       {
-        userId: drivingUserPOCInformationUpdateUserIdRequest.userId,
+        userId: drivingUserPOCInformationUpdateUserIDRequest.userId,
       };
-    expect(brandUpdateUserId).toStrictEqual(
-      drivingUserPOCInformationUpdateUserIdResponse,
+    expect(brandUpdateUserID).toStrictEqual(
+      drivingUserPOCInformationUpdateUserIDResponse,
     );
   });
 });

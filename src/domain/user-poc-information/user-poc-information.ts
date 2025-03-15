@@ -8,11 +8,11 @@ import type { PortGenerate } from "../../infrastructure/application/port/generat
 import type { PortLogger } from "../../infrastructure/application/port/logger/logger.ts";
 import { AdapterDrivenUserPOCInformationCreate } from "./adapter/driven/user-poc-information-create.ts";
 import { AdapterDrivenUserPOCInformationDelete } from "./adapter/driven/user-poc-information-delete.ts";
-import { AdapterDrivenUserPOCInformationDeleteUserId } from "./adapter/driven/user-poc-information-delete-user-id.ts";
+import { AdapterDrivenUserPOCInformationDeleteUserID } from "./adapter/driven/user-poc-information-delete-user-id.ts";
 import { AdapterDrivenUserPOCInformationRead } from "./adapter/driven/user-poc-information-read.ts";
 import { AdapterDrivenUserPOCInformationReadID } from "./adapter/driven/user-poc-information-read-id.ts";
 import { AdapterDrivenUserPOCInformationUpdate } from "./adapter/driven/user-poc-information-update.ts";
-import { AdapterDrivenUserPOCInformationUpdateUserId } from "./adapter/driven/user-poc-information-update-user-id.ts";
+import { AdapterDrivenUserPOCInformationUpdateUserID } from "./adapter/driven/user-poc-information-update-user-id.ts";
 import { adapterDrivingUserPOCInformationCreate } from "./adapter/driving/user-poc-information-create/user-poc-information-create.driving.ts";
 import { adapterDrivingUserPOCInformationDelete } from "./adapter/driving/user-poc-information-delete/user-poc-information-delete.driving.ts";
 import { adapterDrivingUserPOCInformationRead } from "./adapter/driving/user-poc-information-read/user-poc-information-read.driving.ts";
@@ -20,11 +20,11 @@ import { adapterDrivingUserPOCInformationReadID } from "./adapter/driving/user-p
 import { adapterDrivingUserPOCInformationUpdate } from "./adapter/driving/user-poc-information-update/user-poc-information-update.driving.ts";
 import { UseCaseUserPOCInformationCreate } from "./application/use-case/user-poc-information-create.ts";
 import { UseCaseUserPOCInformationDelete } from "./application/use-case/user-poc-information-delete.ts";
-import { UseCaseUserPOCInformationDeleteUserId } from "./application/use-case/user-poc-information-delete-user-id.ts";
+import { UseCaseUserPOCInformationDeleteUserID } from "./application/use-case/user-poc-information-delete-user-id.ts";
 import { UseCaseUserPOCInformationRead } from "./application/use-case/user-poc-information-read.ts";
 import { UseCaseUserPOCInformationReadID } from "./application/use-case/user-poc-information-read-id.ts";
 import { UseCaseUserPOCInformationUpdate } from "./application/use-case/user-poc-information-update.ts";
-import { UseCaseUserPOCInformationUpdateUserId } from "./application/use-case/user-poc-information-update-user-id.ts";
+import { UseCaseUserPOCInformationUpdateUserID } from "./application/use-case/user-poc-information-update-user-id.ts";
 
 export const userPOCInformation = (
   app: OpenAPIHono<Env>,
@@ -69,12 +69,12 @@ export const userPOCInformation = (
     logger,
     useCaseUserPOCInformationDelete,
   );
-  const adapterDrivenUserPOCInformationDeleteUserId =
-    new AdapterDrivenUserPOCInformationDeleteUserId(config, database, logger);
-  const useCaseUserPOCInformationDeleteUserId =
-    new UseCaseUserPOCInformationDeleteUserId(
+  const adapterDrivenUserPOCInformationDeleteUserID =
+    new AdapterDrivenUserPOCInformationDeleteUserID(config, database, logger);
+  const useCaseUserPOCInformationDeleteUserID =
+    new UseCaseUserPOCInformationDeleteUserID(
       config,
-      adapterDrivenUserPOCInformationDeleteUserId,
+      adapterDrivenUserPOCInformationDeleteUserID,
       eventEmitter,
       logger,
     );
@@ -126,12 +126,12 @@ export const userPOCInformation = (
     logger,
     useCaseUserPOCInformationUpdate,
   );
-  const adapterDrivenUserPOCInformationUpdateUserId =
-    new AdapterDrivenUserPOCInformationUpdateUserId(config, database, logger);
-  const useCaseUserPOCInformationUpdateUserId =
-    new UseCaseUserPOCInformationUpdateUserId(
+  const adapterDrivenUserPOCInformationUpdateUserID =
+    new AdapterDrivenUserPOCInformationUpdateUserID(config, database, logger);
+  const useCaseUserPOCInformationUpdateUserID =
+    new UseCaseUserPOCInformationUpdateUserID(
       config,
-      adapterDrivenUserPOCInformationUpdateUserId,
+      adapterDrivenUserPOCInformationUpdateUserID,
       eventEmitter,
       logger,
     );
@@ -139,10 +139,10 @@ export const userPOCInformation = (
   return {
     useCaseUserPOCInformationCreate,
     useCaseUserPOCInformationDelete,
-    useCaseUserPOCInformationDeleteUserId,
+    useCaseUserPOCInformationDeleteUserID,
     useCaseUserPOCInformationRead,
     useCaseUserPOCInformationReadID,
     useCaseUserPOCInformationUpdate,
-    useCaseUserPOCInformationUpdateUserId,
+    useCaseUserPOCInformationUpdateUserID,
   };
 };

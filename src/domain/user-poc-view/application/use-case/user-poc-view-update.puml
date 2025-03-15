@@ -2,8 +2,8 @@
 actor Client
 Client -> DrivingUserPOCViewUpdate
 DrivingUserPOCViewUpdate -> UseCaseUserPOCViewUpdate: execute
-UseCaseUserPOCViewUpdate -> UseCaseUserPOCInformationUpdateUserId: execute
-UseCaseUserPOCInformationUpdateUserId --> UseCaseUserPOCViewUpdate: { id }
+UseCaseUserPOCViewUpdate -> UseCaseUserPOCInformationUpdateUserID: execute
+UseCaseUserPOCInformationUpdateUserID --> UseCaseUserPOCViewUpdate: { id }
 UseCaseUserPOCViewUpdate -> UseCaseUserPOCUpdate: execute
 UseCaseUserPOCUpdate --> UseCaseUserPOCViewUpdate: { id }
 UseCaseUserPOCViewUpdate --> DrivingUserPOCViewUpdate: { id }

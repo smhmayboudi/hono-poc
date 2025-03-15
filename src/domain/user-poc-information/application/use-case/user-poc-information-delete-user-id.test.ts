@@ -6,25 +6,25 @@ import type { PortConfig } from "../../../../infrastructure/application/port/con
 import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type {
-  PortDrivenUserPOCInformationDeleteUserId,
-  PortDrivenUserPOCInformationDeleteUserIdRequest,
+  PortDrivenUserPOCInformationDeleteUserID,
+  PortDrivenUserPOCInformationDeleteUserIDRequest,
 } from "../port/driven/user-poc-information-delete-user-id.ts";
 import type {
-  PortDrivingUserPOCInformationDeleteUserIdRequest,
-  PortDrivingUserPOCInformationDeleteUserIdResponse,
+  PortDrivingUserPOCInformationDeleteUserIDRequest,
+  PortDrivingUserPOCInformationDeleteUserIDResponse,
 } from "../port/driving/user-poc-information-delete-user-id.ts";
-import { UseCaseUserPOCInformationDeleteUserId } from "./user-poc-information-delete-user-id.ts";
+import { UseCaseUserPOCInformationDeleteUserID } from "./user-poc-information-delete-user-id.ts";
 
-describe("UserPOCInformation UseCase DeleteUserId", () => {
+describe("UserPOCInformation UseCase DeleteUserID", () => {
   const deleteMocks = (
-    drivingUserPOCInformationDeleteUserIdRequest: PortDrivingUserPOCInformationDeleteUserIdRequest,
+    drivingUserPOCInformationDeleteUserIDRequest: PortDrivingUserPOCInformationDeleteUserIDRequest,
   ) => {
-    const drivenUserPOCInformationDeleteUserIdRequest: PortDrivenUserPOCInformationDeleteUserIdRequest =
+    const drivenUserPOCInformationDeleteUserIDRequest: PortDrivenUserPOCInformationDeleteUserIDRequest =
       {
-        ...drivingUserPOCInformationDeleteUserIdRequest,
+        ...drivingUserPOCInformationDeleteUserIDRequest,
       };
-    const drivenUserPOCInformationDeleteUserId =
-      mock<PortDrivenUserPOCInformationDeleteUserId>({
+    const drivenUserPOCInformationDeleteUserID =
+      mock<PortDrivenUserPOCInformationDeleteUserID>({
         deleteUserId: vi.fn(),
       });
 
@@ -34,8 +34,8 @@ describe("UserPOCInformation UseCase DeleteUserId", () => {
 
     return {
       config,
-      drivenUserPOCInformationDeleteUserId,
-      drivenUserPOCInformationDeleteUserIdRequest,
+      drivenUserPOCInformationDeleteUserID,
+      drivenUserPOCInformationDeleteUserIDRequest,
       eventEmitter,
       logger,
     };
@@ -44,43 +44,43 @@ describe("UserPOCInformation UseCase DeleteUserId", () => {
   it("should call execute with correct data", async () => {
     expect.assertions(2);
 
-    const drivingUserPOCInformationDeleteUserIdRequest: PortDrivingUserPOCInformationDeleteUserIdRequest =
+    const drivingUserPOCInformationDeleteUserIDRequest: PortDrivingUserPOCInformationDeleteUserIDRequest =
       {
         userId: faker.string.nanoid(24),
       };
     const {
       config,
-      drivenUserPOCInformationDeleteUserId,
-      drivenUserPOCInformationDeleteUserIdRequest,
+      drivenUserPOCInformationDeleteUserID,
+      drivenUserPOCInformationDeleteUserIDRequest,
       eventEmitter,
       logger,
-    } = await deleteMocks(drivingUserPOCInformationDeleteUserIdRequest);
-    const useCaseUserPOCInformationDeleteUserId =
-      new UseCaseUserPOCInformationDeleteUserId(
+    } = await deleteMocks(drivingUserPOCInformationDeleteUserIDRequest);
+    const useCaseUserPOCInformationDeleteUserID =
+      new UseCaseUserPOCInformationDeleteUserID(
         config,
-        drivenUserPOCInformationDeleteUserId,
+        drivenUserPOCInformationDeleteUserID,
         eventEmitter,
         logger,
       );
-    const drivenUserPOCInformationDeleteUserIdSpy = vi.spyOn(
-      drivenUserPOCInformationDeleteUserId,
+    const drivenUserPOCInformationDeleteUserIDSpy = vi.spyOn(
+      drivenUserPOCInformationDeleteUserID,
       "deleteUserId",
     );
 
-    const brandDeleteUserId =
-      await useCaseUserPOCInformationDeleteUserId.execute(
-        drivingUserPOCInformationDeleteUserIdRequest,
+    const brandDeleteUserID =
+      await useCaseUserPOCInformationDeleteUserID.execute(
+        drivingUserPOCInformationDeleteUserIDRequest,
       );
 
-    expect(drivenUserPOCInformationDeleteUserIdSpy).toHaveBeenCalledWith(
-      drivenUserPOCInformationDeleteUserIdRequest,
+    expect(drivenUserPOCInformationDeleteUserIDSpy).toHaveBeenCalledWith(
+      drivenUserPOCInformationDeleteUserIDRequest,
     );
-    const drivingUserPOCInformationDeleteUserIdResponse: PortDrivingUserPOCInformationDeleteUserIdResponse =
+    const drivingUserPOCInformationDeleteUserIDResponse: PortDrivingUserPOCInformationDeleteUserIDResponse =
       {
-        userId: drivingUserPOCInformationDeleteUserIdRequest.userId,
+        userId: drivingUserPOCInformationDeleteUserIDRequest.userId,
       };
-    expect(brandDeleteUserId).toStrictEqual(
-      drivingUserPOCInformationDeleteUserIdResponse,
+    expect(brandDeleteUserID).toStrictEqual(
+      drivingUserPOCInformationDeleteUserIDResponse,
     );
   });
 });

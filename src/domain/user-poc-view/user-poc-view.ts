@@ -11,8 +11,8 @@ import type { PortDrivingUserPOCCreate } from "../user-poc/application/port/driv
 import type { PortDrivingUserPOCDelete } from "../user-poc/application/port/driving/user-poc-delete.ts";
 import type { PortDrivingUserPOCUpdate } from "../user-poc/application/port/driving/user-poc-update.ts";
 import type { PortDrivingUserPOCInformationCreate } from "../user-poc-information/application/port/driving/user-poc-information-create.ts";
-import type { PortDrivingUserPOCInformationDeleteUserId } from "../user-poc-information/application/port/driving/user-poc-information-delete-user-id.ts";
-import type { PortDrivingUserPOCInformationUpdateUserId } from "../user-poc-information/application/port/driving/user-poc-information-update-user-id.ts";
+import type { PortDrivingUserPOCInformationDeleteUserID } from "../user-poc-information/application/port/driving/user-poc-information-delete-user-id.ts";
+import type { PortDrivingUserPOCInformationUpdateUserID } from "../user-poc-information/application/port/driving/user-poc-information-update-user-id.ts";
 import { AdapterDrivenUserPOCViewRead } from "./adapter/driven/user-poc-view-read.ts";
 import { AdapterDrivenUserPOCViewReadID } from "./adapter/driven/user-poc-view-read-id.ts";
 import { AdapterDrivenUserPOCViewSearch } from "./adapter/driven/user-poc-view-search.ts";
@@ -40,8 +40,8 @@ export const userPOCView = (
   drivingUserPOCDelete: PortDrivingUserPOCDelete,
   drivingUserPOCUpdate: PortDrivingUserPOCUpdate,
   drivingUserPOCInformationCreate: PortDrivingUserPOCInformationCreate,
-  drivingUserPOCInformationDeleteUserId: PortDrivingUserPOCInformationDeleteUserId,
-  drivingUserPOCInformationUpdateUserId: PortDrivingUserPOCInformationUpdateUserId,
+  drivingUserPOCInformationDeleteUserID: PortDrivingUserPOCInformationDeleteUserID,
+  drivingUserPOCInformationUpdateUserID: PortDrivingUserPOCInformationUpdateUserID,
   elasticsearch: PortElasticsearch,
   eventEmitter: PortEventEmitter,
   logger: PortLogger,
@@ -64,7 +64,7 @@ export const userPOCView = (
   const useCaseUserPOCViewDelete = new UseCaseUserPOCViewDelete(
     config,
     drivingUserPOCDelete,
-    drivingUserPOCInformationDeleteUserId,
+    drivingUserPOCInformationDeleteUserID,
     eventEmitter,
     logger,
   );
@@ -137,7 +137,7 @@ export const userPOCView = (
   const useCaseUserPOCViewUpdate = new UseCaseUserPOCViewUpdate(
     config,
     drivingUserPOCUpdate,
-    drivingUserPOCInformationUpdateUserId,
+    drivingUserPOCInformationUpdateUserID,
     eventEmitter,
     logger,
   );

@@ -10,8 +10,8 @@ import type {
   PortDrivingUserPOCDeleteRequest,
 } from "../../../user-poc/application/port/driving/user-poc-delete.ts";
 import type {
-  PortDrivingUserPOCInformationDeleteUserId,
-  PortDrivingUserPOCInformationDeleteUserIdRequest,
+  PortDrivingUserPOCInformationDeleteUserID,
+  PortDrivingUserPOCInformationDeleteUserIDRequest,
 } from "../../../user-poc-information/application/port/driving/user-poc-information-delete-user-id.ts";
 import type {
   PortDrivingUserPOCViewDeleteRequest,
@@ -32,12 +32,12 @@ describe("UserPOCView UseCase Delete", () => {
         .mockReturnValue({ id: drivingUserPOCViewDeleteRequest.id }),
     });
 
-    const drivingUserPOCInformationDeleteUserIdRequest: PortDrivingUserPOCInformationDeleteUserIdRequest =
+    const drivingUserPOCInformationDeleteUserIDRequest: PortDrivingUserPOCInformationDeleteUserIDRequest =
       {
         userId: drivingUserPOCViewDeleteRequest.id,
       };
-    const drivingUserPOCInformationDeleteUserId =
-      mock<PortDrivingUserPOCInformationDeleteUserId>({
+    const drivingUserPOCInformationDeleteUserID =
+      mock<PortDrivingUserPOCInformationDeleteUserID>({
         execute: vi
           .fn()
           .mockReturnValue({ id: drivingUserPOCViewDeleteRequest.id }),
@@ -51,8 +51,8 @@ describe("UserPOCView UseCase Delete", () => {
       config,
       drivingUserPOCDelete,
       drivingUserPOCDeleteRequest,
-      drivingUserPOCInformationDeleteUserId,
-      drivingUserPOCInformationDeleteUserIdRequest,
+      drivingUserPOCInformationDeleteUserID,
+      drivingUserPOCInformationDeleteUserIDRequest,
       eventEmitter,
       logger,
     };
@@ -69,21 +69,21 @@ describe("UserPOCView UseCase Delete", () => {
       config,
       drivingUserPOCDelete,
       drivingUserPOCDeleteRequest,
-      drivingUserPOCInformationDeleteUserId,
-      drivingUserPOCInformationDeleteUserIdRequest,
+      drivingUserPOCInformationDeleteUserID,
+      drivingUserPOCInformationDeleteUserIDRequest,
       eventEmitter,
       logger,
     } = await deleteMocks(drivingUserPOCViewDeleteRequest);
     const useCaseUserPOCViewDelete = new UseCaseUserPOCViewDelete(
       config,
       drivingUserPOCDelete,
-      drivingUserPOCInformationDeleteUserId,
+      drivingUserPOCInformationDeleteUserID,
       eventEmitter,
       logger,
     );
     const drivingUserPOCDeleteSpy = vi.spyOn(drivingUserPOCDelete, "execute");
-    const drivingUserPOCInformationDeleteUserIdSpy = vi.spyOn(
-      drivingUserPOCInformationDeleteUserId,
+    const drivingUserPOCInformationDeleteUserIDSpy = vi.spyOn(
+      drivingUserPOCInformationDeleteUserID,
       "execute",
     );
 
@@ -94,8 +94,8 @@ describe("UserPOCView UseCase Delete", () => {
     expect(drivingUserPOCDeleteSpy).toHaveBeenCalledWith(
       drivingUserPOCDeleteRequest,
     );
-    expect(drivingUserPOCInformationDeleteUserIdSpy).toHaveBeenCalledWith(
-      drivingUserPOCInformationDeleteUserIdRequest,
+    expect(drivingUserPOCInformationDeleteUserIDSpy).toHaveBeenCalledWith(
+      drivingUserPOCInformationDeleteUserIDRequest,
     );
     const drivingUserPOCViewDeleteResponse: PortDrivingUserPOCViewDeleteResponse =
       {

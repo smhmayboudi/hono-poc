@@ -8,13 +8,13 @@ import { userPOCInformation } from "../../../../infrastructure/application/port/
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import { ErrorNoRowsAffected } from "../../../../shared/application/error/no-rows-affected.ts";
 import type {
-  PortDrivenUserPOCInformationDeleteUserId,
-  PortDrivenUserPOCInformationDeleteUserIdRequest,
-  PortDrivenUserPOCInformationDeleteUserIdResponse,
+  PortDrivenUserPOCInformationDeleteUserID,
+  PortDrivenUserPOCInformationDeleteUserIDRequest,
+  PortDrivenUserPOCInformationDeleteUserIDResponse,
 } from "../../application/port/driven/user-poc-information-delete-user-id.ts";
 
-export class AdapterDrivenUserPOCInformationDeleteUserId
-  implements PortDrivenUserPOCInformationDeleteUserId
+export class AdapterDrivenUserPOCInformationDeleteUserID
+  implements PortDrivenUserPOCInformationDeleteUserID
 {
   constructor(
     private readonly config: PortConfig,
@@ -23,8 +23,8 @@ export class AdapterDrivenUserPOCInformationDeleteUserId
   ) {}
 
   deleteUserId(
-    data: PortDrivenUserPOCInformationDeleteUserIdRequest,
-  ): Promise<PortDrivenUserPOCInformationDeleteUserIdResponse> {
+    data: PortDrivenUserPOCInformationDeleteUserIDRequest,
+  ): Promise<PortDrivenUserPOCInformationDeleteUserIDResponse> {
     return tracer.startActiveSpan(
       "user-poc-information-delete-user-id.driven",
       async () => {

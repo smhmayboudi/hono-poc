@@ -13,11 +13,11 @@ export const appEventEmitter = (
   eventEmitter: PortEventEmitter,
 ) => {
   eventEmitter.on("UserPOCUseCaseDelete", (data) => {
-    cacher.del(cacher.key({ id: data.request.id }).DrivenUserPOCViewReadId);
+    cacher.del(cacher.key({ id: data.request.id }).DrivenUserPOCViewReadID);
   });
 
   eventEmitter.on("UserPOCUseCaseUpdate", (data) => {
-    cacher.del(cacher.key({ id: data.request.id }).DrivenUserPOCViewReadId);
+    cacher.del(cacher.key({ id: data.request.id }).DrivenUserPOCViewReadID);
   });
 
   eventEmitter.on("UserPOCViewUseCaseCreate", async (data) => {

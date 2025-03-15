@@ -5,7 +5,7 @@ import type { PortConfig } from "../../../../infrastructure/application/port/con
 import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type { PortDrivingUserPOCDelete } from "../../../user-poc/application/port/driving/user-poc-delete.ts";
-import type { PortDrivingUserPOCInformationDeleteUserId } from "../../../user-poc-information/application/port/driving/user-poc-information-delete-user-id.ts";
+import type { PortDrivingUserPOCInformationDeleteUserID } from "../../../user-poc-information/application/port/driving/user-poc-information-delete-user-id.ts";
 import type {
   PortDrivingUserPOCViewDelete,
   PortDrivingUserPOCViewDeleteRequest,
@@ -16,7 +16,7 @@ export class UseCaseUserPOCViewDelete implements PortDrivingUserPOCViewDelete {
   constructor(
     private readonly config: PortConfig,
     private readonly drivingUserPOCDelete: PortDrivingUserPOCDelete,
-    private readonly drivingUserPOCInformationDeleteUserId: PortDrivingUserPOCInformationDeleteUserId,
+    private readonly drivingUserPOCInformationDeleteUserID: PortDrivingUserPOCInformationDeleteUserID,
     private readonly eventEmitter: PortEventEmitter,
     private readonly logger: PortLogger,
   ) {}
@@ -32,7 +32,7 @@ export class UseCaseUserPOCViewDelete implements PortDrivingUserPOCViewDelete {
       });
       this.logger.info({});
       const { userId: userPOCInformationUserId } =
-        await this.drivingUserPOCInformationDeleteUserId.execute({
+        await this.drivingUserPOCInformationDeleteUserID.execute({
           userId: data.id,
         });
       this.logger.debug({ userPOCInformationUserId });

@@ -2,19 +2,19 @@ import type { PortDrivingUseCase } from "../../../../../shared/application/port/
 import type { PartialUndefinable } from "../../../../../shared/application/port/partial-undefinable.ts";
 import type { DomainUserPOCInformation } from "../../domain/user-poc-information.ts";
 
-export interface PortDrivingUserPOCInformationUpdateUserId
+export interface PortDrivingUserPOCInformationUpdateUserID
   extends PortDrivingUseCase<
-    PortDrivingUserPOCInformationUpdateUserIdRequest,
-    PortDrivingUserPOCInformationUpdateUserIdResponse
+    PortDrivingUserPOCInformationUpdateUserIDRequest,
+    PortDrivingUserPOCInformationUpdateUserIDResponse
   > {
   execute(
-    data: PortDrivingUserPOCInformationUpdateUserIdRequest,
-  ): Promise<PortDrivingUserPOCInformationUpdateUserIdResponse>;
+    data: PortDrivingUserPOCInformationUpdateUserIDRequest,
+  ): Promise<PortDrivingUserPOCInformationUpdateUserIDResponse>;
 }
-export type PortDrivingUserPOCInformationUpdateUserIdRequest =
+export type PortDrivingUserPOCInformationUpdateUserIDRequest =
   PartialUndefinable<Omit<DomainUserPOCInformation, "id" | "userId">> &
     Readonly<Pick<DomainUserPOCInformation, "userId">>;
-export type PortDrivingUserPOCInformationUpdateUserIdResponse = Pick<
+export type PortDrivingUserPOCInformationUpdateUserIDResponse = Pick<
   DomainUserPOCInformation,
   "userId"
 >;

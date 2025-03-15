@@ -1,20 +1,20 @@
 import type { PortDrivingUseCase } from "../../../../../shared/application/port/driving/use-case.ts";
 import type { DomainUserPOCInformation } from "../../domain/user-poc-information.ts";
 
-export interface PortDrivingUserPOCInformationDeleteUserId
+export interface PortDrivingUserPOCInformationDeleteUserID
   extends PortDrivingUseCase<
-    PortDrivingUserPOCInformationDeleteUserIdRequest,
-    PortDrivingUserPOCInformationDeleteUserIdResponse
+    PortDrivingUserPOCInformationDeleteUserIDRequest,
+    PortDrivingUserPOCInformationDeleteUserIDResponse
   > {
   execute(
-    data: PortDrivingUserPOCInformationDeleteUserIdRequest,
-  ): Promise<PortDrivingUserPOCInformationDeleteUserIdResponse>;
+    data: PortDrivingUserPOCInformationDeleteUserIDRequest,
+  ): Promise<PortDrivingUserPOCInformationDeleteUserIDResponse>;
 }
-export type PortDrivingUserPOCInformationDeleteUserIdRequest = Pick<
+export type PortDrivingUserPOCInformationDeleteUserIDRequest = Pick<
   DomainUserPOCInformation,
   "userId"
 >;
-export type PortDrivingUserPOCInformationDeleteUserIdResponse = Pick<
+export type PortDrivingUserPOCInformationDeleteUserIDResponse = Pick<
   DomainUserPOCInformation,
   "userId"
 >;

@@ -4,26 +4,26 @@ import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentel
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
 import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
-import type { PortDrivenUserPOCInformationDeleteUserId } from "../port/driven/user-poc-information-delete-user-id.ts";
+import type { PortDrivenUserPOCInformationDeleteUserID } from "../port/driven/user-poc-information-delete-user-id.ts";
 import type {
-  PortDrivingUserPOCInformationDeleteUserId,
-  PortDrivingUserPOCInformationDeleteUserIdRequest,
-  PortDrivingUserPOCInformationDeleteUserIdResponse,
+  PortDrivingUserPOCInformationDeleteUserID,
+  PortDrivingUserPOCInformationDeleteUserIDRequest,
+  PortDrivingUserPOCInformationDeleteUserIDResponse,
 } from "../port/driving/user-poc-information-delete-user-id.ts";
 
-export class UseCaseUserPOCInformationDeleteUserId
-  implements PortDrivingUserPOCInformationDeleteUserId
+export class UseCaseUserPOCInformationDeleteUserID
+  implements PortDrivingUserPOCInformationDeleteUserID
 {
   constructor(
     private readonly config: PortConfig,
-    private readonly drivenUserPOCInformationDeleteUserId: PortDrivenUserPOCInformationDeleteUserId,
+    private readonly drivenUserPOCInformationDeleteUserID: PortDrivenUserPOCInformationDeleteUserID,
     private readonly eventEmitter: PortEventEmitter,
     private readonly logger: PortLogger,
   ) {}
 
   execute(
-    data: PortDrivingUserPOCInformationDeleteUserIdRequest,
-  ): Promise<PortDrivingUserPOCInformationDeleteUserIdResponse> {
+    data: PortDrivingUserPOCInformationDeleteUserIDRequest,
+  ): Promise<PortDrivingUserPOCInformationDeleteUserIDResponse> {
     return tracer.startActiveSpan(
       "user-poc-information-delete-user-id.use-case",
       async () => {
@@ -34,8 +34,8 @@ export class UseCaseUserPOCInformationDeleteUserId
           config: this.config,
         });
         this.logger.info({});
-        await this.drivenUserPOCInformationDeleteUserId.deleteUserId(data);
-        this.eventEmitter.emit("UserPOCInformationUseCaseDeleteUserId", {
+        await this.drivenUserPOCInformationDeleteUserID.deleteUserId(data);
+        this.eventEmitter.emit("UserPOCInformationUseCaseDeleteUserID", {
           request: data,
           response: { userId: data.userId },
         });

@@ -70,8 +70,8 @@ const { useCaseUserPOCCreate, useCaseUserPOCDelete, useCaseUserPOCUpdate } =
   );
 const {
   useCaseUserPOCInformationCreate,
-  useCaseUserPOCInformationDeleteUserId,
-  useCaseUserPOCInformationUpdateUserId,
+  useCaseUserPOCInformationDeleteUserID,
+  useCaseUserPOCInformationUpdateUserID,
 } = userPOCInformation(
   app,
   basePath,
@@ -93,8 +93,8 @@ userPOCView(
   useCaseUserPOCDelete,
   useCaseUserPOCUpdate,
   useCaseUserPOCInformationCreate,
-  useCaseUserPOCInformationDeleteUserId,
-  useCaseUserPOCInformationUpdateUserId,
+  useCaseUserPOCInformationDeleteUserID,
+  useCaseUserPOCInformationUpdateUserID,
   elasticsearch2,
   eventEmitter2,
   new Logger(pino({ level })),

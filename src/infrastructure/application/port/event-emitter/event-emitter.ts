@@ -27,8 +27,8 @@ import type {
   PortDrivingUserPOCInformationDeleteResponse,
 } from "../../../../domain/user-poc-information/application/port/driving/user-poc-information-delete.ts";
 import type {
-  PortDrivingUserPOCInformationDeleteUserIdRequest,
-  PortDrivingUserPOCInformationDeleteUserIdResponse,
+  PortDrivingUserPOCInformationDeleteUserIDRequest,
+  PortDrivingUserPOCInformationDeleteUserIDResponse,
 } from "../../../../domain/user-poc-information/application/port/driving/user-poc-information-delete-user-id.ts";
 import type {
   PortDrivingUserPOCInformationReadRequest,
@@ -43,8 +43,8 @@ import type {
   PortDrivingUserPOCInformationUpdateResponse,
 } from "../../../../domain/user-poc-information/application/port/driving/user-poc-information-update.ts";
 import type {
-  PortDrivingUserPOCInformationUpdateUserIdRequest,
-  PortDrivingUserPOCInformationUpdateUserIdResponse,
+  PortDrivingUserPOCInformationUpdateUserIDRequest,
+  PortDrivingUserPOCInformationUpdateUserIDResponse,
 } from "../../../../domain/user-poc-information/application/port/driving/user-poc-information-update-user-id.ts";
 import type {
   PortDrivingUserPOCViewCreateRequest,
@@ -80,9 +80,9 @@ export type EventEmitterMap = {
     request: PortDrivingUserPOCInformationDeleteRequest;
     response: PortDrivingUserPOCInformationDeleteResponse;
   };
-  UserPOCInformationUseCaseDeleteUserId: {
-    request: PortDrivingUserPOCInformationDeleteUserIdRequest;
-    response: PortDrivingUserPOCInformationDeleteUserIdResponse;
+  UserPOCInformationUseCaseDeleteUserID: {
+    request: PortDrivingUserPOCInformationDeleteUserIDRequest;
+    response: PortDrivingUserPOCInformationDeleteUserIDResponse;
   };
   UserPOCInformationUseCaseRead: {
     request: PortDrivingUserPOCInformationReadRequest;
@@ -96,9 +96,9 @@ export type EventEmitterMap = {
     request: PortDrivingUserPOCInformationUpdateRequest;
     response: PortDrivingUserPOCInformationUpdateResponse;
   };
-  UserPOCInformationUseCaseUpdateUserId: {
-    request: PortDrivingUserPOCInformationUpdateUserIdRequest;
-    response: PortDrivingUserPOCInformationUpdateUserIdResponse;
+  UserPOCInformationUseCaseUpdateUserID: {
+    request: PortDrivingUserPOCInformationUpdateUserIDRequest;
+    response: PortDrivingUserPOCInformationUpdateUserIDResponse;
   };
   UserPOCUseCaseCreate: {
     request: PortDrivingUserPOCCreateRequest;

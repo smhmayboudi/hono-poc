@@ -2,8 +2,8 @@
 actor Client
 Client -> DrivingUserPOCViewDelete
 DrivingUserPOCViewDelete -> UseCaseUserPOCViewDelete: execute
-UseCaseUserPOCViewDelete -> UseCaseUserPOCInformationDeleteUserId: execute
-UseCaseUserPOCInformationDeleteUserId --> UseCaseUserPOCViewDelete: { id }
+UseCaseUserPOCViewDelete -> UseCaseUserPOCInformationDeleteUserID: execute
+UseCaseUserPOCInformationDeleteUserID --> UseCaseUserPOCViewDelete: { id }
 UseCaseUserPOCViewDelete -> UseCaseUserPOCDelete: execute
 UseCaseUserPOCDelete --> UseCaseUserPOCViewDelete: { id }
 UseCaseUserPOCViewDelete --> DrivingUserPOCViewDelete: { id }

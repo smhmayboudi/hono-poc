@@ -1,12 +1,12 @@
 import type { DomainUserPOCInformation } from "../../domain/user-poc-information.ts";
 
-export interface PortDrivenUserPOCInformationDeleteUserId {
+export interface PortDrivenUserPOCInformationDeleteUserID {
   deleteUserId(
-    data: PortDrivenUserPOCInformationDeleteUserIdRequest,
-  ): Promise<PortDrivenUserPOCInformationDeleteUserIdResponse>;
+    data: PortDrivenUserPOCInformationDeleteUserIDRequest,
+  ): Promise<PortDrivenUserPOCInformationDeleteUserIDResponse>;
 }
-export type PortDrivenUserPOCInformationDeleteUserIdRequest = Pick<
+export type PortDrivenUserPOCInformationDeleteUserIDRequest = Pick<
   DomainUserPOCInformation,
   "userId"
 >;
-export type PortDrivenUserPOCInformationDeleteUserIdResponse = void;
+export type PortDrivenUserPOCInformationDeleteUserIDResponse = void;
