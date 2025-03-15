@@ -5,6 +5,7 @@ import type { PortCacher } from "../../infrastructure/application/port/cacher/ca
 import type { PortConfig } from "../../infrastructure/application/port/config/config.ts";
 import type { PortDatabase } from "../../infrastructure/application/port/database/database.ts";
 import type { PortElasticsearch } from "../../infrastructure/application/port/elasticsearch/elasticsearch.ts";
+import type { PortEventEmitter } from "../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../infrastructure/application/port/logger/logger.ts";
 import type { PortDrivingUserPOCCreate } from "../user-poc/application/port/driving/user-poc-create.ts";
 import type { PortDrivingUserPOCDelete } from "../user-poc/application/port/driving/user-poc-delete.ts";
@@ -42,12 +43,14 @@ export const userPOCView = (
   drivingUserPOCInformationDeleteUserId: PortDrivingUserPOCInformationDeleteUserId,
   drivingUserPOCInformationUpdateUserId: PortDrivingUserPOCInformationUpdateUserId,
   elasticsearch: PortElasticsearch,
+  eventEmitter: PortEventEmitter,
   logger: PortLogger,
 ) => {
   const useCaseUserPOCViewCreate = new UseCaseUserPOCViewCreate(
     config,
     drivingUserPOCCreate,
     drivingUserPOCInformationCreate,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCViewCreate(
@@ -62,6 +65,7 @@ export const userPOCView = (
     config,
     drivingUserPOCDelete,
     drivingUserPOCInformationDeleteUserId,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCViewDelete(
@@ -73,7 +77,6 @@ export const userPOCView = (
     useCaseUserPOCViewDelete,
   );
   const adapterDrivenUserPOCViewRead = new AdapterDrivenUserPOCViewRead(
-    cacher,
     config,
     database,
     logger,
@@ -81,6 +84,7 @@ export const userPOCView = (
   const useCaseUserPOCViewRead = new UseCaseUserPOCViewRead(
     config,
     adapterDrivenUserPOCViewRead,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCViewRead(
@@ -100,6 +104,7 @@ export const userPOCView = (
   const useCaseUserPOCViewReadID = new UseCaseUserPOCViewReadID(
     config,
     adapterDrivenUserPOCViewReadID,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCViewReadID(
@@ -118,6 +123,7 @@ export const userPOCView = (
   const useCaseUserPOCViewSearch = new UseCaseUserPOCViewSearch(
     config,
     adapterDrivenUserPOCViewSearch,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCViewSearch(
@@ -132,6 +138,7 @@ export const userPOCView = (
     config,
     drivingUserPOCUpdate,
     drivingUserPOCInformationUpdateUserId,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCViewUpdate(

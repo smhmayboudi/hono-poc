@@ -2,6 +2,7 @@ import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/inc
 
 import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
+import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type { PortDrivingUserPOCDelete } from "../../../user-poc/application/port/driving/user-poc-delete.ts";
 import type { PortDrivingUserPOCInformationDeleteUserId } from "../../../user-poc-information/application/port/driving/user-poc-information-delete-user-id.ts";
@@ -16,6 +17,7 @@ export class UseCaseUserPOCViewDelete implements PortDrivingUserPOCViewDelete {
     private readonly config: PortConfig,
     private readonly drivingUserPOCDelete: PortDrivingUserPOCDelete,
     private readonly drivingUserPOCInformationDeleteUserId: PortDrivingUserPOCInformationDeleteUserId,
+    private readonly eventEmitter: PortEventEmitter,
     private readonly logger: PortLogger,
   ) {}
 
@@ -36,6 +38,10 @@ export class UseCaseUserPOCViewDelete implements PortDrivingUserPOCViewDelete {
       this.logger.debug({ userPOCInformationUserId });
       const { id: userPOCId } = await this.drivingUserPOCDelete.execute(data);
       this.logger.debug({ userPOCId });
+      this.eventEmitter.emit("UserPOCViewUseCaseDelete", {
+        request: data,
+        response: { id: userPOCId },
+      });
 
       return { id: userPOCId };
     });

@@ -2,6 +2,7 @@ import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/inc
 
 import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
+import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type { PortDrivenUserPOCViewReadID } from "../port/driven/user-poc-view-read-id.ts";
 import type {
@@ -14,6 +15,7 @@ export class UseCaseUserPOCViewReadID implements PortDrivingUserPOCViewReadID {
   constructor(
     private readonly config: PortConfig,
     private readonly drivenUserPOCViewReadID: PortDrivenUserPOCViewReadID,
+    private readonly eventEmitter: PortEventEmitter,
     private readonly logger: PortLogger,
   ) {}
 
@@ -31,6 +33,10 @@ export class UseCaseUserPOCViewReadID implements PortDrivingUserPOCViewReadID {
         this.logger.info({});
         const list = await this.drivenUserPOCViewReadID.read(data);
         this.logger.debug({ list });
+        this.eventEmitter.emit("UserPOCViewUseCaseReadID", {
+          request: data,
+          response: list,
+        });
 
         return list;
       },

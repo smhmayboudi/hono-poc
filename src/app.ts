@@ -14,6 +14,7 @@ import { casbin } from "./infrastructure/adapter/casbin/casbin.ts";
 import { config } from "./infrastructure/adapter/config/config.ts";
 import { database } from "./infrastructure/adapter/database/database.ts";
 import { elasticsearch } from "./infrastructure/adapter/elasticsearch/elasticsearch.ts";
+import { eventEmitter } from "./infrastructure/adapter/event-emitter/event-emitter.ts";
 import { generate } from "./infrastructure/adapter/generate/generate.ts";
 import { Logger } from "./infrastructure/adapter/logger/logger.ts";
 import { casbinMiddleware } from "./infrastructure/adapter/middleware/casbin.ts";
@@ -25,6 +26,7 @@ import { onErrorHandler } from "./shared/adapter/driving/handler/on-error.ts";
 
 const level = "trace";
 const basePath = "/api/v1";
+const eventEmitter2 = eventEmitter(config, new Logger(pino({ level })));
 const elasticsearch2 = elasticsearch(config, new Logger(pino({ level })));
 const database2 = database(config, new Logger(pino({ level })));
 const cacher2 = cacher(config, new Logger(pino({ level })));
@@ -90,6 +92,7 @@ userPOCView(
   useCaseUserPOCInformationDeleteUserId,
   useCaseUserPOCInformationUpdateUserId,
   elasticsearch2,
+  eventEmitter2,
   new Logger(pino({ level })),
 );
 
