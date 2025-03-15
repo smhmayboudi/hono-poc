@@ -3,7 +3,10 @@ import { type Cache, createCache } from "cache-manager";
 import Keyv from "keyv";
 import { LRUCache } from "lru-cache";
 
-import type { PortCacher } from "../../application/port/cacher/cacher.ts";
+import type {
+  CacherMap,
+  PortCacher,
+} from "../../application/port/cacher/cacher.ts";
 import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
 import { tracer } from "../opentelemetry/opentelemetry.ts";
@@ -22,39 +25,38 @@ export class Cacher implements PortCacher {
 
   del(key: string): Promise<boolean> {
     this.logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "cacher.del",
+      [ATTR_CODE_FUNCTION_NAME]: "del-cacher.infrastructure",
       config: this.config,
       key,
     });
-    this.logger.info({});
+    this.logger.debug({});
 
     return this.cache.del(key);
   }
 
-  key(
-    data: unknown,
-  ): Record<"userPOCViewReadDriven" | "userPOCViewReadIdDriven", string> {
+  key<K extends keyof CacherMap>(
+    data: CacherMap[K],
+  ): Record<keyof CacherMap, string> {
     this.logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "cacher.key",
+      [ATTR_CODE_FUNCTION_NAME]: "key-cacher.infrastructure",
       config: this.config,
       data,
     });
-    this.logger.info({});
+    this.logger.debug({});
     const key = Buffer.from(JSON.stringify(data)).toString("base64");
 
     return {
-      userPOCViewReadDriven: `user-poc-view-read.driven:${key}`,
-      userPOCViewReadIdDriven: `user-poc-view-read-id.driven:${key}`,
+      DrivenUserPOCViewReadId: `user-poc-view-read-id.driven:${key}`,
     };
   }
 
   wrap<T, F extends () => T | Promise<T>>(key: string, fn: F): ReturnType<F> {
     this.logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "cacher.wrap",
+      [ATTR_CODE_FUNCTION_NAME]: "wrap-cacher.infrastructure",
       config: this.config,
       key,
     });
-    this.logger.info({});
+    this.logger.debug({});
 
     return this.cache.wrap<T>(key, fn) as ReturnType<F>;
   }

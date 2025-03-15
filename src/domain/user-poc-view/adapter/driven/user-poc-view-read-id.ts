@@ -29,7 +29,7 @@ export class AdapterDrivenUserPOCViewReadID
   ): Promise<PortDrivenUserPOCViewReadIDResponse> {
     return tracer.startActiveSpan("user-poc-view-read-id.driven", async () => {
       return this.cacher.wrap(
-        this.cacher.key(data).userPOCViewReadIdDriven,
+        this.cacher.key(data).DrivenUserPOCViewReadId,
         async () => {
           this.logger.assign({
             [ATTR_CODE_FUNCTION_NAME]: "user-poc-view-read-id.driven",

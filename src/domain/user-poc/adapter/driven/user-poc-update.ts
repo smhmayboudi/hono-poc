@@ -43,7 +43,7 @@ export class AdapterDrivenUserPOCUpdate implements PortDrivenUserPOCUpdate {
         this.logger.debug("result[0].affectedRows === 0");
         throw new ErrorNoRowsAffected();
       }
-      this.cacher.del(this.cacher.key({ id: data.id }).userPOCViewReadIdDriven);
+      this.cacher.del(this.cacher.key({ id: data.id }).DrivenUserPOCViewReadId);
     });
   }
 }
