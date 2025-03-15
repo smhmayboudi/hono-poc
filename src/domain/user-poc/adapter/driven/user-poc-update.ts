@@ -2,7 +2,6 @@ import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/inc
 import { eq } from "drizzle-orm";
 
 import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
-import type { PortCacher } from "../../../../infrastructure/application/port/cacher/cacher.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
 import type { PortDatabase } from "../../../../infrastructure/application/port/database/database.ts";
 import { userPOC } from "../../../../infrastructure/application/port/database/schema/schema.ts";
@@ -16,7 +15,6 @@ import type {
 
 export class AdapterDrivenUserPOCUpdate implements PortDrivenUserPOCUpdate {
   constructor(
-    private readonly cacher: PortCacher,
     private readonly config: PortConfig,
     private readonly database: PortDatabase,
     private readonly logger: PortLogger,
@@ -43,7 +41,6 @@ export class AdapterDrivenUserPOCUpdate implements PortDrivenUserPOCUpdate {
         this.logger.debug("result[0].affectedRows === 0");
         throw new ErrorNoRowsAffected();
       }
-      this.cacher.del(this.cacher.key({ id: data.id }).DrivenUserPOCViewReadId);
     });
   }
 }
