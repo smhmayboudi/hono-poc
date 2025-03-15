@@ -100,6 +100,6 @@ export class Elasticsearch implements PortElasticsearch {
 
 export const elasticsearch = (config: PortConfig, logger: PortLogger) =>
   tracer.startActiveSpan(
-    "infrastructure-elasticsearch.infrastructure",
+    "elasticsearch.infrastructure",
     () => new Elasticsearch(config, logger),
   );

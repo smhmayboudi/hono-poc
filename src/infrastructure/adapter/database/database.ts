@@ -17,12 +17,12 @@ export class Logger2 implements Logger {
 
   logQuery(query: string, params: unknown[]): void {
     this.logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "database.logQuery",
+      [ATTR_CODE_FUNCTION_NAME]: "logQuery-database.infrastructure",
       config: this.config,
       params,
       query,
     });
-    this.logger.info({});
+    this.logger.debug({});
   }
 }
 

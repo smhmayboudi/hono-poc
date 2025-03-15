@@ -86,7 +86,7 @@ export const auth2 = (
             phoneNumber,
             url: request?.url,
           });
-          logger.info({});
+          logger.debug({});
         },
         signUpOnVerification: {
           getTempEmail: (phoneNumber: string) => {
@@ -95,7 +95,7 @@ export const auth2 = (
               config,
               phoneNumber,
             });
-            logger.info({});
+            logger.debug({});
             const tempEmail = `${phoneNumber}@phone`;
             logger.debug({ tempEmail });
 
@@ -123,10 +123,20 @@ export class Auth implements PortAuth {
   }
 
   handler(request: Request): Promise<Response> {
+    this.logger.assign({
+      [ATTR_CODE_FUNCTION_NAME]: "handler-auth.infrastructure",
+      config: this.config,
+    });
+    this.logger.debug({});
     return this.auth.handler(request);
   }
 
   async session(ctx: Context<Env>): Promise<Session | null> {
+    this.logger.assign({
+      [ATTR_CODE_FUNCTION_NAME]: "session-auth.infrastructure",
+      config: this.config,
+    });
+    this.logger.debug({});
     const session = await this.auth.api.getSession({
       headers: ctx.req.raw.headers,
     });

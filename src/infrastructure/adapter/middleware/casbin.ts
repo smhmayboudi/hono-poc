@@ -31,7 +31,7 @@ export const casbinMiddleware =
       [ATTR_CODE_FUNCTION_NAME]: "casbin-middleware.infrastructure",
       config,
     });
-    logger.info({});
+    logger.debug({});
     const isAuthorized = await casbin.authorizer(ctx);
     logger.debug({ isAuthorized });
     if (!isAuthorized) {

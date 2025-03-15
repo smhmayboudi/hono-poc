@@ -23,10 +23,10 @@ export class Casbin implements PortCasbin {
 
   async authorizer(ctx: Context<Env>): Promise<boolean> {
     this.logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "casbin.authorizer",
+      [ATTR_CODE_FUNCTION_NAME]: "authorizer-casbin.infrastructure",
       config: this.config,
     });
-    this.logger.info({});
+    this.logger.debug({});
     const session = await this.auth.session(ctx);
     this.logger.debug({ session });
     ctx.set("session", session);
