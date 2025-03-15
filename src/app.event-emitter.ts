@@ -12,14 +12,6 @@ export const appEventEmitter = (
   elasticsearch: PortElasticsearch,
   eventEmitter: PortEventEmitter,
 ) => {
-  eventEmitter.on("UserPOCUseCaseDelete", (data) => {
-    cacher.del(cacher.key({ id: data.request.id }).DrivenUserPOCViewReadID);
-  });
-
-  eventEmitter.on("UserPOCUseCaseUpdate", (data) => {
-    cacher.del(cacher.key({ id: data.request.id }).DrivenUserPOCViewReadID);
-  });
-
   eventEmitter.on("UserPOCViewUseCaseCreate", async (data) => {
     const results = await database
       .db()
@@ -28,6 +20,15 @@ export const appEventEmitter = (
       .where(eq(userPOCView.user_poc_id, data.response.id))
       .execute();
     for (const result of results) {
+      await cacher.set(
+        cacher.key({ id: data.response.id }).DrivenUserPOCViewReadID,
+        {
+          address: String(result.user_poc_information_address),
+          age: Number(result.user_poc_information_age),
+          fullname: String(result.user_poc_fullname),
+          id: String(result.user_poc_id),
+        },
+      );
       await elasticsearch.client().create({
         body: {
           user_poc_created_at: new Date(String(result.user_poc_created_at)),
@@ -56,6 +57,9 @@ export const appEventEmitter = (
   });
 
   eventEmitter.on("UserPOCViewUseCaseDelete", async (data) => {
+    await cacher.del(
+      cacher.key({ id: data.request.id }).DrivenUserPOCViewReadID,
+    );
     await elasticsearch.client().delete({
       id: String(data.request.id),
       index: "user_poc_view",
@@ -70,6 +74,15 @@ export const appEventEmitter = (
       .where(eq(userPOCView.user_poc_id, data.request.id))
       .execute();
     for (const result of results) {
+      await cacher.set(
+        cacher.key({ id: result.user_poc_id }).DrivenUserPOCViewReadID,
+        {
+          address: String(result.user_poc_information_address),
+          age: Number(result.user_poc_information_age),
+          fullname: String(result.user_poc_fullname),
+          id: String(result.user_poc_id),
+        },
+      );
       await elasticsearch.client().update({
         body: {
           doc: {

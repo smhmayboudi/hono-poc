@@ -4,7 +4,8 @@ import Keyv from "keyv";
 import { LRUCache } from "lru-cache";
 
 import type {
-  CacherMap,
+  CacherMapRequest,
+  CacherMapResponse,
   PortCacher,
 } from "../../application/port/cacher/cacher.ts";
 import type { PortConfig } from "../../application/port/config/config.ts";
@@ -34,9 +35,9 @@ export class Cacher implements PortCacher {
     return this.cache.del(key);
   }
 
-  key<K extends keyof CacherMap>(
-    data: CacherMap[K],
-  ): Record<keyof CacherMap, string> {
+  key<K extends keyof CacherMapRequest>(
+    data: CacherMapRequest[K],
+  ): Record<keyof CacherMapRequest, string> {
     this.logger.assign({
       [ATTR_CODE_FUNCTION_NAME]: "key-cacher.infrastructure",
       config: this.config,
@@ -50,10 +51,10 @@ export class Cacher implements PortCacher {
     };
   }
 
-  set<K extends keyof CacherMap>(
+  set<K extends keyof CacherMapResponse>(
     key: string,
-    value: CacherMap[K],
-  ): Promise<CacherMap[K]> {
+    value: CacherMapResponse[K],
+  ): Promise<CacherMapResponse[K]> {
     this.logger.assign({
       [ATTR_CODE_FUNCTION_NAME]: "set-cacher.infrastructure",
       config: this.config,
