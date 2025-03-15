@@ -1,15 +1,25 @@
 import { eq } from "drizzle-orm";
 
 import { userPOCView as databaseUserPOCView } from "./infrastructure/adapter/database/schema/view/user-poc-view.ts";
+import type { PortCacher } from "./infrastructure/application/port/cacher/cacher.ts";
 import type { PortDatabase } from "./infrastructure/application/port/database/database.ts";
 import type { PortElasticsearch } from "./infrastructure/application/port/elasticsearch/elasticsearch.ts";
 import type { PortEventEmitter } from "./infrastructure/application/port/event-emitter/event-emitter.ts";
 
 export const appEventEmitter = (
+  cacher: PortCacher,
   database: PortDatabase,
   elasticsearch: PortElasticsearch,
   eventEmitter: PortEventEmitter,
 ) => {
+  eventEmitter.on("UserPOCUseCaseDelete", (data) => {
+    cacher.del(cacher.key({ id: data.request.id }).DrivenUserPOCViewReadId);
+  });
+
+  eventEmitter.on("UserPOCUseCaseUpdate", (data) => {
+    cacher.del(cacher.key({ id: data.request.id }).DrivenUserPOCViewReadId);
+  });
+
   eventEmitter.on("UserPOCViewUseCaseCreate", async (data) => {
     const results = await database
       .db()

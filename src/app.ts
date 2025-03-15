@@ -33,7 +33,7 @@ const database2 = database(config, new Logger(pino({ level })));
 const cacher2 = cacher(config, new Logger(pino({ level })));
 const auth2 = auth(config, database2, new Logger(pino({ level })));
 
-appEventEmitter(database2, elasticsearch2, eventEmitter2);
+appEventEmitter(cacher2, database2, elasticsearch2, eventEmitter2);
 
 const app = new OpenAPIHono<Env>({ defaultHook });
 
