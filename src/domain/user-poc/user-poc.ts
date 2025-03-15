@@ -1,9 +1,9 @@
 import type { OpenAPIHono } from "@hono/zod-openapi";
 
 import type { Env } from "../../env.ts";
-import type { PortCacher } from "../../infrastructure/application/port/cacher/cacher.ts";
 import type { PortConfig } from "../../infrastructure/application/port/config/config.ts";
 import type { PortDatabase } from "../../infrastructure/application/port/database/database.ts";
+import type { PortEventEmitter } from "../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortGenerate } from "../../infrastructure/application/port/generate/generate.ts";
 import type { PortLogger } from "../../infrastructure/application/port/logger/logger.ts";
 import { AdapterDrivenUserPOCCreate } from "./adapter/driven/user-poc-create.ts";
@@ -25,10 +25,10 @@ import { UseCaseUserPOCUpdate } from "./application/use-case/user-poc-update.ts"
 export const userPOC = (
   app: OpenAPIHono<Env>,
   basePath: string,
-  cacher: PortCacher,
   config: PortConfig,
   database: PortDatabase,
   domainType: string,
+  eventEmitter: PortEventEmitter,
   generate: PortGenerate,
   logger: PortLogger,
 ) => {
@@ -40,6 +40,7 @@ export const userPOC = (
   const useCaseUserPOCCreate = new UseCaseUserPOCCreate(
     config,
     adapterDrivenUserPOCCreate,
+    eventEmitter,
     generate,
     logger,
   );
@@ -52,7 +53,6 @@ export const userPOC = (
     useCaseUserPOCCreate,
   );
   const adapterDrivenUserPOCDelete = new AdapterDrivenUserPOCDelete(
-    cacher,
     config,
     database,
     logger,
@@ -60,6 +60,7 @@ export const userPOC = (
   const useCaseUserPOCDelete = new UseCaseUserPOCDelete(
     config,
     adapterDrivenUserPOCDelete,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCDelete(
@@ -78,6 +79,7 @@ export const userPOC = (
   const useCaseUserPOCRead = new UseCaseUserPOCRead(
     config,
     adapterDrivenUserPOCRead,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCRead(
@@ -96,6 +98,7 @@ export const userPOC = (
   const useCaseUserPOCReadID = new UseCaseUserPOCReadID(
     config,
     adapterDrivenUserPOCReadID,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCReadID(
@@ -107,7 +110,6 @@ export const userPOC = (
     useCaseUserPOCReadID,
   );
   const adapterDrivenUserPOCUpdate = new AdapterDrivenUserPOCUpdate(
-    cacher,
     config,
     database,
     logger,
@@ -115,6 +117,7 @@ export const userPOC = (
   const useCaseUserPOCUpdate = new UseCaseUserPOCUpdate(
     config,
     adapterDrivenUserPOCUpdate,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCUpdate(

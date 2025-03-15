@@ -2,6 +2,7 @@ import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/inc
 
 import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
+import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type { PortDrivenUserPOCInformationUpdateUserId } from "../port/driven/user-poc-information-update-user-id.ts";
 import type {
@@ -16,6 +17,7 @@ export class UseCaseUserPOCInformationUpdateUserId
   constructor(
     private readonly config: PortConfig,
     private readonly drivenUserPOCInformationUpdateUserId: PortDrivenUserPOCInformationUpdateUserId,
+    private readonly eventEmitter: PortEventEmitter,
     private readonly logger: PortLogger,
   ) {}
 
@@ -33,6 +35,10 @@ export class UseCaseUserPOCInformationUpdateUserId
         });
         this.logger.info({});
         await this.drivenUserPOCInformationUpdateUserId.updateUserId(data);
+        this.eventEmitter.emit("UserPOCInformationUseCaseUpdateUserId", {
+          request: data,
+          response: { userId: data.userId },
+        });
 
         return { userId: data.userId };
       },

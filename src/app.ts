@@ -61,10 +61,10 @@ const { useCaseUserPOCCreate, useCaseUserPOCDelete, useCaseUserPOCUpdate } =
   userPOC(
     app,
     basePath,
-    cacher2,
     config,
     database2,
     "user-poc",
+    eventEmitter2,
     generate,
     new Logger(pino({ level })),
   );
@@ -78,6 +78,7 @@ const {
   config,
   database2,
   "user-poc-information",
+  eventEmitter2,
   generate,
   new Logger(pino({ level })),
 );

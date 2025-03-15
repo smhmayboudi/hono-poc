@@ -2,6 +2,7 @@ import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/inc
 
 import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
+import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortGenerate } from "../../../../infrastructure/application/port/generate/generate.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type { PortDrivenUserPOCCreate } from "../port/driven/user-poc-create.ts";
@@ -15,6 +16,7 @@ export class UseCaseUserPOCCreate implements PortDrivingUserPOCCreate {
   constructor(
     private readonly config: PortConfig,
     private readonly drivenUserPOCCreate: PortDrivenUserPOCCreate,
+    private readonly eventEmitter: PortEventEmitter,
     private readonly generate: PortGenerate,
     private readonly logger: PortLogger,
   ) {}
@@ -32,6 +34,10 @@ export class UseCaseUserPOCCreate implements PortDrivingUserPOCCreate {
       const id = this.generate.id();
       this.logger.debug({ id });
       await this.drivenUserPOCCreate.create({ ...data, id });
+      this.eventEmitter.emit("UserPOCUseCaseCreate", {
+        request: data,
+        response: { id },
+      });
 
       return { id };
     });

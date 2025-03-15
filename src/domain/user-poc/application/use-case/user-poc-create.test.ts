@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
+import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortGenerate } from "../../../../infrastructure/application/port/generate/generate.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type {
@@ -32,12 +33,14 @@ describe("UserPOC UseCase Create", () => {
     });
 
     const config = mock<PortConfig>();
+    const eventEmitter = mock<PortEventEmitter>();
     const logger = mock<PortLogger>();
 
     return {
       config,
       drivenUserPOCCreate,
       drivenUserPOCCreateRequest,
+      eventEmitter,
       generate,
       logger,
     };
@@ -53,12 +56,14 @@ describe("UserPOC UseCase Create", () => {
       config,
       drivenUserPOCCreate,
       drivenUserPOCCreateRequest,
+      eventEmitter,
       generate,
       logger,
     } = await createMocks(drivingUserPOCCreateRequest);
     const useCaseUserPOCCreate = new UseCaseUserPOCCreate(
       config,
       drivenUserPOCCreate,
+      eventEmitter,
       generate,
       logger,
     );

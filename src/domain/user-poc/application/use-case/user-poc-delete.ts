@@ -2,6 +2,7 @@ import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/inc
 
 import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
+import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type { PortDrivenUserPOCDelete } from "../port/driven/user-poc-delete.ts";
 import type {
@@ -14,6 +15,7 @@ export class UseCaseUserPOCDelete implements PortDrivingUserPOCDelete {
   constructor(
     private readonly config: PortConfig,
     private readonly drivenUserPOCDelete: PortDrivenUserPOCDelete,
+    private readonly eventEmitter: PortEventEmitter,
     private readonly logger: PortLogger,
   ) {}
 
@@ -28,6 +30,10 @@ export class UseCaseUserPOCDelete implements PortDrivingUserPOCDelete {
       });
       this.logger.info({});
       await this.drivenUserPOCDelete.delete(data);
+      this.eventEmitter.emit("UserPOCUseCaseDelete", {
+        request: data,
+        response: { id: data.id },
+      });
 
       return { id: data.id };
     });

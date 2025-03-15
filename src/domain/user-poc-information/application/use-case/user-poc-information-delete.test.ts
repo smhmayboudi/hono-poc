@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
+import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type {
   PortDrivenUserPOCInformationDelete,
@@ -28,12 +29,14 @@ describe("UserPOCInformation UseCase Delete", () => {
       });
 
     const config = mock<PortConfig>();
+    const eventEmitter = mock<PortEventEmitter>();
     const logger = mock<PortLogger>();
 
     return {
       config,
       drivenUserPOCInformationDelete,
       drivenUserPOCInformationDeleteRequest,
+      eventEmitter,
       logger,
     };
   };
@@ -49,11 +52,13 @@ describe("UserPOCInformation UseCase Delete", () => {
       config,
       drivenUserPOCInformationDelete,
       drivenUserPOCInformationDeleteRequest,
+      eventEmitter,
       logger,
     } = await deleteMocks(drivingUserPOCInformationDeleteRequest);
     const useCaseUserPOCInformationDelete = new UseCaseUserPOCInformationDelete(
       config,
       drivenUserPOCInformationDelete,
+      eventEmitter,
       logger,
     );
     const drivenUserPOCInformationDeleteSpy = vi.spyOn(

@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
+import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type {
   PortDrivenUserPOCUpdate,
@@ -26,12 +27,14 @@ describe("UserPOC UseCase Update", () => {
     });
 
     const config = mock<PortConfig>();
+    const eventEmitter = mock<PortEventEmitter>();
     const logger = mock<PortLogger>();
 
     return {
       config,
       drivenUserPOCUpdate,
       drivenUserPOCUpdateRequest,
+      eventEmitter,
       logger,
     };
   };
@@ -43,11 +46,17 @@ describe("UserPOC UseCase Update", () => {
       fullname: faker.person.fullName(),
       id: faker.string.nanoid(24),
     };
-    const { config, drivenUserPOCUpdate, drivenUserPOCUpdateRequest, logger } =
-      await updateMocks(drivingUserPOCUpdateRequest);
+    const {
+      config,
+      drivenUserPOCUpdate,
+      drivenUserPOCUpdateRequest,
+      eventEmitter,
+      logger,
+    } = await updateMocks(drivingUserPOCUpdateRequest);
     const useCaseUserPOCUpdate = new UseCaseUserPOCUpdate(
       config,
       drivenUserPOCUpdate,
+      eventEmitter,
       logger,
     );
     const drivenUserPOCUpdateSpy = vi.spyOn(drivenUserPOCUpdate, "update");

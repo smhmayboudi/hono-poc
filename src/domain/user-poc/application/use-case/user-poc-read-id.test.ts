@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
+import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type {
   PortDrivenUserPOCReadID,
@@ -31,6 +32,7 @@ describe("UserPOC UseCase ReadID", () => {
     });
 
     const config = mock<PortConfig>();
+    const eventEmitter = mock<PortEventEmitter>();
     const logger = mock<PortLogger>();
 
     return {
@@ -38,6 +40,7 @@ describe("UserPOC UseCase ReadID", () => {
       drivenUserPOCReadID,
       drivenUserPOCReadIDRequest,
       drivenUserPOCReadIDResponse,
+      eventEmitter,
       logger,
     };
   };
@@ -53,11 +56,13 @@ describe("UserPOC UseCase ReadID", () => {
       drivenUserPOCReadID,
       drivenUserPOCReadIDRequest,
       drivenUserPOCReadIDResponse,
+      eventEmitter,
       logger,
     } = await readMocks(drivingUserPOCReadIDRequest);
     const useCaseUserPOCReadID = new UseCaseUserPOCReadID(
       config,
       drivenUserPOCReadID,
+      eventEmitter,
       logger,
     );
     const drivenUserPOCReadIDSpy = vi.spyOn(drivenUserPOCReadID, "read");

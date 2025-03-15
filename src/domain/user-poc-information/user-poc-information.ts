@@ -3,6 +3,7 @@ import type { OpenAPIHono } from "@hono/zod-openapi";
 import type { Env } from "../../env.ts";
 import type { PortConfig } from "../../infrastructure/application/port/config/config.ts";
 import type { PortDatabase } from "../../infrastructure/application/port/database/database.ts";
+import type { PortEventEmitter } from "../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortGenerate } from "../../infrastructure/application/port/generate/generate.ts";
 import type { PortLogger } from "../../infrastructure/application/port/logger/logger.ts";
 import { AdapterDrivenUserPOCInformationCreate } from "./adapter/driven/user-poc-information-create.ts";
@@ -31,6 +32,7 @@ export const userPOCInformation = (
   config: PortConfig,
   database: PortDatabase,
   domainType: string,
+  eventEmitter: PortEventEmitter,
   generate: PortGenerate,
   logger: PortLogger,
 ) => {
@@ -39,6 +41,7 @@ export const userPOCInformation = (
   const useCaseUserPOCInformationCreate = new UseCaseUserPOCInformationCreate(
     config,
     adapterDrivenUserPOCInformationCreate,
+    eventEmitter,
     generate,
     logger,
   );
@@ -55,6 +58,7 @@ export const userPOCInformation = (
   const useCaseUserPOCInformationDelete = new UseCaseUserPOCInformationDelete(
     config,
     adapterDrivenUserPOCInformationDelete,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCInformationDelete(
@@ -71,6 +75,7 @@ export const userPOCInformation = (
     new UseCaseUserPOCInformationDeleteUserId(
       config,
       adapterDrivenUserPOCInformationDeleteUserId,
+      eventEmitter,
       logger,
     );
   const adapterDrivenUserPOCInformationRead =
@@ -78,6 +83,7 @@ export const userPOCInformation = (
   const useCaseUserPOCInformationRead = new UseCaseUserPOCInformationRead(
     config,
     adapterDrivenUserPOCInformationRead,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCInformationRead(
@@ -93,6 +99,7 @@ export const userPOCInformation = (
   const useCaseUserPOCInformationReadID = new UseCaseUserPOCInformationReadID(
     config,
     adapterDrivenUserPOCInformationReadID,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCInformationReadID(
@@ -108,6 +115,7 @@ export const userPOCInformation = (
   const useCaseUserPOCInformationUpdate = new UseCaseUserPOCInformationUpdate(
     config,
     adapterDrivenUserPOCInformationUpdate,
+    eventEmitter,
     logger,
   );
   adapterDrivingUserPOCInformationUpdate(
@@ -124,6 +132,7 @@ export const userPOCInformation = (
     new UseCaseUserPOCInformationUpdateUserId(
       config,
       adapterDrivenUserPOCInformationUpdateUserId,
+      eventEmitter,
       logger,
     );
 
