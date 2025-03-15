@@ -50,6 +50,20 @@ export class Cacher implements PortCacher {
     };
   }
 
+  set<K extends keyof CacherMap>(
+    key: string,
+    value: CacherMap[K],
+  ): Promise<CacherMap[K]> {
+    this.logger.assign({
+      [ATTR_CODE_FUNCTION_NAME]: "set-cacher.infrastructure",
+      config: this.config,
+      key,
+    });
+    this.logger.debug({});
+
+    return this.cache.set(key, value);
+  }
+
   wrap<T, F extends () => T | Promise<T>>(key: string, fn: F): ReturnType<F> {
     this.logger.assign({
       [ATTR_CODE_FUNCTION_NAME]: "wrap-cacher.infrastructure",
