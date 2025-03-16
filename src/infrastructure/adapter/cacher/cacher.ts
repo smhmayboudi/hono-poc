@@ -2,7 +2,6 @@ import KeyvRedis from "@keyv/redis";
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
 import { type Cache, createCache } from "cache-manager";
 import Keyv from "keyv";
-import { LRUCache } from "lru-cache";
 
 import type {
   CacherMapRequest,
@@ -23,7 +22,6 @@ export class Cacher implements PortCacher {
     this.cache = createCache({
       stores: [
         new Keyv({ store: new KeyvRedis({ url: this.config.redis().url() }) }),
-        new Keyv({ store: new LRUCache({ max: 5000 }) }),
       ],
     });
   }
