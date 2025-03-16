@@ -24,7 +24,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    image: node:22.13.1-bookworm
+    image: node:22.14.0-bookworm
     labels:
       namespace: devcontainer
     logging: *logging

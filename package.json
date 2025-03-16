@@ -129,7 +129,7 @@
     "vitest-mock-extended": "^3.0.1"
   },
   "engines": {
-    "node": "^22.13.1",
+    "node": "^22.14.0",
     "pnpm": "^10.6.3"
   },
   "license": "UNLICENSED",
