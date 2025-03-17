@@ -19,7 +19,6 @@ import pluginSonarJS from "eslint-plugin-sonarjs";
 import pluginSortClassMembers from "eslint-plugin-sort-class-members";
 import pluginSortDestructureKeys from "eslint-plugin-sort-destructure-keys";
 import pluginTSDoc from "eslint-plugin-tsdoc";
-import pluginTypescriptSortKeys from "eslint-plugin-typescript-sort-keys";
 import globals from "globals";
 import pluginTypeScriptESLint from "typescript-eslint";
 
@@ -130,10 +129,6 @@ export default [
     rules: { "sort-destructure-keys/sort-destructure-keys": "error" },
   },
   { plugins: { tsdoc: pluginTSDoc } },
-  {
-    plugins: { "typescript-sort-keys": pluginTypescriptSortKeys },
-    rules: pluginTypescriptSortKeys.configs.recommended.rules,
-  },
   ...pluginTypeScriptESLint.configs.recommended,
   {
     languageOptions: {

@@ -68,8 +68,8 @@ export const swagger = (app: OpenAPIHono<Env>, basePath: string) => {
       cdn: "https://cdn.jsdelivr.net/npm/@scalar/api-reference@latest",
       favicon: `data:image/svg+xml;utf8,${encodeURIComponent(favicon)}`,
       pageTitle: "Hono POC API",
-      spec: { url: `${basePath}/swagger.json` },
       theme: "saturn",
+      url: `${basePath}/swagger.json`,
     }),
   );
 };

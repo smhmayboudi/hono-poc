@@ -22,6 +22,7 @@ export const user = mysqlTable("user", {
   phoneNumber: varchar({ length: 255 }).unique(),
   phoneNumberVerified: boolean(),
   username: varchar({ length: 255 }).unique(),
+  displayUsername: text(),
 });
 
 export const session = mysqlTable("session", {

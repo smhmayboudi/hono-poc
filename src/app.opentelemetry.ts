@@ -3,9 +3,9 @@ import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import { MySQL2Instrumentation } from "@opentelemetry/instrumentation-mysql2";
 import { PinoInstrumentation } from "@opentelemetry/instrumentation-pino";
 import {
-  envDetectorSync,
-  hostDetectorSync,
-  processDetectorSync,
+  envDetector,
+  hostDetector,
+  processDetector,
   Resource,
 } from "@opentelemetry/resources";
 import {
@@ -68,7 +68,7 @@ const sdk = new NodeSDK({
     [ATTR_SERVICE_NAME]: "hono-poc",
     [ATTR_SERVICE_VERSION]: "0.0.0",
   }),
-  resourceDetectors: [envDetectorSync, hostDetectorSync, processDetectorSync],
+  resourceDetectors: [envDetector, hostDetector, processDetector],
   sampler: new SentrySampler(client),
   spanProcessors: [new SentrySpanProcessor()],
   textMapPropagator: new SentryPropagator(),
