@@ -22,7 +22,10 @@ export class Cacher implements PortCacher {
     this.cache = createCache({
       stores: [
         new Keyv({
-          store: new KeyvRedis({ database: 0, url: this.config.redis().url() }),
+          store: new KeyvRedis(
+            { url: `${this.config.redis().url()}/1` },
+            { keyPrefixSeparator: ":" },
+          ),
         }),
       ],
     });
