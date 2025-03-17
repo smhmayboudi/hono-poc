@@ -45,6 +45,7 @@
     "@sentry/profiling-node": "^9.5.0",
     "@sentry/types": "^9.5.0",
     "better-auth": "^1.2.3",
+    "bull": "^4.16.5",
     "cache-manager": "^6.4.1",
     "casbin": "^5.38.0",
     "drizzle-orm": "^0.40.0",
@@ -53,6 +54,7 @@
     "keyv": "^5.3.1",
     "mysql2": "^3.13.0",
     "pino": "^9.6.0",
+    "redis": "^4.7.0",
     "slugify": "^1.6.6",
     "ts-deepmerge": "^7.0.2",
     "zod": "^3.24.2"

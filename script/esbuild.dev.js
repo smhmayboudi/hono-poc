@@ -13,7 +13,7 @@ const context = await esbuild.context({
     path.join(import.meta.dirname, "../src/app.node.ts"),
     path.join(import.meta.dirname, "../src/app.ts"),
   ],
-  external: ["@sentry/profiling-node"],
+  external: ["@sentry/profiling-node", "bull"],
   metafile,
   minify,
   outdir,
