@@ -17,7 +17,7 @@ export class EventEmitter implements PortEventEmitter {
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
   ) {
-    this.nodeEventEmitter = new NodeEventEmitter();
+    this.nodeEventEmitter = new NodeEventEmitter({ captureRejections: true });
   }
   emit<K extends keyof EventEmitterMap>(
     event: K,
