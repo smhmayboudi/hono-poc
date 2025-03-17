@@ -33,7 +33,9 @@ services:
   elasticsearch:
     container_name: hono-elasticsearch
     environment:
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
       - discovery.type=single-node
+      - xpack.security.enabled=false
       # - logger.discovery.name = org.elasticsearch.discovery
       # - logger.discovery.level = trace
     expose:
@@ -45,9 +47,9 @@ services:
       start_period: 10s
       test:
         - CMD-SHELL
-        - curl --fail http://elasticsearch:9200/_cluster/health || exit 1
+        - curl --fail http://elasticsearch:9200/_cluster/health?timeout=50s&wait_for_status=green || exit 1
       timeout: 5s
-    image: elasticsearch:7.17.27
+    image: elasticsearch:8.17.3
     labels:
       namespace: elasticsearch
     logging: *logging
@@ -125,7 +127,7 @@ services:
     depends_on:
       hono-poc:
         condition: service_healthy
-    image: grafana/k6:0.56.0
+    image: grafana/k6:0.57.0
     labels:
       namespace: k6
     logging: *logging
@@ -296,8 +298,8 @@ services:
   #   restart: "no"
 
   mysql:
-    command:
-      - --mysql-native-password=ON
+    # command:
+    #   - --mysql-native-password=ON
     container_name: hono-mysql
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -316,7 +318,7 @@ services:
         - CMD-SHELL
         - mysqladmin ping --host=127.0.0.1 --password=$$MYSQL_PASSWORD --user=$$MYSQL_USER
       timeout: 5s
-    image: mysql:8.4.3-oraclelinux9
+    image: mysql:9.2.0-oraclelinux9
     labels:
       namespace: mysql
     logging: *logging
@@ -325,7 +327,7 @@ services:
       - "33060:33060"
     restart: "no"
     volumes:
-      - ./.docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      # - ./.docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
       - mysql:/var/lib/mysql
 
   # # https://opensearch.org/docs/latest/install-and-configure/install-opensearch/docker/
@@ -408,7 +410,7 @@ services:
         - CMD-SHELL
         - curl --fail http://phpmyadmin:80 || exit 1
       timeout: 5s
-    image: phpmyadmin:5.2.1-apache
+    image: phpmyadmin:5.2.2-apache
     ports:
       - "8082:80"
     labels:
