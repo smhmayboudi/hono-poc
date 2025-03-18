@@ -41,14 +41,12 @@ export const opentelemetryMiddleware =
       }
       return;
     }
-
     if (!rawMeter) {
       rawMeter = metrics.getMeter("hono-poc", "0.0.0");
     }
     if (!rawTracer) {
       rawTracer = trace.getTracer("hono-poc", "0.0.0");
     }
-
     // return tracer.startActiveSpan(
     //   "opentelemetry-middleware.infrastructure",
     //   async (span) => {

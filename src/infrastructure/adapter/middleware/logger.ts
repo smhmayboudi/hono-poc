@@ -111,31 +111,23 @@ export const loggerMiddleware: (
 
   return async (ctx, next) => {
     const logger = new Logger(rootLogger);
-
-    // disable http logger
     if (loggerOption?.http === false) {
       await next();
       return;
     }
-
     logger.assign({
       [ATTR_CODE_FUNCTION_NAME]: "logger-middleware.infrastructure",
     });
-
     let bindings = createRequestBindings(
       ctx,
       loggerOption,
       defaultReqIdGenerator,
     );
-
     logRequest(ctx, logger, bindings, loggerOption);
-
     const startTime = performance.now();
     await next();
     const resTime = getResponseTime(startTime, loggerOption);
-
     bindings = addResponseBindings(ctx, bindings, resTime, loggerOption);
-
     logResponse(ctx, logger, bindings, loggerOption);
   };
 };
@@ -156,7 +148,6 @@ const createRequestBindings = (
   defaultReqIdGenerator?: () => bigint,
 ): pino.Bindings => {
   const httpOptions = loggerOption?.http;
-
   const bindings =
     hasHttpOptions(httpOptions) && httpOptions?.onReqBindings
       ? httpOptions?.onReqBindings(ctx)
@@ -167,7 +158,6 @@ const createRequestBindings = (
             url: ctx.req.path,
           },
         };
-
   if (hasHttpOptions(httpOptions) && httpOptions?.reqId !== false) {
     bindings["reqId"] = httpOptions?.reqId?.() ?? defaultReqIdGenerator?.();
   }
@@ -185,10 +175,9 @@ const logRequest = (
   loggerOption?: LoggerOption,
 ) => {
   const httpOptions = loggerOption?.http;
-
   if (hasHttpOptions(httpOptions) && httpOptions?.onReqMessage !== false) {
     const msg = httpOptions?.onReqMessage?.(ctx) ?? "Request received";
-    logger[httpOptions?.onReqLevel?.(ctx) ?? "info"](bindings, msg);
+    logger[httpOptions?.onReqLevel?.(ctx) ?? "debug"](bindings, msg);
   }
 };
 
@@ -200,7 +189,6 @@ const getResponseTime = (
   loggerOption?: LoggerOption,
 ): number | undefined => {
   const httpOptions = loggerOption?.http;
-
   if (hasHttpOptions(httpOptions) && (httpOptions?.responseTime ?? true)) {
     const endTime = performance.now();
     return Math.round(endTime - startTime);
@@ -220,7 +208,6 @@ const addResponseBindings = (
   loggerOption?: LoggerOption,
 ): pino.Bindings => {
   const httpOptions = loggerOption?.http;
-
   const onResBindings =
     hasHttpOptions(httpOptions) && httpOptions?.onResBindings
       ? httpOptions?.onResBindings(ctx)
@@ -230,7 +217,6 @@ const addResponseBindings = (
             status: ctx.res.status,
           },
         };
-
   if (responseTime !== undefined) {
     bindings["responseTime"] = responseTime;
   }
@@ -248,12 +234,11 @@ const logResponse = (
   loggerOption?: LoggerOption,
 ) => {
   const httpOptions = loggerOption?.http;
-
   if (hasHttpOptions(httpOptions) && httpOptions?.onResMessage !== false) {
     const msg =
       httpOptions?.onResMessage?.(ctx) ??
       (ctx.error ? ctx.error.message : "Request completed");
-    logger[httpOptions?.onResLevel?.(ctx) ?? (ctx.error ? "error" : "info")](
+    logger[httpOptions?.onResLevel?.(ctx) ?? (ctx.error ? "error" : "debug")](
       bindings,
       msg,
     );

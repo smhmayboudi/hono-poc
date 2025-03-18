@@ -44,7 +44,7 @@ app.use(
     origin: (origin) =>
       ["127.0.0.1", "localhost"].includes(new URL(origin).hostname),
   }),
-  loggerMiddleware({ http: false, pino: new Logger(pino({ level })) }),
+  loggerMiddleware({ pino: new Logger(pino({ level })) }),
   casbinMiddleware(
     casbin(auth2, config, new Logger(pino({ level }))),
     config,

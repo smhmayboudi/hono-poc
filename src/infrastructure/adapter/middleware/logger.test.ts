@@ -30,7 +30,7 @@ describe("Infrastructure Middleware RuntimeContext", () => {
   };
 
   const defaultReqLog = {
-    level: 30,
+    level: 20,
     msg: "Request received",
     req: {
       headers: {},
