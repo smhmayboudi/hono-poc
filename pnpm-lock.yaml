@@ -32,11 +32,11 @@ importers:
         specifier: ^0.57.2
         version: 0.57.2(@opentelemetry/api@1.9.0)
       "@opentelemetry/instrumentation-mysql2":
-        specifier: ^0.45.2
-        version: 0.45.2(@opentelemetry/api@1.9.0)
+        specifier: ^0.46.0
+        version: 0.46.0(@opentelemetry/api@1.9.0)
       "@opentelemetry/instrumentation-pino":
-        specifier: ^0.46.1
-        version: 0.46.1(@opentelemetry/api@1.9.0)
+        specifier: ^0.47.0
+        version: 0.47.0(@opentelemetry/api@1.9.0)
       "@opentelemetry/instrumentation-redis-4":
         specifier: ^0.47.0
         version: 0.47.0(@opentelemetry/api@1.9.0)
@@ -62,23 +62,23 @@ importers:
         specifier: ^2.2.2
         version: 2.2.2
       "@scalar/hono-api-reference":
-        specifier: ^0.7.1
-        version: 0.7.1(hono@4.7.4)
+        specifier: ^0.7.2
+        version: 0.7.2(hono@4.7.4)
       "@sentry/esbuild-plugin":
         specifier: ^3.2.2
         version: 3.2.2
       "@sentry/node":
-        specifier: ^9.6.0
-        version: 9.6.0
+        specifier: ^9.6.1
+        version: 9.6.1
       "@sentry/opentelemetry":
-        specifier: ^9.6.0
-        version: 9.6.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.30.0)
+        specifier: ^9.6.1
+        version: 9.6.1(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.30.0)
       "@sentry/profiling-node":
-        specifier: ^9.6.0
-        version: 9.6.0
+        specifier: ^9.6.1
+        version: 9.6.1
       "@sentry/types":
-        specifier: ^9.6.0
-        version: 9.6.0
+        specifier: ^9.6.1
+        version: 9.6.1
       better-auth:
         specifier: ^1.2.4
         version: 1.2.4(typescript@5.8.2)
@@ -165,8 +165,8 @@ importers:
         specifier: ^16.0.1
         version: 16.0.1(rollup@4.36.0)
       "@scalar/cli":
-        specifier: ^0.2.323
-        version: 0.2.323(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)
+        specifier: ^0.2.324
+        version: 0.2.324(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)
       "@tsconfig/node22":
         specifier: ^22.0.0
         version: 22.0.0
@@ -189,8 +189,8 @@ importers:
         specifier: ^3.0.9
         version: 3.0.9(vitest@3.0.9(@types/debug@4.1.12)(@types/node@22.13.10)(jiti@2.4.2)(tsx@4.19.3)(yaml@2.7.0))
       "@vitest/eslint-plugin":
-        specifier: 1.1.37
-        version: 1.1.37(@typescript-eslint/utils@8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2)(vitest@3.0.9(@types/debug@4.1.12)(@types/node@22.13.10)(jiti@2.4.2)(tsx@4.19.3)(yaml@2.7.0))
+        specifier: 1.1.38
+        version: 1.1.38(@typescript-eslint/utils@8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2)(vitest@3.0.9(@types/debug@4.1.12)(@types/node@22.13.10)(jiti@2.4.2)(tsx@4.19.3)(yaml@2.7.0))
       dependency-cruiser:
         specifier: ^16.10.0
         version: 16.10.0
@@ -210,8 +210,8 @@ importers:
         specifier: ^10.1.1
         version: 10.1.1(eslint@9.22.0(jiti@2.4.2))
       eslint-plugin-es-x:
-        specifier: ^8.5.0
-        version: 8.5.0(eslint@9.22.0(jiti@2.4.2))
+        specifier: ^8.6.1
+        version: 8.6.1(eslint@9.22.0(jiti@2.4.2))
       eslint-plugin-jsdoc:
         specifier: ^50.6.8
         version: 50.6.8(eslint@9.22.0(jiti@2.4.2))
@@ -2173,6 +2173,15 @@ packages:
     peerDependencies:
       "@opentelemetry/api": ">=1.0.0 <1.10.0"
 
+  "@opentelemetry/core@2.0.0":
+    resolution:
+      {
+        integrity: sha512-SLX36allrcnVaPYG3R78F/UZZsBsvbc7lMCLx37LyH5MJ1KAAZ2E3mW9OAD3zGz0G8q/BtoS5VUrjzDydhD6LQ==,
+      }
+    engines: { node: ^18.19.0 || >=20.6.0 }
+    peerDependencies:
+      "@opentelemetry/api": ">=1.0.0 <1.10.0"
+
   "@opentelemetry/exporter-logs-otlp-grpc@0.57.2":
     resolution:
       {
@@ -2434,6 +2443,15 @@ packages:
     peerDependencies:
       "@opentelemetry/api": ^1.3.0
 
+  "@opentelemetry/instrumentation-mysql2@0.46.0":
+    resolution:
+      {
+        integrity: sha512-JsmIA+aTfHqy2tahjnVWChRipYpYrTy+XFAuUPia9CTaspCx8ZrirPUqYnbnaPEtnzYff2a4LX0B2LT1hKlOiA==,
+      }
+    engines: { node: ^18.19.0 || >=20.6.0 }
+    peerDependencies:
+      "@opentelemetry/api": ^1.3.0
+
   "@opentelemetry/instrumentation-mysql@0.45.1":
     resolution:
       {
@@ -2452,12 +2470,12 @@ packages:
     peerDependencies:
       "@opentelemetry/api": ^1.3.0
 
-  "@opentelemetry/instrumentation-pino@0.46.1":
+  "@opentelemetry/instrumentation-pino@0.47.0":
     resolution:
       {
-        integrity: sha512-HB8gD/9CNAKlTV+mdZehnFC4tLUtQ7e+729oGq88e4WipxzZxmMYuRwZ2vzOA9/APtq+MRkERJ9PcoDqSIjZ+g==,
+        integrity: sha512-OFOy/TGtGXMYWrF4xPKhLN1evdqUpbuoKODzeh3GSjFkcooZZf4m/Hpzu12FV+s0wDBf43oAjXbNJWeCJQMrug==,
       }
-    engines: { node: ">=14" }
+    engines: { node: ^18.19.0 || >=20.6.0 }
     peerDependencies:
       "@opentelemetry/api": ^1.3.0
 
@@ -2648,6 +2666,15 @@ packages:
         integrity: sha512-nSDlnHSqzC3pXn/wZEZVLuAuJ1MYMXPBwtv2qAbCa3847SaHItdE7SzUq/Jtb0KZmh1zfAbNi3AAMjztTT4Ugg==,
       }
     engines: { node: ">=14" }
+    peerDependencies:
+      "@opentelemetry/api": ^1.1.0
+
+  "@opentelemetry/sql-common@0.41.0":
+    resolution:
+      {
+        integrity: sha512-pmzXctVbEERbqSfiAgdes9Y63xjoOyXcD7B6IXBkVb+vbM7M9U98mn33nGXxPf4dfYR0M+vhcKRZmbSJ7HfqFA==,
+      }
+    engines: { node: ^18.19.0 || >=20.6.0 }
     peerDependencies:
       "@opentelemetry/api": ^1.1.0
 
@@ -2907,10 +2934,10 @@ packages:
         integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==,
       }
 
-  "@prisma/instrumentation@6.4.1":
+  "@prisma/instrumentation@6.5.0":
     resolution:
       {
-        integrity: sha512-1SeN0IvMp5zm3RLJnEr+Zn67WDqUIPP1lF/PkLbi/X64vsnFyItcXNRBrYr0/sI2qLcH9iNzJUhyd3emdGizaQ==,
+        integrity: sha512-morJDtFRoAp5d/KENEm+K6Y3PQcn5bCvpJ5a9y3V3DNMrNy/ZSn2zulPGj+ld+Xj2UYVoaMJ8DpBX/o6iF6OiA==,
       }
     peerDependencies:
       "@opentelemetry/api": ^1.8
@@ -3347,24 +3374,24 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  "@scalar/api-client@2.3.5":
+  "@scalar/api-client@2.3.6":
     resolution:
       {
-        integrity: sha512-bVBP8H3laa4VG3dExv4Ak/Kf+q9z8aK/Glpv6CPE0wxgZJWxwkJoSrvwxUE+46JktSObUrhu4xQiqSCmBz8esQ==,
+        integrity: sha512-C9Otvjfz6stBHA7Ff62dl3tEUK5gwhyIRaxzJGMqdlv+K+P4mrQ52QjfZvX2H/qvcPb3TaDSEbJg33piGGZ9Zw==,
       }
     engines: { node: ">=18" }
 
-  "@scalar/api-reference@1.28.5":
+  "@scalar/api-reference@1.28.6":
     resolution:
       {
-        integrity: sha512-GNBQae0OCk39KnOmJNtciCc0gKY0BtWYZt1wkqogetm8d2D4JypzxpR4+TqKJeBoASsKF45XogXuKlDbywOGZA==,
+        integrity: sha512-F0JAGIEKthpIpxmJpAjPvzjyeVAhl0F0Qat8DTiWWJpTsCcrEIyyw5wu4i016LKdp1lubHj+Ajy+qEJ193kgmA==,
       }
     engines: { node: ">=18" }
 
-  "@scalar/cli@0.2.323":
+  "@scalar/cli@0.2.324":
     resolution:
       {
-        integrity: sha512-cuFbCRqFPukWqflgT/LI3kTcI1nTNJPQ4Uj4Mo3RDlR5+dV9QdjaheZ+K+BbIZ1CsT/fADhfW1w9e7xH+6XWNQ==,
+        integrity: sha512-1Xpb5e79TwdT9vNMdzqgnEpVn/2cLek6Hd/fR57MwugxmQZbZKdHCUdqGn36OPl2Ed3+u+zowUCzjZ6AwhKYrA==,
       }
     engines: { node: ">=18" }
     hasBin: true
@@ -3376,10 +3403,10 @@ packages:
       }
     engines: { node: ">=18" }
 
-  "@scalar/components@0.13.37":
+  "@scalar/components@0.13.38":
     resolution:
       {
-        integrity: sha512-bhJxg0I63nUH0qoZgb8nyHKCSzL8L9widP2WIYymIvXpCFLwCvF64Z0CAbihwgXxq0YblPvNM+g5N3dRtmXqdA==,
+        integrity: sha512-crc/JS557YKH8lD9ZJfft8JfIEC3NlRARmnw7SjVdM3P+bHligHCqi+dJu3zGuUCUffxoDq/WxP1GVmL/54Nag==,
       }
     engines: { node: ">=18" }
 
@@ -3390,10 +3417,10 @@ packages:
       }
     engines: { node: ">=18" }
 
-  "@scalar/core@0.2.1":
+  "@scalar/core@0.2.2":
     resolution:
       {
-        integrity: sha512-3/K8EsnNcDtwGZwPFycIi0fXfCa3nW3Yapjjw1tRWXUs61tQkIyxNa8/L35zXxt+HcOxjXJMERe/TedhAWYHIg==,
+        integrity: sha512-jT6vfz37yQnqVjj8kXYEmV2cZvODW1A0PXjxZ9DzKqjm9tIssNwP4vvcdD1FSuiMcj+rgxAxOjIYMI+ybI/9RQ==,
       }
     engines: { node: ">=18" }
 
@@ -3404,10 +3431,10 @@ packages:
       }
     engines: { node: ">=18" }
 
-  "@scalar/hono-api-reference@0.7.1":
+  "@scalar/hono-api-reference@0.7.2":
     resolution:
       {
-        integrity: sha512-GSAQchWm1LFkbMiRBh+Z+ICrB4WWtENlRBn5Tyvobdar9UHZRK/rQr2UJYF8WWFMXAcMWMqBznXdp1uEovfsqA==,
+        integrity: sha512-CnxRjGfAWPGkV0D5TEwogvn7JSx/f9+ag6vQ6g25GigSDyj/UkxYbZqwe/QOV/+2EWruY3ypOvPuNMf7nEQhdQ==,
       }
     engines: { node: ">=18" }
     peerDependencies:
@@ -3420,24 +3447,24 @@ packages:
       }
     engines: { node: ">=18" }
 
-  "@scalar/import@0.3.2":
+  "@scalar/import@0.3.3":
     resolution:
       {
-        integrity: sha512-de7IDZgEYOhhgaq8lFFbfiJ4Hx/ITIXvuLA8SfSl5UQKg+LxiOnnn/5PSKF+pnjWmUf7Kz/ds0eHOXpZv5iMkw==,
+        integrity: sha512-vg8fNCt9k+YaiZbTFXwPOSu+qo1CDQEBbhZuobFRZQfRy4YbhiHGMZHyujb0DkXUTSPnoqqHj9pOEhbKLCDOeQ==,
       }
     engines: { node: ">=18" }
 
-  "@scalar/mock-server@0.3.2":
+  "@scalar/mock-server@0.3.3":
     resolution:
       {
-        integrity: sha512-wWtYETLrNZr6pJiTWy0v3D72kLTw7Bkv9r0OgFWWQiH9O+uW3vUqIB2p8e2Rg34wApLnS5GzwnBedoy4nYPE8Q==,
+        integrity: sha512-Pjghe95xUSdBJ9pvG5i5ERhSjbaSD82IJ2Ljx/zhBuXqUKPzRLKIj74LrXK3IMKUk6dQLK8BPgHWY8rYGAXePw==,
       }
     engines: { node: ">=18" }
 
-  "@scalar/oas-utils@0.2.120":
+  "@scalar/oas-utils@0.2.121":
     resolution:
       {
-        integrity: sha512-npu0uLClqqXVZfxMdKBWxkWCmONK0jKaUcfmVhGza9Jij5aJyvdfDw6vH/Hh+DghgECwAvQLQeIBZTxjr9ufzg==,
+        integrity: sha512-ZGL55JfydrRKCxKXqIW5to5gx7g+P4fCowjgNzcdyddblwTwkj14dVsgIutBP/nTCMnfllQGv9uYYnf6N9XnXg==,
       }
     engines: { node: ">=18" }
 
@@ -3448,10 +3475,10 @@ packages:
       }
     engines: { node: ">=18" }
 
-  "@scalar/openapi-parser@0.10.10":
+  "@scalar/openapi-parser@0.10.11":
     resolution:
       {
-        integrity: sha512-6MSgvpNKu/anZy96dn8tXQZo1PuDCoeB4m2ZLLDS4vC2zaTnuNBvvQHx+gjwXNKWhTbIVy8bQpYBzlMAYnFNcQ==,
+        integrity: sha512-Tqes+ZzXv58Viq8DFthbuacHrgb7g0Lv+D3hvN8T7U7eTzhbEukJqT1XK3YhF5jzu3bcdPyBqWtgxjaEx6dkRg==,
       }
     engines: { node: ">=18" }
 
@@ -3462,10 +3489,10 @@ packages:
       }
     engines: { node: ">=18" }
 
-  "@scalar/postman-to-openapi@0.1.43":
+  "@scalar/postman-to-openapi@0.1.44":
     resolution:
       {
-        integrity: sha512-gLOkYYPCTKYFBOwyBOKZDc0seZjntmwPTchJUr3oxGQmLB1Y5VBJ+8fXJCTp5TwKiiztjALJs79y9s7jXBdWMA==,
+        integrity: sha512-QM7Olk63jzmuAmQTbtO4KL6ECnnwp5cDka3bqzXoTaM6TQSmsgSWd85n8ByBBD3egr6TtG/DdZCOkk17dLoYew==,
       }
     engines: { node: ">=18" }
 
@@ -3476,31 +3503,31 @@ packages:
       }
     engines: { node: ">=18" }
 
-  "@scalar/themes@0.9.79":
+  "@scalar/themes@0.9.80":
     resolution:
       {
-        integrity: sha512-zWiHCZAIjPGa8X9o/NORBPRMTMblLEz2+2RcfW9yIKNO/8H4Gz0rltiGGlJ6vX0o+qHwx7AdgfY+7njmWQR4ng==,
+        integrity: sha512-UZM8pQLpGeBtOdUx6yOcj5SPiWo1LaylUVt8HjCRFQ90zZtwbcIWfUWwWOay5nh7cwSVqY2G9eAyGYcNJB12ew==,
       }
     engines: { node: ">=18" }
 
-  "@scalar/types@0.1.1":
+  "@scalar/types@0.1.2":
     resolution:
       {
-        integrity: sha512-LlUX6AmOOGoRqOMoO835V2FezM1KiO5UlvQC3poT/s7oqD6ranqwRNFxyrPz/IxClPYR+SV1yBUSNKely4ZQhQ==,
+        integrity: sha512-5kCLQRwAYWt1ds110EaUb9yonc3KoQYNyo4YUCigJLOnoNugbqkEX0zRudGevItiuk+xg4uOYd30r3C+6xAasA==,
       }
     engines: { node: ">=18" }
 
-  "@scalar/use-codemirror@0.11.82":
+  "@scalar/use-codemirror@0.11.83":
     resolution:
       {
-        integrity: sha512-zFECln7aWKRf6iJO9oovByD59EsrOMenNLfLhneH6L+K1CrBoHFVr4czSDlom1wlr3HPg3xwpZrukoAteHYILQ==,
+        integrity: sha512-DkV2SHzUjJcI3a2rlXYETUfdebRtVL8FZDhK7Xon7AWa+EfjXqjINGIOB2DeXIGtvpOHy40DCOCc2N5dyB88DQ==,
       }
     engines: { node: ">=18" }
 
-  "@scalar/use-hooks@0.1.33":
+  "@scalar/use-hooks@0.1.34":
     resolution:
       {
-        integrity: sha512-ENm0bWwRdAWWF/S6TbE+fFx0vP2mgEpG5APqQBomm0a41/6L2HJ/TN+9ajAvrJXGi0ULWuxihNS4Jue6tpEssA==,
+        integrity: sha512-ZdqovPSgWUS1bvPcD5doAKy1ILORqi2RBOgtLA1TajfxOvcBI0SzLxiDRy3JI1yJbYwJUsBTwckTKs9xo3URTA==,
       }
     engines: { node: ">=18" }
 
@@ -3616,10 +3643,10 @@ packages:
     engines: { node: ">= 10" }
     hasBin: true
 
-  "@sentry/core@9.6.0":
+  "@sentry/core@9.6.1":
     resolution:
       {
-        integrity: sha512-t51h6HKlPYW3TfeM09mZ6uDd95A7lgYpD5lUV54ilBA3TefS+M9I32MKwAW7yHzzWs0WQxOdm56eoDBOmRDpHQ==,
+        integrity: sha512-BHaRxyFF3sNlKP6lNcB5cxFogvfMOtWw0Est6mK/Mbewnim0qEbmqKyuMj67ebfgo+pmUJJc2wgugdxkxvqGRQ==,
       }
     engines: { node: ">=18" }
 
@@ -3630,17 +3657,17 @@ packages:
       }
     engines: { node: ">= 14" }
 
-  "@sentry/node@9.6.0":
+  "@sentry/node@9.6.1":
     resolution:
       {
-        integrity: sha512-qI5x6NYS5D08R4pk64bBjBIsdpvXD21HJaveS8/oXOxOU3UV1oUz8APcoQjuk12wRayq2Qy3TvvhvLXD421Axw==,
+        integrity: sha512-cS05ROvBvAFbooqIdyw+yvPyVJqJ89bcirf/QwtFJm+4REtbI7+UAn3D9l17Zd41G1FtpQynpebkCyMc22jO/Q==,
       }
     engines: { node: ">=18" }
 
-  "@sentry/opentelemetry@9.6.0":
+  "@sentry/opentelemetry@9.6.1":
     resolution:
       {
-        integrity: sha512-wkmLTcGoJLtiT3slYqeAhf/RgCZZ1bL3tdqfl5e7SKf45tgtUJ03GfektWiu0Hddi8QSxlVH5hdsAbjXG/wtzA==,
+        integrity: sha512-KjWOcYEoRiwlHxfWTnEQKErpa4c1BubsJFCezqV64BOTV2vX09AjdJo33PrPjstGopDloLdkqJS60KBhVl49JQ==,
       }
     engines: { node: ">=18" }
     peerDependencies:
@@ -3651,18 +3678,18 @@ packages:
       "@opentelemetry/sdk-trace-base": ^1.30.1
       "@opentelemetry/semantic-conventions": ^1.28.0
 
-  "@sentry/profiling-node@9.6.0":
+  "@sentry/profiling-node@9.6.1":
     resolution:
       {
-        integrity: sha512-9jSGC8fucYEbelUehaL5cgsdt3MEyibXFQFV0XmgURr5daWN2tMGEn+9jSKkb6LkN+ATN5jh/0JlOf5N7lA3TA==,
+        integrity: sha512-oCRi9i7r23m3CU9wBUuP230NYlmRDtgIcIrvW8m8N+4pSF8rRvYN7xXT5e2C2r8sySe6bWLSIgZN0eWKdjpaNA==,
       }
     engines: { node: ">=18" }
     hasBin: true
 
-  "@sentry/types@9.6.0":
+  "@sentry/types@9.6.1":
     resolution:
       {
-        integrity: sha512-tbet6kcO0csB6IIHkDU/B5oAyxNhl4syacij4qW/vRr2ckTL6vYqEC2miyG30TkL7rm2vKuq7lcSNG90CsarCg==,
+        integrity: sha512-GyNXDPWxW9/rCE7kOMNkIXuBZLVuyaQ1u7kkvlckHkofAhVnR3ZeFzvmhbxCVg157oZcwAbPHobvn6zgpGyvVg==,
       }
     engines: { node: ">=18" }
 
@@ -4055,10 +4082,10 @@ packages:
     peerDependencies:
       vitest: 3.0.9
 
-  "@vitest/eslint-plugin@1.1.37":
+  "@vitest/eslint-plugin@1.1.38":
     resolution:
       {
-        integrity: sha512-cnlBV8zr0oaBu1Vk6ruqWzpPzFCtwY0yuwUQpNIeFOUl3UhXVwNUoOYfWkZzeToGuNBaXvIsr6/RgHrXiHXqXA==,
+        integrity: sha512-KcOTZyVz8RiM5HyriiDVrP1CyBGuhRxle+lBsmSs6NTJEO/8dKVAq+f5vQzHj1/Kc7bYXSDO6yBe62Zx0t5iaw==,
       }
     peerDependencies:
       "@typescript-eslint/utils": ^8.24.0
@@ -5957,10 +5984,10 @@ packages:
     peerDependencies:
       eslint: ">=8"
 
-  eslint-plugin-es-x@8.5.0:
+  eslint-plugin-es-x@8.6.1:
     resolution:
       {
-        integrity: sha512-Qkec0Ur+BiD8IdFy3GK857mttamKAFsfLKDFJdLfWWb5hNw4tIGEWWB2f9ssuXR4nF6aEje5N0LidoMrbWk5Hw==,
+        integrity: sha512-jpElqvrTBh35AQP8oH+xtHpzZp8+2y/8FSW7+ssKS0f92ZC7AFWaf6n+jBa9ieGU9HNroTWx4/L5U4tBeBV38g==,
       }
     engines: { node: ^14.18.0 || >=16.0.0 }
     peerDependencies:
@@ -12821,6 +12848,11 @@ snapshots:
       "@opentelemetry/api": 1.9.0
       "@opentelemetry/semantic-conventions": 1.28.0
 
+  "@opentelemetry/core@2.0.0(@opentelemetry/api@1.9.0)":
+    dependencies:
+      "@opentelemetry/api": 1.9.0
+      "@opentelemetry/semantic-conventions": 1.30.0
+
   "@opentelemetry/exporter-logs-otlp-grpc@0.57.2(@opentelemetry/api@1.9.0)":
     dependencies:
       "@grpc/grpc-js": 1.13.0
@@ -13079,6 +13111,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  "@opentelemetry/instrumentation-mysql2@0.46.0(@opentelemetry/api@1.9.0)":
+    dependencies:
+      "@opentelemetry/api": 1.9.0
+      "@opentelemetry/instrumentation": 0.200.0(@opentelemetry/api@1.9.0)
+      "@opentelemetry/semantic-conventions": 1.30.0
+      "@opentelemetry/sql-common": 0.41.0(@opentelemetry/api@1.9.0)
+    transitivePeerDependencies:
+      - supports-color
+
   "@opentelemetry/instrumentation-mysql@0.45.1(@opentelemetry/api@1.9.0)":
     dependencies:
       "@opentelemetry/api": 1.9.0
@@ -13100,12 +13141,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  "@opentelemetry/instrumentation-pino@0.46.1(@opentelemetry/api@1.9.0)":
+  "@opentelemetry/instrumentation-pino@0.47.0(@opentelemetry/api@1.9.0)":
     dependencies:
       "@opentelemetry/api": 1.9.0
-      "@opentelemetry/api-logs": 0.57.2
-      "@opentelemetry/core": 1.30.1(@opentelemetry/api@1.9.0)
-      "@opentelemetry/instrumentation": 0.57.2(@opentelemetry/api@1.9.0)
+      "@opentelemetry/api-logs": 0.200.0
+      "@opentelemetry/core": 2.0.0(@opentelemetry/api@1.9.0)
+      "@opentelemetry/instrumentation": 0.200.0(@opentelemetry/api@1.9.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -13277,6 +13318,11 @@ snapshots:
       "@opentelemetry/api": 1.9.0
       "@opentelemetry/core": 1.30.1(@opentelemetry/api@1.9.0)
 
+  "@opentelemetry/sql-common@0.41.0(@opentelemetry/api@1.9.0)":
+    dependencies:
+      "@opentelemetry/api": 1.9.0
+      "@opentelemetry/core": 2.0.0(@opentelemetry/api@1.9.0)
+
   "@oxc-project/types@0.58.1": {}
 
   "@oxlint/darwin-arm64@0.16.0":
@@ -13409,7 +13455,7 @@ snapshots:
 
   "@popperjs/core@2.11.8": {}
 
-  "@prisma/instrumentation@6.4.1(@opentelemetry/api@1.9.0)":
+  "@prisma/instrumentation@6.5.0(@opentelemetry/api@1.9.0)":
     dependencies:
       "@opentelemetry/api": 1.9.0
       "@opentelemetry/instrumentation": 0.57.2(@opentelemetry/api@1.9.0)
@@ -13625,24 +13671,24 @@ snapshots:
   "@rollup/rollup-win32-x64-msvc@4.36.0":
     optional: true
 
-  "@scalar/api-client@2.3.5(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)":
+  "@scalar/api-client@2.3.6(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)":
     dependencies:
       "@headlessui/tailwindcss": 0.2.2(tailwindcss@4.0.12)
       "@headlessui/vue": 1.7.23(vue@3.5.13(typescript@5.8.2))
-      "@scalar/components": 0.13.37(typescript@5.8.2)
+      "@scalar/components": 0.13.38(typescript@5.8.2)
       "@scalar/draggable": 0.1.11(typescript@5.8.2)
       "@scalar/icons": 0.1.3(typescript@5.8.2)
-      "@scalar/import": 0.3.2(@hyperjump/browser@1.2.0)
-      "@scalar/oas-utils": 0.2.120(@hyperjump/browser@1.2.0)
+      "@scalar/import": 0.3.3(@hyperjump/browser@1.2.0)
+      "@scalar/oas-utils": 0.2.121(@hyperjump/browser@1.2.0)
       "@scalar/object-utils": 1.1.13
-      "@scalar/openapi-parser": 0.10.10
+      "@scalar/openapi-parser": 0.10.11
       "@scalar/openapi-types": 0.1.9
-      "@scalar/postman-to-openapi": 0.1.43(@hyperjump/browser@1.2.0)
+      "@scalar/postman-to-openapi": 0.1.44(@hyperjump/browser@1.2.0)
       "@scalar/snippetz": 0.2.16
-      "@scalar/themes": 0.9.79
-      "@scalar/types": 0.1.1
-      "@scalar/use-codemirror": 0.11.82(typescript@5.8.2)
-      "@scalar/use-hooks": 0.1.33(typescript@5.8.2)
+      "@scalar/themes": 0.9.80
+      "@scalar/types": 0.1.2
+      "@scalar/use-codemirror": 0.11.83(typescript@5.8.2)
+      "@scalar/use-hooks": 0.1.34(typescript@5.8.2)
       "@scalar/use-toasts": 0.7.9(typescript@5.8.2)
       "@scalar/use-tooltip": 1.0.6(typescript@5.8.2)
       "@vueuse/core": 10.11.1(vue@3.5.13(typescript@5.8.2))
@@ -13676,23 +13722,24 @@ snapshots:
       - typescript
       - universal-cookie
 
-  "@scalar/api-reference@1.28.5(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)":
+  "@scalar/api-reference@1.28.6(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)":
     dependencies:
       "@floating-ui/vue": 1.1.6(vue@3.5.13(typescript@5.8.2))
       "@headlessui/vue": 1.7.23(vue@3.5.13(typescript@5.8.2))
-      "@scalar/api-client": 2.3.5(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)
+      "@scalar/api-client": 2.3.6(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)
       "@scalar/code-highlight": 0.0.25
-      "@scalar/components": 0.13.37(typescript@5.8.2)
-      "@scalar/oas-utils": 0.2.120(@hyperjump/browser@1.2.0)
-      "@scalar/openapi-parser": 0.10.10
+      "@scalar/components": 0.13.38(typescript@5.8.2)
+      "@scalar/oas-utils": 0.2.121(@hyperjump/browser@1.2.0)
+      "@scalar/openapi-parser": 0.10.11
       "@scalar/openapi-types": 0.1.9
       "@scalar/snippetz": 0.2.16
-      "@scalar/themes": 0.9.79
-      "@scalar/types": 0.1.1
-      "@scalar/use-hooks": 0.1.33(typescript@5.8.2)
+      "@scalar/themes": 0.9.80
+      "@scalar/types": 0.1.2
+      "@scalar/use-hooks": 0.1.34(typescript@5.8.2)
       "@scalar/use-toasts": 0.7.9(typescript@5.8.2)
       "@unhead/vue": 1.11.20(vue@3.5.13(typescript@5.8.2))
       "@vueuse/core": 10.11.1(vue@3.5.13(typescript@5.8.2))
+      flatted: 3.3.3
       fuse.js: 7.1.0
       github-slugger: 2.0.0
       nanoid: 5.1.4
@@ -13715,16 +13762,16 @@ snapshots:
       - typescript
       - universal-cookie
 
-  "@scalar/cli@0.2.323(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)":
+  "@scalar/cli@0.2.324(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)":
     dependencies:
       "@clack/prompts": 0.7.0
       "@hono/node-server": 1.13.8(hono@4.7.4)
       "@parcel/watcher": 2.5.1
-      "@scalar/api-reference": 1.28.5(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)
+      "@scalar/api-reference": 1.28.6(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)
       "@scalar/config": 0.1.3
-      "@scalar/mock-server": 0.3.2(@hyperjump/browser@1.2.0)
-      "@scalar/oas-utils": 0.2.120(@hyperjump/browser@1.2.0)
-      "@scalar/openapi-parser": 0.10.10
+      "@scalar/mock-server": 0.3.3(@hyperjump/browser@1.2.0)
+      "@scalar/oas-utils": 0.2.121(@hyperjump/browser@1.2.0)
+      "@scalar/openapi-parser": 0.10.11
       "@scalar/openapi-types": 0.1.9
       "@scalar/void-server": 2.0.17
       commander: 12.1.0
@@ -13772,14 +13819,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  "@scalar/components@0.13.37(typescript@5.8.2)":
+  "@scalar/components@0.13.38(typescript@5.8.2)":
     dependencies:
       "@floating-ui/utils": 0.2.9
       "@floating-ui/vue": 1.1.6(vue@3.5.13(typescript@5.8.2))
       "@headlessui/vue": 1.7.23(vue@3.5.13(typescript@5.8.2))
       "@scalar/code-highlight": 0.0.25
-      "@scalar/themes": 0.9.79
-      "@scalar/use-hooks": 0.1.33(typescript@5.8.2)
+      "@scalar/themes": 0.9.80
+      "@scalar/use-hooks": 0.1.34(typescript@5.8.2)
       "@scalar/use-toasts": 0.7.9(typescript@5.8.2)
       "@vueuse/core": 10.11.1(vue@3.5.13(typescript@5.8.2))
       cva: 1.0.0-beta.2(typescript@5.8.2)
@@ -13797,9 +13844,9 @@ snapshots:
     dependencies:
       "@sinclair/typebox": 0.33.22
 
-  "@scalar/core@0.2.1":
+  "@scalar/core@0.2.2":
     dependencies:
-      "@scalar/types": 0.1.1
+      "@scalar/types": 0.1.2
 
   "@scalar/draggable@0.1.11(typescript@5.8.2)":
     dependencies:
@@ -13807,9 +13854,9 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  "@scalar/hono-api-reference@0.7.1(hono@4.7.4)":
+  "@scalar/hono-api-reference@0.7.2(hono@4.7.4)":
     dependencies:
-      "@scalar/core": 0.2.1
+      "@scalar/core": 0.2.2
       hono: 4.7.4
 
   "@scalar/icons@0.1.3(typescript@5.8.2)":
@@ -13818,31 +13865,31 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  "@scalar/import@0.3.2(@hyperjump/browser@1.2.0)":
+  "@scalar/import@0.3.3(@hyperjump/browser@1.2.0)":
     dependencies:
-      "@scalar/oas-utils": 0.2.120(@hyperjump/browser@1.2.0)
-      "@scalar/openapi-parser": 0.10.10
+      "@scalar/oas-utils": 0.2.121(@hyperjump/browser@1.2.0)
+      "@scalar/openapi-parser": 0.10.11
       yaml: 2.7.0
     transitivePeerDependencies:
       - "@hyperjump/browser"
 
-  "@scalar/mock-server@0.3.2(@hyperjump/browser@1.2.0)":
+  "@scalar/mock-server@0.3.3(@hyperjump/browser@1.2.0)":
     dependencies:
-      "@scalar/oas-utils": 0.2.120(@hyperjump/browser@1.2.0)
-      "@scalar/openapi-parser": 0.10.10
+      "@scalar/oas-utils": 0.2.121(@hyperjump/browser@1.2.0)
+      "@scalar/openapi-parser": 0.10.11
       "@scalar/openapi-types": 0.1.9
       hono: 4.7.4
       object-to-xml: 2.0.0
     transitivePeerDependencies:
       - "@hyperjump/browser"
 
-  "@scalar/oas-utils@0.2.120(@hyperjump/browser@1.2.0)":
+  "@scalar/oas-utils@0.2.121(@hyperjump/browser@1.2.0)":
     dependencies:
       "@hyperjump/json-schema": 1.11.0(@hyperjump/browser@1.2.0)
       "@scalar/object-utils": 1.1.13
       "@scalar/openapi-types": 0.1.9
-      "@scalar/themes": 0.9.79
-      "@scalar/types": 0.1.1
+      "@scalar/themes": 0.9.80
+      "@scalar/types": 0.1.2
       flatted: 3.3.3
       microdiff: 1.5.0
       nanoid: 5.1.4
@@ -13857,7 +13904,7 @@ snapshots:
       just-clone: 6.2.0
       ts-deepmerge: 7.0.2
 
-  "@scalar/openapi-parser@0.10.10":
+  "@scalar/openapi-parser@0.10.11":
     dependencies:
       ajv: 8.17.1
       ajv-draft-04: 1.0.0(ajv@8.17.1)
@@ -13868,9 +13915,9 @@ snapshots:
 
   "@scalar/openapi-types@0.1.9": {}
 
-  "@scalar/postman-to-openapi@0.1.43(@hyperjump/browser@1.2.0)":
+  "@scalar/postman-to-openapi@0.1.44(@hyperjump/browser@1.2.0)":
     dependencies:
-      "@scalar/oas-utils": 0.2.120(@hyperjump/browser@1.2.0)
+      "@scalar/oas-utils": 0.2.121(@hyperjump/browser@1.2.0)
       "@scalar/openapi-types": 0.1.9
     transitivePeerDependencies:
       - "@hyperjump/browser"
@@ -13879,17 +13926,17 @@ snapshots:
     dependencies:
       stringify-object: 5.0.0
 
-  "@scalar/themes@0.9.79":
+  "@scalar/themes@0.9.80":
     dependencies:
-      "@scalar/types": 0.1.1
+      "@scalar/types": 0.1.2
 
-  "@scalar/types@0.1.1":
+  "@scalar/types@0.1.2":
     dependencies:
       "@scalar/openapi-types": 0.1.9
       "@unhead/schema": 1.11.20
       zod: 3.24.2
 
-  "@scalar/use-codemirror@0.11.82(typescript@5.8.2)":
+  "@scalar/use-codemirror@0.11.83(typescript@5.8.2)":
     dependencies:
       "@codemirror/autocomplete": 6.18.6
       "@codemirror/commands": 6.8.0
@@ -13906,7 +13953,7 @@ snapshots:
       "@lezer/highlight": 1.2.1
       "@lezer/lr": 1.4.2
       "@replit/codemirror-css-color-picker": 6.3.0(@codemirror/language@6.11.0)(@codemirror/state@6.5.2)(@codemirror/view@6.36.4)
-      "@scalar/components": 0.13.37(typescript@5.8.2)
+      "@scalar/components": 0.13.38(typescript@5.8.2)
       codemirror: 6.0.1
       style-mod: 4.1.2
       vue: 3.5.13(typescript@5.8.2)
@@ -13915,9 +13962,9 @@ snapshots:
       - supports-color
       - typescript
 
-  "@scalar/use-hooks@0.1.33(typescript@5.8.2)":
+  "@scalar/use-hooks@0.1.34(typescript@5.8.2)":
     dependencies:
-      "@scalar/themes": 0.9.79
+      "@scalar/themes": 0.9.80
       "@scalar/use-toasts": 0.7.9(typescript@5.8.2)
       "@vueuse/core": 10.11.1(vue@3.5.13(typescript@5.8.2))
       vue: 3.5.13(typescript@5.8.2)
@@ -14008,7 +14055,7 @@ snapshots:
       - encoding
       - supports-color
 
-  "@sentry/core@9.6.0": {}
+  "@sentry/core@9.6.1": {}
 
   "@sentry/esbuild-plugin@3.2.2":
     dependencies:
@@ -14019,7 +14066,7 @@ snapshots:
       - encoding
       - supports-color
 
-  "@sentry/node@9.6.0":
+  "@sentry/node@9.6.1":
     dependencies:
       "@opentelemetry/api": 1.9.0
       "@opentelemetry/context-async-hooks": 1.30.1(@opentelemetry/api@1.9.0)
@@ -14051,14 +14098,14 @@ snapshots:
       "@opentelemetry/resources": 1.30.1(@opentelemetry/api@1.9.0)
       "@opentelemetry/sdk-trace-base": 1.30.1(@opentelemetry/api@1.9.0)
       "@opentelemetry/semantic-conventions": 1.30.0
-      "@prisma/instrumentation": 6.4.1(@opentelemetry/api@1.9.0)
-      "@sentry/core": 9.6.0
-      "@sentry/opentelemetry": 9.6.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.30.0)
+      "@prisma/instrumentation": 6.5.0(@opentelemetry/api@1.9.0)
+      "@sentry/core": 9.6.1
+      "@sentry/opentelemetry": 9.6.1(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.30.0)
       import-in-the-middle: 1.13.1
     transitivePeerDependencies:
       - supports-color
 
-  "@sentry/opentelemetry@9.6.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.30.0)":
+  "@sentry/opentelemetry@9.6.1(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.30.0)":
     dependencies:
       "@opentelemetry/api": 1.9.0
       "@opentelemetry/context-async-hooks": 1.30.1(@opentelemetry/api@1.9.0)
@@ -14066,19 +14113,19 @@ snapshots:
       "@opentelemetry/instrumentation": 0.57.2(@opentelemetry/api@1.9.0)
       "@opentelemetry/sdk-trace-base": 1.30.1(@opentelemetry/api@1.9.0)
       "@opentelemetry/semantic-conventions": 1.30.0
-      "@sentry/core": 9.6.0
+      "@sentry/core": 9.6.1
 
-  "@sentry/profiling-node@9.6.0":
+  "@sentry/profiling-node@9.6.1":
     dependencies:
       "@sentry-internal/node-cpu-profiler": 2.1.0
-      "@sentry/core": 9.6.0
-      "@sentry/node": 9.6.0
+      "@sentry/core": 9.6.1
+      "@sentry/node": 9.6.1
     transitivePeerDependencies:
       - supports-color
 
-  "@sentry/types@9.6.0":
+  "@sentry/types@9.6.1":
     dependencies:
-      "@sentry/core": 9.6.0
+      "@sentry/core": 9.6.1
 
   "@simplewebauthn/browser@13.1.0": {}
 
@@ -14353,7 +14400,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  "@vitest/eslint-plugin@1.1.37(@typescript-eslint/utils@8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2)(vitest@3.0.9(@types/debug@4.1.12)(@types/node@22.13.10)(jiti@2.4.2)(tsx@4.19.3)(yaml@2.7.0))":
+  "@vitest/eslint-plugin@1.1.38(@typescript-eslint/utils@8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2)(vitest@3.0.9(@types/debug@4.1.12)(@types/node@22.13.10)(jiti@2.4.2)(tsx@4.19.3)(yaml@2.7.0))":
     dependencies:
       "@typescript-eslint/utils": 8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2)
       eslint: 9.22.0(jiti@2.4.2)
@@ -15570,7 +15617,7 @@ snapshots:
       eslint: 9.22.0(jiti@2.4.2)
       eslint-compat-utils: 0.5.1(eslint@9.22.0(jiti@2.4.2))
 
-  eslint-plugin-es-x@8.5.0(eslint@9.22.0(jiti@2.4.2)):
+  eslint-plugin-es-x@8.6.1(eslint@9.22.0(jiti@2.4.2)):
     dependencies:
       "@eslint-community/eslint-utils": 4.5.1(eslint@9.22.0(jiti@2.4.2))
       "@eslint-community/regexpp": 4.12.1
