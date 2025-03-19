@@ -8,7 +8,7 @@ import { userPOCInformationCreateResponseSchema } from "./user-poc-information-c
 export const userPOCInformationCreateRoute = (
   basePath: string,
   domainType: string,
-): RouteConfig =>
+) =>
   createRoute<string, RouteConfig>({
     description: "Create a new UserPOCInformation",
     method: "post",

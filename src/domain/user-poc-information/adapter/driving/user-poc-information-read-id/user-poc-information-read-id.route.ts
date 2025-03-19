@@ -8,7 +8,7 @@ import { userPOCInformationReadIDResponseSchema } from "./user-poc-information-r
 export const userPOCInformationReadIDRoute = (
   basePath: string,
   domainType: string,
-): RouteConfig =>
+) =>
   createRoute<string, RouteConfig>({
     description: "ReadID UserPOCInformation",
     method: "get",

@@ -1,6 +1,5 @@
 import type { RouteHandler } from "@hono/zod-openapi";
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
-import type { Context } from "hono";
 
 import type { Env } from "../../../../../env.ts";
 import { tracer } from "../../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
@@ -19,14 +18,12 @@ export const userPOCInformationDeleteHandler =
     domainType: string,
     logger: PortLogger,
     drivingUserPOCInformationDelete: PortDrivingUserPOCInformationDelete,
-  ): RouteHandler<ReturnType<typeof userPOCInformationDeleteRoute>, Env> =>
-  (
-    ctx: Context<
-      Env,
-      typeof domainType,
-      UserPOCInformationDeleteRequestValidationTarget
-    >,
-  ) =>
+  ): RouteHandler<
+    ReturnType<typeof userPOCInformationDeleteRoute>,
+    Env,
+    UserPOCInformationDeleteRequestValidationTarget
+  > =>
+  (ctx) =>
     tracer.startActiveSpan("user-poc-information-delete.driving", async () => {
       logger.assign({
         [ATTR_CODE_FUNCTION_NAME]: "user-poc-information-delete.driving",

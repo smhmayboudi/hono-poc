@@ -11,7 +11,7 @@ import { userPOCInformationUpdateResponseSchema } from "./user-poc-information-u
 export const userPOCInformationUpdateRoute = (
   basePath: string,
   domainType: string,
-): RouteConfig =>
+) =>
   createRoute<string, RouteConfig>({
     description: "Update a UserPOCInformation by id",
     method: "patch",

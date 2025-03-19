@@ -8,7 +8,7 @@ import { userPOCInformationDeleteResponseSchema } from "./user-poc-information-d
 export const userPOCInformationDeleteRoute = (
   basePath: string,
   domainType: string,
-): RouteConfig =>
+) =>
   createRoute<string, RouteConfig>({
     description: "Delete a UserPOCInformation by id",
     method: "delete",
