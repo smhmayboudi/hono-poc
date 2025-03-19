@@ -5,10 +5,7 @@ import { routeResponses } from "../../../../../shared/adapter/driving/route.ts";
 import { userPOCCreateJSONSchema } from "./user-poc-create.request.ts";
 import { userPOCCreateResponseSchema } from "./user-poc-create.response.ts";
 
-export const userPOCCreateRoute = (
-  basePath: string,
-  domainType: string,
-): RouteConfig =>
+export const userPOCCreateRoute = (basePath: string, domainType: string) =>
   createRoute<string, RouteConfig>({
     description: "Create a new UserPOC",
     method: "post",

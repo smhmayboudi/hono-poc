@@ -1,6 +1,5 @@
 import type { RouteHandler } from "@hono/zod-openapi";
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
-import type { Context } from "hono";
 
 import type { Env } from "../../../../../env.ts";
 import { tracer } from "../../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
@@ -19,8 +18,12 @@ export const userPOCReadHandler =
     domainType: string,
     logger: PortLogger,
     drivingUserPOCRead: PortDrivingUserPOCRead,
-  ): RouteHandler<ReturnType<typeof userPOCReadRoute>, Env> =>
-  (ctx: Context<Env, typeof domainType, UserPOCReadRequestValidationTarget>) =>
+  ): RouteHandler<
+    ReturnType<typeof userPOCReadRoute>,
+    Env,
+    UserPOCReadRequestValidationTarget
+  > =>
+  (ctx) =>
     tracer.startActiveSpan("user-poc-read.driving", async () => {
       logger.assign({
         [ATTR_CODE_FUNCTION_NAME]: "user-poc-read.driving",

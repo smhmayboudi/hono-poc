@@ -5,10 +5,7 @@ import { routeResponses } from "../../../../../shared/adapter/driving/route.ts";
 import { userPOCDeleteParamSchema } from "./user-poc-delete.request.ts";
 import { userPOCDeleteResponseSchema } from "./user-poc-delete.response.ts";
 
-export const userPOCDeleteRoute = (
-  basePath: string,
-  domainType: string,
-): RouteConfig =>
+export const userPOCDeleteRoute = (basePath: string, domainType: string) =>
   createRoute<string, RouteConfig>({
     description: "Delete a UserPOC by id",
     method: "delete",

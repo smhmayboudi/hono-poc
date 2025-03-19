@@ -5,10 +5,7 @@ import { routeResponses } from "../../../../../shared/adapter/driving/route.ts";
 import { userPOCReadQuerySchema } from "./user-poc-read.request.ts";
 import { userPOCReadResponseSchema } from "./user-poc-read.response.ts";
 
-export const userPOCReadRoute = (
-  basePath: string,
-  domainType: string,
-): RouteConfig =>
+export const userPOCReadRoute = (basePath: string, domainType: string) =>
   createRoute<string, RouteConfig>({
     description: "Read UserPOC(s)",
     method: "get",
