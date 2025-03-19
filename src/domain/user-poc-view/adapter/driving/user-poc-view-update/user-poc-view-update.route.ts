@@ -8,10 +8,7 @@ import {
 } from "./user-poc-view-update.request.ts";
 import { userPOCViewUpdateResponseSchema } from "./user-poc-view-update.response.ts";
 
-export const userPOCViewUpdateRoute = (
-  basePath: string,
-  domainType: string,
-): RouteConfig =>
+export const userPOCViewUpdateRoute = (basePath: string, domainType: string) =>
   createRoute<string, RouteConfig>({
     description: "Update a UserPOCView by id",
     method: "patch",

@@ -5,10 +5,7 @@ import { routeResponses } from "../../../../../shared/adapter/driving/route.ts";
 import { userPOCViewReadIDParamSchema } from "./user-poc-view-read-id.request.ts";
 import { userPOCViewReadIDResponseSchema } from "./user-poc-view-read-id.response.ts";
 
-export const userPOCViewReadIDRoute = (
-  basePath: string,
-  domainType: string,
-): RouteConfig =>
+export const userPOCViewReadIDRoute = (basePath: string, domainType: string) =>
   createRoute<string, RouteConfig>({
     description: "ReadID UserPOCView",
     method: "get",

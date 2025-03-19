@@ -5,10 +5,7 @@ import { routeResponses } from "../../../../../shared/adapter/driving/route.ts";
 import { userPOCViewDeleteParamSchema } from "./user-poc-view-delete.request.ts";
 import { userPOCViewDeleteResponseSchema } from "./user-poc-view-delete.response.ts";
 
-export const userPOCViewDeleteRoute = (
-  basePath: string,
-  domainType: string,
-): RouteConfig =>
+export const userPOCViewDeleteRoute = (basePath: string, domainType: string) =>
   createRoute<string, RouteConfig>({
     description: "Delete a UserPOCView by id",
     method: "delete",
