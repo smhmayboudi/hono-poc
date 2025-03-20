@@ -4,7 +4,6 @@
  * https://vitest.dev/config
  */
 
-import tsconfigPaths from "vite-tsconfig-paths";
 import { configDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig({
@@ -17,7 +16,6 @@ export default defineConfig({
       reportsDirectory: "coverage/",
     },
     include: ["**/*.test.ts"],
-    plugins: [tsconfigPaths()],
     pool: "threads",
     reporters: [
       "default",
