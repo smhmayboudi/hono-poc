@@ -48,7 +48,7 @@ const envSchema = z.object({
   CLIENT_DATABASE_URI: z
     .string()
     .default(
-      "mysql://mysql_user:mysql_password@127.0.0.1:3306/hono-poc?charset=utf8mb4&connectionLimit=1",
+      "mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1",
     ),
   CLIENT_ELASTICSEARCH_NODE: z.string().default("https://elasticsearch:9200"),
   CLIENT_REDIS_URL: z.string().default("redis://redis:6379"),

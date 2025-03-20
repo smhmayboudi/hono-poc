@@ -12,7 +12,7 @@ const envSchema = z.object({
   CLIENT_DATABASE_URI: z
     .string()
     .default(
-      "mysql://mysql_user:mysql_password@127.0.0.1:3306/hono-poc?charset=utf8mb4&connectionLimit=1",
+      "mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1",
     ),
 });
 const env = envSchema.parse(getEnv());
