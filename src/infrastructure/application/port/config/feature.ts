@@ -1,3 +1,3 @@
 export interface PortFeature {
-  brandOriginCountry(): boolean;
+  userPOCFullname(): boolean;
 }

@@ -52,6 +52,7 @@ const envSchema = z.object({
     ),
   CLIENT_ELASTICSEARCH_NODE: z.string().default("https://elasticsearch:9200"),
   CLIENT_REDIS_URL: z.string().default("redis://redis:6379"),
+  FEATURE_FLAG_USER_POC_FULLNAME: z.boolean().default(false),
   SERVER_PORT: z.coerce.number().int().nonnegative().lte(65535).default(8081),
 });
 const env = envSchema.parse(getEnv());
@@ -64,7 +65,7 @@ export const config = tracer.startActiveSpan(
     new Config(
       new Database(env.CLIENT_DATABASE_URI),
       new Elasticsearch(env.CLIENT_ELASTICSEARCH_NODE),
-      new Feature(false),
+      new Feature(env.FEATURE_FLAG_USER_POC_FULLNAME),
       new Redis(env.CLIENT_REDIS_URL),
       new Server(env.SERVER_PORT),
     ),
