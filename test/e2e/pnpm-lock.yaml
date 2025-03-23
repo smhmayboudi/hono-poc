@@ -17,8 +17,8 @@ importers:
         specifier: ^7.26.0
         version: 7.26.0(@babel/core@7.26.10)
       "@types/k6":
-        specifier: ^0.57.1
-        version: 0.57.1
+        specifier: ^1.0.1
+        version: 1.0.1
       babel-loader:
         specifier: ^10.0.0
         version: 10.0.0(@babel/core@7.26.10)(webpack@5.98.0)
@@ -910,10 +910,10 @@ packages:
         integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==,
       }
 
-  "@types/k6@0.57.1":
+  "@types/k6@1.0.1":
     resolution:
       {
-        integrity: sha512-S/p2RQAYUBXyYROkR2fgeON/LaxJ0YR+KIlnPQW/TOeLBXD7tX4RfDSWaIecuDTWKblmc6UwANyP0e5QDZPhMw==,
+        integrity: sha512-C2VX1t9jj543L1RxyNuToXR2VZvmfOHCORDTBYUKctrbVbTpBRmb1IhMl5/ZHb851MIIrCzdG27HwewPPQ2E6Q==,
       }
 
   "@types/minimatch@5.1.2":
@@ -2916,7 +2916,7 @@ snapshots:
 
   "@types/json-schema@7.0.15": {}
 
-  "@types/k6@0.57.1": {}
+  "@types/k6@1.0.1": {}
 
   "@types/minimatch@5.1.2": {}
 
