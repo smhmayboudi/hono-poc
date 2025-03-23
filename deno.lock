@@ -1256,7 +1256,6 @@
         "npm:@commitlint/cli@^19.8.0",
         "npm:@commitlint/config-conventional@^19.8.0",
         "npm:@commitlint/types@^19.8.0",
-        "npm:@dotenvx/dotenvx@^1.39.0",
         "npm:@elastic/elasticsearch@^8.17.1",
         "npm:@eslint-community/eslint-plugin-eslint-comments@^4.4.1",
         "npm:@eslint/config-inspector@^1.0.2",
