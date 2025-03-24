@@ -38,6 +38,5 @@ export const casbinMiddleware =
       logger.debug("!isAuthorized");
       throw new ErrorCasbinForbidden();
     }
-    logger.debug("isAuthorized");
     await next();
   };

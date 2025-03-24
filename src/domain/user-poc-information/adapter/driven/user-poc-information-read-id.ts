@@ -43,6 +43,7 @@ export class AdapterDrivenUserPOCInformationReadID
         this.logger.debug({ result });
         const firstResult = result[0];
         if (!firstResult) {
+          this.logger.debug("!firstResult");
           throw new ErrorNoRowFound();
         }
 
