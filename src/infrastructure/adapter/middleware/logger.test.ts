@@ -1,17 +1,20 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { pino } from "pino";
 import { describe, expect, it } from "vitest";
+import { mock } from "vitest-mock-extended";
 
 import type { Env } from "../../../env.ts";
+import type { PortConfig } from "../../application/port/config/config.ts";
 import { loggerMiddleware, type LoggerOption } from "./logger.ts";
 
 describe("Infrastructure Middleware RuntimeContext", () => {
   const appMock = (logHttpOpts?: LoggerOption["http"]) => {
+    const config = mock<PortConfig>();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const logs: Record<string, any>[] = [];
     const app = new OpenAPIHono<Env>()
       .use(
-        loggerMiddleware({
+        loggerMiddleware(config, {
           pino: pino(
             { base: null, level: "trace", timestamp: false },
             {

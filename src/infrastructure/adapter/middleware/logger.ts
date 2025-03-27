@@ -4,6 +4,7 @@ import { pino } from "pino";
 import { merge } from "ts-deepmerge";
 
 import type { Env } from "../../../env.ts";
+import type { PortConfig } from "../../application/port/config/config.ts";
 import { Logger } from "../logger/logger.ts";
 
 export interface LoggerOption {
@@ -99,8 +100,10 @@ const isPinoLogger = (value: unknown): value is pino.Logger =>
   typeof value.child === "function";
 
 export const loggerMiddleware: (
+  config: PortConfig,
   loggerOption?: LoggerOption,
 ) => MiddlewareHandler<Env, "logger-middleware.infrastructure"> = (
+  config,
   loggerOption,
 ) => {
   let defaultReqId = 0n;
@@ -117,6 +120,7 @@ export const loggerMiddleware: (
     }
     logger.assign({
       [ATTR_CODE_FUNCTION_NAME]: "logger-middleware.infrastructure",
+      config,
     });
     let bindings = createRequestBindings(
       ctx,
