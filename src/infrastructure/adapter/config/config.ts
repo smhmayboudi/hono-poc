@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 
 import { getEnv } from "../../../app.env.ts";
 import type { PortConfig } from "../../application/port/config/config.ts";
@@ -52,7 +52,12 @@ const envSchema = z.object({
     ),
   CLIENT_ELASTICSEARCH_NODE: z.string().default("https://elasticsearch:9200"),
   CLIENT_REDIS_URL: z.string().default("redis://redis:6379"),
-  FEATURE_FLAG_USER_POC_FULLNAME: z.boolean().default(false),
+  FEATURE_FLAG_USER_POC_FULLNAME: z.coerce
+    .number()
+    .nonnegative()
+    .lte(1)
+    .default(0)
+    .transform((val) => val === 1),
   SERVER_PORT: z.coerce.number().int().nonnegative().lte(65535).default(8081),
 });
 const env = envSchema.parse(getEnv());

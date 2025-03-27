@@ -1,9 +1,9 @@
 import path from "node:path";
 
+import { z } from "@hono/zod-openapi";
 import { drizzle } from "drizzle-orm/mysql2";
 import { migrate } from "drizzle-orm/mysql2/migrator";
 import { createConnection } from "mysql2";
-import { z } from "zod";
 
 import { getEnv } from "../src/app.env.ts";
 import * as schema from "../src/infrastructure/application/port/database/schema/schema.ts";

@@ -16,9 +16,6 @@ importers:
       "@hono/zod-openapi":
         specifier: ^0.19.2
         version: 0.19.2(hono@4.7.5)(zod@3.24.2)
-      "@hono/zod-validator":
-        specifier: ^0.4.3
-        version: 0.4.3(hono@4.7.5)(zod@3.24.2)
       "@keyv/redis":
         specifier: ^4.3.2
         version: 4.3.2
@@ -64,9 +61,6 @@ importers:
       "@scalar/hono-api-reference":
         specifier: ^0.7.3
         version: 0.7.3(hono@4.7.5)
-      "@sentry/esbuild-plugin":
-        specifier: ^3.2.3
-        version: 3.2.3
       "@sentry/node":
         specifier: ^9.9.0
         version: 9.9.0
@@ -94,9 +88,6 @@ importers:
       drizzle-orm:
         specifier: ^0.41.0
         version: 0.41.0(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.12)(@types/pg@8.6.1)(gel@2.0.1)(kysely@0.27.6)(mysql2@3.14.0)
-      drizzle-zod:
-        specifier: ^0.7.0
-        version: 0.7.0(drizzle-orm@0.41.0(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.12)(@types/pg@8.6.1)(gel@2.0.1)(kysely@0.27.6)(mysql2@3.14.0))(zod@3.24.2)
       hono:
         specifier: ^4.7.5
         version: 4.7.5
@@ -118,9 +109,6 @@ importers:
       ts-deepmerge:
         specifier: ^7.0.2
         version: 7.0.2
-      zod:
-        specifier: ^3.24.2
-        version: 3.24.2
     devDependencies:
       "@biomejs/biome":
         specifier: ^1.9.4
@@ -164,6 +152,9 @@ importers:
       "@scalar/cli":
         specifier: ^0.2.326
         version: 0.2.326(@hyperjump/browser@1.2.0)(axios@1.8.3)(change-case@5.4.4)(tailwindcss@4.0.12)(typescript@5.8.2)
+      "@sentry/esbuild-plugin":
+        specifier: ^3.2.3
+        version: 3.2.3
       "@tsconfig/node22":
         specifier: ^22.0.1
         version: 22.0.1
@@ -192,8 +183,8 @@ importers:
         specifier: ^16.10.0
         version: 16.10.0
       drizzle-kit:
-        specifier: ^0.30.5
-        version: 0.30.5
+        specifier: ^0.30.6
+        version: 0.30.6
       drizzle-seed:
         specifier: ^0.3.1
         version: 0.3.1(drizzle-orm@0.41.0(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.12)(@types/pg@8.6.1)(gel@2.0.1)(kysely@0.27.6)(mysql2@3.14.0))
@@ -5574,10 +5565,10 @@ packages:
       }
     engines: { node: ">=12" }
 
-  drizzle-kit@0.30.5:
+  drizzle-kit@0.30.6:
     resolution:
       {
-        integrity: sha512-l6dMSE100u7sDaTbLczibrQZjA35jLsHNqIV+jmhNVO3O8jzM6kywMOmV9uOz9ZVSCMPQhAZEFjL/qDPVrqpUA==,
+        integrity: sha512-U4wWit0fyZuGuP7iNmRleQyK2V8wCuv57vf5l3MnG4z4fzNTjY/U13M8owyQ5RavqvqxBifWORaR3wIUzlN64g==,
       }
     hasBin: true
 
@@ -5683,15 +5674,6 @@ packages:
     peerDependenciesMeta:
       drizzle-orm:
         optional: true
-
-  drizzle-zod@0.7.0:
-    resolution:
-      {
-        integrity: sha512-xgCRYYVEzRkeXTS33GSMgoowe3vKsMNBjSI+cwG1oLQVEhAWWbqtb/AAMlm7tkmV4fG/uJjEmWzdzlEmTgWOoQ==,
-      }
-    peerDependencies:
-      drizzle-orm: ">=0.36.0"
-      zod: ">=3.0.0"
 
   dunder-proto@1.0.1:
     resolution:
@@ -15197,7 +15179,7 @@ snapshots:
 
   dotenv@16.4.7: {}
 
-  drizzle-kit@0.30.5:
+  drizzle-kit@0.30.6:
     dependencies:
       "@drizzle-team/brocli": 0.10.2
       "@esbuild-kit/esm-loader": 2.6.5
@@ -15222,11 +15204,6 @@ snapshots:
       pure-rand: 6.1.0
     optionalDependencies:
       drizzle-orm: 0.41.0(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.12)(@types/pg@8.6.1)(gel@2.0.1)(kysely@0.27.6)(mysql2@3.14.0)
-
-  drizzle-zod@0.7.0(drizzle-orm@0.41.0(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.12)(@types/pg@8.6.1)(gel@2.0.1)(kysely@0.27.6)(mysql2@3.14.0))(zod@3.24.2):
-    dependencies:
-      drizzle-orm: 0.41.0(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.12)(@types/pg@8.6.1)(gel@2.0.1)(kysely@0.27.6)(mysql2@3.14.0)
-      zod: 3.24.2
 
   dunder-proto@1.0.1:
     dependencies:

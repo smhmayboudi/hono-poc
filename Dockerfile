@@ -86,7 +86,7 @@ WORKDIR /usr/node/hono-poc/
 
 COPY ./package.json ./pnpm-lock.yaml ./
 COPY ./script/husky.install.js ./script/
-RUN npm install --global pnpm@9.12.0 \
+RUN npm install --global pnpm@${PNPM_VERSION} \
   && pnpm install --frozen-lockfile
 
 COPY --chown=node:node . .
