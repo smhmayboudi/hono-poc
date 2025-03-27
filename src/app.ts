@@ -46,7 +46,8 @@ app.use(
   }),
   loggerMiddleware({ pino: new Logger(pino({ level })) }),
   casbinMiddleware(
-    casbin(auth2, config, new Logger(pino({ level }))),
+    auth2,
+    casbin(config, new Logger(pino({ level }))),
     config,
     new Logger(pino({ level })),
   ),

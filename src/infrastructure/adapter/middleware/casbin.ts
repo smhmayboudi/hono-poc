@@ -2,6 +2,7 @@ import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/inc
 import type { MiddlewareHandler } from "hono";
 
 import type { Env } from "../../../env.ts";
+import type { PortAuth } from "../../application/port/auth/auth.ts";
 import type { PortCasbin } from "../../application/port/casbin/casbin.ts";
 import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
@@ -22,6 +23,7 @@ export class ErrorCasbinForbidden extends Error {
 
 export const casbinMiddleware =
   (
+    auth: PortAuth,
     casbin: PortCasbin,
     config: PortConfig,
     logger: PortLogger,
@@ -32,7 +34,13 @@ export const casbinMiddleware =
       config,
     });
     logger.debug({});
-    const isAuthorized = await casbin.authorizer(ctx);
+    const session = await auth.session(ctx);
+    logger.debug({ session });
+    ctx.set("session", session);
+    const { method, path } = ctx.req;
+    const userId = session?.user.id ?? "anonymous";
+    logger.debug({ method, path, userId });
+    const isAuthorized = await casbin.authorizer(method, path, userId);
     logger.debug({ isAuthorized });
     if (!isAuthorized) {
       logger.debug("!isAuthorized");

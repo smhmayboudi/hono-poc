@@ -1,7 +1,7 @@
-import type { Context } from "hono";
-
-import type { Env } from "../../../../env.ts";
-
 export interface PortCasbin {
-  authorizer: (ctx: Context<Env>) => Promise<boolean>;
+  authorizer: (
+    method: string,
+    path: string,
+    userId: string,
+  ) => Promise<boolean>;
 }

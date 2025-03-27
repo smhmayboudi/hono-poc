@@ -1,9 +1,6 @@
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
 import { newEnforcer } from "casbin";
-import type { Context } from "hono";
 
-import type { Env } from "../../../env.ts";
-import type { PortAuth } from "../../application/port/auth/auth.ts";
 import type { PortCasbin } from "../../application/port/casbin/casbin.ts";
 import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
@@ -16,34 +13,30 @@ export class Casbin implements PortCasbin {
   );
 
   constructor(
-    private readonly auth: PortAuth,
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
   ) {}
 
-  async authorizer(ctx: Context<Env>): Promise<boolean> {
+  async authorizer(
+    method: string,
+    path: string,
+    userId: string,
+  ): Promise<boolean> {
     this.logger.assign({
       [ATTR_CODE_FUNCTION_NAME]: "authorizer-casbin.infrastructure",
       config: this.config,
+      method,
+      path,
+      userId,
     });
     this.logger.debug({});
-    const session = await this.auth.session(ctx);
-    this.logger.debug({ session });
-    ctx.set("session", session);
-    const { method, path } = ctx.req;
-    const user = session?.user.id ?? "anonymous";
-    this.logger.debug({ method, path, user });
 
-    return (await this.enforcer).enforce(user, path, method);
+    return (await this.enforcer).enforce(userId, path, method);
   }
 }
 
-export const casbin = (
-  auth: PortAuth,
-  config: PortConfig,
-  logger: PortLogger,
-) =>
+export const casbin = (config: PortConfig, logger: PortLogger) =>
   tracer.startActiveSpan(
     "casbin.infrastructure",
-    () => new Casbin(auth, config, logger),
+    () => new Casbin(config, logger),
   );
