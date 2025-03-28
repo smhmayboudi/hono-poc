@@ -1,5 +1,6 @@
 import {
   account,
+  casbin,
   jwks,
   rateLimit,
   session,
@@ -12,6 +13,7 @@ import { userPOCView } from "../../../../adapter/database/schema/view/user-poc-v
 
 export {
   account,
+  casbin,
   jwks,
   rateLimit,
   session,

@@ -7,7 +7,7 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
-export const user = mysqlTable("user", {
+export const user = mysqlTable("auth_user", {
   id: varchar({ length: 36 }).primaryKey(),
   name: text().notNull(),
   email: varchar({ length: 255 }).notNull().unique(),
@@ -25,7 +25,7 @@ export const user = mysqlTable("user", {
   displayUsername: text(),
 });
 
-export const session = mysqlTable("session", {
+export const session = mysqlTable("auth_session", {
   id: varchar({ length: 36 }).primaryKey(),
   expiresAt: timestamp().notNull(),
   token: varchar({ length: 255 }).notNull().unique(),
@@ -39,7 +39,7 @@ export const session = mysqlTable("session", {
   impersonatedBy: text(),
 });
 
-export const account = mysqlTable("account", {
+export const account = mysqlTable("auth_account", {
   id: varchar({ length: 36 }).primaryKey(),
   accountId: text().notNull(),
   providerId: text().notNull(),
@@ -57,7 +57,7 @@ export const account = mysqlTable("account", {
   updatedAt: timestamp().notNull(),
 });
 
-export const verification = mysqlTable("verification", {
+export const verification = mysqlTable("auth_verification", {
   id: varchar({ length: 36 }).primaryKey(),
   identifier: text().notNull(),
   value: text().notNull(),
@@ -66,16 +66,27 @@ export const verification = mysqlTable("verification", {
   updatedAt: timestamp(),
 });
 
-export const jwks = mysqlTable("jwks", {
+export const jwks = mysqlTable("auth_jwks", {
   id: varchar({ length: 36 }).primaryKey(),
   publicKey: text().notNull(),
   privateKey: text().notNull(),
   createdAt: timestamp(),
 });
 
-export const rateLimit = mysqlTable("rate_limit", {
+export const rateLimit = mysqlTable("auth_rate_limit", {
   id: varchar({ length: 36 }).primaryKey(),
   key: text(),
   count: int(),
   lastRequest: int(),
+});
+
+export const casbin = mysqlTable("auth_casbin", {
+  id: int().primaryKey().autoincrement().notNull(),
+  ptype: varchar({ length: 255 }),
+  v0: varchar({ length: 255 }),
+  v1: varchar({ length: 255 }),
+  v2: varchar({ length: 255 }),
+  v3: varchar({ length: 255 }),
+  v4: varchar({ length: 255 }),
+  v5: varchar({ length: 255 }),
 });

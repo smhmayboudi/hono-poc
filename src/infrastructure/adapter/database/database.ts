@@ -32,6 +32,17 @@ export class Database2 implements PortDatabase {
     private readonly logger: PortLogger,
   ) {}
 
+  db(): MySql2Database<typeof schema> & {
+    $client: Pool;
+  } {
+    return drizzle(this.pool(), {
+      casing: "snake_case",
+      logger: new Logger2(this.config, this.logger),
+      mode: "default",
+      schema,
+    });
+  }
+
   pool(): Pool {
     return createPool({
       // typeCast: (field, next) => {
@@ -46,17 +57,6 @@ export class Database2 implements PortDatabase {
       //   }
       // },
       uri: this.config.database().uri(),
-    });
-  }
-
-  db(): MySql2Database<typeof schema> & {
-    $client: Pool;
-  } {
-    return drizzle(this.pool(), {
-      casing: "snake_case",
-      logger: new Logger2(this.config, this.logger),
-      mode: "default",
-      schema,
     });
   }
 }

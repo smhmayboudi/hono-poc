@@ -147,6 +147,16 @@
       }
     },
     {
+      "include": ["infrastructure/adapter/casbin/casbin-drizzle-adapter.ts"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noExcessiveCognitiveComplexity": "off"
+          }
+        }
+      }
+    },
+    {
       "include": ["infrastructure/adapter/logger/logger.ts"],
       "linter": {
         "rules": {
