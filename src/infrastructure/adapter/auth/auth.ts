@@ -19,9 +19,8 @@ import type { PortDatabase } from "../../application/port/database/database.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
 import { tracer } from "../opentelemetry/opentelemetry.ts";
 
-const basePath = "/api/v1";
-
 export const auth2 = (
+  basePath: string,
   config: PortConfig,
   database: PortDatabase,
   logger: PortLogger,
@@ -115,11 +114,12 @@ export const auth2 = (
 export class Auth implements PortAuth {
   private readonly auth: ReturnType<typeof auth2>;
   constructor(
+    private readonly basePath: string,
     private readonly config: PortConfig,
     private readonly database: PortDatabase,
     private readonly logger: PortLogger,
   ) {
-    this.auth = auth2(this.config, this.database, this.logger);
+    this.auth = auth2(this.basePath, this.config, this.database, this.logger);
   }
 
   handler(request: Request): Promise<Response> {
@@ -146,11 +146,12 @@ export class Auth implements PortAuth {
 }
 
 export const auth = (
+  basePath: string,
   config: PortConfig,
   database: PortDatabase,
   logger: PortLogger,
 ) =>
   tracer.startActiveSpan(
     "auth.infrastructure",
-    () => new Auth(config, database, logger),
+    () => new Auth(basePath, config, database, logger),
   );

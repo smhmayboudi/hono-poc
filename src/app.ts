@@ -31,7 +31,7 @@ const eventEmitter2 = eventEmitter(config, new Logger(pino({ level })));
 const elasticsearch2 = elasticsearch(config, new Logger(pino({ level })));
 const database2 = database(config, new Logger(pino({ level })));
 const cacher2 = cacher(config, new Logger(pino({ level })));
-const auth2 = auth(config, database2, new Logger(pino({ level })));
+const auth2 = auth(basePath, config, database2, new Logger(pino({ level })));
 
 appEventEmitter(cacher2, database2, elasticsearch2, eventEmitter2);
 
