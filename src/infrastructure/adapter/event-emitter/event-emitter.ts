@@ -11,13 +11,13 @@ import type { PortLogger } from "../../application/port/logger/logger.ts";
 import { tracer } from "../opentelemetry/opentelemetry.ts";
 
 export class EventEmitter implements PortEventEmitter {
-  private nodeEventEmitter: NodeEventEmitter;
+  #nodeEventEmitter: NodeEventEmitter;
 
   constructor(
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
   ) {
-    this.nodeEventEmitter = new NodeEventEmitter({ captureRejections: true });
+    this.#nodeEventEmitter = new NodeEventEmitter({ captureRejections: true });
   }
   emit<K extends keyof EventEmitterMap>(
     event: K,
@@ -30,7 +30,7 @@ export class EventEmitter implements PortEventEmitter {
       event,
     });
     this.logger.debug({});
-    this.nodeEventEmitter.emit(event, data);
+    this.#nodeEventEmitter.emit(event, data);
   }
   off<K extends keyof EventEmitterMap>(
     event: K,
@@ -42,7 +42,7 @@ export class EventEmitter implements PortEventEmitter {
       event,
     });
     this.logger.debug({});
-    this.nodeEventEmitter.off(event, listener);
+    this.#nodeEventEmitter.off(event, listener);
   }
   on<K extends keyof EventEmitterMap>(
     event: K,
@@ -54,7 +54,7 @@ export class EventEmitter implements PortEventEmitter {
       event,
     });
     this.logger.debug({});
-    this.nodeEventEmitter.on(event, listener);
+    this.#nodeEventEmitter.on(event, listener);
   }
 }
 
