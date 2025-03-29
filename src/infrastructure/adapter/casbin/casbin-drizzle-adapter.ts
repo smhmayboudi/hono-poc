@@ -11,28 +11,12 @@ type CasinInsert = typeof casbin.$inferInsert;
 export class CasbinDrizzleAdapter implements BatchAdapter, UpdatableAdapter {
   constructor(private readonly database: PortDatabase) {}
 
-  addPolicies(sec: string, ptype: string, rules: string[][]): Promise<void> {
-    for (const rule of rules) {
-      this.addPolicy(sec, ptype, rule);
-    }
-
-    return Promise.resolve();
-  }
-
-  loadPolicyLine(line: CasinSelect, model: Model) {
+  loadPolicyLine(line: CasinSelect, model: Model): void {
     const result = `${line.ptype}, ${[line.v0, line.v1, line.v2, line.v3, line.v4, line.v5].join(", ")}`;
     Helper.loadPolicyLine(result, model);
   }
 
-  removePolicies(sec: string, ptype: string, rules: string[][]): Promise<void> {
-    for (const rule of rules) {
-      this.removePolicy(sec, ptype, rule);
-    }
-
-    return Promise.resolve();
-  }
-
-  savePolicyLine(ptype: string, rule: string[]) {
+  savePolicyLine(ptype: string, rule: string[]): CasinInsert {
     const line: CasinInsert = { ptype };
     if (rule.length > 0) {
       line.v0 = rule[0];
@@ -54,6 +38,16 @@ export class CasbinDrizzleAdapter implements BatchAdapter, UpdatableAdapter {
     }
 
     return line;
+  }
+
+  async addPolicies(
+    sec: string,
+    ptype: string,
+    rules: string[][],
+  ): Promise<void> {
+    for (const rule of rules) {
+      await this.addPolicy(sec, ptype, rule);
+    }
   }
 
   async addPolicy(_sec: string, ptype: string, rule: string[]): Promise<void> {
@@ -112,6 +106,15 @@ export class CasbinDrizzleAdapter implements BatchAdapter, UpdatableAdapter {
         ),
       )
       .execute();
+  }
+  async removePolicies(
+    sec: string,
+    ptype: string,
+    rules: string[][],
+  ): Promise<void> {
+    for (const rule of rules) {
+      await this.removePolicy(sec, ptype, rule);
+    }
   }
 
   async removePolicy(
