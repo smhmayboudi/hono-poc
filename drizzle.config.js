@@ -3,8 +3,8 @@
  * https://orm.drizzle.team/kit-docs/conf
  */
 
+import { z } from "@hono/zod-openapi";
 import { defineConfig } from "drizzle-kit";
-import { z } from "zod";
 
 import { getEnv } from "./src/app.env.ts";
 
