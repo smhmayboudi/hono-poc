@@ -57,3 +57,5 @@ for (const result of results) {
   });
 }
 await elasticsearch2.client().close();
+// eslint-disable-next-line n/no-process-exit
+process.exit(0);
