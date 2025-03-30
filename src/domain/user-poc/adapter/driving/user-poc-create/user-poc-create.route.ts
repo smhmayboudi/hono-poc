@@ -23,7 +23,7 @@ export const userPOCCreateRoute = (basePath: string, domainType: string) =>
     },
     responses: routeResponses(
       successResponseSchema(userPOCCreateResponseSchema, domainType),
-      [201, 400, 401, 404, 422, 500],
+      [201, 400, 401, 403, 404, 422, 500],
     ),
     summary: "Create a new UserPOC",
     tags: [domainType],

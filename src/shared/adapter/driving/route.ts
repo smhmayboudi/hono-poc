@@ -1,6 +1,7 @@
 import type { RouteConfig, z } from "@hono/zod-openapi";
 
 import { badRequestResponseSchema } from "./response/bad-request.ts";
+import { forbiddenResponseSchema } from "./response/forbidden.ts";
 import { internalServerErrorResponseSchema } from "./response/internal-server-error.ts";
 import { notFoundResponseSchema } from "./response/not-found.ts";
 import { unauthorizedResponseSchema } from "./response/unauthorized.ts";
@@ -8,7 +9,7 @@ import { unprocessableContentResponseSchema } from "./response/unprocessable-con
 
 export const routeResponses = <S extends z.ZodTypeAny>(
   schema: S,
-  statusCode: (200 | 201 | 400 | 401 | 404 | 422 | 500)[],
+  statusCode: (200 | 201 | 400 | 401 | 403 | 404 | 422 | 500)[],
 ): RouteConfig["responses"] => {
   const responses: RouteConfig["responses"] = {};
   if (statusCode.includes(200)) {
@@ -45,6 +46,16 @@ export const routeResponses = <S extends z.ZodTypeAny>(
       content: {
         "application/json": {
           schema: unauthorizedResponseSchema,
+        },
+      },
+      description: "Unauthorized",
+    };
+  }
+  if (statusCode.includes(403)) {
+    responses[403] = {
+      content: {
+        "application/json": {
+          schema: forbiddenResponseSchema,
         },
       },
       description: "Unauthorized",

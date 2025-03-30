@@ -27,7 +27,7 @@ export const userPOCUpdateRoute = (basePath: string, domainType: string) =>
     },
     responses: routeResponses(
       successResponseSchema(userPOCUpdateResponseSchema, domainType),
-      [200, 400, 401, 404, 422, 500],
+      [200, 400, 401, 403, 404, 422, 500],
     ),
     summary: "Update a UserPOC",
     tags: [domainType],

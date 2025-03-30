@@ -18,7 +18,7 @@ export const userPOCInformationDeleteRoute = (
     },
     responses: routeResponses(
       successResponseSchema(userPOCInformationDeleteResponseSchema, domainType),
-      [200, 400, 401, 404, 422, 500],
+      [200, 400, 401, 403, 404, 422, 500],
     ),
     summary: "Delete a UserPOCInformation",
     tags: [domainType],

@@ -26,7 +26,7 @@ export const userPOCInformationCreateRoute = (
     },
     responses: routeResponses(
       successResponseSchema(userPOCInformationCreateResponseSchema, domainType),
-      [201, 400, 401, 404, 422, 500],
+      [201, 400, 401, 403, 404, 422, 500],
     ),
     summary: "Create a new UserPOCInformation",
     tags: [domainType],

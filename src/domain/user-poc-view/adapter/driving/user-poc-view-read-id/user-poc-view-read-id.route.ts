@@ -15,7 +15,7 @@ export const userPOCViewReadIDRoute = (basePath: string, domainType: string) =>
     },
     responses: routeResponses(
       successArrayResponseSchema(userPOCViewReadIDResponseSchema, domainType),
-      [200, 400, 401, 404, 422, 500],
+      [200, 400, 401, 403, 404, 422, 500],
     ),
     summary: "ReadID UserPOCView",
     tags: [domainType],

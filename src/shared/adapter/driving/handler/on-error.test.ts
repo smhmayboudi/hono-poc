@@ -10,8 +10,8 @@ import type { PortConfig } from "../../../../infrastructure/application/port/con
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import { defaultHook } from "../default-hook.ts";
 import { badRequestResponse } from "../response/bad-request.ts";
+import { forbiddenResponse } from "../response/forbidden.ts";
 import { internalServerErrorResponse } from "../response/internal-server-error.ts";
-import { unauthorizedResponse } from "../response/unauthorized.ts";
 import { onErrorHandler } from "./on-error.ts";
 
 describe("Driving Mobile Handler OnError", () => {
@@ -61,7 +61,7 @@ describe("Driving Mobile Handler OnError", () => {
     const mockApp = new OpenAPIHono<Env>({ defaultHook });
     mockApp.onError(onErrorHandler(config, logger));
     mockApp.get("/onError", () => {
-      throw new HTTPException(401, {
+      throw new HTTPException(403, {
         message: "onError",
       });
     });
@@ -98,8 +98,8 @@ describe("Driving Mobile Handler OnError", () => {
     const response = await mockApp.request("/onError");
 
     expect(response).not.toBeNull();
-    expect(response.status).toBe(401);
-    const expectedUnauthorizedResponse = unauthorizedResponse(
+    expect(response.status).toBe(403);
+    const expectedForbiddenResponse = forbiddenResponse(
       {
         json: vi.fn((responseBody) => responseBody),
         req: {
@@ -110,7 +110,7 @@ describe("Driving Mobile Handler OnError", () => {
       "Forbidden",
     );
     await expect(response.json()).resolves.toStrictEqual(
-      expectedUnauthorizedResponse,
+      expectedForbiddenResponse,
     );
   });
 });

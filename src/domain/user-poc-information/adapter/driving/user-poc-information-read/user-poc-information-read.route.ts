@@ -21,7 +21,7 @@ export const userPOCInformationReadRoute = (
         userPOCInformationReadResponseSchema,
         domainType,
       ),
-      [200, 400, 401, 404, 422, 500],
+      [200, 400, 401, 403, 404, 422, 500],
     ),
     summary: "Read UserPOCInformation(s)",
     tags: [domainType],

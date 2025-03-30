@@ -7,8 +7,8 @@ import { ErrorCasbinForbidden } from "../../../../infrastructure/adapter/middlew
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import { badRequestResponse } from "../response/bad-request.ts";
+import { forbiddenResponse } from "../response/forbidden.ts";
 import { internalServerErrorResponse } from "../response/internal-server-error.ts";
-import { unauthorizedResponse } from "../response/unauthorized.ts";
 
 export const onErrorHandler: (
   config: PortConfig,
@@ -23,7 +23,7 @@ export const onErrorHandler: (
     return badRequestResponse(ctx, error.message);
   }
   if (error instanceof ErrorCasbinForbidden) {
-    return unauthorizedResponse(ctx, error.message);
+    return forbiddenResponse(ctx, error.message);
   }
 
   return internalServerErrorResponse(ctx, error.message);

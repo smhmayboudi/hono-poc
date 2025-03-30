@@ -30,7 +30,7 @@ export const userPOCInformationUpdateRoute = (
     },
     responses: routeResponses(
       successResponseSchema(userPOCInformationUpdateResponseSchema, domainType),
-      [200, 400, 401, 404, 422, 500],
+      [200, 400, 401, 403, 404, 422, 500],
     ),
     summary: "Update a UserPOCInformation",
     tags: [domainType],
