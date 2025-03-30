@@ -40,7 +40,7 @@ export const casbinMiddleware =
     const { method, path } = ctx.req;
     const userId = session?.user.id ?? "anonymous";
     logger.debug({ method, path, userId });
-    const isAuthorized = await casbin.authorizer(method, path, userId);
+    const isAuthorized = await casbin.enforce(method, path, userId);
     logger.debug({ isAuthorized });
     if (!isAuthorized) {
       logger.debug("!isAuthorized");

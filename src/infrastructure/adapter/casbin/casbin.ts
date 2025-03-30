@@ -15,21 +15,46 @@ export class Casbin implements PortCasbin {
     private readonly logger: PortLogger,
   ) {}
 
-  async authorizer(
+  async addGroupingPolicy(...params: string[]): Promise<boolean> {
+    this.logger.assign({
+      [ATTR_CODE_FUNCTION_NAME]: "add-grouping-policy-casbin.infrastructure",
+      config: this.config,
+      params,
+    });
+    this.logger.debug({});
+    const enforcer = await this.enforcer;
+
+    return enforcer.addGroupingPolicy(...params);
+  }
+
+  async addPolicies(rules: string[][]): Promise<boolean> {
+    this.logger.assign({
+      [ATTR_CODE_FUNCTION_NAME]: "add-policies-casbin.infrastructure",
+      config: this.config,
+      rules,
+    });
+    this.logger.debug({});
+    const enforcer = await this.enforcer;
+
+    return enforcer.addPolicies(rules);
+  }
+
+  async enforce(
     method: string,
     path: string,
     userId: string,
   ): Promise<boolean> {
     this.logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "authorizer-casbin.infrastructure",
+      [ATTR_CODE_FUNCTION_NAME]: "enforce-casbin.infrastructure",
       config: this.config,
       method,
       path,
       userId,
     });
     this.logger.debug({});
+    const enforcer = await this.enforcer;
 
-    return (await this.enforcer).enforce(userId, path, method);
+    return enforcer.enforce(userId, path, method);
   }
 }
 
