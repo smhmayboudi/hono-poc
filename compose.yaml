@@ -369,7 +369,7 @@ services:
   #     opensearch:
   #       condition: service_healthy
   #   environment:
-  #     - OPENSEARCH_HOSTS=http://opensearch:9200
+  #     - OPENSEARCH_HOSTS=["http://opensearch:9200"]
   #   expose:
   #     - 5601 # OpenSearch Dashboards
   #   healthcheck:
