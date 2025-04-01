@@ -31,6 +31,7 @@ const eventEmitter2 = eventEmitter(config, new Logger(pino({ level })));
 const elasticsearch2 = elasticsearch(config, new Logger(pino({ level })));
 const database2 = database(config, new Logger(pino({ level })));
 const cacher2 = cacher(config, new Logger(pino({ level })));
+const casbin2 = casbin(config, database2, new Logger(pino({ level })));
 const auth2 = auth(basePath, config, database2, new Logger(pino({ level })));
 
 appEventEmitter(cacher2, database2, elasticsearch2, eventEmitter2);
@@ -45,12 +46,7 @@ app.use(
       ["127.0.0.1", "localhost"].includes(new URL(origin).hostname),
   }),
   loggerMiddleware(config, { pino: new Logger(pino({ level })) }),
-  casbinMiddleware(
-    auth2,
-    casbin(config, database2, new Logger(pino({ level }))),
-    config,
-    new Logger(pino({ level })),
-  ),
+  casbinMiddleware(auth2, casbin2, config, new Logger(pino({ level }))),
 );
 
 app.on(["POST", "GET"], "/api/v1/auth/**", (ctx) => auth2.handler(ctx.req.raw));
@@ -109,5 +105,5 @@ app.onError(onErrorHandler(config, new Logger(pino({ level }))));
 export default {
   fetch: app.fetch,
   logger: new Logger(pino({ level })),
-  port: config.server().port(),
+  port: config.server().server().port(),
 };

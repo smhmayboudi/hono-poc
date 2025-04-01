@@ -1,45 +1,30 @@
 import { z } from "@hono/zod-openapi";
 
 import { getEnv } from "../../../app.env.ts";
+import type { PortClientConfig } from "../../application/port/config/client/index.ts";
 import type { PortConfig } from "../../application/port/config/config.ts";
-import type { PortDatabase } from "../../application/port/config/database.ts";
-import type { PortElasticsearch } from "../../application/port/config/elasticsearch.ts";
-import type { PortFeature } from "../../application/port/config/feature.ts";
-import type { PortRedis } from "../../application/port/config/redis.ts";
-import type { PortServer } from "../../application/port/config/server.ts";
+import type { PortServerConfig } from "../../application/port/config/server/index.ts";
 import { tracer } from "../opentelemetry/opentelemetry.ts";
-import { Database } from "./database.ts";
-import { Elasticsearch } from "./elasticsearch.ts";
-import { Feature } from "./feature.ts";
-import { Redis } from "./redis.ts";
-import { Server } from "./server.ts";
+import { Database } from "./client/database.ts";
+import { Elasticsearch } from "./client/elasticsearch.ts";
+import { ClientConfig } from "./client/index.ts";
+import { Redis } from "./client/redis.ts";
+import { Auth } from "./server/auth.ts";
+import { Feature } from "./server/feature.ts";
+import { ServerConfig } from "./server/index.ts";
+import { Server } from "./server/server.ts";
 
 export class Config implements PortConfig {
   constructor(
-    private readonly _database: PortDatabase,
-    private readonly _elasticsearch: PortElasticsearch,
-    private readonly _feature: PortFeature,
-    private readonly _redis: PortRedis,
-    private readonly _server: PortServer,
+    private readonly _client: PortClientConfig,
+    private readonly _server: PortServerConfig,
   ) {}
 
-  database(): PortDatabase {
-    return this._database;
+  client(): PortClientConfig {
+    return this._client;
   }
 
-  elasticsearch(): PortElasticsearch {
-    return this._elasticsearch;
-  }
-
-  feature(): PortFeature {
-    return this._feature;
-  }
-
-  redis(): PortRedis {
-    return this._redis;
-  }
-
-  server(): PortServer {
+  server(): PortServerConfig {
     return this._server;
   }
 }
@@ -52,26 +37,44 @@ const envSchema = z.object({
     ),
   CLIENT_ELASTICSEARCH_NODE: z.string().default("https://elasticsearch:9200"),
   CLIENT_REDIS_URL: z.string().default("redis://redis:6379"),
-  FEATURE_FLAG_USER_POC_FULLNAME: z.coerce
+  SERVER_AUTH_APP_NAME: z.string().default("Hono POC"),
+  SERVER_AUTH_BASE_URL: z.string().default("http://127.0.0.1:8081"),
+  SERVER_AUTH_SECRET: z
+    .string()
+    .length(32)
+    .default("hono-poc-12345678901234567890-!@"),
+  SERVER_FEATURE_FLAG_USER_POC_FULLNAME: z.coerce
     .number()
     .nonnegative()
     .lte(1)
     .default(0)
     .transform((val) => val === 1),
-  SERVER_PORT: z.coerce.number().int().nonnegative().lte(65535).default(8081),
+  SERVER_SERVER_PORT: z.coerce
+    .number()
+    .int()
+    .nonnegative()
+    .lte(65535)
+    .default(8081),
 });
 const env = envSchema.parse(getEnv());
-
-// TODO: service call to get feature flags
 
 export const config = tracer.startActiveSpan(
   "config.infrastructure",
   () =>
     new Config(
-      new Database(env.CLIENT_DATABASE_URI),
-      new Elasticsearch(env.CLIENT_ELASTICSEARCH_NODE),
-      new Feature(env.FEATURE_FLAG_USER_POC_FULLNAME),
-      new Redis(env.CLIENT_REDIS_URL),
-      new Server(env.SERVER_PORT),
+      new ClientConfig(
+        new Database(env.CLIENT_DATABASE_URI),
+        new Elasticsearch(env.CLIENT_ELASTICSEARCH_NODE),
+        new Redis(env.CLIENT_REDIS_URL),
+      ),
+      new ServerConfig(
+        new Auth(
+          env.SERVER_AUTH_APP_NAME,
+          env.SERVER_AUTH_BASE_URL,
+          env.SERVER_AUTH_SECRET,
+        ),
+        new Feature(env.SERVER_FEATURE_FLAG_USER_POC_FULLNAME),
+        new Server(env.SERVER_SERVER_PORT),
+      ),
     ),
 );

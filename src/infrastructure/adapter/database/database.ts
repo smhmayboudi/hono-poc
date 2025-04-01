@@ -38,7 +38,7 @@ export class Database2 implements PortDatabase {
       //     return next();
       //   }
       // },
-      uri: this.config.database().uri(),
+      uri: this.config.client().database().uri(),
     });
   }
 }

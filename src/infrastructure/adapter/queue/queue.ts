@@ -19,7 +19,7 @@ export class Queue<T> implements PortQueue<T> {
     private readonly logger: PortLogger,
     name: string,
   ) {
-    this.queue = new Bull<T>(name, `${config.redis().url()}/2`);
+    this.queue = new Bull<T>(name, `${config.client().redis().url()}/2`);
 
     this.queue.on("lock-extension-failed", (job, error) => {
       logger.assign({

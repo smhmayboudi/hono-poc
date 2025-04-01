@@ -1,4 +1,4 @@
-import type { PortServer } from "../../application/port/config/server.ts";
+import type { PortServer } from "../../../application/port/config/server/server.ts";
 
 export class Server implements PortServer {
   constructor(private readonly _port: number) {}

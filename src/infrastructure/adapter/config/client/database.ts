@@ -1,4 +1,4 @@
-import type { PortDatabase } from "../../application/port/config/database.ts";
+import type { PortDatabase } from "../../../application/port/config/client/database.ts";
 
 export class Database implements PortDatabase {
   constructor(private readonly _uri: string) {}

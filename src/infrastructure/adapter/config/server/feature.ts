@@ -1,4 +1,4 @@
-import type { PortFeature } from "../../application/port/config/feature.ts";
+import type { PortFeature } from "../../../application/port/config/server/feature.ts";
 
 export class Feature implements PortFeature {
   constructor(private readonly _userPOCFullname: boolean) {}
