@@ -20,8 +20,9 @@ export const appEventEmitter = (
       .where(eq(userPOCView.user_poc_id, data.response.id))
       .execute();
     for (const result of results) {
-      await cacher.set(
-        cacher.key({ id: data.response.id }).DrivenUserPOCViewReadID,
+      await cacher.set<"DrivenUserPOCViewReadID">(
+        cacher.key<"DrivenUserPOCViewReadID">({ id: data.response.id })
+          .DrivenUserPOCViewReadID,
         {
           address: String(result.user_poc_information_address),
           age: Number(result.user_poc_information_age),
@@ -58,7 +59,8 @@ export const appEventEmitter = (
 
   eventEmitter.on("UserPOCViewUseCaseDelete", async (data) => {
     await cacher.del(
-      cacher.key({ id: data.request.id }).DrivenUserPOCViewReadID,
+      cacher.key<"DrivenUserPOCViewReadID">({ id: data.request.id })
+        .DrivenUserPOCViewReadID,
     );
     await elasticsearch.client().delete({
       id: String(data.request.id),
@@ -74,8 +76,9 @@ export const appEventEmitter = (
       .where(eq(userPOCView.user_poc_id, data.request.id))
       .execute();
     for (const result of results) {
-      await cacher.set(
-        cacher.key({ id: result.user_poc_id }).DrivenUserPOCViewReadID,
+      await cacher.set<"DrivenUserPOCViewReadID">(
+        cacher.key<"DrivenUserPOCViewReadID">({ id: result.user_poc_id })
+          .DrivenUserPOCViewReadID,
         {
           address: String(result.user_poc_information_address),
           age: Number(result.user_poc_information_age),
