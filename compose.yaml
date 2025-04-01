@@ -398,6 +398,35 @@ services:
   #   # volumes:
   #   #   - ./.docker/opensearch-dashboards/opensearch_dashboards.yml:/usr/share/opensearch-dashboards/config/opensearch_dashboards.yml:ro
 
+  otel-lgtm:
+    container_name: hono-otel-lgtm
+    environment:
+      - ENABLE_LOGS_ALL=true
+      - GF_PATHS_DATA=/data/grafana
+    expose:
+      - 3000 # Panel
+      - 4317 # OTLP http
+      - 4318 # OTLP grpc
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - curl --fail http://otel-lgtm:3000 || exit 1
+      timeout: 5s
+    image: grafana/otel-lgtm:0.9.3
+    ports:
+      - "3000:3000"
+      - "4317:4317"
+      - "4318:4318"
+    labels:
+      namespace: otel-lgtm
+    logging: *logging
+    restart: "no"
+    volumes:
+      - otel-lgtm:/data
+
   phpmyadmin:
     container_name: hono-phpmyadmin
     depends_on:
@@ -513,5 +542,6 @@ volumes:
   # minio: {}
   mysql: {}
   # opensearch: {}
+  otel-lgtm: {}
   # plantuml-server: {}
   redis: {}
