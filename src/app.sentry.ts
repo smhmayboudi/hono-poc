@@ -1,13 +1,4 @@
 import { diag, DiagConsoleLogger, DiagLogLevel } from "@opentelemetry/api";
-import { AsyncLocalStorageContextManager } from "@opentelemetry/context-async-hooks";
-import {
-  CompositePropagator,
-  W3CBaggagePropagator,
-  W3CTraceContextPropagator,
-} from "@opentelemetry/core";
-import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
-import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
-import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import { MySQL2Instrumentation } from "@opentelemetry/instrumentation-mysql2";
 import { PinoInstrumentation } from "@opentelemetry/instrumentation-pino";
@@ -18,21 +9,52 @@ import {
   processDetector,
   Resource,
 } from "@opentelemetry/resources";
-import { SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
-import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import {
+  ConsoleLogRecordExporter,
+  SimpleLogRecordProcessor,
+} from "@opentelemetry/sdk-logs";
+import {
+  ConsoleMetricExporter,
+  PeriodicExportingMetricReader,
+} from "@opentelemetry/sdk-metrics";
 import { NodeSDK } from "@opentelemetry/sdk-node";
-import { SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import { ConsoleSpanExporter } from "@opentelemetry/sdk-trace-node";
 import {
   ATTR_SERVICE_NAME,
   ATTR_SERVICE_VERSION,
 } from "@opentelemetry/semantic-conventions";
+import * as sentry from "@sentry/node";
+import { SentryContextManager } from "@sentry/node";
+import {
+  SentryPropagator,
+  SentrySampler,
+  SentrySpanProcessor,
+  setOpenTelemetryContextAsyncContextStrategy,
+  setupEventContextTrace,
+} from "@sentry/opentelemetry";
+import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
-const otlpTraceExporter = new OTLPTraceExporter();
+sentry.init({
+  debug:
+    process.env["CI"] !== "true" && process.env["NODE_ENV"] !== "production",
+  defaultIntegrations: false,
+  integrations: [nodeProfilingIntegration()],
+  profilesSampleRate: Number(process.env["SENTRY_PROFILES_SAMPLE_RATE"] ?? 0),
+  skipOpenTelemetrySetup: true,
+});
+
+const client = sentry.getClient();
+if (!client) {
+  throw new Error("Sentry client not initialized");
+}
+
+setupEventContextTrace(client);
+
 const sdk = new NodeSDK({
   autoDetectResources: false,
-  contextManager: new AsyncLocalStorageContextManager(),
+  contextManager: new SentryContextManager(),
   // idGenerator: IdGenerator;
   instrumentations: [
     new HttpInstrumentation(),
@@ -40,26 +62,28 @@ const sdk = new NodeSDK({
     new PinoInstrumentation(),
     new RedisInstrumentation(),
   ],
-  logRecordProcessors: [new SimpleLogRecordProcessor(new OTLPLogExporter())],
+  logRecordProcessors: [
+    new SimpleLogRecordProcessor(new ConsoleLogRecordExporter()),
+  ],
   mergeResourceWithDefaults: false,
   metricReader: new PeriodicExportingMetricReader({
-    exporter: new OTLPMetricExporter(),
+    exporter: new ConsoleMetricExporter(),
   }),
   resource: new Resource({
     [ATTR_SERVICE_NAME]: "hono-poc",
     [ATTR_SERVICE_VERSION]: "0.0.0",
   }),
   resourceDetectors: [envDetector, hostDetector, processDetector],
-  // sampler: Sampler;
+  sampler: new SentrySampler(client),
   // spanLimits: SpanLimits;
   serviceName: "hono-poc",
-  spanProcessors: [new SimpleSpanProcessor(otlpTraceExporter)],
-  textMapPropagator: new CompositePropagator({
-    propagators: [new W3CTraceContextPropagator(), new W3CBaggagePropagator()],
-  }),
-  traceExporter: otlpTraceExporter,
+  spanProcessors: [new SentrySpanProcessor()],
+  textMapPropagator: new SentryPropagator(),
+  traceExporter: new ConsoleSpanExporter(),
   // views: View[];
 });
+
+setOpenTelemetryContextAsyncContextStrategy();
 
 sdk.start();
 

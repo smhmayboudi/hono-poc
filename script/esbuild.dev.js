@@ -10,6 +10,7 @@ const context = await esbuild.context({
   bundle: true,
   entryPoints: [
     path.join(import.meta.dirname, "../src/app.opentelemetry.ts"),
+    path.join(import.meta.dirname, "../src/app.sentry.ts"),
     path.join(import.meta.dirname, "../src/app.node.ts"),
     path.join(import.meta.dirname, "../src/app.ts"),
   ],

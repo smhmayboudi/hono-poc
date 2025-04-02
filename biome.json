@@ -147,6 +147,20 @@
       }
     },
     {
+      "include": ["app.sentry.ts"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off"
+          },
+          "style": {
+            "noNamespaceImport": "off",
+            "noNonNullAssertion": "off"
+          }
+        }
+      }
+    },
+    {
       "include": ["infrastructure/adapter/casbin/casbin-drizzle-adapter.ts"],
       "linter": {
         "rules": {

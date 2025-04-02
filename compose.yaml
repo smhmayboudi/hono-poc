@@ -405,8 +405,8 @@ services:
       - GF_PATHS_DATA=/data/grafana
     expose:
       - 3000 # Panel
-      - 4317 # OTLP http
-      - 4318 # OTLP grpc
+      - 4317 # OTLP grpc
+      - 4318 # OTLP http
     healthcheck:
       interval: 10s
       retries: 5

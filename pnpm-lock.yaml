@@ -22,6 +22,21 @@ importers:
       "@opentelemetry/api":
         specifier: ^1.9.0
         version: 1.9.0
+      "@opentelemetry/context-async-hooks":
+        specifier: ^2.0.0
+        version: 2.0.0(@opentelemetry/api@1.9.0)
+      "@opentelemetry/core":
+        specifier: ^2.0.0
+        version: 2.0.0(@opentelemetry/api@1.9.0)
+      "@opentelemetry/exporter-logs-otlp-http":
+        specifier: ^0.57.2
+        version: 0.57.2(@opentelemetry/api@1.9.0)
+      "@opentelemetry/exporter-metrics-otlp-http":
+        specifier: 0.57.2
+        version: 0.57.2(@opentelemetry/api@1.9.0)
+      "@opentelemetry/exporter-trace-otlp-http":
+        specifier: ^0.57.2
+        version: 0.57.2(@opentelemetry/api@1.9.0)
       "@opentelemetry/instrumentation":
         specifier: ^0.57.2
         version: 0.57.2(@opentelemetry/api@1.9.0)
@@ -66,7 +81,7 @@ importers:
         version: 9.10.1
       "@sentry/opentelemetry":
         specifier: ^9.10.1
-        version: 9.10.1(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.30.0)
+        version: 9.10.1(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.0.0(@opentelemetry/api@1.9.0))(@opentelemetry/core@2.0.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.30.0)
       "@sentry/profiling-node":
         specifier: ^9.10.1
         version: 9.10.1
@@ -2122,6 +2137,15 @@ packages:
         integrity: sha512-s5vvxXPVdjqS3kTLKMeBMvop9hbWkwzBpu+mUO2M7sZtlkyDJGwFe33wRKnbaYDo8ExRVBIIdwIGrqpxHuKttA==,
       }
     engines: { node: ">=14" }
+    peerDependencies:
+      "@opentelemetry/api": ">=1.0.0 <1.10.0"
+
+  "@opentelemetry/context-async-hooks@2.0.0":
+    resolution:
+      {
+        integrity: sha512-IEkJGzK1A9v3/EHjXh3s2IiFc6L4jfK+lNgKVgUjeUJQRRhnVFMIO3TAvKwonm9O1HebCuoOt98v8bZW7oVQHA==,
+      }
+    engines: { node: ^18.19.0 || >=20.6.0 }
     peerDependencies:
       "@opentelemetry/api": ">=1.0.0 <1.10.0"
 
@@ -12698,6 +12722,10 @@ snapshots:
     dependencies:
       "@opentelemetry/api": 1.9.0
 
+  "@opentelemetry/context-async-hooks@2.0.0(@opentelemetry/api@1.9.0)":
+    dependencies:
+      "@opentelemetry/api": 1.9.0
+
   "@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0)":
     dependencies:
       "@opentelemetry/api": 1.9.0
@@ -13972,6 +14000,16 @@ snapshots:
       "@opentelemetry/api": 1.9.0
       "@opentelemetry/context-async-hooks": 1.30.1(@opentelemetry/api@1.9.0)
       "@opentelemetry/core": 1.30.1(@opentelemetry/api@1.9.0)
+      "@opentelemetry/instrumentation": 0.57.2(@opentelemetry/api@1.9.0)
+      "@opentelemetry/sdk-trace-base": 1.30.1(@opentelemetry/api@1.9.0)
+      "@opentelemetry/semantic-conventions": 1.30.0
+      "@sentry/core": 9.10.1
+
+  "@sentry/opentelemetry@9.10.1(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.0.0(@opentelemetry/api@1.9.0))(@opentelemetry/core@2.0.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.30.0)":
+    dependencies:
+      "@opentelemetry/api": 1.9.0
+      "@opentelemetry/context-async-hooks": 2.0.0(@opentelemetry/api@1.9.0)
+      "@opentelemetry/core": 2.0.0(@opentelemetry/api@1.9.0)
       "@opentelemetry/instrumentation": 0.57.2(@opentelemetry/api@1.9.0)
       "@opentelemetry/sdk-trace-base": 1.30.1(@opentelemetry/api@1.9.0)
       "@opentelemetry/semantic-conventions": 1.30.0
