@@ -127,7 +127,7 @@
   },
   "engines": {
     "node": "^22.14.0",
-    "pnpm": "^10.7.0"
+    "pnpm": "^10.7.1"
   },
   "license": "UNLICENSED",
   "main": "build/app.node.js",
@@ -159,6 +159,7 @@
     "dev:esbuild": "node --env-file=.env ./script/esbuild.dev.js",
     "dev:node": "NODE_ENV=development node --env-file=.env --inspect=0.0.0.0:9229 --require=source-map-support/register --watch ./build/app.node.js",
     "dev:otel": "node --env-file=.env --watch --import=tsx --import=./src/app.opentelemetry.ts --trace-warnings ./src/app.node.ts",
+    "dev:sentry": "node --env-file=.env --watch --import=tsx --import=./src/app.sentry.ts --trace-warnings ./src/app.node.ts",
     "dev:pre": "rimraf ./build/ && mkdir ./build/ && cp ./package.build.json ./build/package.json",
     "dev:tsc": "tsc --noEmit --preserveWatchOutput --watch",
     "diagram": "pnpm run diagram:tplant & pnpm run diagram:tsuml2",
