@@ -34,9 +34,9 @@ export const userPOCViewReadHandler =
       logger.debug({ origin });
       const query = ctx.req.valid("query");
       logger.debug({ query });
-      const list = await drivingUserPOCViewRead.execute(query);
-      logger.debug({ list });
-      const response = list.map((value) => ({
+      const result = await drivingUserPOCViewRead.execute(query);
+      logger.debug({ result });
+      const response = result.map((value) => ({
         ...userPOCViewReadResponseSchema.parse(value),
         id: value.id,
       }));

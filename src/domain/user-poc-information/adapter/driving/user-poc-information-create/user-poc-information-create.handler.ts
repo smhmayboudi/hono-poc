@@ -34,11 +34,11 @@ export const userPOCInformationCreateHandler =
       logger.debug({ origin });
       const json = ctx.req.valid("json");
       logger.debug({ json });
-      const { id } = await drivingUserPOCInformationCreate.execute(json);
-      logger.debug({ id });
+      const result = await drivingUserPOCInformationCreate.execute(json);
+      logger.debug({ result });
       const response = {
-        ...userPOCInformationCreateResponseSchema.parse({ ...json, id }),
-        id,
+        ...userPOCInformationCreateResponseSchema.parse({ ...json, ...result }),
+        id: result.id,
       };
       logger.debug({ response });
 

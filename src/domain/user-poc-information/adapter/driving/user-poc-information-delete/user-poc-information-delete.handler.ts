@@ -34,11 +34,11 @@ export const userPOCInformationDeleteHandler =
       logger.debug({ origin });
       const param = ctx.req.valid("param");
       logger.debug({ param });
-      const { id } = await drivingUserPOCInformationDelete.execute(param);
-      logger.debug({ id });
+      const result = await drivingUserPOCInformationDelete.execute(param);
+      logger.debug({ result });
       const response = {
-        ...userPOCInformationDeleteResponseSchema.parse({ id }),
-        id,
+        ...userPOCInformationDeleteResponseSchema.parse(result),
+        id: result.id,
       };
       logger.debug({ response });
 

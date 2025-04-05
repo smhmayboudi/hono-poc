@@ -36,9 +36,9 @@ export const userPOCViewSearchHandler =
       logger.debug({ query });
       const json = ctx.req.valid("json");
       logger.debug({ json });
-      const list = await drivingUserPOCViewSearch.execute(json);
-      logger.debug({ list });
-      const response = list.map((value) => ({
+      const result = await drivingUserPOCViewSearch.execute(json);
+      logger.debug({ result });
+      const response = result.map((value) => ({
         ...userPOCViewSearchResponseSchema.parse(value),
         id: value.id,
       }));

@@ -34,11 +34,11 @@ export const userPOCViewCreateHandler =
       logger.debug({ origin });
       const json = ctx.req.valid("json");
       logger.debug({ json });
-      const { id } = await drivingUserPOCViewCreate.execute(json);
-      logger.debug({ id });
+      const result = await drivingUserPOCViewCreate.execute(json);
+      logger.debug({ result });
       const response = {
-        ...userPOCViewCreateResponseSchema.parse({ ...json, id }),
-        id,
+        ...userPOCViewCreateResponseSchema.parse({ ...json, ...result }),
+        id: result.id,
       };
       logger.debug({ response });
 

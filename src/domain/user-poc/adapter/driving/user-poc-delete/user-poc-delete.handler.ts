@@ -34,11 +34,11 @@ export const userPOCDeleteHandler =
       logger.debug({ origin });
       const param = ctx.req.valid("param");
       logger.debug({ param });
-      const { id } = await drivingUserPOCDelete.execute(param);
-      logger.debug({ id });
+      const result = await drivingUserPOCDelete.execute(param);
+      logger.debug({ result });
       const response = {
-        ...userPOCDeleteResponseSchema.parse({ id }),
-        id,
+        ...userPOCDeleteResponseSchema.parse(result),
+        id: result.id,
       };
       logger.debug({ response });
 

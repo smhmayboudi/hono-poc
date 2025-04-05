@@ -36,14 +36,14 @@ export const userPOCUpdateHandler =
       logger.debug({ json });
       const param = ctx.req.valid("param");
       logger.debug({ param });
-      const { id } = await drivingUserPOCUpdate.execute({
+      const result = await drivingUserPOCUpdate.execute({
         ...json,
         ...param,
       });
-      logger.debug({ id });
+      logger.debug({ result });
       const response = {
-        ...userPOCUpdateResponseSchema.parse({ id }),
-        id,
+        ...userPOCUpdateResponseSchema.parse(result),
+        id: result.id,
       };
       logger.debug({ response });
 

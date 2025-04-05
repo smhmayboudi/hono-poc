@@ -34,11 +34,11 @@ export const userPOCViewDeleteHandler =
       logger.debug({ origin });
       const param = ctx.req.valid("param");
       logger.debug({ param });
-      const { id } = await drivingUserPOCViewDelete.execute(param);
-      logger.debug({ id });
+      const result = await drivingUserPOCViewDelete.execute(param);
+      logger.debug({ result });
       const response = {
-        ...userPOCViewDeleteResponseSchema.parse({ id }),
-        id,
+        ...userPOCViewDeleteResponseSchema.parse(result),
+        id: result.id,
       };
       logger.debug({ response });
 

@@ -34,11 +34,11 @@ export const userPOCCreateHandler =
       logger.debug({ origin });
       const json = ctx.req.valid("json");
       logger.debug({ json });
-      const { id } = await drivingUserPOCCreate.execute(json);
-      logger.debug({ id });
+      const result = await drivingUserPOCCreate.execute(json);
+      logger.debug({ result });
       const response = {
-        ...userPOCCreateResponseSchema.parse({ ...json, id }),
-        id,
+        ...userPOCCreateResponseSchema.parse({ ...json, ...result }),
+        id: result.id,
       };
       logger.debug({ response });
 
