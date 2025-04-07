@@ -33,7 +33,9 @@ describe("UserPOCInformation UseCase ReadID", () => {
       };
     const drivenUserPOCInformationReadID =
       mock<PortDrivenUserPOCInformationReadID>({
-        read: vi.fn().mockResolvedValue(drivenUserPOCInformationReadIDResponse),
+        readID: vi
+          .fn()
+          .mockResolvedValue(drivenUserPOCInformationReadIDResponse),
       });
 
     const config = mock<PortConfig>();
@@ -73,7 +75,7 @@ describe("UserPOCInformation UseCase ReadID", () => {
     );
     const drivenUserPOCInformationReadIDSpy = vi.spyOn(
       drivenUserPOCInformationReadID,
-      "read",
+      "readID",
     );
 
     const userPOCReadID = await useCaseUserPOCInformationReadID.execute(

@@ -33,7 +33,7 @@ export class UseCaseUserPOCInformationReadID
           config: this.config,
         });
         this.logger.info({});
-        const list = await this.drivenUserPOCInformationReadID.read(data);
+        const list = await this.drivenUserPOCInformationReadID.readID(data);
         this.logger.debug({ list });
         this.eventEmitter.emit("UserPOCInformationUseCaseReadID", {
           request: data,
