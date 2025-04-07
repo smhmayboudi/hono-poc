@@ -1332,7 +1332,6 @@
         "npm:lint-staged@^15.5.0",
         "npm:markdownlint-cli2@~0.17.2",
         "npm:markdownlint@~0.37.4",
-        "npm:mysql2@^3.14.0",
         "npm:node-plop@0.32",
         "npm:openapi-typescript@^7.6.1",
         "npm:openapi-zod-client@^1.18.3",

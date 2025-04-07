@@ -1,5 +1,4 @@
 import { drizzle, type MySql2Database } from "drizzle-orm/mysql2";
-import { createPool, type Pool } from "mysql2";
 
 import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortDatabase } from "../../application/port/database/database.ts";
@@ -14,31 +13,13 @@ export class Database2 implements PortDatabase {
     private readonly logger: PortLogger,
   ) {}
 
-  db(): MySql2Database<typeof schema> & {
-    $client: Pool;
-  } {
-    return drizzle(this.pool(), {
+  db(): MySql2Database<typeof schema> {
+    return drizzle({
       casing: "snake_case",
+      connection: this.config.client().database().uri(),
       logger: new DatabaseLogger(this.config, this.logger),
       mode: "default",
       schema,
-    });
-  }
-
-  pool(): Pool {
-    return createPool({
-      // typeCast: (field, next) => {
-      //   if (
-      //     field.length === 1 &&
-      //     field.name === "is_deleted" &&
-      //     field.type === "TINY"
-      //   ) {
-      //     return field.string() === "1";
-      //   } else {
-      //     return next();
-      //   }
-      // },
-      uri: this.config.client().database().uri(),
     });
   }
 }
