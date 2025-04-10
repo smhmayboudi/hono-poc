@@ -17,6 +17,11 @@ export const userPOCReadRoute = (basePath: string, domainType: string) =>
       successArrayResponseSchema(userPOCReadResponseSchema, domainType),
       [200, 400, 401, 403, 404, 422, 500],
     ),
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     summary: "Read UserPOC(s)",
     tags: [domainType],
   });

@@ -25,6 +25,11 @@ export const userPOCCreateRoute = (basePath: string, domainType: string) =>
       successResponseSchema(userPOCCreateResponseSchema, domainType),
       [201, 400, 401, 403, 404, 422, 500],
     ),
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     summary: "Create a new UserPOC",
     tags: [domainType],
   });

@@ -28,6 +28,11 @@ export const userPOCInformationCreateRoute = (
       successResponseSchema(userPOCInformationCreateResponseSchema, domainType),
       [201, 400, 401, 403, 404, 422, 500],
     ),
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     summary: "Create a new UserPOCInformation",
     tags: [domainType],
   });

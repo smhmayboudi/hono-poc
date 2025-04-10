@@ -29,6 +29,11 @@ export const userPOCViewUpdateRoute = (basePath: string, domainType: string) =>
       successResponseSchema(userPOCViewUpdateResponseSchema, domainType),
       [200, 400, 401, 403, 404, 422, 500],
     ),
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     summary: "Update a UserPOCView",
     tags: [domainType],
   });

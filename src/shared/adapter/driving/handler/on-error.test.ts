@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 
 import type { Env } from "../../../../env.ts";
-import { ErrorCasbinForbidden } from "../../../../infrastructure/adapter/middleware/casbin.ts";
+import { ErrorAuthForbidden } from "../../../../infrastructure/adapter/middleware/auth.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import { defaultHook } from "../default-hook.ts";
@@ -92,7 +92,7 @@ describe("Driving Mobile Handler OnError", () => {
     const mockApp = new OpenAPIHono<Env>({ defaultHook });
     mockApp.onError(onErrorHandler(config, logger));
     mockApp.get("/onError", () => {
-      throw new ErrorCasbinForbidden();
+      throw new ErrorAuthForbidden();
     });
 
     const response = await mockApp.request("/onError");

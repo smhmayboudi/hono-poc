@@ -3,7 +3,7 @@ import type { ErrorHandler } from "hono";
 import { HTTPException } from "hono/http-exception";
 
 import type { Env } from "../../../../env.ts";
-import { ErrorCasbinForbidden } from "../../../../infrastructure/adapter/middleware/casbin.ts";
+import { ErrorAuthForbidden } from "../../../../infrastructure/adapter/middleware/auth.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import { badRequestResponse } from "../response/bad-request.ts";
@@ -22,7 +22,7 @@ export const onErrorHandler: (
   if (error instanceof HTTPException) {
     return badRequestResponse(ctx, error.message);
   }
-  if (error instanceof ErrorCasbinForbidden) {
+  if (error instanceof ErrorAuthForbidden) {
     return forbiddenResponse(ctx, error.message);
   }
 

@@ -11,14 +11,13 @@ import { userPOCView } from "./domain/user-poc-view/user-poc-view.ts";
 import type { Env } from "./env.ts";
 import { auth } from "./infrastructure/adapter/auth/auth.ts";
 import { cacher } from "./infrastructure/adapter/cacher/cacher.ts";
-import { casbin } from "./infrastructure/adapter/casbin/casbin.ts";
 import { config } from "./infrastructure/adapter/config/config.ts";
 import { database } from "./infrastructure/adapter/database/database.ts";
 import { elasticsearch } from "./infrastructure/adapter/elasticsearch/elasticsearch.ts";
 import { eventEmitter } from "./infrastructure/adapter/event-emitter/event-emitter.ts";
 import { generate } from "./infrastructure/adapter/generate/generate.ts";
 import { Logger } from "./infrastructure/adapter/logger/logger.ts";
-import { casbinMiddleware } from "./infrastructure/adapter/middleware/casbin.ts";
+import { authMiddleware } from "./infrastructure/adapter/middleware/auth.ts";
 import { loggerMiddleware } from "./infrastructure/adapter/middleware/logger.ts";
 import { opentelemetryMiddleware } from "./infrastructure/adapter/middleware/opentelemetry.ts";
 import { defaultHook } from "./shared/adapter/driving/default-hook.ts";
@@ -27,12 +26,23 @@ import { onErrorHandler } from "./shared/adapter/driving/handler/on-error.ts";
 
 const level = "trace";
 const basePath = "/api/v1";
+const authPath = `${basePath}/auth`;
+const swaggerPath = `${basePath}/reference`;
 const eventEmitter2 = eventEmitter(config, new Logger(pino({ level })));
 const elasticsearch2 = elasticsearch(config, new Logger(pino({ level })));
 const database2 = database(config, new Logger(pino({ level })));
 const cacher2 = cacher(config, new Logger(pino({ level })));
-const casbin2 = casbin(config, database2, new Logger(pino({ level })));
-const auth2 = auth(basePath, config, database2, new Logger(pino({ level })));
+const auth2 = auth(
+  basePath,
+  cacher2,
+  config,
+  database2,
+  [authPath, swaggerPath],
+  new Logger(pino({ level })),
+  new Logger(pino({ level })),
+  new Logger(pino({ level })),
+  new Logger(pino({ level })),
+);
 
 appEventEmitter(cacher2, database2, elasticsearch2, eventEmitter2);
 
@@ -40,16 +50,29 @@ const app = new OpenAPIHono<Env>({ defaultHook });
 
 app.use(
   opentelemetryMiddleware(config, new Logger(pino({ level }))),
-  cors(),
+  cors({
+    allowHeaders: ["Content-Type", "Authorization"],
+    allowMethods: ["GET", "OPTIONS", "POST"],
+    credentials: true,
+    exposeHeaders: ["Content-Length"],
+    maxAge: 600,
+    origin: ["http://127.0.0.1:8081", "http://localhost:8081"],
+  }),
   csrf({
     origin: (origin) =>
       ["127.0.0.1", "localhost"].includes(new URL(origin).hostname),
   }),
   loggerMiddleware(config, { pino: new Logger(pino({ level })) }),
-  casbinMiddleware(auth2, casbin2, config, new Logger(pino({ level }))),
+  authMiddleware(
+    auth2,
+    basePath,
+    config,
+    [authPath, swaggerPath],
+    new Logger(pino({ level })),
+  ),
 );
 
-app.on(["POST", "GET"], "/api/v1/auth/**", (ctx) => auth2.handler(ctx.req.raw));
+app.on(["POST", "GET"], `${authPath}/*`, (ctx) => auth2.handler(ctx.req.raw));
 
 // /health/liveness, /health/readiness
 app.get(`${basePath}/healthy`, (ctx) => ctx.text(""));
@@ -97,7 +120,7 @@ userPOCView(
   new Logger(pino({ level })),
 );
 
-swagger(app, basePath);
+swagger(app, swaggerPath);
 
 app.notFound(notFoundHandler(config, new Logger(pino({ level }))));
 app.onError(onErrorHandler(config, new Logger(pino({ level }))));

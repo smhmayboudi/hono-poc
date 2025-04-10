@@ -19,10 +19,6 @@ export const user = mysqlTable("auth_user", {
   banned: boolean(),
   banReason: text(),
   banExpires: timestamp(),
-  phoneNumber: varchar({ length: 255 }).unique(),
-  phoneNumberVerified: boolean(),
-  username: varchar({ length: 255 }).unique(),
-  displayUsername: text(),
 });
 
 export const session = mysqlTable("auth_session", {

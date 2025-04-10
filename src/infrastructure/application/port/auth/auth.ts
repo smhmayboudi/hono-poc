@@ -29,5 +29,13 @@ export type Session = {
 
 export interface PortAuth {
   handler(request: Request): Promise<Response>;
+  roleHasPermission(
+    permission: Record<string, string[]>,
+    role: string,
+  ): Promise<boolean>;
   session(ctx: Context<Env>): Promise<Session | null>;
+  userHasPermission(
+    permission: Record<string, string[]>,
+    userId: string,
+  ): Promise<boolean>;
 }

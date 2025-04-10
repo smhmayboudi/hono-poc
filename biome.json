@@ -161,6 +161,26 @@
       }
     },
     {
+      "include": ["infrastructure/adapter/auth/auth-logger.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["infrastructure/adapter/auth/auth-secondary-storage.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConfusingVoidType": "off"
+          }
+        }
+      }
+    },
+    {
       "include": ["infrastructure/adapter/casbin/casbin-drizzle-adapter.ts"],
       "linter": {
         "rules": {

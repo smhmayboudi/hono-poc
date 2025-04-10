@@ -25,6 +25,11 @@ export const userPOCViewCreateRoute = (basePath: string, domainType: string) =>
       successResponseSchema(userPOCViewCreateResponseSchema, domainType),
       [201, 400, 401, 403, 404, 422, 500],
     ),
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     summary: "Create a new UserPOCView",
     tags: [domainType],
   });

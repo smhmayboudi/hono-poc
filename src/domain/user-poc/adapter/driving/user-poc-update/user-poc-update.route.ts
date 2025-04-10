@@ -29,6 +29,11 @@ export const userPOCUpdateRoute = (basePath: string, domainType: string) =>
       successResponseSchema(userPOCUpdateResponseSchema, domainType),
       [200, 400, 401, 403, 404, 422, 500],
     ),
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     summary: "Update a UserPOC",
     tags: [domainType],
   });

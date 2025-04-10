@@ -1,5 +1,5 @@
 import type { OpenAPIHono } from "@hono/zod-openapi";
-import { apiReference } from "@scalar/hono-api-reference";
+import { Scalar } from "@scalar/hono-api-reference";
 
 import type { Env } from "./env.ts";
 
@@ -14,8 +14,8 @@ const favicon = `<svg width="75" height="75" viewBox="0 0 75 75" fill="none" xml
 </svg>
 `;
 
-export const swagger = (app: OpenAPIHono<Env>, basePath: string) => {
-  app.doc31(`${basePath}/swagger.json`, (ctx) => ({
+export const swagger = (app: OpenAPIHono<Env>, swaggerPath: string) => {
+  app.doc31(`${swaggerPath}/swagger.json`, (ctx) => ({
     info: {
       contact: {
         email: "smhmayboudi@gmail.com",
@@ -33,6 +33,11 @@ export const swagger = (app: OpenAPIHono<Env>, basePath: string) => {
       version: "0.0.0",
     },
     openapi: "3.1.1",
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     tags: [
       {
         name: "user-poc",
@@ -56,24 +61,27 @@ export const swagger = (app: OpenAPIHono<Env>, basePath: string) => {
     ],
   }));
 
-  // app.openAPIRegistry.registerComponent("securitySchemes", "Bearer", {
-  //   type: "http",
-  //   scheme: "bearer",
-  // });
+  app.openAPIRegistry.registerComponent("securitySchemes", "apiKeyCookie", {
+    type: "apiKey",
+    in: "cookie",
+    name: "hono-poc.session_token",
+    description: "API Key authentication via cookie",
+  });
 
-  // app.openAPIRegistry.registerParameter(
-  //   "RequestQuery",
-  //   requestQuerySchema(z.object({})),
-  // );
+  app.openAPIRegistry.registerComponent("securitySchemes", "bearerAuth", {
+    description: "Bearer token authentication",
+    scheme: "bearer",
+    type: "http",
+  });
 
   app.get(
-    `${basePath}/reference`,
-    apiReference({
+    swaggerPath,
+    Scalar({
       cdn: "https://cdn.jsdelivr.net/npm/@scalar/api-reference@latest",
       favicon: `data:image/svg+xml;utf8,${encodeURIComponent(favicon)}`,
       pageTitle: "Hono POC API",
       theme: "saturn",
-      url: `${basePath}/swagger.json`,
+      url: `${swaggerPath}/swagger.json`,
     }),
   );
 };

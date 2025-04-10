@@ -23,6 +23,11 @@ export const userPOCInformationReadRoute = (
       ),
       [200, 400, 401, 403, 404, 422, 500],
     ),
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     summary: "Read UserPOCInformation(s)",
     tags: [domainType],
   });

@@ -17,6 +17,11 @@ export const userPOCViewReadIDRoute = (basePath: string, domainType: string) =>
       successArrayResponseSchema(userPOCViewReadIDResponseSchema, domainType),
       [200, 400, 401, 403, 404, 422, 500],
     ),
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     summary: "ReadID UserPOCView",
     tags: [domainType],
   });

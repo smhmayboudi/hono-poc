@@ -25,6 +25,11 @@ export const userPOCViewSearchRoute = (basePath: string, domainType: string) =>
       successArrayResponseSchema(userPOCViewSearchResponseSchema, domainType),
       [200, 400, 401, 403, 404, 422, 500],
     ),
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     summary: "Search UserPOCView(s)",
     tags: [domainType],
   });

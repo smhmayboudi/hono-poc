@@ -20,6 +20,11 @@ export const userPOCInformationDeleteRoute = (
       successResponseSchema(userPOCInformationDeleteResponseSchema, domainType),
       [200, 400, 401, 403, 404, 422, 500],
     ),
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     summary: "Delete a UserPOCInformation",
     tags: [domainType],
   });
