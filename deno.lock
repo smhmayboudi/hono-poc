@@ -1346,7 +1346,7 @@
         "npm:rolldown@1.0.0-beta.7",
         "npm:rollup-plugin-esbuild@^6.2.1",
         "npm:rollup-plugin-visualizer@^5.14.0",
-        "npm:rollup@^4.39.0",
+        "npm:rollup@^4.40.0",
         "npm:slugify@^1.6.6",
         "npm:source-map-support@~0.5.21",
         "npm:tplant@^3.1.3",

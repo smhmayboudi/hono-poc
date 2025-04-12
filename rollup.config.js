@@ -16,9 +16,15 @@ const minify =
  * @type {import("rollup").RollupOptions}
  */
 export default {
-  input: "./src/app.node.ts",
+  external: ["@sentry/profiling-node", "bull"],
+  input: {
+    app: "./src/app.ts",
+    "app.node": "./src/app.node.ts",
+    "app.opentelemetry": "./src/app.opentelemetry.ts",
+    "app.sentry": "./src/app.sentry.ts",
+  },
   output: {
-    file: "./build/app.node.js",
+    dir: "./build/",
     sourcemap: true,
   },
   plugins: [
