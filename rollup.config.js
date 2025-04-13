@@ -19,6 +19,7 @@ export default {
   external: ["@sentry/profiling-node", "bull"],
   input: {
     app: "./src/app.ts",
+    "app.deno": "./src/app.deno.ts",
     "app.node": "./src/app.node.ts",
     "app.opentelemetry": "./src/app.opentelemetry.ts",
     "app.sentry": "./src/app.sentry.ts",
