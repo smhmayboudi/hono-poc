@@ -89,8 +89,8 @@ importers:
         specifier: ^9.12.0
         version: 9.12.0
       better-auth:
-        specifier: ^1.2.5
-        version: 1.2.5(typescript@5.8.3)
+        specifier: ^1.2.6
+        version: 1.2.6
       better-call:
         specifier: ^1.0.7
         version: 1.0.7
@@ -138,8 +138,8 @@ importers:
         specifier: ^19.8.0
         version: 19.8.0
       "@eslint-community/eslint-plugin-eslint-comments":
-        specifier: ^4.4.1
-        version: 4.4.1(eslint@9.24.0(jiti@2.4.2))
+        specifier: ^4.5.0
+        version: 4.5.0(eslint@9.24.0(jiti@2.4.2))
       "@eslint/config-inspector":
         specifier: ^1.0.2
         version: 1.0.2(eslint@9.24.0(jiti@2.4.2))
@@ -1488,10 +1488,10 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  "@eslint-community/eslint-plugin-eslint-comments@4.4.1":
+  "@eslint-community/eslint-plugin-eslint-comments@4.5.0":
     resolution:
       {
-        integrity: sha512-lb/Z/MzbTf7CaVYM9WCFNQZ4L1yi3ev2fsFPF99h31ljhSEyUoyEsKsNWiU+qD1glbYTDJdqgyaLKtyTkkqtuQ==,
+        integrity: sha512-MAhuTKlr4y/CE3WYX26raZjy+I/kS2PLKSzvfmDCGrBLTFHOYwqROZdr4XwPgXwX3K9rjzMr4pSmUWGnzsUyMg==,
       }
     engines: { node: ^12.22.0 || ^14.17.0 || >=16.0.0 }
     peerDependencies:
@@ -4644,10 +4644,10 @@ packages:
       }
     engines: { node: ">=10.0.0" }
 
-  better-auth@1.2.5:
+  better-auth@1.2.6:
     resolution:
       {
-        integrity: sha512-Tz2aKImkvaT7P9qHQ67Vhw/Slo6zpvE0jG7GoDQM+dd5tWuC3lP0OGjjWkNCZdToVlWB193i5nSHeZT90sFqEw==,
+        integrity: sha512-RVy6nfNCXpohx49zP2ChUO3zN0nvz5UXuETJIhWU+dshBKpFMk4P4hAQauM3xqTJdd9hfeB5y+segmG1oYGTJQ==,
       }
 
   better-call@1.0.7:
@@ -11102,17 +11102,6 @@ packages:
       typescript:
         optional: true
 
-  valibot@1.0.0-beta.15:
-    resolution:
-      {
-        integrity: sha512-BKy8XosZkDHWmYC+cJG74LBzP++Gfntwi33pP3D3RKztz2XV9jmFWnkOi21GoqARP8wAWARwhV6eTr1JcWzjGw==,
-      }
-    peerDependencies:
-      typescript: ">=5"
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   vfile-location@5.0.3:
     resolution:
       {
@@ -12237,7 +12226,7 @@ snapshots:
   "@esbuild/win32-x64@0.25.2":
     optional: true
 
-  "@eslint-community/eslint-plugin-eslint-comments@4.4.1(eslint@9.24.0(jiti@2.4.2))":
+  "@eslint-community/eslint-plugin-eslint-comments@4.5.0(eslint@9.24.0(jiti@2.4.2))":
     dependencies:
       escape-string-regexp: 4.0.0
       eslint: 9.24.0(jiti@2.4.2)
@@ -14606,7 +14595,7 @@ snapshots:
 
   basic-ftp@5.0.5: {}
 
-  better-auth@1.2.5(typescript@5.8.3):
+  better-auth@1.2.6:
     dependencies:
       "@better-auth/utils": 0.2.4
       "@better-fetch/fetch": 1.1.18
@@ -14619,10 +14608,7 @@ snapshots:
       jose: 5.10.0
       kysely: 0.27.6
       nanostores: 0.11.4
-      valibot: 1.0.0-beta.15(typescript@5.8.3)
       zod: 3.24.2
-    transitivePeerDependencies:
-      - typescript
 
   better-call@1.0.7:
     dependencies:
@@ -18883,10 +18869,6 @@ snapshots:
   v8flags@4.0.1: {}
 
   valibot@1.0.0(typescript@5.8.3):
-    optionalDependencies:
-      typescript: 5.8.3
-
-  valibot@1.0.0-beta.15(typescript@5.8.3):
     optionalDependencies:
       typescript: 5.8.3
 

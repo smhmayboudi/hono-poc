@@ -112,7 +112,7 @@ export class Auth2 implements PortAuth {
 
   async roleHasPermission(
     permission: Record<string, string[]>,
-    role: string,
+    role: "admin" | "user",
   ): Promise<boolean> {
     this.logger.assign({
       [ATTR_CODE_FUNCTION_NAME]: "roleHasPermission-auth.infrastructure",
