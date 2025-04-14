@@ -6,6 +6,7 @@ import {
   type Tracer,
 } from "@opentelemetry/api";
 import * as opentelemetry from "@opentelemetry/api";
+import { type Logger, logs } from "@opentelemetry/api-logs";
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
 import type { MiddlewareHandler } from "hono";
 
@@ -14,6 +15,7 @@ import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
 // import { tracer } from "../opentelemetry/opentelemetry.ts";
 
+let rawLogger: Logger | undefined;
 let rawMeter: Meter | undefined;
 let rawTracer: Tracer | undefined;
 
@@ -40,6 +42,9 @@ export const opentelemetryMiddleware =
         throw error;
       }
       return;
+    }
+    if (!rawLogger) {
+      rawLogger = logs.getLogger("hono-poc", "0.0.0");
     }
     if (!rawMeter) {
       rawMeter = metrics.getMeter("hono-poc", "0.0.0");

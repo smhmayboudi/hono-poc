@@ -7,6 +7,7 @@ import {
   type Tracer,
 } from "@opentelemetry/api";
 import * as opentelemetry from "@opentelemetry/api";
+import { type Logger, logs } from "@opentelemetry/api-logs";
 
 import type {
   PortTracer,
@@ -18,6 +19,7 @@ export const iife = <T extends unknown[], U>(
   ...args: T
 ): U => fn(...args);
 
+let rawLogger: Logger | undefined;
 let rawMeter: Meter | undefined;
 let rawTracer: Tracer | undefined;
 
@@ -30,13 +32,11 @@ export const tracer: PortTracer = {
   ): ReturnType<F> {
     let options: SpanOptions = {};
     let context: Context = opentelemetry.context.active();
-
     if (typeof optionsOrFn === "function") {
       fn = optionsOrFn as F;
     } else {
       options = optionsOrFn;
     }
-
     if (contextOrFn) {
       if (typeof contextOrFn === "function") {
         fn = contextOrFn as F;
@@ -44,42 +44,55 @@ export const tracer: PortTracer = {
         context = contextOrFn as Context;
       }
     }
-
     if (!fn) {
       throw new Error("No function provided to execute in span");
     }
-
     if (!opentelemetry) {
       return fn() as ReturnType<F>;
     }
-
+    if (!rawLogger) {
+      rawLogger = logs.getLogger("hono-poc", "0.0.0");
+    }
     if (!rawMeter) {
       rawMeter = metrics.getMeter("hono-poc", "0.0.0");
     }
     if (!rawTracer) {
       rawTracer = opentelemetry.trace.getTracer("hono-poc", "0.0.0");
     }
+    const counter = rawMeter.createCounter("iife");
 
     return iife(
-      (otel, rawTracer) =>
-        rawTracer.startActiveSpan(name, options, context, ((span: Span) => {
+      (opentelemetry, rawLogger, counter, rawTracer) => {
+        rawLogger.emit({
+          body: name,
+        });
+        counter.add(1);
+        return rawTracer.startActiveSpan(name, options, context, ((
+          span: Span,
+        ) => {
           try {
-            span.setStatus({ code: otel.SpanStatusCode.OK });
+            span.setStatus({ code: opentelemetry.SpanStatusCode.OK });
             return fn(span);
           } catch (error) {
+            rawLogger.emit({
+              body: error instanceof Error ? error.message : "unknown error",
+            });
             span.recordException(
               error instanceof Error ? error.message : "unknown error",
             );
             span.setStatus({
-              code: otel.SpanStatusCode.ERROR,
+              code: opentelemetry.SpanStatusCode.ERROR,
               message: error instanceof Error ? error.message : "unknown error",
             });
             throw error;
           } finally {
             span.end();
           }
-        }) as F),
+        }) as F);
+      },
       opentelemetry,
+      rawLogger,
+      counter,
       rawTracer,
     );
   },
