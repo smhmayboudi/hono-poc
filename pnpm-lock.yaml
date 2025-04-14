@@ -76,6 +76,9 @@ importers:
       "@paralleldrive/cuid2":
         specifier: ^2.2.2
         version: 2.2.2
+      "@pyroscope/nodejs":
+        specifier: ^0.4.5
+        version: 0.4.5
       "@scalar/hono-api-reference":
         specifier: ^0.8.1
         version: 0.8.1(hono@4.7.6)
@@ -795,6 +798,13 @@ packages:
         integrity: sha512-LRjP623jPyf3Poyfb0ohMj8I3ORyBDOwXAgxxVPbSD0unJuW2mJWeiRfaQinjtccMqC5Wy1HOMfa4btKjbNxbg==,
       }
     engines: { node: ">=v18" }
+
+  "@datadog/pprof@5.7.1":
+    resolution:
+      {
+        integrity: sha512-D5XTxsaPG36x41vZZn8hsAeC7QQDx0rv1a1Uhxo5xCXUB/9rc19+I7iCnjgJS5aH0ShXdPVOWRClo16hOSKKSw==,
+      }
+    engines: { node: ">=16" }
 
   "@drizzle-team/brocli@0.10.2":
     resolution:
@@ -2989,6 +2999,13 @@ packages:
       {
         integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==,
       }
+
+  "@pyroscope/nodejs@0.4.5":
+    resolution:
+      {
+        integrity: sha512-39YVwmLA2QhmLEd/yZjkjvAdU16kH0CiH6KY4wd1O4Lz7CszLW3/q2b33RAegdpnFmu8pPMhDcrPl/79mkjI0g==,
+      }
+    engines: { node: ">=v18" }
 
   "@redis/bloom@1.2.0":
     resolution:
@@ -5476,6 +5493,13 @@ packages:
         integrity: sha512-v2KyNk7efxhlyHpjEvfyxaAihKKK0nWCuf6ZtqZcFFpQRG0bJ12Qsr0RpvsICMjAAZ8DOVCxrlqpxISlMHC4Kg==,
       }
     engines: { node: ">=14.16" }
+
+  delay@5.0.0:
+    resolution:
+      {
+        integrity: sha512-ReEBKkIfe4ya47wlPYf/gu5ib6yUG0/Aez0JQZQz94kiWtRQvZIQbTiehsnwHvLSWJnQdhVeqYue7Id1dKr0qw==,
+      }
+    engines: { node: ">=10" }
 
   delayed-stream@1.0.0:
     resolution:
@@ -8800,6 +8824,13 @@ packages:
       }
     hasBin: true
 
+  node-gyp-build@3.9.0:
+    resolution:
+      {
+        integrity: sha512-zLcTg6P4AbcHPq465ZMFNXx7XpKKJh+7kkN699NiQWisR2uWYOWNWqRHAmbnmKiL4e9aLSlmy5U7rEMUXV59+A==,
+      }
+    hasBin: true
+
   node-mock-http@1.0.0:
     resolution:
       {
@@ -9461,6 +9492,12 @@ packages:
       }
     engines: { node: ">=0.10.0" }
 
+  pprof-format@2.1.0:
+    resolution:
+      {
+        integrity: sha512-0+G5bHH0RNr8E5hoZo/zJYsL92MhkZjwrHp3O2IxmY8RJL9ooKeuZ8Tm0ZNBw5sGZ9TiM71sthTjWoR2Vf5/xw==,
+      }
+
   prelude-ls@1.2.1:
     resolution:
       {
@@ -9703,6 +9740,12 @@ packages:
         integrity: sha512-00o4I+DVrefhv+nX0ulyi3biSHCPDe+yLv5o/p6d/UVlirijB8E16FtfwSAi4g3tcqrQ4lRAqQSoFEZJehYEcw==,
       }
     engines: { node: ">= 0.4" }
+
+  regenerator-runtime@0.13.11:
+    resolution:
+      {
+        integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==,
+      }
 
   regenerator-runtime@0.14.1:
     resolution:
@@ -11962,6 +12005,14 @@ snapshots:
       "@types/conventional-commits-parser": 5.0.1
       chalk: 5.4.1
 
+  "@datadog/pprof@5.7.1":
+    dependencies:
+      delay: 5.0.0
+      node-gyp-build: 3.9.0
+      p-limit: 3.1.0
+      pprof-format: 2.1.0
+      source-map: 0.7.4
+
   "@drizzle-team/brocli@0.10.2": {}
 
   "@elastic/elasticsearch@8.17.1":
@@ -13308,6 +13359,16 @@ snapshots:
   "@protobufjs/pool@1.1.0": {}
 
   "@protobufjs/utf8@1.1.0": {}
+
+  "@pyroscope/nodejs@0.4.5":
+    dependencies:
+      "@datadog/pprof": 5.7.1
+      debug: 4.4.0(supports-color@9.4.0)
+      p-limit: 3.1.0
+      regenerator-runtime: 0.13.11
+      source-map: 0.7.4
+    transitivePeerDependencies:
+      - supports-color
 
   "@redis/bloom@1.2.0(@redis/client@1.6.0)":
     dependencies:
@@ -15096,6 +15157,8 @@ snapshots:
       p-map: 5.5.0
       rimraf: 3.0.2
       slash: 4.0.0
+
+  delay@5.0.0: {}
 
   delayed-stream@1.0.0: {}
 
@@ -17399,6 +17462,8 @@ snapshots:
       detect-libc: 2.0.3
     optional: true
 
+  node-gyp-build@3.9.0: {}
+
   node-mock-http@1.0.0: {}
 
   node-nailgun-client@0.1.2:
@@ -17868,6 +17933,8 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
+  pprof-format@2.1.0: {}
+
   prelude-ls@1.2.1: {}
 
   prettier@2.8.8: {}
@@ -18021,6 +18088,8 @@ snapshots:
       get-intrinsic: 1.3.0
       get-proto: 1.0.1
       which-builtin-type: 1.2.1
+
+  regenerator-runtime@0.13.11: {}
 
   regenerator-runtime@0.14.1: {}
 

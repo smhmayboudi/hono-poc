@@ -26,8 +26,9 @@ import {
   ATTR_SERVICE_NAME,
   ATTR_SERVICE_VERSION,
 } from "@opentelemetry/semantic-conventions";
+import Pyroscope from "@pyroscope/nodejs";
 
-diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
+diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.ERROR);
 
 const otlpTraceExporter = new OTLPTraceExporter();
 const sdk = new NodeSDK({
@@ -63,11 +64,25 @@ const sdk = new NodeSDK({
 
 sdk.start();
 
+(async () => {
+  Pyroscope.init({
+    appName: "hono-poc",
+    serverAddress: "http://127.0.0.1:4040",
+    sourceMapper: await Pyroscope.SourceMapper.create(["."], true),
+  });
+  Pyroscope.startCpuProfiling();
+  Pyroscope.startHeapProfiling();
+  Pyroscope.startWallProfiling();
+})();
+
 process.on("SIGTERM", () => {
   if (
     process.env["CI"] === "true" ||
     process.env["NODE_ENV"] === "production"
   ) {
+    Pyroscope.stopCpuProfiling();
+    Pyroscope.stopHeapProfiling();
+    Pyroscope.stopWallProfiling();
     sdk
       .shutdown()
       .then(() => console.log("tracing terminated"))

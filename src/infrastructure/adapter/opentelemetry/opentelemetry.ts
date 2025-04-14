@@ -62,7 +62,7 @@ export const tracer: PortTracer = {
     const counter = rawMeter.createCounter("iife");
 
     return iife(
-      (opentelemetry, rawLogger, counter, rawTracer) => {
+      (opentelemetry, counter, rawLogger, rawTracer) => {
         rawLogger.emit({
           body: name,
         });
@@ -91,8 +91,8 @@ export const tracer: PortTracer = {
         }) as F);
       },
       opentelemetry,
-      rawLogger,
       counter,
+      rawLogger,
       rawTracer,
     );
   },

@@ -400,8 +400,13 @@ services:
 
   otel-lgtm:
     container_name: hono-otel-lgtm
+    depends_on:
+      pyroscope:
+        condition: service_started
     environment:
       - ENABLE_LOGS_ALL=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_PATHS_DATA=/data/grafana
     expose:
       - 3000 # Panel
@@ -425,6 +430,7 @@ services:
     logging: *logging
     restart: "no"
     volumes:
+      - ./.docker/otel-lgtm/grafana/conf/provisioning:/otel-lgtm/grafana/conf/provisioning
       - otel-lgtm:/data
 
   phpmyadmin:
@@ -486,6 +492,33 @@ services:
   #   volumes:
   #     - plantuml-server:/tmp/jetty
 
+  pyroscope:
+    container_name: hono-pyroscope
+    environment:
+      - ENABLE_LOGS_ALL=true
+      - GF_PATHS_DATA=/data/grafana
+    expose:
+      - 4040
+    # healthcheck:
+    #   interval: 10s
+    #   retries: 5
+    #   start_period: 10s
+    #   test:
+    #     - CMD-SHELL
+    #     # - curl --fail http://pyroscope:4040 || exit 1
+    #     # - wget --no-verbose --spider --tries=1 http://pyroscope:4040
+    #   timeout: 5s
+    image: grafana/pyroscope:1.12.1
+    ports:
+      - "4040:4040"
+    labels:
+      namespace: pyroscope
+    logging: *logging
+    restart: "no"
+    volumes:
+      - pyroscope:/data
+      - pyroscope-compactor:/data-compactor
+
   redis:
     command:
       - /usr/local/etc/redis/redis.conf
@@ -544,4 +577,6 @@ volumes:
   # opensearch: {}
   otel-lgtm: {}
   # plantuml-server: {}
+  pyroscope: {}
+  pyroscope-compactor: {}
   redis: {}

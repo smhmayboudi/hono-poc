@@ -34,7 +34,7 @@ import {
 } from "@sentry/opentelemetry";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
-diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
+diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.ERROR);
 
 sentry.init({
   debug:
