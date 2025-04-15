@@ -27,8 +27,8 @@ export class UseCaseUserPOCViewDelete implements PortDrivingUserPOCViewDelete {
     return tracer.startActiveSpan("user-poc-view-delete.use-case", async () => {
       this.logger.assign({
         [ATTR_CODE_FUNCTION_NAME]: "user-poc-view-delete.use-case",
-        data,
         config: this.config,
+        data,
       });
       this.logger.info({});
       const { userId: userPOCInformationUserId } =

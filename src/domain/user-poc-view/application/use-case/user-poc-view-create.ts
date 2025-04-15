@@ -27,8 +27,8 @@ export class UseCaseUserPOCViewCreate implements PortDrivingUserPOCViewCreate {
     return tracer.startActiveSpan("user-poc-view-create.use-case", async () => {
       this.logger.assign({
         [ATTR_CODE_FUNCTION_NAME]: "user-poc-view-create.use-case",
-        data,
         config: this.config,
+        data,
       });
       this.logger.info({});
       const { id: userPOCId } = await this.drivingUserPOCCreate.execute({

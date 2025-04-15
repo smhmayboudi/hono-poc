@@ -25,8 +25,8 @@ export class UseCaseUserPOCDelete implements PortDrivingUserPOCDelete {
     return tracer.startActiveSpan("user-poc-delete.use-case", async () => {
       this.logger.assign({
         [ATTR_CODE_FUNCTION_NAME]: "user-poc-delete.use-case",
-        data,
         config: this.config,
+        data,
       });
       this.logger.info({});
       await this.drivenUserPOCDelete.delete(data);

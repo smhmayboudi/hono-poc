@@ -27,8 +27,8 @@ export class UseCaseUserPOCViewUpdate implements PortDrivingUserPOCViewUpdate {
     return tracer.startActiveSpan("user-poc-view-update.use-case", async () => {
       this.logger.assign({
         [ATTR_CODE_FUNCTION_NAME]: "user-poc-view-update.use-case",
-        data,
         config: this.config,
+        data,
       });
       this.logger.info({});
       const { userId: userPOCInformationUserId } =

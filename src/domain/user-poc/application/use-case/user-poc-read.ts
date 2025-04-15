@@ -25,8 +25,8 @@ export class UseCaseUserPOCRead implements PortDrivingUserPOCRead {
     return tracer.startActiveSpan("user-poc-read.use-case", async () => {
       this.logger.assign({
         [ATTR_CODE_FUNCTION_NAME]: "user-poc-read.use-case",
-        data,
         config: this.config,
+        data,
       });
       this.logger.info({});
       const list = await this.drivenUserPOCRead.read(data);
