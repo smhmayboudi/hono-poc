@@ -407,7 +407,8 @@ services:
       - ENABLE_LOGS_ALL=true
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_PATHS_DATA=/data/grafana
+      - GF_FEATURE_TOGGLES_ENABLE=flameGraph traceqlSearch correlations traceQLStreaming metricsSummary traceqlEditor traceToMetrics traceToProfiles datatrails
+      - GF_INSTALL_PLUGINS=grafana-exploretraces-app,grafana-lokiexplore-app,grafana-pyroscope-app
     expose:
       - 3000 # Panel
       - 4317 # OTLP gRPC
