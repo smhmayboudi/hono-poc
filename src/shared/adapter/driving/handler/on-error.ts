@@ -18,7 +18,7 @@ export const onErrorHandler: (
     [ATTR_CODE_FUNCTION_NAME]: "shared.driving.handler.on-error",
     config,
   });
-  logger.error({ error });
+  logger.error({ error: JSON.parse(JSON.stringify(error)) });
   if (error instanceof HTTPException) {
     return badRequestResponse(ctx, error.message);
   }
