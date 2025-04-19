@@ -1,4 +1,4 @@
-import pino from "pino";
+import { pino } from "pino";
 
 import { config } from "../src/infrastructure/adapter/config/config.ts";
 import { database } from "../src/infrastructure/adapter/database/database.ts";
