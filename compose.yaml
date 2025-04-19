@@ -49,7 +49,7 @@ services:
         - CMD-SHELL
         - curl --fail http://elasticsearch:9200/_cluster/health?timeout=50s&wait_for_status=green || exit 1
       timeout: 5s
-    image: elasticsearch:8.17.4
+    image: elasticsearch:8.18.0
     labels:
       namespace: elasticsearch
     logging: *logging
