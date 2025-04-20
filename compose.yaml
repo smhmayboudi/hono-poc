@@ -326,7 +326,7 @@ services:
         - CMD-SHELL
         - mysqladmin ping --host=127.0.0.1 --password=$$MYSQL_PASSWORD --user=$$MYSQL_USER
       timeout: 5s
-    image: mysql:9.2.0-oraclelinux9
+    image: mysql:9.3.0-oraclelinux9
     labels:
       namespace: mysql
     logging: *logging
@@ -400,9 +400,9 @@ services:
 
   otel-lgtm:
     container_name: hono-otel-lgtm
-    depends_on:
-      pyroscope:
-        condition: service_started
+    # depends_on:
+    #   pyroscope:
+    #     condition: service_started
     environment:
       - ENABLE_LOGS_ALL=true
       - GF_AUTH_ANONYMOUS_ENABLED=true
@@ -421,7 +421,7 @@ services:
         - CMD-SHELL
         - curl --fail http://otel-lgtm:3000 || exit 1
       timeout: 5s
-    image: grafana/otel-lgtm:0.10.1
+    image: grafana/otel-lgtm:0.11.0
     ports:
       - "3000:3000"
       - "4317:4317"
@@ -431,7 +431,12 @@ services:
     logging: *logging
     restart: "no"
     volumes:
-      - ./.docker/otel-lgtm/grafana/conf/provisioning:/otel-lgtm/grafana/conf/provisioning
+      - ./.docker/otel-lgtm/grafana/conf/provisioning:/otel-lgtm/grafana/conf/provisioning:ro
+      - ./.docker/otel-lgtm/loki-config.yaml:/otel-lgtm/loki-config.yaml:ro
+      - ./.docker/otel-lgtm/otelcol-config.yaml:/otel-lgtm/otelcol-config.yaml:ro
+      - ./.docker/otel-lgtm/prometheus.yaml:/otel-lgtm/prometheus.yaml:ro
+      - ./.docker/otel-lgtm/pyroscope-config.yaml:/otel-lgtm/pyroscope-config.yaml:ro
+      - ./.docker/otel-lgtm/tempo-config.yaml:/otel-lgtm/tempo-config.yaml:ro
       - otel-lgtm:/data
 
   phpmyadmin:
@@ -493,36 +498,9 @@ services:
   #   volumes:
   #     - plantuml-server:/tmp/jetty
 
-  pyroscope:
-    container_name: hono-pyroscope
-    environment:
-      - ENABLE_LOGS_ALL=true
-      - GF_PATHS_DATA=/data/grafana
-    expose:
-      - 4040
-    # healthcheck:
-    #   interval: 10s
-    #   retries: 5
-    #   start_period: 10s
-    #   test:
-    #     - CMD-SHELL
-    #     # - curl --fail http://pyroscope:4040 || exit 1
-    #     # - wget --no-verbose --spider --tries=1 http://pyroscope:4040
-    #   timeout: 5s
-    image: grafana/pyroscope:1.12.1
-    ports:
-      - "4040:4040"
-    labels:
-      namespace: pyroscope
-    logging: *logging
-    restart: "no"
-    volumes:
-      - pyroscope:/data
-      - pyroscope-compactor:/data-compactor
-
   redis:
-    command:
-      - /usr/local/etc/redis/redis.conf
+    # command:
+    #   - /usr/local/etc/redis/redis.conf
     container_name: hono-redis
     expose:
       - 6379 # Default Protocol
@@ -578,6 +556,4 @@ volumes:
   # opensearch: {}
   otel-lgtm: {}
   # plantuml-server: {}
-  pyroscope: {}
-  pyroscope-compactor: {}
   redis: {}

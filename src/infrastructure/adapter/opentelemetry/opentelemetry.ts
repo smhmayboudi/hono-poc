@@ -7,7 +7,7 @@ import {
   type Tracer,
 } from "@opentelemetry/api";
 import * as opentelemetry from "@opentelemetry/api";
-import { type Logger, logs } from "@opentelemetry/api-logs";
+import { type Logger, logs, SeverityNumber } from "@opentelemetry/api-logs";
 
 import type {
   PortTracer,
@@ -32,23 +32,25 @@ export const tracer: PortTracer = {
   ): ReturnType<F> {
     let options: SpanOptions = {};
     let context: Context = opentelemetry.context.active();
+    let callback: F;
     if (typeof optionsOrFn === "function") {
-      fn = optionsOrFn as F;
+      callback = optionsOrFn as F;
     } else {
       options = optionsOrFn;
-    }
-    if (contextOrFn) {
       if (typeof contextOrFn === "function") {
-        fn = contextOrFn as F;
+        callback = contextOrFn;
       } else {
-        context = contextOrFn as Context;
+        if (contextOrFn) {
+          context = contextOrFn;
+        }
+        callback = fn!;
       }
     }
-    if (!fn) {
+    if (!callback) {
       throw new Error("No function provided to execute in span");
     }
     if (!opentelemetry) {
-      return fn() as ReturnType<F>;
+      return callback() as ReturnType<F>;
     }
     if (!rawLogger) {
       rawLogger = logs.getLogger("hono-poc", "0.0.0");
@@ -59,12 +61,13 @@ export const tracer: PortTracer = {
     if (!rawTracer) {
       rawTracer = opentelemetry.trace.getTracer("hono-poc", "0.0.0");
     }
-    const counter = rawMeter.createCounter("iife");
+    const counter = rawMeter.createCounter("iife.count");
 
     return iife(
       (opentelemetry, counter, rawLogger, rawTracer) => {
         rawLogger.emit({
           body: name,
+          severityNumber: SeverityNumber.INFO,
         });
         counter.add(1);
         return rawTracer.startActiveSpan(name, options, context, ((
@@ -72,10 +75,14 @@ export const tracer: PortTracer = {
         ) => {
           try {
             span.setStatus({ code: opentelemetry.SpanStatusCode.OK });
-            return fn(span);
+            return callback(span);
           } catch (error) {
             rawLogger.emit({
+              attributes: {
+                "error.stack": error instanceof Error ? error.stack : undefined,
+              },
               body: error instanceof Error ? error.message : "unknown error",
+              severityNumber: SeverityNumber.ERROR,
             });
             span.recordException(
               error instanceof Error ? error.message : "unknown error",

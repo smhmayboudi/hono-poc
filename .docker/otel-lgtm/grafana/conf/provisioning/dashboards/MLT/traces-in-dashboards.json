@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -105,10 +105,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum by (http_method)(rate(traces_spanmetrics_calls_total{service=\"mythical-server\",http_method=~\"${httpMethod}\"}[1m]))",
+          "expr": "sum by (http_method)(rate(traces_spanmetrics_calls_total{service=\"hono-poc\",http_method=~\"${httpMethod}\"}[1m]))",
           "legendFormat": "",
           "range": true,
           "refId": "A"
@@ -146,7 +146,7 @@
             "uid": "loki"
           },
           "editorMode": "code",
-          "expr": "{service_name=\"mythical-server\"} |~ \"http.method=${httpMethod}\"",
+          "expr": "{service_name=\"hono-poc\"} |~ \"http.method=${httpMethod}\"",
           "queryType": "range",
           "refId": "A"
         }
@@ -261,7 +261,7 @@
             "uid": "tempo"
           },
           "limit": 20,
-          "query": "{ .service.name = \"mythical-server\" && .http.method=~\"${httpMethod}\" }",
+          "query": "{ .service.name = \"hono-poc\" && .http.method=~\"${httpMethod}\" }",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"

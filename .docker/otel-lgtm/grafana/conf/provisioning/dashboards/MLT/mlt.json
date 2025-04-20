@@ -44,7 +44,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -128,7 +128,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -145,7 +145,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -193,7 +193,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "exemplar": true,
           "expr": "(sum(increase(traces_spanmetrics_calls_total{status_code=\"STATUS_CODE_ERROR\",http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[5m]))/sum(increase(traces_spanmetrics_calls_total{status_code!=\"\",http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[5m]))) * 100",
@@ -208,7 +208,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -263,7 +263,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -281,7 +281,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -341,7 +341,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -380,7 +380,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -466,7 +466,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -514,7 +514,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -598,7 +598,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -615,7 +615,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -697,7 +697,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -750,7 +750,7 @@
   "refresh": "5s",
   "revision": 1,
   "schemaVersion": 38,
-  "tags": ["intro-to-mlt", "mythical-beasts"],
+  "tags": ["intro-to-mlt", "hono-poc"],
   "templating": {
     "list": [
       {

@@ -44,7 +44,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -121,7 +121,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -137,7 +137,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "mimir"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -214,7 +214,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "mimir"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -297,7 +297,7 @@
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["intro-to-mlt", "mythical-beasts"],
+  "tags": ["intro-to-mlt", "hono-poc"],
   "templating": {
     "list": [
       {
@@ -309,7 +309,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "mimir"
+          "uid": "prometheus"
         },
         "definition": "label_values(traces_spanmetrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",http_target!~\"/debug/pprof.*\"}, http_target)\n",
         "hide": 0,

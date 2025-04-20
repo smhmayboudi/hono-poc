@@ -33,15 +33,11 @@ datasources:
     editable: false
     jsonData:
       backendType: pyroscope
-      # basicAuth: true
-      # basicAuthUser: '123456'
-      keepCookies: [GitSession]
     name: Pyroscope
     secureJsonData:
-      # basicAuthPassword: PASSWORD
     type: grafana-pyroscope-datasource
     uid: pyroscope
-    url: http://pyroscope:4040
+    url: http://127.0.0.1:4040
 
   - access: proxy
     editable: false
