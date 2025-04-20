@@ -10,7 +10,6 @@ import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import { MySQL2Instrumentation } from "@opentelemetry/instrumentation-mysql2";
-import { PinoInstrumentation } from "@opentelemetry/instrumentation-pino";
 import { RedisInstrumentation } from "@opentelemetry/instrumentation-redis-4";
 import {
   envDetector,
@@ -38,7 +37,6 @@ const sdk = new NodeSDK({
   instrumentations: [
     new HttpInstrumentation(),
     new MySQL2Instrumentation(),
-    new PinoInstrumentation(),
     new RedisInstrumentation(),
   ],
   logRecordProcessors: [new SimpleLogRecordProcessor(new OTLPLogExporter())],

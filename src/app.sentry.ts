@@ -1,7 +1,6 @@
 import { diag, DiagConsoleLogger, DiagLogLevel } from "@opentelemetry/api";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import { MySQL2Instrumentation } from "@opentelemetry/instrumentation-mysql2";
-import { PinoInstrumentation } from "@opentelemetry/instrumentation-pino";
 import { RedisInstrumentation } from "@opentelemetry/instrumentation-redis-4";
 import {
   envDetector,
@@ -59,7 +58,6 @@ const sdk = new NodeSDK({
   instrumentations: [
     new HttpInstrumentation(),
     new MySQL2Instrumentation(),
-    new PinoInstrumentation(),
     new RedisInstrumentation(),
   ],
   logRecordProcessors: [
