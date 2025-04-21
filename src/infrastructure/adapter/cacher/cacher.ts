@@ -18,15 +18,19 @@ export class Cacher implements PortCacher {
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
   ) {
+    const keyv = new Keyv({
+      store: new KeyvRedis(
+        { url: `${this.config.client().redis().url()}/1` },
+        { keyPrefixSeparator: ":" },
+      ),
+    });
+    // keyv.on("clear", () => {});
+    // keyv.on("disconnect", () => {});
+    keyv.on("error", (err) => {
+      this.logger.error(err);
+    });
     this.cache = createCache({
-      stores: [
-        new Keyv({
-          store: new KeyvRedis(
-            { url: `${this.config.client().redis().url()}/1` },
-            { keyPrefixSeparator: ":" },
-          ),
-        }),
-      ],
+      stores: [keyv],
     });
   }
 
