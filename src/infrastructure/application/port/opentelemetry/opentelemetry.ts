@@ -9,5 +9,5 @@ export interface PortTracer {
     optionsOrFn: SpanOptions | F,
     contextOrFn?: Context | F,
     fn?: F,
-  ): ReturnType<F>;
+  ): ReturnType<F> extends Promise<infer U> ? Promise<U> : ReturnType<F>;
 }

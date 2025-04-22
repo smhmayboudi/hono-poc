@@ -16,7 +16,7 @@ export const notFoundHandler: (
     [ATTR_CODE_FUNCTION_NAME]: "shared.driving.handler.not-found",
     config,
   });
-  logger.error({ error: JSON.parse(JSON.stringify(error)) });
+  logger.error(error.message);
 
   return notFoundResponse(ctx, error.message);
 };

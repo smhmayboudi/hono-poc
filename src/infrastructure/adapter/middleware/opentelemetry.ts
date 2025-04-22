@@ -1,9 +1,11 @@
 import {
   type Meter,
   metrics,
+  type Span,
   SpanStatusCode,
   trace,
   type Tracer,
+  type TracerProvider,
 } from "@opentelemetry/api";
 import * as opentelemetry from "@opentelemetry/api";
 import { type Logger, logs } from "@opentelemetry/api-logs";
@@ -13,18 +15,47 @@ import type { MiddlewareHandler } from "hono";
 import type { Env } from "../../../env.ts";
 import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
-// import { tracer } from "../opentelemetry/opentelemetry.ts";
 
 let rawLogger: Logger | undefined;
 let rawMeter: Meter | undefined;
 let rawTracer: Tracer | undefined;
 
-export const opentelemetryMiddleware =
-  (
-    config: PortConfig,
-    logger: PortLogger,
-  ): MiddlewareHandler<Env, "opentelemetry-middleware.infrastructure"> =>
-  async (ctx, next) => {
+export const opentelemetryMiddleware = (
+  config: PortConfig,
+  logger: PortLogger,
+  testTracerProvider?: TracerProvider,
+): MiddlewareHandler<Env, "opentelemetry-middleware.infrastructure"> => {
+  if (!rawLogger) {
+    rawLogger = logs.getLogger("hono-poc", "0.0.0");
+  }
+  if (!rawMeter) {
+    rawMeter = metrics.getMeter("hono-poc", "0.0.0");
+  }
+  if (!rawTracer) {
+    const tracerProvider = testTracerProvider ?? trace.getTracerProvider();
+    rawTracer = tracerProvider.getTracer("hono-poc", "0.0.0");
+  }
+  const counterHTTPRequestsTotal = rawMeter.createCounter(
+    "http.requests.total",
+    {
+      description: "Total number of HTTP requests",
+      valueType: opentelemetry.ValueType.INT,
+    },
+  );
+  const histogramHTTPRequestDurationSeconds = rawMeter.createHistogram(
+    "http.request.duration.seconds",
+    {
+      advice: {
+        explicitBucketBoundaries: [
+          0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5,
+          10,
+        ],
+      },
+      description: "Duration of HTTP requests in seconds",
+    },
+  );
+
+  return async (ctx, next) => {
     logger.assign({
       [ATTR_CODE_FUNCTION_NAME]: "opentelemetry-middleware.infrastructure",
       config,
@@ -33,67 +64,60 @@ export const opentelemetryMiddleware =
       try {
         await next();
         if (ctx.error) {
-          logger.error({ error: ctx.error.message });
+          logger.error(ctx.error.message);
         }
       } catch (error) {
-        logger.error({
-          error: error instanceof Error ? error.message : "unknown error",
-        });
+        const err = error instanceof Error ? error : new Error("unknown error");
+        logger.error(err.message);
         throw error;
       }
       return;
     }
-    if (!rawLogger) {
-      rawLogger = logs.getLogger("hono-poc", "0.0.0");
-    }
-    if (!rawMeter) {
-      rawMeter = metrics.getMeter("hono-poc", "0.0.0");
-    }
-    if (!rawTracer) {
-      rawTracer = trace.getTracer("hono-poc", "0.0.0");
-    }
-    // return tracer.startActiveSpan(
-    //   "opentelemetry-middleware.infrastructure",
-    //   async (span) => {
-    //     await next();
-    //     if (ctx.error) {
-    //       logger.error({ error: ctx.error.message });
-    //       span?.recordException(ctx.error);
-    //       span?.setStatus({
-    //         code: SpanStatusCode.ERROR,
-    //         message: ctx.error.message,
-    //       });
-    //     }
-    //   },
-    // );
 
-    return rawTracer.startActiveSpan(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleSpanError = (span: Span, error: any) => {
+      const err = error instanceof Error ? error : new Error("unknown error");
+      span.recordException(err);
+      span.setStatus({
+        code: opentelemetry.SpanStatusCode.ERROR,
+        message: err.message,
+      });
+      span.end();
+    };
+
+    return rawTracer?.startActiveSpan(
       "opentelemetry-middleware.infrastructure",
       async (span) => {
+        let duration = 0;
         try {
           span.setStatus({ code: SpanStatusCode.OK });
+          const start = performance.now();
           await next();
+          const end = performance.now();
+          duration = end - start;
           if (ctx.error) {
-            logger.error({ error: ctx.error.message });
-            span.recordException(ctx.error);
-            span.setStatus({
-              code: SpanStatusCode.ERROR,
-              message: ctx.error.message,
-            });
+            handleSpanError(span, ctx.error);
+          } else {
+            span.end();
           }
         } catch (error) {
-          logger.error({
-            error: error instanceof Error ? error.message : "unknown error",
-          });
-          span.recordException(error as Error);
-          span.setStatus({
-            code: SpanStatusCode.ERROR,
-            message: error instanceof Error ? error.message : "unknown error",
-          });
+          handleSpanError(span, error);
           throw error;
         } finally {
-          span.end();
+          counterHTTPRequestsTotal.add(1, {
+            method: ctx.req.method,
+            ok: String(ctx.res.ok),
+            route: ctx.req.routePath,
+            status: ctx.res.status.toString(),
+          });
+          histogramHTTPRequestDurationSeconds.record(duration, {
+            method: ctx.req.method,
+            ok: String(ctx.res.ok),
+            route: ctx.req.routePath,
+            status: ctx.res.status.toString(),
+          });
         }
       },
     );
   };
+};
