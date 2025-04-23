@@ -31,7 +31,7 @@
       "icon": "external link",
       "includeVars": false,
       "keepTime": false,
-      "tags": ["intro-to-mlt"],
+      "tags": ["hono-poc"],
       "targetBlank": false,
       "title": "Intro to MLT Dashboards",
       "tooltip": "",
@@ -701,7 +701,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "histogram_quantile(0.95, sum(rate(mythical_request_times_bucket[$__rate_interval])) by (le, beast))",
+          "expr": "histogram_quantile(0.95, sum(rate(request_times_bucket[$__rate_interval])) by (le, service_name))",
           "interval": "",
           "legendFormat": "{{le}}",
           "range": true,
@@ -739,7 +739,7 @@
             "type": "loki",
             "uid": "loki"
           },
-          "expr": "{job=\"alloy\"} | logfmt | status=\"Error\"",
+          "expr": "{service_name=\"server\"} | logfmt | detected_level=\"error\"",
           "refId": "A"
         }
       ],
@@ -750,7 +750,7 @@
   "refresh": "5s",
   "revision": 1,
   "schemaVersion": 38,
-  "tags": ["intro-to-mlt", "hono-poc"],
+  "tags": ["hono-poc", "app"],
   "templating": {
     "list": [
       {
@@ -806,7 +806,7 @@
           "type": 1
         },
         "refresh": 2,
-        "regex": "/^(\\/beholder|\\/unicorn|\\/manticore|\\/illithid|\\/owlbear).*/",
+        "regex": "/^\\/api\\/.*/",
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"

@@ -31,7 +31,7 @@
       "icon": "external link",
       "includeVars": false,
       "keepTime": false,
-      "tags": ["intro-to-mlt"],
+      "tags": ["hono-poc"],
       "targetBlank": false,
       "title": "Intro to MLT Dashboards",
       "tooltip": "",
@@ -297,7 +297,7 @@
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["intro-to-mlt", "hono-poc"],
+  "tags": ["hono-poc", "app"],
   "templating": {
     "list": [
       {

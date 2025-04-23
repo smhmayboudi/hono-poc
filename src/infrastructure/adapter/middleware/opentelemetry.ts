@@ -36,14 +36,14 @@ export const opentelemetryMiddleware = (
     rawTracer = tracerProvider.getTracer("hono-poc", "0.0.0");
   }
   const counterHTTPRequestsTotal = rawMeter.createCounter(
-    "http.requests.total",
+    "http_requests_total",
     {
       description: "Total number of HTTP requests",
       valueType: opentelemetry.ValueType.INT,
     },
   );
   const histogramHTTPRequestDurationSeconds = rawMeter.createHistogram(
-    "http.request.duration.seconds",
+    "http_request_duration_seconds",
     {
       advice: {
         explicitBucketBoundaries: [
@@ -54,6 +54,14 @@ export const opentelemetryMiddleware = (
       description: "Duration of HTTP requests in seconds",
     },
   );
+  const histogramRequestTimes = rawMeter.createHistogram("request_times", {
+    advice: {
+      explicitBucketBoundaries: [
+        10, 20, 50, 100, 200, 500, 1000, 2000, 4000, 8000, 16000,
+      ],
+    },
+    description: "Response times for the endpoints",
+  });
 
   return async (ctx, next) => {
     logger.assign({
@@ -111,6 +119,12 @@ export const opentelemetryMiddleware = (
             status: ctx.res.status.toString(),
           });
           histogramHTTPRequestDurationSeconds.record(duration, {
+            method: ctx.req.method,
+            ok: String(ctx.res.ok),
+            route: ctx.req.routePath,
+            status: ctx.res.status.toString(),
+          });
+          histogramRequestTimes.record(duration, {
             method: ctx.req.method,
             ok: String(ctx.res.ok),
             route: ctx.req.routePath,

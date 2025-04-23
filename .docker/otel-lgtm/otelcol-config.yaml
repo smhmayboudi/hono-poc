@@ -44,7 +44,7 @@ receivers:
           scrape_interval: 1s
           static_configs:
             - targets:
-                - pyroscope:4040
+                - 127.0.0.1:4040
               labels:
                 service: pyroscope
                 group: infrastructure

@@ -17,7 +17,7 @@ apps:
 
   # - type: grafana-pyroscope-app
   #   jsonData:
-  #     backendUrl: http://pyroscope:4040
+  #     backendUrl: http://127.0.0.1:4040
   #     # basicAuthUser: USER
   #   secureJsonData:
   #     # basicAuthPassword: PASSWORD
