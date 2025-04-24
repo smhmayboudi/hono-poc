@@ -1,10 +1,10 @@
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
 
-import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
 import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortGenerate } from "../../../../infrastructure/application/port/generate/generate.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
+import type { PortTracer } from "../../../../infrastructure/application/port/opentelemetry/opentelemetry.ts";
 import type { PortDrivenUserPOCCreate } from "../port/driven/user-poc-create.ts";
 import type {
   PortDrivingUserPOCCreate,
@@ -19,12 +19,13 @@ export class UseCaseUserPOCCreate implements PortDrivingUserPOCCreate {
     private readonly eventEmitter: PortEventEmitter,
     private readonly generate: PortGenerate,
     private readonly logger: PortLogger,
+    private readonly tracer: PortTracer,
   ) {}
 
   execute(
     data: PortDrivingUserPOCCreateRequest,
   ): Promise<PortDrivingUserPOCCreateResponse> {
-    return tracer.startActiveSpan("user-poc-create.use-case", async () => {
+    return this.tracer.startActiveSpan("user-poc-create.use-case", async () => {
       this.logger.assign({
         [ATTR_CODE_FUNCTION_NAME]: "user-poc-create.use-case",
         config: this.config,

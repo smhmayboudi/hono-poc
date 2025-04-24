@@ -1,7 +1,7 @@
 import { createId } from "@paralleldrive/cuid2";
 
 import type { PortGenerate } from "../../application/port/generate/generate.ts";
-import { tracer } from "../opentelemetry/opentelemetry.ts";
+import type { PortTracer } from "../../application/port/opentelemetry/opentelemetry.ts";
 
 export class Generate implements PortGenerate {
   id(): string {
@@ -9,7 +9,5 @@ export class Generate implements PortGenerate {
   }
 }
 
-export const generate = tracer.startActiveSpan(
-  "generate.infrastructure",
-  () => new Generate(),
-);
+export const generate = (tracer: PortTracer) =>
+  tracer.startActiveSpan("generate.infrastructure", () => new Generate());

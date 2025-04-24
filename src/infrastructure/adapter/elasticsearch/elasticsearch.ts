@@ -4,7 +4,7 @@ import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/inc
 import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortElasticsearch } from "../../application/port/elasticsearch/elasticsearch.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
-import { tracer } from "../opentelemetry/opentelemetry.ts";
+import type { PortTracer } from "../../application/port/opentelemetry/opentelemetry.ts";
 
 export type Index<K extends string, T> = Record<K, T>;
 
@@ -14,6 +14,7 @@ export class Elasticsearch implements PortElasticsearch {
   constructor(
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
+    // private readonly tracer: PortTracer,
   ) {
     this._client = new Client({
       node: this.config.client().elasticsearch().node(),
@@ -98,7 +99,11 @@ export class Elasticsearch implements PortElasticsearch {
   }
 }
 
-export const elasticsearch = (config: PortConfig, logger: PortLogger) =>
+export const elasticsearch = (
+  config: PortConfig,
+  logger: PortLogger,
+  tracer: PortTracer,
+) =>
   tracer.startActiveSpan(
     "elasticsearch.infrastructure",
     () => new Elasticsearch(config, logger),

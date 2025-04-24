@@ -10,6 +10,7 @@ export class AuthSecondaryStorage implements SecondaryStorage {
     private readonly cacher: PortCacher,
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
+    // private readonly tracer: PortTracer,
   ) {}
 
   get(key: string): Promise<string | null> | string | null {

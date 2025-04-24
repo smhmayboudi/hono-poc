@@ -6,6 +6,7 @@ import type { PortDatabase } from "../../infrastructure/application/port/databas
 import type { PortEventEmitter } from "../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortGenerate } from "../../infrastructure/application/port/generate/generate.ts";
 import type { PortLogger } from "../../infrastructure/application/port/logger/logger.ts";
+import type { PortTracer } from "../../infrastructure/application/port/opentelemetry/opentelemetry.ts";
 import { AdapterDrivenUserPOCInformationCreate } from "./adapter/driven/user-poc-information-create.ts";
 import { AdapterDrivenUserPOCInformationDelete } from "./adapter/driven/user-poc-information-delete.ts";
 import { AdapterDrivenUserPOCInformationDeleteUserID } from "./adapter/driven/user-poc-information-delete-user-id.ts";
@@ -35,15 +36,17 @@ export const userPOCInformation = (
   eventEmitter: PortEventEmitter,
   generate: PortGenerate,
   logger: PortLogger,
+  tracer: PortTracer,
 ) => {
   const adapterDrivenUserPOCInformationCreate =
-    new AdapterDrivenUserPOCInformationCreate(config, database, logger);
+    new AdapterDrivenUserPOCInformationCreate(config, database, logger, tracer);
   const useCaseUserPOCInformationCreate = new UseCaseUserPOCInformationCreate(
     config,
     adapterDrivenUserPOCInformationCreate,
     eventEmitter,
     generate,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCInformationCreate(
     app,
@@ -54,12 +57,13 @@ export const userPOCInformation = (
     useCaseUserPOCInformationCreate,
   );
   const adapterDrivenUserPOCInformationDelete =
-    new AdapterDrivenUserPOCInformationDelete(config, database, logger);
+    new AdapterDrivenUserPOCInformationDelete(config, database, logger, tracer);
   const useCaseUserPOCInformationDelete = new UseCaseUserPOCInformationDelete(
     config,
     adapterDrivenUserPOCInformationDelete,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCInformationDelete(
     app,
@@ -70,21 +74,28 @@ export const userPOCInformation = (
     useCaseUserPOCInformationDelete,
   );
   const adapterDrivenUserPOCInformationDeleteUserID =
-    new AdapterDrivenUserPOCInformationDeleteUserID(config, database, logger);
+    new AdapterDrivenUserPOCInformationDeleteUserID(
+      config,
+      database,
+      logger,
+      tracer,
+    );
   const useCaseUserPOCInformationDeleteUserID =
     new UseCaseUserPOCInformationDeleteUserID(
       config,
       adapterDrivenUserPOCInformationDeleteUserID,
       eventEmitter,
       logger,
+      tracer,
     );
   const adapterDrivenUserPOCInformationRead =
-    new AdapterDrivenUserPOCInformationRead(config, database, logger);
+    new AdapterDrivenUserPOCInformationRead(config, database, logger, tracer);
   const useCaseUserPOCInformationRead = new UseCaseUserPOCInformationRead(
     config,
     adapterDrivenUserPOCInformationRead,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCInformationRead(
     app,
@@ -95,12 +106,13 @@ export const userPOCInformation = (
     useCaseUserPOCInformationRead,
   );
   const adapterDrivenUserPOCInformationReadID =
-    new AdapterDrivenUserPOCInformationReadID(config, database, logger);
+    new AdapterDrivenUserPOCInformationReadID(config, database, logger, tracer);
   const useCaseUserPOCInformationReadID = new UseCaseUserPOCInformationReadID(
     config,
     adapterDrivenUserPOCInformationReadID,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCInformationReadID(
     app,
@@ -111,12 +123,13 @@ export const userPOCInformation = (
     useCaseUserPOCInformationReadID,
   );
   const adapterDrivenUserPOCInformationUpdate =
-    new AdapterDrivenUserPOCInformationUpdate(config, database, logger);
+    new AdapterDrivenUserPOCInformationUpdate(config, database, logger, tracer);
   const useCaseUserPOCInformationUpdate = new UseCaseUserPOCInformationUpdate(
     config,
     adapterDrivenUserPOCInformationUpdate,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCInformationUpdate(
     app,
@@ -124,16 +137,23 @@ export const userPOCInformation = (
     config,
     domainType,
     logger,
+
     useCaseUserPOCInformationUpdate,
   );
   const adapterDrivenUserPOCInformationUpdateUserID =
-    new AdapterDrivenUserPOCInformationUpdateUserID(config, database, logger);
+    new AdapterDrivenUserPOCInformationUpdateUserID(
+      config,
+      database,
+      logger,
+      tracer,
+    );
   const useCaseUserPOCInformationUpdateUserID =
     new UseCaseUserPOCInformationUpdateUserID(
       config,
       adapterDrivenUserPOCInformationUpdateUserID,
       eventEmitter,
       logger,
+      tracer,
     );
 
   return {

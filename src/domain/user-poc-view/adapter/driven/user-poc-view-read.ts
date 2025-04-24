@@ -1,11 +1,11 @@
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
 import { sql } from "drizzle-orm";
 
-import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
 import type { PortDatabase } from "../../../../infrastructure/application/port/database/database.ts";
 import { userPOCView } from "../../../../infrastructure/application/port/database/schema/schema.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
+import type { PortTracer } from "../../../../infrastructure/application/port/opentelemetry/opentelemetry.ts";
 import { requestQuery } from "../../../../shared/adapter/driven/request-query.ts";
 import type {
   PortDrivenUserPOCViewRead,
@@ -18,33 +18,37 @@ export class AdapterDrivenUserPOCViewRead implements PortDrivenUserPOCViewRead {
     private readonly config: PortConfig,
     private readonly database: PortDatabase,
     private readonly logger: PortLogger,
+    private readonly tracer: PortTracer,
   ) {}
 
   read(
     data: PortDrivenUserPOCViewReadRequest,
   ): Promise<PortDrivenUserPOCViewReadResponse> {
-    return tracer.startActiveSpan("user-poc-view-read.driven", async () => {
-      this.logger.assign({
-        [ATTR_CODE_FUNCTION_NAME]: "user-poc-view-read.driven",
-        config: this.config,
-        data,
-      });
-      this.logger.info({});
-      const result = (
-        await requestQuery(
+    return this.tracer.startActiveSpan(
+      "user-poc-view-read.driven",
+      async () => {
+        this.logger.assign({
+          [ATTR_CODE_FUNCTION_NAME]: "user-poc-view-read.driven",
+          config: this.config,
           data,
-          (key) => sql`${userPOCView[key as keyof typeof userPOCView]}`,
-          this.database.db().select().from(userPOCView),
-        ).execute()
-      ).map((value) => ({
-        address: String(value.user_poc_information_address),
-        age: Number(value.user_poc_information_age),
-        fullname: String(value.user_poc_fullname),
-        id: String(value.user_poc_id),
-      }));
-      this.logger.debug({ result });
+        });
+        this.logger.info({});
+        const result = (
+          await requestQuery(
+            data,
+            (key) => sql`${userPOCView[key as keyof typeof userPOCView]}`,
+            this.database.db().select().from(userPOCView),
+          ).execute()
+        ).map((value) => ({
+          address: String(value.user_poc_information_address),
+          age: Number(value.user_poc_information_age),
+          fullname: String(value.user_poc_fullname),
+          id: String(value.user_poc_id),
+        }));
+        this.logger.debug({ result });
 
-      return result;
-    });
+        return result;
+      },
+    );
   }
 }

@@ -1,9 +1,9 @@
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
 
-import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
 import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
+import type { PortTracer } from "../../../../infrastructure/application/port/opentelemetry/opentelemetry.ts";
 import type { PortDrivenUserPOCInformationDelete } from "../port/driven/user-poc-information-delete.ts";
 import type {
   PortDrivingUserPOCInformationDelete,
@@ -19,12 +19,13 @@ export class UseCaseUserPOCInformationDelete
     private readonly drivenUserPOCInformationDelete: PortDrivenUserPOCInformationDelete,
     private readonly eventEmitter: PortEventEmitter,
     private readonly logger: PortLogger,
+    private readonly tracer: PortTracer,
   ) {}
 
   execute(
     data: PortDrivingUserPOCInformationDeleteRequest,
   ): Promise<PortDrivingUserPOCInformationDeleteResponse> {
-    return tracer.startActiveSpan(
+    return this.tracer.startActiveSpan(
       "user-poc-information-delete.use-case",
       async () => {
         this.logger.assign({

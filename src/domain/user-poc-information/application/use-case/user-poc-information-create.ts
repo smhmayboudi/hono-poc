@@ -1,10 +1,10 @@
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
 
-import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
 import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortGenerate } from "../../../../infrastructure/application/port/generate/generate.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
+import type { PortTracer } from "../../../../infrastructure/application/port/opentelemetry/opentelemetry.ts";
 import type { PortDrivenUserPOCInformationCreate } from "../port/driven/user-poc-information-create.ts";
 import type {
   PortDrivingUserPOCInformationCreate,
@@ -21,12 +21,13 @@ export class UseCaseUserPOCInformationCreate
     private readonly eventEmitter: PortEventEmitter,
     private readonly generate: PortGenerate,
     private readonly logger: PortLogger,
+    private readonly tracer: PortTracer,
   ) {}
 
   execute(
     data: PortDrivingUserPOCInformationCreateRequest,
   ): Promise<PortDrivingUserPOCInformationCreateResponse> {
-    return tracer.startActiveSpan(
+    return this.tracer.startActiveSpan(
       "user-poc-information-create.use-case",
       async () => {
         this.logger.assign({

@@ -3,7 +3,7 @@ import { pino } from "pino";
 import { merge } from "ts-deepmerge";
 
 import type { PortLogger } from "../../application/port/logger/logger.ts";
-import { tracer } from "../opentelemetry/opentelemetry.ts";
+import type { PortTracer } from "../../application/port/opentelemetry/opentelemetry.ts";
 
 export class Logger implements PortLogger {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -118,7 +118,8 @@ export class Logger implements PortLogger {
   }
 }
 
-export const logger = tracer.startActiveSpan(
-  "logger.infrastructure",
-  () => new Logger(pino({ level: "trace" })),
-);
+export const logger = (tracer: PortTracer) =>
+  tracer.startActiveSpan(
+    "logger.infrastructure",
+    () => new Logger(pino({ level: "trace" })),
+  );

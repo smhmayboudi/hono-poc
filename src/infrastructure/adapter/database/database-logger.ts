@@ -8,6 +8,7 @@ export class DatabaseLogger implements Logger {
   constructor(
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
+    // private readonly tracer: PortTracer,
   ) {}
 
   logQuery(query: string, params: unknown[]): void {

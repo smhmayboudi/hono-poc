@@ -7,6 +7,7 @@ import type { PortDatabase } from "../../infrastructure/application/port/databas
 import type { PortElasticsearch } from "../../infrastructure/application/port/elasticsearch/elasticsearch.ts";
 import type { PortEventEmitter } from "../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../infrastructure/application/port/logger/logger.ts";
+import type { PortTracer } from "../../infrastructure/application/port/opentelemetry/opentelemetry.ts";
 import type { PortDrivingUserPOCCreate } from "../user-poc/application/port/driving/user-poc-create.ts";
 import type { PortDrivingUserPOCDelete } from "../user-poc/application/port/driving/user-poc-delete.ts";
 import type { PortDrivingUserPOCUpdate } from "../user-poc/application/port/driving/user-poc-update.ts";
@@ -45,6 +46,7 @@ export const userPOCView = (
   elasticsearch: PortElasticsearch,
   eventEmitter: PortEventEmitter,
   logger: PortLogger,
+  tracer: PortTracer,
 ) => {
   const useCaseUserPOCViewCreate = new UseCaseUserPOCViewCreate(
     config,
@@ -52,6 +54,7 @@ export const userPOCView = (
     drivingUserPOCInformationCreate,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCViewCreate(
     app,
@@ -67,6 +70,7 @@ export const userPOCView = (
     drivingUserPOCInformationDeleteUserID,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCViewDelete(
     app,
@@ -80,12 +84,14 @@ export const userPOCView = (
     config,
     database,
     logger,
+    tracer,
   );
   const useCaseUserPOCViewRead = new UseCaseUserPOCViewRead(
     config,
     adapterDrivenUserPOCViewRead,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCViewRead(
     app,
@@ -100,12 +106,14 @@ export const userPOCView = (
     config,
     database,
     logger,
+    tracer,
   );
   const useCaseUserPOCViewReadID = new UseCaseUserPOCViewReadID(
     config,
     adapterDrivenUserPOCViewReadID,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCViewReadID(
     app,
@@ -119,12 +127,14 @@ export const userPOCView = (
     config,
     elasticsearch,
     logger,
+    tracer,
   );
   const useCaseUserPOCViewSearch = new UseCaseUserPOCViewSearch(
     config,
     adapterDrivenUserPOCViewSearch,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCViewSearch(
     app,
@@ -140,6 +150,7 @@ export const userPOCView = (
     drivingUserPOCInformationUpdateUserID,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCViewUpdate(
     app,

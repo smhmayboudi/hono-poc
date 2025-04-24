@@ -8,7 +8,7 @@ import type {
   PortEventEmitter,
 } from "../../application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
-import { tracer } from "../opentelemetry/opentelemetry.ts";
+import type { PortTracer } from "../../application/port/opentelemetry/opentelemetry.ts";
 
 export class EventEmitter implements PortEventEmitter {
   #nodeEventEmitter: NodeEventEmitter;
@@ -16,6 +16,7 @@ export class EventEmitter implements PortEventEmitter {
   constructor(
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
+    // private readonly tracer: PortTracer,
   ) {
     this.#nodeEventEmitter = new NodeEventEmitter({ captureRejections: true });
   }
@@ -58,7 +59,11 @@ export class EventEmitter implements PortEventEmitter {
   }
 }
 
-export const eventEmitter = (config: PortConfig, logger: PortLogger) =>
+export const eventEmitter = (
+  config: PortConfig,
+  logger: PortLogger,
+  tracer: PortTracer,
+) =>
   tracer.startActiveSpan(
     "event-emitter.infrastructure",
     () => new EventEmitter(config, logger),

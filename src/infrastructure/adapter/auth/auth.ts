@@ -11,7 +11,7 @@ import type { PortCacher } from "../../application/port/cacher/cacher.ts";
 import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortDatabase } from "../../application/port/database/database.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
-import { tracer } from "../opentelemetry/opentelemetry.ts";
+import type { PortTracer } from "../../application/port/opentelemetry/opentelemetry.ts";
 import { ac, roles } from "./auth-admin.ts";
 import { AuthLogger } from "./auth-logger.ts";
 import { AuthSecondaryStorage } from "./auth-secondary-storage.ts";
@@ -25,6 +25,7 @@ const betterAuth2 = (
   logger: PortLogger,
   loggerLogger: PortLogger,
   loggerSecondaryStorage: PortLogger,
+  // tracer: PortTracer,
 ) =>
   betterAuth({
     advanced: {
@@ -98,6 +99,7 @@ export class Auth2 implements PortAuth {
     private readonly auth: ReturnType<typeof betterAuth2>,
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
+    // private readonly tracer: PortTracer,
   ) {}
 
   handler(request: Request): Promise<Response> {
@@ -171,6 +173,7 @@ export const auth = (
   loggerBA: PortLogger,
   loggerBALogger: PortLogger,
   loggerBASecondaryStorage: PortLogger,
+  tracer: PortTracer,
 ) =>
   tracer.startActiveSpan("auth.infrastructure", () => {
     return new Auth2(

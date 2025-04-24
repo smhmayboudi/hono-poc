@@ -18,7 +18,7 @@ let rawLogger: Logger | undefined;
 let rawMeter: Meter | undefined;
 let rawTracer: Tracer | undefined;
 
-export const tracer: PortTracer = {
+export class Trace implements PortTracer {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   startActiveSpan<M extends string, F extends (span?: Span) => any>(
     name: SpanName<M>,
@@ -96,5 +96,7 @@ export const tracer: PortTracer = {
         throw error;
       }
     });
-  },
-};
+  }
+}
+
+export const tracer = new Trace();

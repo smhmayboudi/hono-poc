@@ -9,7 +9,7 @@ import type {
 } from "../../application/port/cacher/cacher.ts";
 import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
-import { tracer } from "../opentelemetry/opentelemetry.ts";
+import type { PortTracer } from "../../application/port/opentelemetry/opentelemetry.ts";
 
 export class Cacher implements PortCacher {
   private readonly cache: Cache;
@@ -17,6 +17,7 @@ export class Cacher implements PortCacher {
   constructor(
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
+    // private readonly tracer: PortTracer,
   ) {
     const keyv = new Keyv({
       store: new KeyvRedis(
@@ -102,7 +103,11 @@ export class Cacher implements PortCacher {
   }
 }
 
-export const cacher = (config: PortConfig, logger: PortLogger) =>
+export const cacher = (
+  config: PortConfig,
+  logger: PortLogger,
+  tracer: PortTracer,
+) =>
   tracer.startActiveSpan(
     "cacher.infrastructure",
     () => new Cacher(config, logger),

@@ -1,9 +1,9 @@
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
 
-import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
 import type { PortEventEmitter } from "../../../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
+import type { PortTracer } from "../../../../infrastructure/application/port/opentelemetry/opentelemetry.ts";
 import type { PortDrivenUserPOCUpdate } from "../port/driven/user-poc-update.ts";
 import type {
   PortDrivingUserPOCUpdate,
@@ -17,12 +17,13 @@ export class UseCaseUserPOCUpdate implements PortDrivingUserPOCUpdate {
     private readonly drivenUserPOCUpdate: PortDrivenUserPOCUpdate,
     private readonly eventEmitter: PortEventEmitter,
     private readonly logger: PortLogger,
+    private readonly tracer: PortTracer,
   ) {}
 
   execute(
     data: PortDrivingUserPOCUpdateRequest,
   ): Promise<PortDrivingUserPOCUpdateResponse> {
-    return tracer.startActiveSpan("user-poc-update.use-case", async () => {
+    return this.tracer.startActiveSpan("user-poc-update.use-case", async () => {
       this.logger.assign({
         [ATTR_CODE_FUNCTION_NAME]: "user-poc-update.use-case",
         config: this.config,

@@ -1,11 +1,11 @@
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
 import { eq } from "drizzle-orm";
 
-import { tracer } from "../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
 import type { PortDatabase } from "../../../../infrastructure/application/port/database/database.ts";
 import { userPOCInformation } from "../../../../infrastructure/application/port/database/schema/schema.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
+import type { PortTracer } from "../../../../infrastructure/application/port/opentelemetry/opentelemetry.ts";
 import { ErrorNoRowFound } from "../../../../shared/application/error/no-row-found.ts";
 import type {
   PortDrivenUserPOCInformationReadID,
@@ -20,12 +20,13 @@ export class AdapterDrivenUserPOCInformationReadID
     private readonly config: PortConfig,
     private readonly database: PortDatabase,
     private readonly logger: PortLogger,
+    private readonly tracer: PortTracer,
   ) {}
 
   readID(
     data: PortDrivenUserPOCInformationReadIDRequest,
   ): Promise<PortDrivenUserPOCInformationReadIDResponse> {
-    return tracer.startActiveSpan(
+    return this.tracer.startActiveSpan(
       "user-poc-information-read-id.driven",
       async () => {
         this.logger.assign({

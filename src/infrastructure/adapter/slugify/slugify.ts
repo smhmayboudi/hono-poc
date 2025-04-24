@@ -1,7 +1,7 @@
 import * as slag from "slugify";
 
+import type { PortTracer } from "../../application/port/opentelemetry/opentelemetry.ts";
 import type { PortSlug } from "../../application/port/slugify/slugify.ts";
-import { tracer } from "../opentelemetry/opentelemetry.ts";
 
 export class Slug implements PortSlug {
   constructor(private readonly separator: string = "-") {}
@@ -11,7 +11,5 @@ export class Slug implements PortSlug {
   }
 }
 
-export const slug = tracer.startActiveSpan(
-  "slug.infrastructure",
-  () => new Slug(),
-);
+export const slug = (tracer: PortTracer) =>
+  tracer.startActiveSpan("slug.infrastructure", () => new Slug());

@@ -9,8 +9,8 @@ import Bull from "bull";
 
 import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
+import type { PortTracer } from "../../application/port/opentelemetry/opentelemetry.ts";
 import type { PortQueue } from "../../application/port/queue/queue.ts";
-import { tracer } from "../opentelemetry/opentelemetry.ts";
 
 export class Queue<T> implements PortQueue<T> {
   private readonly queue: Bull.Queue<T>;
@@ -18,6 +18,7 @@ export class Queue<T> implements PortQueue<T> {
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
     name: string,
+    // private readonly tracer: PortTracer,
   ) {
     this.queue = new Bull<T>(name, `${config.client().redis().url()}/2`);
 
@@ -171,6 +172,7 @@ export const queue = <T>(
   config: PortConfig,
   logger: PortLogger,
   name: string,
+  tracer: PortTracer,
 ) =>
   tracer.startActiveSpan(
     "queue.infrastructure",

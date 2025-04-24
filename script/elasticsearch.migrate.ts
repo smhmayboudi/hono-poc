@@ -5,10 +5,16 @@ import { database } from "../src/infrastructure/adapter/database/database.ts";
 import { userPOCView } from "../src/infrastructure/adapter/database/schema/view/user-poc-view.ts";
 import { elasticsearch } from "../src/infrastructure/adapter/elasticsearch/elasticsearch.ts";
 import { Logger } from "../src/infrastructure/adapter/logger/logger.ts";
+import { tracer } from "../src/infrastructure/adapter/opentelemetry/opentelemetry.ts";
 
 const level = "trace";
-const elasticsearch2 = elasticsearch(config, new Logger(pino({ level })));
-const database2 = database(config, new Logger(pino({ level })));
+const config2 = config(tracer);
+const elasticsearch2 = elasticsearch(
+  config2,
+  new Logger(pino({ level })),
+  tracer,
+);
+const database2 = database(config2, new Logger(pino({ level })), tracer);
 
 const indiceExists = await elasticsearch2
   .client()

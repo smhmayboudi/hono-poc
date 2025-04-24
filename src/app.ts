@@ -20,6 +20,7 @@ import { Logger } from "./infrastructure/adapter/logger/logger.ts";
 import { authMiddleware } from "./infrastructure/adapter/middleware/auth.ts";
 import { loggerMiddleware } from "./infrastructure/adapter/middleware/logger.ts";
 import { opentelemetryMiddleware } from "./infrastructure/adapter/middleware/opentelemetry.ts";
+import { tracer } from "./infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import { defaultHook } from "./shared/adapter/driving/default-hook.ts";
 import { notFoundHandler } from "./shared/adapter/driving/handler/not-found.ts";
 import { onErrorHandler } from "./shared/adapter/driving/handler/on-error.ts";
@@ -28,28 +29,40 @@ const level = "trace";
 const basePath = "/api/v1";
 const authPath = `${basePath}/auth`;
 const swaggerPath = `${basePath}/reference`;
-const eventEmitter2 = eventEmitter(config, new Logger(pino({ level })));
-const elasticsearch2 = elasticsearch(config, new Logger(pino({ level })));
-const database2 = database(config, new Logger(pino({ level })));
-const cacher2 = cacher(config, new Logger(pino({ level })));
+
+const config2 = config(tracer);
+const cacher2 = cacher(config2, new Logger(pino({ level })), tracer);
+const database2 = database(config2, new Logger(pino({ level })), tracer);
 const auth2 = auth(
   basePath,
   cacher2,
-  config,
+  config2,
   database2,
   [authPath, swaggerPath],
   new Logger(pino({ level })),
   new Logger(pino({ level })),
   new Logger(pino({ level })),
   new Logger(pino({ level })),
+  tracer,
 );
+const elasticsearch2 = elasticsearch(
+  config2,
+  new Logger(pino({ level })),
+  tracer,
+);
+const eventEmitter2 = eventEmitter(
+  config2,
+  new Logger(pino({ level })),
+  tracer,
+);
+const generate2 = generate(tracer);
 
 appEventEmitter(cacher2, database2, elasticsearch2, eventEmitter2);
 
 const app = new OpenAPIHono<Env>({ defaultHook });
 
 app.use(
-  opentelemetryMiddleware(config, new Logger(pino({ level }))),
+  opentelemetryMiddleware(config2, new Logger(pino({ level }))),
   cors({
     allowHeaders: ["Content-Type", "Authorization"],
     allowMethods: ["GET", "OPTIONS", "POST"],
@@ -62,11 +75,11 @@ app.use(
     origin: (origin) =>
       ["127.0.0.1", "localhost"].includes(new URL(origin).hostname),
   }),
-  loggerMiddleware(config, { pino: new Logger(pino({ level })) }),
+  loggerMiddleware(config2, { pino: new Logger(pino({ level })) }),
   authMiddleware(
     auth2,
     basePath,
-    config,
+    config2,
     [authPath, swaggerPath],
     new Logger(pino({ level })),
   ),
@@ -81,12 +94,13 @@ const { useCaseUserPOCCreate, useCaseUserPOCDelete, useCaseUserPOCUpdate } =
   userPOC(
     app,
     basePath,
-    config,
+    config2,
     database2,
     "user-poc",
     eventEmitter2,
-    generate,
+    generate2,
     new Logger(pino({ level })),
+    tracer,
   );
 const {
   useCaseUserPOCInformationCreate,
@@ -95,18 +109,19 @@ const {
 } = userPOCInformation(
   app,
   basePath,
-  config,
+  config2,
   database2,
   "user-poc-information",
   eventEmitter2,
-  generate,
+  generate2,
   new Logger(pino({ level })),
+  tracer,
 );
 userPOCView(
   app,
   basePath,
   cacher2,
-  config,
+  config2,
   database2,
   "user-poc-view",
   useCaseUserPOCCreate,
@@ -118,15 +133,16 @@ userPOCView(
   elasticsearch2,
   eventEmitter2,
   new Logger(pino({ level })),
+  tracer,
 );
 
 swagger(app, swaggerPath);
 
-app.notFound(notFoundHandler(config, new Logger(pino({ level }))));
-app.onError(onErrorHandler(config, new Logger(pino({ level }))));
+app.notFound(notFoundHandler(config2, new Logger(pino({ level }))));
+app.onError(onErrorHandler(config2, new Logger(pino({ level }))));
 
 export default {
   fetch: app.fetch,
   logger: new Logger(pino({ level })),
-  port: config.server().server().port(),
+  port: config2.server().server().port(),
 };

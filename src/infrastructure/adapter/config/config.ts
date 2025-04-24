@@ -4,7 +4,7 @@ import { getEnv } from "../../../app.env.ts";
 import type { PortClientConfig } from "../../application/port/config/client/index.ts";
 import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortServerConfig } from "../../application/port/config/server/index.ts";
-import { tracer } from "../opentelemetry/opentelemetry.ts";
+import type { PortTracer } from "../../application/port/opentelemetry/opentelemetry.ts";
 import { Database } from "./client/database.ts";
 import { Elasticsearch } from "./client/elasticsearch.ts";
 import { ClientConfig } from "./client/index.ts";
@@ -58,23 +58,24 @@ const envSchema = z.object({
 });
 const env = envSchema.parse(getEnv());
 
-export const config = tracer.startActiveSpan(
-  "config.infrastructure",
-  () =>
-    new Config(
-      new ClientConfig(
-        new Database(env.CLIENT_DATABASE_URI),
-        new Elasticsearch(env.CLIENT_ELASTICSEARCH_NODE),
-        new Redis(env.CLIENT_REDIS_URL),
-      ),
-      new ServerConfig(
-        new Auth(
-          env.SERVER_AUTH_APP_NAME,
-          env.SERVER_AUTH_BASE_URL,
-          env.SERVER_AUTH_SECRET,
+export const config = (tracer: PortTracer) =>
+  tracer.startActiveSpan(
+    "config.infrastructure",
+    () =>
+      new Config(
+        new ClientConfig(
+          new Database(env.CLIENT_DATABASE_URI),
+          new Elasticsearch(env.CLIENT_ELASTICSEARCH_NODE),
+          new Redis(env.CLIENT_REDIS_URL),
         ),
-        new Feature(env.SERVER_FEATURE_FLAG_USER_POC_FULLNAME),
-        new Server(env.SERVER_SERVER_PORT),
+        new ServerConfig(
+          new Auth(
+            env.SERVER_AUTH_APP_NAME,
+            env.SERVER_AUTH_BASE_URL,
+            env.SERVER_AUTH_SECRET,
+          ),
+          new Feature(env.SERVER_FEATURE_FLAG_USER_POC_FULLNAME),
+          new Server(env.SERVER_SERVER_PORT),
+        ),
       ),
-    ),
-);
+  );

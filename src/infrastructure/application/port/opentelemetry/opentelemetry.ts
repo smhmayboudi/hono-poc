@@ -4,7 +4,8 @@ export type SpanName<M extends string> =
   `${M}.${"driven" | "driving" | "infrastructure" | "use-case"}`;
 
 export interface PortTracer {
-  startActiveSpan<M extends string, F extends (span?: Span) => unknown>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  startActiveSpan<M extends string, F extends (span?: Span) => any>(
     name: SpanName<M>,
     optionsOrFn: SpanOptions | F,
     contextOrFn?: Context | F,

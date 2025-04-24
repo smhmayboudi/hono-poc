@@ -6,6 +6,7 @@ import type { PortDatabase } from "../../infrastructure/application/port/databas
 import type { PortEventEmitter } from "../../infrastructure/application/port/event-emitter/event-emitter.ts";
 import type { PortGenerate } from "../../infrastructure/application/port/generate/generate.ts";
 import type { PortLogger } from "../../infrastructure/application/port/logger/logger.ts";
+import type { PortTracer } from "../../infrastructure/application/port/opentelemetry/opentelemetry.ts";
 import { AdapterDrivenUserPOCCreate } from "./adapter/driven/user-poc-create.ts";
 import { AdapterDrivenUserPOCDelete } from "./adapter/driven/user-poc-delete.ts";
 import { AdapterDrivenUserPOCRead } from "./adapter/driven/user-poc-read.ts";
@@ -31,11 +32,13 @@ export const userPOC = (
   eventEmitter: PortEventEmitter,
   generate: PortGenerate,
   logger: PortLogger,
+  tracer: PortTracer,
 ) => {
   const adapterDrivenUserPOCCreate = new AdapterDrivenUserPOCCreate(
     config,
     database,
     logger,
+    tracer,
   );
   const useCaseUserPOCCreate = new UseCaseUserPOCCreate(
     config,
@@ -43,6 +46,7 @@ export const userPOC = (
     eventEmitter,
     generate,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCCreate(
     app,
@@ -56,12 +60,14 @@ export const userPOC = (
     config,
     database,
     logger,
+    tracer,
   );
   const useCaseUserPOCDelete = new UseCaseUserPOCDelete(
     config,
     adapterDrivenUserPOCDelete,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCDelete(
     app,
@@ -75,12 +81,14 @@ export const userPOC = (
     config,
     database,
     logger,
+    tracer,
   );
   const useCaseUserPOCRead = new UseCaseUserPOCRead(
     config,
     adapterDrivenUserPOCRead,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCRead(
     app,
@@ -94,12 +102,14 @@ export const userPOC = (
     config,
     database,
     logger,
+    tracer,
   );
   const useCaseUserPOCReadID = new UseCaseUserPOCReadID(
     config,
     adapterDrivenUserPOCReadID,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCReadID(
     app,
@@ -113,12 +123,14 @@ export const userPOC = (
     config,
     database,
     logger,
+    tracer,
   );
   const useCaseUserPOCUpdate = new UseCaseUserPOCUpdate(
     config,
     adapterDrivenUserPOCUpdate,
     eventEmitter,
     logger,
+    tracer,
   );
   adapterDrivingUserPOCUpdate(
     app,

@@ -7,6 +7,7 @@ export class AuthLogger implements Logger {
     readonly disabled: boolean,
     readonly level: Exclude<LogLevel, "success">,
     private readonly logger: PortLogger,
+    // private readonly tracer: PortTracer,
   ) {}
 
   log(

@@ -4,13 +4,14 @@ import type { PortConfig } from "../../application/port/config/config.ts";
 import type { PortDatabase } from "../../application/port/database/database.ts";
 import * as schema from "../../application/port/database/schema/schema.ts";
 import type { PortLogger } from "../../application/port/logger/logger.ts";
-import { tracer } from "../opentelemetry/opentelemetry.ts";
+import type { PortTracer } from "../../application/port/opentelemetry/opentelemetry.ts";
 import { DatabaseLogger } from "./database-logger.ts";
 
 export class Database2 implements PortDatabase {
   constructor(
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
+    // private readonly tracer: PortTracer,
   ) {}
 
   db(): MySql2Database<typeof schema> {
@@ -24,7 +25,11 @@ export class Database2 implements PortDatabase {
   }
 }
 
-export const database = (config: PortConfig, logger: PortLogger) =>
+export const database = (
+  config: PortConfig,
+  logger: PortLogger,
+  tracer: PortTracer,
+) =>
   tracer.startActiveSpan(
     "database.infrastructure",
     () => new Database2(config, logger),
