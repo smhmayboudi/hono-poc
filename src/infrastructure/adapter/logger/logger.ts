@@ -11,7 +11,7 @@ export class Logger implements PortLogger {
     this.otelLogger.emit({
       body: {
         ...this.logger.bindings(),
-        ...this.#args(args, false),
+        ...this.#args(args),
       },
       severityNumber: api.SeverityNumber.DEBUG,
     });
@@ -23,7 +23,7 @@ export class Logger implements PortLogger {
     this.otelLogger.emit({
       body: {
         ...this.logger.bindings(),
-        ...this.#args(args, true),
+        ...this.#args(args),
       },
       severityNumber: api.SeverityNumber.ERROR,
     });
@@ -35,7 +35,7 @@ export class Logger implements PortLogger {
     this.otelLogger.emit({
       body: {
         ...this.logger.bindings(),
-        ...this.#args(args, false),
+        ...this.#args(args),
       },
       severityNumber: api.SeverityNumber.FATAL,
     });
@@ -47,7 +47,7 @@ export class Logger implements PortLogger {
     this.otelLogger.emit({
       body: {
         ...this.logger.bindings(),
-        ...this.#args(args, false),
+        ...this.#args(args),
       },
       severityNumber: api.SeverityNumber.INFO,
     });
@@ -64,7 +64,7 @@ export class Logger implements PortLogger {
     this.otelLogger.emit({
       body: {
         ...this.logger.bindings(),
-        ...this.#args(args, false),
+        ...this.#args(args),
       },
       severityNumber: api.SeverityNumber.TRACE,
     });
@@ -76,7 +76,7 @@ export class Logger implements PortLogger {
     this.otelLogger.emit({
       body: {
         ...this.logger.bindings(),
-        ...this.#args(args, false),
+        ...this.#args(args),
       },
       severityNumber: api.SeverityNumber.WARN,
     });
@@ -96,12 +96,10 @@ export class Logger implements PortLogger {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  #args(args: Record<string, any>, isError: boolean) {
+  #args(args: Record<string, any>) {
     return Object.entries(args)
       .map((value) =>
-        typeof value[1] === "string"
-          ? { ...(isError ? { error: value[1] } : { message: value[1] }) }
-          : value[1],
+        typeof value[1] === "string" ? { message: value[1] } : value[1],
       )
       .reduce(
         (previousValue, currentValue) => merge(previousValue, currentValue),

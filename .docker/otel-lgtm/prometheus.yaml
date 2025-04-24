@@ -1,13 +1,13 @@
 otlp:
   keep_identifying_resource_attributes: true
   promote_resource_attributes:
-    - service.instance.id
+    # - service.instance.id
     - service.name
-    - service.namespace
+    # - service.namespace
     - service.version
     # - cloud.availability_zone
     # - cloud.region
-    - container.name
+    # - container.name
     # - deployment.environment.name
     # - k8s.cluster.name
     # - k8s.container.name

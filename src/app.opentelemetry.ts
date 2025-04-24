@@ -51,7 +51,7 @@ const sdk = new NodeSDK({
   resourceDetectors: [envDetector, hostDetector, processDetector],
   // sampler: Sampler;
   // spanLimits: SpanLimits;
-  serviceName: "hono-poc",
+  serviceName: "server",
   spanProcessors: [new SimpleSpanProcessor(otlpTraceExporter)],
   textMapPropagator: new CompositePropagator({
     propagators: [new W3CTraceContextPropagator(), new W3CBaggagePropagator()],
