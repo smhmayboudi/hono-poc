@@ -701,7 +701,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "histogram_quantile(0.95, sum(rate(request_times_bucket[$__rate_interval])) by (le, service_name))",
+          "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[$__rate_interval])) by (le, service_name))",
           "interval": "",
           "legendFormat": "{{le}}",
           "range": true,

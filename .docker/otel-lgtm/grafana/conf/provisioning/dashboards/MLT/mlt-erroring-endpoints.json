@@ -315,7 +315,7 @@
         "hide": 0,
         "includeAll": true,
         "multi": false,
-        "name": "endpoint",
+        "name": "Endpoint",
         "options": [],
         "query": {
           "query": "label_values(traces_spanmetrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",http_target!~\"/debug/pprof.*\"}, http_target)\n",

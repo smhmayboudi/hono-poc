@@ -58,9 +58,9 @@ receivers:
                 group: infrastructure
 
         # - job_name: elasticsearch
-        # - job_name: hono-poc
         # - job_name: mysql
         # - job_name: redis
+        # - job_name: server
 
 processors:
   batch:

@@ -49,19 +49,12 @@ export const opentelemetryMiddleware = (
         explicitBucketBoundaries: [
           0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5,
           10,
+          // 20, 50, 100, 200, 500, 1000, 2000, 4000, 8000, 16000,
         ],
       },
       description: "Duration of HTTP requests in seconds",
     },
   );
-  const histogramRequestTimes = rawMeter.createHistogram("request_times", {
-    advice: {
-      explicitBucketBoundaries: [
-        10, 20, 50, 100, 200, 500, 1000, 2000, 4000, 8000, 16000,
-      ],
-    },
-    description: "Response times for the endpoints",
-  });
 
   return async (ctx, next) => {
     logger.assign({
@@ -119,12 +112,6 @@ export const opentelemetryMiddleware = (
             status: ctx.res.status.toString(),
           });
           histogramHTTPRequestDurationSeconds.record(duration, {
-            method: ctx.req.method,
-            ok: String(ctx.res.ok),
-            route: ctx.req.routePath,
-            status: ctx.res.status.toString(),
-          });
-          histogramRequestTimes.record(duration, {
             method: ctx.req.method,
             ok: String(ctx.res.ok),
             route: ctx.req.routePath,
