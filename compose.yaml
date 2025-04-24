@@ -125,15 +125,22 @@ services:
   k6:
     command:
       - run
-      - /home/k6/workspace/test/e2e/build/server.js
       - --compatibility-mode=base
       - --config=/home/k6/workspace/test/e2e/config.json
+      - --out=experimental-prometheus-rw
+      - /home/k6/workspace/test/e2e/build/mlt.js
     container_name: hono-k6
     environment:
+      - K6_DURATION=3600s
+      - K6_PROMETHEUS_RW_SERVER_URL=http://otel-lgtm:9090/api/v1/write
+      - K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM=true
+      - K6_VUS=4
       - BASE_URL=http://hono-poc:8081/api/v1
       - SLEEP_DURATION=0.1
     depends_on:
       hono-poc:
+        condition: service_healthy
+      otel-lgtm:
         condition: service_healthy
     image: grafana/k6:0.58.0
     labels:
@@ -426,6 +433,7 @@ services:
       - "3000:3000"
       - "4317:4317"
       - "4318:4318"
+      - "9090:9090"
     labels:
       namespace: otel-lgtm
     logging: *logging
