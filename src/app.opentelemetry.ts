@@ -64,7 +64,7 @@ sdk.start();
 
 (async () => {
   Pyroscope.init({
-    appName: "hono-poc",
+    appName: "server",
     serverAddress: "http://127.0.0.1:4040",
     sourceMapper: await Pyroscope.SourceMapper.create(["."], true),
   });

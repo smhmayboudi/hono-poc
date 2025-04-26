@@ -552,7 +552,7 @@
           "type": "prometheus",
           "uid": "prometheus"
         },
-        "definition": "label_values({job=~\"$job\"},instance)",
+        "definition": "label_values(service_name)",
         "hide": 0,
         "includeAll": true,
         "label": "Instance",
@@ -560,7 +560,7 @@
         "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values({job=~\"$job\"},instance)",
+          "query": "label_values(service_name)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,

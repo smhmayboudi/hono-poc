@@ -1,3 +1,29 @@
+connectors:
+  spanmetrics:
+    namespace: traces.spanmetrics
+    histogram:
+      explicit:
+    dimensions:
+      - name: http.method
+      - name: http.target
+      - name: http.status_code
+      - name: service.version
+    exemplars:
+      enabled: true
+  servicegraph:
+    metrics_exporter: otlphttp/metrics
+    store:
+      ttl: 2s
+      max_items: 200
+    cache_loop: 2m
+    store_expiration_loop: 10s
+    virtual_node_peer_attributes:
+      - db.name
+
+extensions:
+  health_check:
+    endpoint: :13133
+
 receivers:
   otlp:
     protocols:
@@ -78,28 +104,6 @@ processors:
           latency: { threshold_ms: 200 },
         }
 
-connectors:
-  spanmetrics:
-    namespace: traces.spanmetrics
-    histogram:
-      explicit:
-    dimensions:
-      - name: http.method
-      - name: http.target
-      - name: http.status_code
-      - name: service.version
-    exemplars:
-      enabled: true
-  servicegraph:
-    metrics_exporter: otlphttp/metrics
-    store:
-      ttl: 2s
-      max_items: 200
-    cache_loop: 2m
-    store_expiration_loop: 10s
-    virtual_node_peer_attributes:
-      - db.name
-
 exporters:
   otlphttp/metrics:
     endpoint: http://127.0.0.1:9090/api/v1/otlp
@@ -125,6 +129,12 @@ exporters:
     verbosity: detailed
 
 service:
+  extensions:
+    - health_check
+  telemetry:
+    metrics:
+      address: :8888
+      level: detailed
   pipelines:
     traces:
       receivers:

@@ -267,6 +267,18 @@
       }
     },
     {
+      "include": [
+        "infrastructure/application/port/opentelemetry/opentelemetry.ts"
+      ],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
       "include": ["script/*"],
       "linter": {
         "rules": {

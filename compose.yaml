@@ -415,9 +415,10 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_FEATURE_TOGGLES_ENABLE=flameGraph traceqlSearch correlations traceQLStreaming metricsSummary traceqlEditor traceToMetrics traceToProfiles datatrails
-      - GF_INSTALL_PLUGINS=grafana-exploretraces-app,grafana-lokiexplore-app,grafana-pyroscope-app
+      - GF_INSTALL_PLUGINS=grafana-exploretraces-app,grafana-llm-app,grafana-lokiexplore-app,grafana-pyroscope-app
     expose:
       - 3000 # Panel
+      - 4040 # Pyroscope
       - 4317 # OTLP gRPC
       - 4318 # OTLP http
     healthcheck:
@@ -431,9 +432,9 @@ services:
     image: grafana/otel-lgtm:0.11.0
     ports:
       - "3000:3000"
+      - "4040:4040"
       - "4317:4317"
       - "4318:4318"
-      - "9090:9090"
     labels:
       namespace: otel-lgtm
     logging: *logging
