@@ -104,7 +104,7 @@ RUN npm install --global pnpm@${PNPM_VERSION} \
 
 COPY --chown=node:node . .
 
-RUN pnpm run build
+RUN pnpm run docker:build
 
 # USER node
 EXPOSE ${SERVER_SERVER_PORT}

@@ -20,7 +20,7 @@ services:
         && apt clean &&
         && rm -rf /var/lib/apt/lists/*
         && sleep infinity
-    container_name: hono-devcontainer
+    container_name: hono-poc-devcontainer
     depends_on:
       mysql:
         condition: service_healthy
@@ -31,7 +31,7 @@ services:
     restart: "no"
 
   elasticsearch:
-    container_name: hono-elasticsearch
+    container_name: hono-poc-elasticsearch
     environment:
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
       - discovery.type=single-node
@@ -58,13 +58,13 @@ services:
       - "9300:9300"
     restart: "no"
 
-  hono-poc:
+  server:
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: hono-hono-poc
+    container_name: hono-poc-server
     depends_on:
-      hono-poc-migration:
+      server-migration:
         condition: service_completed_successfully
     environment:
       - CLIENT_DATABASE_URI=mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1
@@ -74,7 +74,7 @@ services:
       - SERVER_AUTH_BASE_URL=http://127.0.0.1:8081
       - SERVER_AUTH_SECRET=hono-poc-12345678901234567890-!@
       - SERVER_FEATURE_FLAG_USER_POC_FULLNAME=1
-      - SERVER_SERVER_PORT=80
+      - SERVER_SERVER_PORT=8081
     expose:
       - 8081
     healthcheck:
@@ -83,16 +83,16 @@ services:
       start_period: 10s
       test:
         - CMD-SHELL
-        - wget --no-verbose --spider --tries=1 http://hono-poc:80/api/v1/healthy
+        - wget --no-verbose --spider --tries=1 http://server:8081/api/v1/healthy
       timeout: 5s
     labels:
-      namespace: hono-poc
+      namespace: server
     logging: *logging
     ports:
-      - "8081:80"
+      - "8081:8081"
     restart: "no"
 
-  hono-poc-migration:
+  server-migration:
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -101,10 +101,16 @@ services:
       - -c
       - -Eefuvx
       - >-
-        pnpm run db
-    container_name: hono-hono-poc-migration
+        pnpm run docker:db
+    container_name: hono-poc-server-migration
     depends_on:
+      elasticsearch:
+        condition: service_healthy
       mysql:
+        condition: service_healthy
+      otel-lgtm:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     environment:
       - CLIENT_DATABASE_URI=mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1
@@ -114,11 +120,9 @@ services:
       - SERVER_AUTH_BASE_URL=http://127.0.0.1:8081
       - SERVER_AUTH_SECRET=hono-poc-12345678901234567890-!@
       - SERVER_FEATURE_FLAG_USER_POC_FULLNAME=1
-      - SERVER_SERVER_PORT=80
-    expose:
-      - 8081
+      - SERVER_SERVER_PORT=8081
     labels:
-      namespace: hono-poc-migration
+      namespace: server-migration
     logging: *logging
     restart: "no"
 
@@ -129,16 +133,16 @@ services:
       - --config=/home/k6/workspace/test/e2e/config.json
       - --out=experimental-prometheus-rw
       - /home/k6/workspace/test/e2e/build/mlt.js
-    container_name: hono-k6
+    container_name: hono-poc-k6
     environment:
       - K6_DURATION=3600s
       - K6_PROMETHEUS_RW_SERVER_URL=http://otel-lgtm:9090/api/v1/write
       - K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM=true
       - K6_VUS=4
-      - BASE_URL=http://hono-poc:8081/api/v1
+      - BASE_URL=http://server:8081/api/v1
       - SLEEP_DURATION=0.1
     depends_on:
-      hono-poc:
+      server:
         condition: service_healthy
       otel-lgtm:
         condition: service_healthy
@@ -151,7 +155,7 @@ services:
       - .:/home/k6/workspace
 
   # kroki:
-  #   container_name: hono-kroki
+  #   container_name: hono-poc-kroki
   #   depends_on:
   #     kroki-bpmn:
   #       condition: service_healthy
@@ -188,7 +192,7 @@ services:
   #   restart: "no"
 
   # kroki-bpmn:
-  #   container_name: hono-kroki-bpmn
+  #   container_name: hono-poc-kroki-bpmn
   #   expose:
   #     - 8003
   #   healthcheck:
@@ -207,7 +211,7 @@ services:
   #   restart: "no"
 
   # kroki-diagramsnet:
-  #   container_name: hono-kroki-diagramsnet
+  #   container_name: hono-poc-kroki-diagramsnet
   #   expose:
   #     - 8005
   #   healthcheck:
@@ -226,7 +230,7 @@ services:
   #   restart: "no"
 
   # kroki-excalidraw:
-  #   container_name: hono-kroki-excalidraw
+  #   container_name: hono-poc-kroki-excalidraw
   #   expose:
   #     - 8004
   #   healthcheck:
@@ -245,7 +249,7 @@ services:
   #   restart: "no"
 
   # kroki-mermaid:
-  #   container_name: hono-kroki-mermaid
+  #   container_name: hono-poc-kroki-mermaid
   #   expose:
   #     - 8002
   #   healthcheck:
@@ -266,7 +270,7 @@ services:
 
   # minio:
   #   command: server /minio/data/ --console-address ":9001"
-  #   container_name: hono-minio
+  #   container_name: hono-poc-minio
   #   environment:
   #     - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-ec_access_key}
   #     - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-ec-root-password}
@@ -295,7 +299,7 @@ services:
   #     - minio:/minio/data/
 
   # minio-createbuckets:
-  #   container_name: hono-minio-createbuckets
+  #   container_name: hono-poc-minio-createbuckets
   #   depends_on:
   #     minio:
   #       condition: service_healthy
@@ -315,7 +319,7 @@ services:
   mysql:
     # command:
     #   - --mysql-native-password=ON
-    container_name: hono-mysql
+    container_name: hono-poc-mysql
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=hono-poc
@@ -347,7 +351,7 @@ services:
 
   # # https://opensearch.org/docs/latest/install-and-configure/install-opensearch/docker/
   # opensearch:
-  #   container_name: hono-opensearch
+  #   container_name: hono-poc-opensearch
   #   environment:
   #     - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Pass!4321@
   #     - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -379,7 +383,7 @@ services:
   #     - opensearch:/usr/share/opensearch/data
 
   # opensearch-dashboards:
-  #   container_name: hono-opensearch-dashboards
+  #   container_name: hono-poc-opensearch-dashboards
   #   depends_on:
   #     opensearch:
   #       condition: service_healthy
@@ -406,7 +410,7 @@ services:
   #   #   - ./.docker/opensearch-dashboards/opensearch_dashboards.yml:/usr/share/opensearch-dashboards/config/opensearch_dashboards.yml:ro
 
   otel-lgtm:
-    container_name: hono-otel-lgtm
+    container_name: hono-poc-otel-lgtm
     # depends_on:
     #   pyroscope:
     #     condition: service_started
@@ -449,7 +453,7 @@ services:
       - otel-lgtm:/data
 
   phpmyadmin:
-    container_name: hono-phpmyadmin
+    container_name: hono-poc-phpmyadmin
     depends_on:
       mysql:
         condition: service_healthy
@@ -477,7 +481,7 @@ services:
     restart: "no"
 
   # plantuml-server:
-  #   container_name: hono-plantuml-server
+  #   container_name: hono-poc-plantuml-server
   #   # depends_on:
   #   #   mysql:
   #   #     condition: service_healthy
@@ -510,7 +514,7 @@ services:
   redis:
     # command:
     #   - /usr/local/etc/redis/redis.conf
-    container_name: hono-redis
+    container_name: hono-poc-redis
     expose:
       - 6379 # Default Protocol
     healthcheck:
@@ -533,9 +537,9 @@ services:
       - redis:/data
 
   # swagger-ui:
-  #   container_name: hono-swagger-ui
+  #   container_name: hono-poc-swagger-ui
   #   depends_on:
-  #     hono-poc:
+  #     server:
   #       condition: service_healthy
   #   environment:
   #     - SWAGGER_JSON_URL=http://127.0.0.1:8081/api/v1/swagger.json
