@@ -42,13 +42,13 @@ services:
       - 9200 # API Call
       - 9300 # Custom Binary Protocol
     healthcheck:
-      interval: 10s
-      retries: 5
+      interval: 30s
+      retries: 3
       start_period: 10s
       test:
         - CMD-SHELL
         - curl --fail http://elasticsearch:9200/_cluster/health?timeout=50s&wait_for_status=green || exit 1
-      timeout: 5s
+      timeout: 10s
     image: elasticsearch:8.18.0
     labels:
       namespace: elasticsearch
@@ -78,13 +78,13 @@ services:
     expose:
       - 8081
     healthcheck:
-      interval: 10s
-      retries: 5
+      interval: 30s
+      retries: 3
       start_period: 10s
       test:
         - CMD-SHELL
         - wget --no-verbose --spider --tries=1 http://server:8081/api/v1/healthy
-      timeout: 5s
+      timeout: 10s
     labels:
       namespace: server
     logging: *logging
@@ -177,13 +177,13 @@ services:
   #   expose:
   #     - 8000
   #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
+  #     interval: 30s
+  #     retries: 3
   #     start_period: 10s
   #     test:
   #       - CMD-SHELL
   #       - wget --no-verbose --spider --tries=1 http://kroki:8000 || exit 0
-  #     timeout: 5s
+  #     timeout: 10s
   #   image: yuzutech/kroki:0.26.0
   #   labels:
   #     namespace: kroki
@@ -196,13 +196,13 @@ services:
   #   expose:
   #     - 8003
   #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
+  #     interval: 30s
+  #     retries: 3
   #     start_period: 10s
   #     test:
   #       - CMD-SHELL
   #       - wget --no-verbose --spider --tries=1 http://kroki-bpmn:8003 || exit 0
-  #     timeout: 5s
+  #     timeout: 10s
   #   image: yuzutech/kroki-bpmn:0.26.0
   #   labels:
   #     namespace: kroki
@@ -215,13 +215,13 @@ services:
   #   expose:
   #     - 8005
   #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
+  #     interval: 30s
+  #     retries: 3
   #     start_period: 10s
   #     test:
   #       - CMD-SHELL
   #       - wget --no-verbose --spider --tries=1 http://kroki-diagramsnet:8005 || exit 0
-  #     timeout: 5s
+  #     timeout: 10s
   #   image: yuzutech/kroki-diagramsnet:0.26.0
   #   labels:
   #     namespace: kroki
@@ -234,13 +234,13 @@ services:
   #   expose:
   #     - 8004
   #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
+  #     interval: 30s
+  #     retries: 3
   #     start_period: 10s
   #     test:
   #       - CMD-SHELL
   #       - wget --no-verbose --spider --tries=1 http://kroki-excalidraw:8004 || exit 0
-  #     timeout: 5s
+  #     timeout: 10s
   #   image: yuzutech/kroki-excalidraw:0.26.0
   #   labels:
   #     namespace: kroki
@@ -253,13 +253,13 @@ services:
   #   expose:
   #     - 8002
   #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
+  #     interval: 30s
+  #     retries: 3
   #     start_period: 10s
   #     test:
   #       - CMD-SHELL
   #       - wget --no-verbose --spider --tries=1 http://kroki-mermaid:8002 || exit 0
-  #     timeout: 5s
+  #     timeout: 10s
   #   image: yuzutech/kroki-mermaid:0.26.0
   #   labels:
   #     namespace: kroki
@@ -280,13 +280,13 @@ services:
   #     - 9000 # API Call
   #     - 9001 # Console Address
   #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
+  #     interval: 30s
+  #     retries: 3
   #     start_period: 10s
   #     test:
   #       - CMD-SHELL
   #       - mc ready local
-  #     timeout: 5s
+  #     timeout: 10s
   #   image: minio/minio:RELEASE.2025-01-18T00-31-37Z
   #   labels:
   #     namespace: minio
@@ -330,13 +330,13 @@ services:
       - 3306 # Default Protocol
       - 33060 # X Protocol
     healthcheck:
-      interval: 10s
-      retries: 5
+      interval: 30s
+      retries: 3
       start_period: 10s
       test:
         - CMD-SHELL
         - mysqladmin ping --host=127.0.0.1 --password=$$MYSQL_PASSWORD --user=$$MYSQL_USER
-      timeout: 5s
+      timeout: 10s
     image: mysql:9.3.0-oraclelinux9
     labels:
       namespace: mysql
@@ -362,13 +362,13 @@ services:
   #     - 9200 # API Call
   #     - 9600 # Performance Analyzer
   #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
+  #     interval: 30s
+  #     retries: 3
   #     start_period: 10s
   #     test:
   #       - CMD-SHELL
   #       - curl --fail http://opensearch:9200/_cluster/health || exit 1
-  #     timeout: 5s
+  #     timeout: 10s
   #   image: opensearchproject/opensearch:2.19.1
   #   labels:
   #     namespace: opensearch
@@ -392,13 +392,13 @@ services:
   #   expose:
   #     - 5601 # OpenSearch Dashboards
   #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
+  #     interval: 30s
+  #     retries: 3
   #     start_period: 10s
   #     test:
   #       - CMD-SHELL
   #       - curl --fail http://opensearch-dashboards:5601/api/status || exit 1
-  #     timeout: 5s
+  #     timeout: 10s
   #   image: opensearchproject/opensearch-dashboards:2.19.1
   #   labels:
   #     namespace: opensearch-dashboards
@@ -426,13 +426,13 @@ services:
       - 4317 # OTLP gRPC
       - 4318 # OTLP http
     healthcheck:
-      interval: 10s
-      retries: 5
+      interval: 30s
+      retries: 3
       start_period: 10s
       test:
         - CMD-SHELL
         - curl --fail http://otel-lgtm:3000 || exit 1
-      timeout: 5s
+      timeout: 10s
     image: grafana/otel-lgtm:0.11.0
     ports:
       - "3000:3000"
@@ -465,13 +465,13 @@ services:
     expose:
       - 80 # Panel
     healthcheck:
-      interval: 10s
-      retries: 5
+      interval: 30s
+      retries: 3
       start_period: 10s
       test:
         - CMD-SHELL
         - curl --fail http://phpmyadmin:80 || exit 1
-      timeout: 5s
+      timeout: 10s
     image: phpmyadmin:5.2.2-apache
     ports:
       - "8082:80"
@@ -493,14 +493,14 @@ services:
   #   expose:
   #     - 8080 # Panel
   #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
+  #     interval: 30s
+  #     retries: 3
   #     start_period: 10s
   #     test:
   #       - CMD-SHELL
   #       # - curl --fail http://plantuml-server:8080 || exit 1
   #       - wget --no-verbose --spider --tries=1 http://plantuml-server:8080
-  #     timeout: 5s
+  #     timeout: 10s
   #   image: plantuml/plantuml-server:jetty-v1.2024.8
   #   ports:
   #     - "8083:8080"
@@ -518,13 +518,13 @@ services:
     expose:
       - 6379 # Default Protocol
     healthcheck:
-      interval: 10s
-      retries: 5
+      interval: 30s
+      retries: 3
       start_period: 10s
       test:
         - CMD-SHELL
         - redis-cli --raw incr ping
-      timeout: 5s
+      timeout: 10s
     image: redis:7.4.2-bookworm
     labels:
       namespace: redis
@@ -547,14 +547,14 @@ services:
   #   expose:
   #     - 80
   #   healthcheck:
-  #     interval: 10s
-  #     retries: 5
+  #     interval: 30s
+  #     retries: 3
   #     start_period: 10s
   #     test:
   #       - CMD-SHELL
   #       # - curl --fail http://swagger-ui:80 || exit 1
   #       - wget --no-verbose --spider --tries=1 http://swagger-ui:80
-  #     timeout: 5s
+  #     timeout: 10s
   #   image: swaggerapi/swagger-ui:v5.18.2
   #   labels:
   #     namespace: swagger-ui
