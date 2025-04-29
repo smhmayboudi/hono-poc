@@ -17,7 +17,10 @@ import {
   PeriodicExportingMetricReader,
 } from "@opentelemetry/sdk-metrics";
 import { NodeSDK } from "@opentelemetry/sdk-node";
-import { ConsoleSpanExporter } from "@opentelemetry/sdk-trace-node";
+import {
+  ConsoleSpanExporter,
+  RandomIdGenerator,
+} from "@opentelemetry/sdk-trace-node";
 import {
   ATTR_SERVICE_NAME,
   ATTR_SERVICE_VERSION,
@@ -54,7 +57,7 @@ setupEventContextTrace(client);
 const sdk = new NodeSDK({
   autoDetectResources: false,
   contextManager: new SentryContextManager(),
-  // idGenerator: IdGenerator;
+  idGenerator: new RandomIdGenerator(),
   instrumentations: [
     new HttpInstrumentation(),
     new MySQL2Instrumentation(),

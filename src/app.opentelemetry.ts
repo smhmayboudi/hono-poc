@@ -20,7 +20,11 @@ import {
 import { SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { NodeSDK } from "@opentelemetry/sdk-node";
-import { SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import {
+  AlwaysOnSampler,
+  RandomIdGenerator,
+  SimpleSpanProcessor,
+} from "@opentelemetry/sdk-trace-node";
 import {
   ATTR_SERVICE_NAME,
   ATTR_SERVICE_VERSION,
@@ -33,7 +37,7 @@ const otlpTraceExporter = new OTLPTraceExporter();
 const sdk = new NodeSDK({
   autoDetectResources: false,
   contextManager: new AsyncLocalStorageContextManager(),
-  // idGenerator: IdGenerator;
+  idGenerator: new RandomIdGenerator(),
   instrumentations: [
     new HttpInstrumentation(),
     new MySQL2Instrumentation(),
@@ -49,7 +53,7 @@ const sdk = new NodeSDK({
     [ATTR_SERVICE_VERSION]: "0.0.0",
   }),
   resourceDetectors: [envDetector, hostDetector, processDetector],
-  // sampler: Sampler;
+  sampler: new AlwaysOnSampler(),
   // spanLimits: SpanLimits;
   serviceName: "server",
   spanProcessors: [new SimpleSpanProcessor(otlpTraceExporter)],

@@ -53,6 +53,7 @@ export const opentelemetryMiddleware = (
         ],
       },
       description: "Duration of HTTP requests in seconds",
+      unit: "s",
     },
   );
 
@@ -108,13 +109,13 @@ export const opentelemetryMiddleware = (
           counterHTTPRequestsTotal.add(1, {
             method: ctx.req.method,
             ok: String(ctx.res.ok),
-            route: ctx.req.routePath,
+            path: ctx.req.routePath,
             status: ctx.res.status.toString(),
           });
           histogramHTTPRequestDurationSeconds.record(duration, {
             method: ctx.req.method,
             ok: String(ctx.res.ok),
-            route: ctx.req.routePath,
+            path: ctx.req.routePath,
             status: ctx.res.status.toString(),
           });
         }
