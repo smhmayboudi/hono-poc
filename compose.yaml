@@ -92,6 +92,48 @@ services:
       - "8081:8081"
     restart: "no"
 
+  server-dev:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command:
+      - /bin/sh
+      - -c
+      - -Eefuvx
+      - >-
+        node --inspect=0.0.0.0:9229 ./build/app.node.js
+    container_name: hono-poc-server
+    depends_on:
+      server-migration:
+        condition: service_completed_successfully
+    environment:
+      - CLIENT_DATABASE_URI=mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1
+      - CLIENT_ELASTICSEARCH_NODE=http://elasticsearch:9200
+      - CLIENT_REDIS_URL=redis://redis:6379
+      - DEBUG=*
+      - NODE_ENV=development
+      - SERVER_AUTH_APP_NAME="Hono POC"
+      - SERVER_AUTH_BASE_URL=http://127.0.0.1:8081
+      - SERVER_AUTH_SECRET=hono-poc-12345678901234567890-!@
+      - SERVER_FEATURE_FLAG_USER_POC_FULLNAME=1
+      - SERVER_SERVER_PORT=8081
+    expose:
+      - 8081
+    healthcheck:
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      test:
+        - CMD-SHELL
+        - wget --no-verbose --spider --tries=1 http://server:8081/api/v1/healthy
+      timeout: 10s
+    labels:
+      namespace: server
+    logging: *logging
+    ports:
+      - "8081:8081"
+    restart: "no"
+
   server-migration:
     build:
       context: .
