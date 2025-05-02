@@ -29,6 +29,7 @@ const level = "trace";
 const basePath = "/api/v1";
 const authPath = `${basePath}/auth`;
 const healthyPath = `${basePath}/healthy`;
+const k6TestPath = `${basePath}/user-poc-view`;
 const swaggerPath = `${basePath}/reference`;
 
 const config2 = config(tracer);
@@ -39,7 +40,7 @@ const auth2 = auth(
   cacher2,
   config2,
   database2,
-  [authPath, healthyPath, swaggerPath],
+  [authPath, healthyPath, k6TestPath, swaggerPath],
   new Logger(pino({ level })),
   new Logger(pino({ level })),
   new Logger(pino({ level })),
@@ -81,7 +82,7 @@ app.use(
     auth2,
     basePath,
     config2,
-    [authPath, healthyPath, swaggerPath],
+    [authPath, healthyPath, k6TestPath, swaggerPath],
     new Logger(pino({ level })),
   ),
 );

@@ -24,9 +24,7 @@ export default function () {
   group("/swagger.json:get", () => {
     const url = `${BASE_URL}/swagger.json`;
     const response = http.get(url);
-    check(response, {
-      "status is OK": (res) => res.status === 200,
-    });
+    check(response, { "status is OK": (res) => res.status === 200 });
     sleep(SLEEP_DURATION);
   });
 }

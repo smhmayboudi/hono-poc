@@ -179,15 +179,17 @@ services:
       - --compatibility-mode=base
       - --config=/home/k6/workspace/test/e2e/config.json
       - --out=experimental-opentelemetry
+      - --tag=testid=1
       - /home/k6/workspace/test/e2e/build/mlt.js
     container_name: hono-poc-k6
     environment:
       - BASE_URL=http://server:8081/api/v1
+      - K6_DURATION=3600s
       - K6_OTEL_EXPORTER_TYPE=http
       - K6_OTEL_HTTP_EXPORTER_ENDPOINT=otel-lgtm:4318
       - K6_OTEL_HTTP_EXPORTER_INSECURE=true
       - K6_OTEL_METRIC_PREFIX=k6_
-      - SLEEP_DURATION=0.1
+      - SLEEP_DURATION=1
     depends_on:
       server:
         condition: service_healthy

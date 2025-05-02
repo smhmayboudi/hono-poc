@@ -1,7 +1,7 @@
-// @ts-ignore
 import {
   randomIntBetween,
   randomString,
+  // @ts-ignore
 } from "https://jslib.k6.io/k6-utils/1.6.0/index.js";
 import { check, group, sleep } from "k6";
 import http from "k6/http";
@@ -33,49 +33,33 @@ export default function () {
       age: randomIntBetween(0, 10),
       fullname: randomString(10),
     });
-    const params = {
-      headers: { "Content-Type": "application/json" },
-    };
+    const params = { headers: { "Content-Type": "application/json" } };
     const response = http.post(url, body, params);
-    check(response, {
-      "status is OK": (res) => res.status === 201,
-    });
+    check(response, { "status is OK": (res) => res.status === 201 });
     sleep(SLEEP_DURATION);
   });
   group("/user-poc-view:get", () => {
     const url = `${BASE_URL}/user-poc-view`;
-    const params = {
-      headers: { "Content-Type": "application/json" },
-    };
+    const params = { headers: { "Content-Type": "application/json" } };
     const response = http.get(url, params);
-    check(response, {
-      "status is OK": (res) => res.status === 200,
-    });
+    check(response, { "status is OK": (res) => res.status === 200 });
     sleep(SLEEP_DURATION);
   });
   group("/user-poc-view:del", () => {
     const id = 1234567890;
     const url = `${BASE_URL}/user-poc-view/${id}`;
     const body = JSON.stringify({});
-    const params = {
-      headers: { "Content-Type": "application/json" },
-    };
+    const params = { headers: { "Content-Type": "application/json" } };
     const response = http.del(url, body, params);
-    check(response, {
-      "status is OK": (res) => res.status === 200,
-    });
+    check(response, { "status is OK": (res) => res.status === 200 });
     sleep(SLEEP_DURATION);
   });
   group("/user-poc-view/:id:get", () => {
     const id = 1234567890;
     const url = `${BASE_URL}/user-poc-view/${id}`;
-    const params = {
-      headers: { "Content-Type": "application/json" },
-    };
+    const params = { headers: { "Content-Type": "application/json" } };
     const response = http.get(url, params);
-    check(response, {
-      "status is OK": (res) => res.status === 200,
-    });
+    check(response, { "status is OK": (res) => res.status === 200 });
     sleep(SLEEP_DURATION);
   });
   group("/user-poc-view:patch", () => {
@@ -86,27 +70,17 @@ export default function () {
       age: randomIntBetween(0, 10),
       fullname: randomString(10),
     });
-    const params = {
-      headers: { "Content-Type": "application/json" },
-    };
+    const params = { headers: { "Content-Type": "application/json" } };
     const response = http.patch(url, body, params);
-    check(response, {
-      "status is OK": (res) => res.status === 200,
-    });
+    check(response, { "status is OK": (res) => res.status === 200 });
     sleep(SLEEP_DURATION);
   });
   group("/user-poc-view/search:post", () => {
     const url = `${BASE_URL}/user-poc-view`;
-    const body = JSON.stringify({
-      query: randomString(10),
-    });
-    const params = {
-      headers: { "Content-Type": "application/json" },
-    };
+    const body = JSON.stringify({ query: randomString(10) });
+    const params = { headers: { "Content-Type": "application/json" } };
     const response = http.post(url, body, params);
-    check(response, {
-      "status is OK": (res) => res.status === 200,
-    });
+    check(response, { "status is OK": (res) => res.status === 200 });
     sleep(SLEEP_DURATION);
   });
 }

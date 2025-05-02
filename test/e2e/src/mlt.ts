@@ -24,16 +24,9 @@ export default function () {
   // 3. VU code
   group("/user-poc-view:get", () => {
     const url = `${BASE_URL}/user-poc-view`;
-    const params = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: "Bearer a8F5uqKRFToRQ6qub6TSaGMWwyc88X8Q",
-      },
-    };
+    const params = { headers: { "Content-Type": "application/json" } };
     const response = http.get(url, params);
-    check(response, {
-      "status is OK": (res) => res.status === 200,
-    });
+    check(response, { "status is OK": (res) => res.status === 200 });
     sleep(SLEEP_DURATION);
   });
 }
