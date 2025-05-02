@@ -84,16 +84,15 @@ export NODE_OPTIONS="--require @opentelemetry/auto-instrumentations-node/registe
 docker run --rm -i --security-opt ddd grafana/k6:latest-with-browser - <script.js>
 
 docker run --rm -i \
---env K6_DURATION=3600s \
---env K6_PROMETHEUS_RW_SERVER_URL=http://127.0.0.1:9090/api/v1/write \
---env K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM=true \
---env K6_VUS=4 \
---env BASE_URL=http://127.0.0.1:8081/api/v1 \
+--add-host host.docker.internal:host-gateway \
+--env K6_OTEL_HTTP_EXPORTER_ENDPOINT=host.docker.internal:4318 \
+--env K6_OTEL_HTTP_EXPORTER_INSECURE=true \
+--env BASE_URL=http://host.docker.internal:8081/api/v1 \
 --env SLEEP_DURATION=0.1 \
 --volume .:/home/k6/workspace \
 grafana/k6:0.58.0 run \
 --compatibility-mode=base \
 --config=/home/k6/workspace/test/e2e/config.json \
---out=experimental-prometheus-rw \
+--out=experimental-opentelemetry \
 /home/k6/workspace/test/e2e/build/mlt.js
 ```
