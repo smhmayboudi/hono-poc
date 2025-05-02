@@ -28,6 +28,7 @@ import { onErrorHandler } from "./shared/adapter/driving/handler/on-error.ts";
 const level = "trace";
 const basePath = "/api/v1";
 const authPath = `${basePath}/auth`;
+const healthyPath = `${basePath}/healthy`;
 const swaggerPath = `${basePath}/reference`;
 
 const config2 = config(tracer);
@@ -38,7 +39,7 @@ const auth2 = auth(
   cacher2,
   config2,
   database2,
-  [authPath, swaggerPath],
+  [authPath, healthyPath, swaggerPath],
   new Logger(pino({ level })),
   new Logger(pino({ level })),
   new Logger(pino({ level })),
@@ -80,7 +81,7 @@ app.use(
     auth2,
     basePath,
     config2,
-    [authPath, swaggerPath],
+    [authPath, healthyPath, swaggerPath],
     new Logger(pino({ level })),
   ),
 );
@@ -88,7 +89,7 @@ app.use(
 app.on(["POST", "GET"], `${authPath}/*`, (ctx) => auth2.handler(ctx.req.raw));
 
 // /health/liveness, /health/readiness
-app.get(`${basePath}/healthy`, (ctx) => ctx.text(""));
+app.get(healthyPath, (ctx) => ctx.text(""));
 
 const { useCaseUserPOCCreate, useCaseUserPOCDelete, useCaseUserPOCUpdate } =
   userPOC(
