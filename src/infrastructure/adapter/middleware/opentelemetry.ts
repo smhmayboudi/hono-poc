@@ -49,7 +49,6 @@ export const opentelemetryMiddleware = (
         explicitBucketBoundaries: [
           0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5,
           10,
-          // 20, 50, 100, 200, 500, 1000, 2000, 4000, 8000, 16000,
         ],
       },
       description: "Duration of HTTP requests in seconds",
@@ -96,7 +95,7 @@ export const opentelemetryMiddleware = (
           const start = performance.now();
           await next();
           const end = performance.now();
-          duration = end - start;
+          duration = (end - start) / 1000;
           if (ctx.error) {
             handleSpanError(span, ctx.error);
           } else {
