@@ -88,7 +88,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -164,7 +164,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "builder",
           "exemplar": false,
@@ -173,18 +173,18 @@
           "hide": false,
           "instant": false,
           "interval": "",
-          "legendFormat": "{{testid}} - ",
+          "legendFormat": "{{testid}} -",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Requests Made",
+      "title": "HTTP Requests Made",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -260,7 +260,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "builder",
           "exemplar": false,
@@ -274,13 +274,13 @@
           "refId": "A"
         }
       ],
-      "title": "HTTP Failures",
+      "title": "HTTP Requests Failures",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -357,16 +357,16 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by(testid) (irate(k6_http_reqs_total{testid=~\"$testid\"}[$__rate_interval]))",
+          "expr": "sum by(testid) (rate(k6_http_reqs_total{testid=~\"$testid\"}[$__rate_interval]))",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "interval": "",
-          "legendFormat": "{{testid}}  -",
+          "legendFormat": "{{testid}} -",
           "range": true,
           "refId": "A"
         }
@@ -377,7 +377,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -454,16 +454,16 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "histogram_quantile(0.95, sum by(testid) (rate(k6_http_req_duration_seconds{testid=~\"$testid\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by(testid, le) (rate(k6_http_req_duration_milliseconds_bucket{testid=~\"$testid\"}[$__rate_interval])))",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "interval": "",
-          "legendFormat": "{{testid}}  -",
+          "legendFormat": "{{testid}} -",
           "range": true,
           "refId": "A"
         }
@@ -475,7 +475,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -551,16 +551,16 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "sum by(testid) (k6_data_received_total{testid=~\"$testid\"})",
+          "expr": "sum by(testid) (k6_data_received_bytes_total{testid=~\"$testid\"})",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "interval": "",
-          "legendFormat": "{{testid}}  -",
+          "legendFormat": "{{testid}} -",
           "range": true,
           "refId": "A"
         }
@@ -571,7 +571,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -647,11 +647,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "sum by(testid) (k6_data_sent_total{testid=~\"$testid\"})",
+          "expr": "sum by(testid) (k6_data_sent_bytes_total{testid=~\"$testid\"})",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -667,7 +667,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -724,12 +724,12 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Response  Time (avg)  - "
+              "options": "Response  Time (AVG)  - "
             },
             "properties": [
               {
                 "id": "displayName",
-                "value": "Response Time (avg) - without testid"
+                "value": "Response Time (AVG) - without testid"
               }
             ]
           },
@@ -937,7 +937,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "builder",
           "exemplar": false,
@@ -945,14 +945,14 @@
           "hide": false,
           "instant": false,
           "interval": "",
-          "legendFormat": "Active VUs   - {{testid}}",
+          "legendFormat": "Active VUs - {{testid}}",
           "range": true,
           "refId": "A"
         },
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -961,34 +961,34 @@
           "hide": false,
           "instant": false,
           "interval": "",
-          "legendFormat": "Requests Rate   - {{testid}}",
+          "legendFormat": "Requests Rate - {{testid}}",
           "range": true,
           "refId": "B"
         },
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
           "expr": "avg by(testid) (sum by(testid) (rate(k6_http_reqs_total{testid=~\"$testid\", expected_response=\"false\"}[$__rate_interval])))",
           "hide": false,
           "instant": false,
-          "legendFormat": "Failed Requests Rate  - {{testid}}",
+          "legendFormat": "Failed Requests Rate - {{testid}}",
           "range": true,
           "refId": "D"
         },
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(histogram_sum(rate(k6_http_req_duration_seconds{testid=~\"$testid\"}[$__rate_interval]))\n/\nhistogram_count(rate(k6_http_req_duration_seconds{testid=~\"$testid\"}[$__rate_interval]))) ",
+          "expr": "sum(rate(k6_http_req_duration_milliseconds_sum{testid=~\"$testid\"}[$__rate_interval])) / sum(rate(k6_http_req_duration_milliseconds_count{testid=~\"$testid\"}[$__rate_interval]))",
           "hide": false,
-          "legendFormat": "Response  Time (avg)  - {{testid}} - {{scenario}} - {{name}}",
+          "legendFormat": "Response Time (AVG) - {{testid}}",
           "range": true,
           "refId": "C"
         }
@@ -998,7 +998,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1074,7 +1074,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "builder",
           "exemplar": false,
@@ -1094,7 +1094,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1198,11 +1198,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg by(testid)(sum by(testid)(irate(k6_data_received_total{testid=~\"$testid\"}[$__rate_interval])))",
+          "expr": "avg by(testid) (sum by(testid) (rate(k6_data_received_bytes_total{testid=~\"$testid\"}[$__rate_interval])))",
           "interval": "",
           "legendFormat": "Received - {{testid}}",
           "range": true,
@@ -1211,11 +1211,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg by(testid)(sum by(testid)(irate(k6_data_sent_total{testid=~\"$testid\"}[$__rate_interval])))",
+          "expr": "avg by(testid) (sum by(testid) (rate(k6_data_sent_bytes_total{testid=~\"$testid\"}[$__rate_interval])))",
           "hide": false,
           "interval": "",
           "legendFormat": "Sent - {{testid}}",
@@ -1229,7 +1229,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1353,11 +1353,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "100 * (sum by(status, testid) (k6_http_reqs_total{testid=~\"$testid\"}) / on() group_left() sum(k6_http_reqs_total{testid=~\"$testid\"}) )",
+          "expr": "100 * (sum by(status, testid) (k6_http_reqs_total{testid=~\"$testid\"}) / on() group_left() sum(k6_http_reqs_total{testid=~\"$testid\"}))",
           "hide": false,
           "instant": false,
           "legendFormat": "{{status}} - {{testid}}",
@@ -1408,7 +1408,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1467,7 +1467,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "builder",
           "exemplar": false,
@@ -1481,13 +1481,13 @@
           "refId": "A"
         }
       ],
-      "title": "Dropped Iteration ",
+      "title": "Dropped Iterations",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1591,11 +1591,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "k6_checks_rate{testid=~\"$testid\"}",
+          "expr": "k6_checks_total{testid=~\"$testid\"}",
           "format": "table",
           "instant": true,
           "range": true,
@@ -1697,7 +1697,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1884,18 +1884,18 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "refId": "A"
         }
       ],
-      "title": "HTTP ",
+      "title": "HTTP",
       "type": "row"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2438,7 +2438,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -2454,10 +2454,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0, sum by(name) (rate(k6_http_req_duration_seconds{testid=~\"$testid\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.0, sum by(name) (rate(k6_http_req_duration_milliseconds_count{testid=~\"$testid\"}[$__rate_interval])))",
           "format": "table",
           "hide": false,
           "legendFormat": "",
@@ -2467,10 +2467,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, sum by(name) (rate(k6_http_req_duration_seconds{testid=~\"$testid\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.5, sum by(name) (rate(k6_http_req_duration_milliseconds_count{testid=~\"$testid\"}[$__rate_interval])))",
           "format": "table",
           "hide": false,
           "legendFormat": "",
@@ -2480,10 +2480,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum by(name) (rate(k6_http_req_duration_seconds{testid=~\"$testid\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by(name) (rate(k6_http_req_duration_milliseconds_count{testid=~\"$testid\"}[$__rate_interval])))",
           "format": "table",
           "hide": false,
           "legendFormat": "",
@@ -2493,10 +2493,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(1, sum by(name) (rate(k6_http_req_duration_seconds{testid=~\"$testid\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(1.0, sum by(name) (rate(k6_http_req_duration_milliseconds_count{testid=~\"$testid\"}[$__rate_interval])))",
           "format": "table",
           "hide": false,
           "legendFormat": "",
@@ -2587,7 +2587,7 @@
               "Value #A (lastNotNull)": "count",
               "Value #B (lastNotNull)": "max",
               "Value #B (min)": "min",
-              "Value #C (lastNotNull)": "min ",
+              "Value #C (lastNotNull)": "min",
               "Value #C (mean)": "",
               "Value #D (lastNotNull)": "mean",
               "Value #E (max)": "max",
@@ -2617,7 +2617,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2700,11 +2700,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg by(testid)(histogram_sum(rate(k6_http_req_blocked_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval]))\n/\nhistogram_count(rate(k6_http_req_blocked_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval])))",
+          "expr": "avg by(testid) (histogram_sum(rate(k6_http_req_blocked_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])) / histogram_count(rate(k6_http_req_blocked_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])))",
           "hide": false,
           "interval": "",
           "legendFormat": "Blocked - {{testid}}",
@@ -2714,11 +2714,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg by(testid)(histogram_sum(rate(k6_http_req_connecting_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval]))\n/\nhistogram_count(rate(k6_http_req_connecting_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval])))",
+          "expr": "avg by(testid) (histogram_sum(rate(k6_http_req_connecting_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])) / histogram_count(rate(k6_http_req_connecting_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])))",
           "hide": false,
           "interval": "",
           "legendFormat": "Connecting - {{testid}}",
@@ -2728,11 +2728,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg by(testid)(histogram_sum(rate(k6_http_req_duration_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval]))\n/\nhistogram_count(rate(k6_http_req_duration_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval])))",
+          "expr": "avg by(testid) (histogram_sum(rate(k6_http_req_duration_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])) / histogram_count(rate(k6_http_req_duration_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])))",
           "hide": false,
           "interval": "",
           "legendFormat": "Duration - {{testid}}",
@@ -2742,11 +2742,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg by(testid)(histogram_sum(rate(k6_http_req_receiving_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval]))\n/\nhistogram_count(rate(k6_http_req_receiving_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval])))",
+          "expr": "avg by(testid) (histogram_sum(rate(k6_http_req_receiving_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])) / histogram_count(rate(k6_http_req_receiving_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])))",
           "hide": false,
           "interval": "",
           "legendFormat": "Receiving - {{testid}}",
@@ -2756,11 +2756,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg by(testid)(histogram_sum(rate(k6_http_req_sending_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval]))\n/\nhistogram_count(rate(k6_http_req_sending_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval])))",
+          "expr": "avg by(testid) (histogram_sum(rate(k6_http_req_sending_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])) / histogram_count(rate(k6_http_req_sending_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])))",
           "hide": false,
           "interval": "",
           "legendFormat": "Sending - {{testid}}",
@@ -2770,11 +2770,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg by(testid)(histogram_sum(rate(k6_http_req_tls_handshaking_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval]))\n/\nhistogram_count(rate(k6_http_req_tls_handshaking_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval])))",
+          "expr": "avg by(testid) (histogram_sum(rate(k6_http_req_tls_handshaking_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])) / histogram_count(rate(k6_http_req_tls_handshaking_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])))",
           "hide": false,
           "interval": "",
           "legendFormat": "TLS Handshaking - {{testid}}",
@@ -2784,11 +2784,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg by(testid)(histogram_sum(rate(k6_http_req_waiting_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval]))\n/\nhistogram_count(rate(k6_http_req_waiting_seconds{testid=~\"$testid\", name=~\"$url\",scenario=~\"$scenario\"}[$__rate_interval])))",
+          "expr": "avg by(testid) (histogram_sum(rate(k6_http_req_waiting_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])) / histogram_count(rate(k6_http_req_waiting_milliseconds_count{testid=~\"$testid\", url=~\"$url\", scenario=~\"$scenario\"}[$__rate_interval])))",
           "hide": false,
           "interval": "",
           "legendFormat": "Waiting - {{testid}}",
@@ -2811,7 +2811,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2929,10 +2929,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum by(testid)(rate(k6_http_req_duration_seconds{scenario=~\"$scenario\", expected_response=\"true\", testid=~\"$testid\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by(testid) (rate(k6_http_req_duration_milliseconds_count{scenario=~\"$scenario\", expected_response=\"true\", testid=~\"$testid\"}[$__rate_interval])))",
           "format": "table",
           "hide": false,
           "legendFormat": "",
@@ -2942,7 +2942,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "sum by(scenario) (max(k6_http_reqs_total{testid=~\"$testid\", scenario=~\"$scenario\"}))",
@@ -2955,10 +2955,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "avg by(scenario) (sum(irate(k6_http_reqs_total{testid=~\"$testid\"}[$__rate_interval])))",
+          "expr": "avg by(scenario) (sum(rate(k6_http_reqs_total{testid=~\"$testid\"}[$__rate_interval])))",
           "format": "table",
           "hide": false,
           "legendFormat": "__auto",
@@ -2968,10 +2968,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum by(scenario) (k6_iterations_total{testid=~\"$testid\",scenario=~\"$scenario\"})",
+          "expr": "sum by(scenario) (k6_iterations_total{testid=~\"$testid\", scenario=~\"$scenario\"})",
           "format": "table",
           "hide": false,
           "legendFormat": "__auto",
@@ -2981,10 +2981,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum by(scenario) ( k6_http_reqs_total{testid=~\"$testid\",scenario=~\"$scenario\",expected_response=\"false\"})\n",
+          "expr": "sum by(scenario) (k6_http_reqs_total{testid=~\"$testid\", scenario=~\"$scenario\", expected_response=\"false\"})",
           "format": "table",
           "hide": false,
           "legendFormat": "__auto",
@@ -3095,7 +3095,7 @@
     {
       "collapsed": true,
       "datasource": {
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "gridPos": {
         "h": 1,
@@ -3108,7 +3108,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "fieldConfig": {
             "defaults": {
@@ -3215,10 +3215,10 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "histogram_quantile(0.95, sum by(testid)(rate(k6_http_req_duration_seconds{scenario=~\"$scenario\", expected_response=\"true\", testid=~\"$testid\"}[$__rate_interval])))",
+              "expr": "histogram_quantile(0.95, sum by(testid) (rate(k6_http_req_duration_milliseconds_count{scenario=~\"$scenario\", expected_response=\"true\", testid=~\"$testid\"}[$__rate_interval])))",
               "format": "table",
               "hide": false,
               "legendFormat": "",
@@ -3228,7 +3228,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "editorMode": "code",
               "expr": "sum by(scenario) (max(k6_http_reqs_total{testid=~\"$testid\", scenario=~\"$scenario\"}))",
@@ -3241,10 +3241,10 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "avg by(scenario) (sum(irate(k6_http_reqs_total{testid=~\"$testid\"}[$__rate_interval])))",
+              "expr": "avg by(scenario) (sum(rate(k6_http_reqs_total{testid=~\"$testid\"}[$__rate_interval])))",
               "format": "table",
               "hide": false,
               "legendFormat": "__auto",
@@ -3254,10 +3254,10 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "sum by(scenario) (k6_iterations_total{testid=~\"$testid\",scenario=~\"$scenario\"})",
+              "expr": "sum by(scenario) (k6_iterations_total{testid=~\"$testid\", scenario=~\"$scenario\"})",
               "format": "table",
               "hide": false,
               "legendFormat": "__auto",
@@ -3267,10 +3267,10 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "sum by(scenario) ( k6_http_reqs_total{testid=~\"$testid\",scenario=~\"$scenario\",expected_response=\"false\"})\n",
+              "expr": "sum by(scenario) (k6_http_reqs_total{testid=~\"$testid\", scenario=~\"$scenario\", expected_response=\"false\"})",
               "format": "table",
               "hide": false,
               "legendFormat": "__auto",
@@ -3381,7 +3381,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "description": "",
           "fieldConfig": {
@@ -3437,12 +3437,12 @@
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "Response  Time (avg)  - "
+                  "options": "Response  Time (AVG)  - "
                 },
                 "properties": [
                   {
                     "id": "displayName",
-                    "value": "Response Time (avg) - without testid"
+                    "value": "Response Time (AVG) - without testid"
                   }
                 ]
               },
@@ -3650,7 +3650,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "editorMode": "builder",
               "exemplar": false,
@@ -3658,50 +3658,50 @@
               "hide": false,
               "instant": false,
               "interval": "",
-              "legendFormat": "Active VUs   - {{testid}}",
+              "legendFormat": "Active VUs - {{testid}}",
               "range": true,
               "refId": "A"
             },
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum by(testid) (rate(k6_http_reqs_total{testid=~\"$testid\",scenario=~\"$scenario\"}[$__rate_interval]))",
+              "expr": "sum by(testid) (rate(k6_http_reqs_total{testid=~\"$testid\", scenario=~\"$scenario\"}[$__rate_interval]))",
               "format": "time_series",
               "hide": false,
               "instant": false,
               "interval": "",
-              "legendFormat": "Requests Rate   - {{testid}}",
+              "legendFormat": "Requests Rate - {{testid}} - {{scenario}}",
               "range": true,
               "refId": "B"
             },
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "avg by(testid) (sum by(testid) (rate(k6_http_reqs_total{testid=~\"$testid\",scenario=~\"$scenario\", expected_response=\"false\"}[$__rate_interval])))",
+              "expr": "avg by(testid) (sum by(testid) (rate(k6_http_reqs_total{testid=~\"$testid\", scenario=~\"$scenario\", expected_response=\"false\"}[$__rate_interval])))",
               "hide": false,
               "instant": false,
-              "legendFormat": "Failed Requests Rate  - {{testid}}",
+              "legendFormat": "Failed Requests Rate - {{testid}} - {{scenario}}",
               "range": true,
               "refId": "D"
             },
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "(histogram_sum(rate(k6_http_req_duration_seconds{testid=~\"$testid\",scenario=~\"$scenario\"}[$__rate_interval]))\n/\nhistogram_count(rate(k6_http_req_duration_seconds{testid=~\"$testid\",scenario=~\"$scenario\"}[$__rate_interval]))) ",
+              "expr": "sum(rate(k6_http_req_duration_milliseconds_sum{testid=~\"$testid\", scenario=~\"$scenario\"}[$__rate_interval])) / sum(rate(k6_http_req_duration_milliseconds_count{testid=~\"$testid\", scenario=~\"$scenario\"}[$__rate_interval]))",
               "hide": false,
-              "legendFormat": "Response  Time (avg)  - {{testid}} - {{scenario}} - {{name}}",
+              "legendFormat": "Response Time (AVG) - {{testid}} - {{scenario}}",
               "range": true,
               "refId": "C"
             }
@@ -3715,7 +3715,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "refId": "A"
         }
@@ -3739,6 +3739,7 @@
         "hide": 0,
         "includeAll": false,
         "multi": false,
+        "label": "prometheus DB",
         "name": "DS_PROMETHEUS",
         "options": [],
         "query": "prometheus",
@@ -3753,12 +3754,13 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "prometheus"
         },
         "definition": "label_values(testid)",
         "hide": 0,
         "includeAll": true,
         "multi": true,
+        "label": "Test ID",
         "name": "testid",
         "options": [],
         "query": {
@@ -3775,12 +3777,13 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "prometheus"
         },
         "definition": "label_values(scenario)",
         "hide": 0,
         "includeAll": true,
         "multi": false,
+        "label": "Scenario",
         "name": "scenario",
         "options": [],
         "query": {
@@ -3798,12 +3801,13 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "prometheus"
         },
         "definition": "label_values(url)",
         "hide": 0,
         "includeAll": true,
         "multi": false,
+        "label": "URL",
         "name": "url",
         "options": [],
         "query": {
@@ -3819,38 +3823,40 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "prometheus"
         },
         "filters": [],
         "hide": 0,
-        "name": "Filters",
+        "label": "Filters",
+        "name": "filters",
         "skipUrlSync": false,
         "type": "adhoc"
       },
       {
         "current": {
           "selected": false,
-          "text": "k6_http_req_waiting_seconds",
-          "value": "k6_http_req_waiting_seconds"
+          "text": "k6_http_req_waiting_milliseconds_count",
+          "value": "k6_http_req_waiting_milliseconds_count"
         },
         "description": "Metrics for apdex",
         "hide": 0,
         "includeAll": false,
         "multi": false,
+        "label": "Metrics",
         "name": "metrics",
         "options": [
           {
             "selected": true,
-            "text": "k6_http_req_waiting_seconds",
-            "value": "k6_http_req_waiting_seconds"
+            "text": "k6_http_req_waiting_milliseconds_count",
+            "value": "k6_http_req_waiting_milliseconds_count"
           },
           {
             "selected": false,
-            "text": "k6_http_req_duration_seconds",
-            "value": "k6_http_req_duration_seconds"
+            "text": "k6_http_req_duration_milliseconds_count",
+            "value": "k6_http_req_duration_milliseconds_count"
           }
         ],
-        "query": "k6_http_req_waiting_seconds, k6_http_req_duration_seconds",
+        "query": "k6_http_req_waiting_milliseconds_count, k6_http_req_duration_milliseconds_count",
         "skipUrlSync": false,
         "type": "custom"
       }

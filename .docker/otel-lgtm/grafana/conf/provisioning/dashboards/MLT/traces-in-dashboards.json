@@ -108,13 +108,13 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum by (http_method)(rate(traces_spanmetrics_calls_total{service=\"server\",http_method=~\"${httpMethod}\"}[1m]))",
+          "expr": "sum by(http_method) (rate(traces_spanmetrics_calls_total{service=\"server\", http_method=~\"${httpMethod}\"}[1m]))",
           "legendFormat": "",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Calls total by HTTP Method",
+      "title": "Calls total by HTTP Method (Last 1 mins)",
       "type": "timeseries"
     },
     {

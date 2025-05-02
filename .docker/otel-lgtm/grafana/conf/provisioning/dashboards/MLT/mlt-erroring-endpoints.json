@@ -125,13 +125,13 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(rate(traces_spanmetrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",http_target!~\"/debug/pprof.*\",status_code=\"STATUS_CODE_ERROR\",http_target=~\"$endpoint\"}[1m])) by (http_target)",
+          "expr": "sum by(http_target) (rate(traces_spanmetrics_calls_total{span_kind=\"SPAN_KIND_SERVER\", http_target!~\"/debug/pprof.*\", status_code=\"STATUS_CODE_ERROR\", http_target=~\"$endpoint\"}[1m]))",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Error rates",
+      "title": "Error Rates (Last 1 mins)",
       "type": "timeseries"
     },
     {
@@ -218,13 +218,13 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "histogram_quantile(.99, sum(rate(traces_spanmetrics_latency_bucket{span_kind=\"SPAN_KIND_SERVER\",http_target!~\"/debug/pprof.*\",status_code=\"STATUS_CODE_ERROR\",http_target=~\"$endpoint\"}[1m])) by (http_target, le))",
+          "expr": "histogram_quantile(.99, sum by(http_target, le) (rate(traces_spanmetrics_latency_bucket{span_kind=\"SPAN_KIND_SERVER\", http_target!~\"/debug/pprof.*\", status_code=\"STATUS_CODE_ERROR\", http_target=~\"$endpoint\"}[1m])))",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "p99",
+      "title": "P99 (Last 1 mins)",
       "type": "timeseries"
     },
     {
@@ -301,7 +301,7 @@
   "templating": {
     "list": [
       {
-        "allValue": ".*",
+        "allValue": ".+",
         "current": {
           "selected": true,
           "text": "All",
@@ -311,14 +311,14 @@
           "type": "prometheus",
           "uid": "prometheus"
         },
-        "definition": "label_values(traces_spanmetrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",http_target!~\"/debug/pprof.*\"}, http_target)\n",
+        "definition": "label_values(traces_spanmetrics_calls_total{span_kind=\"SPAN_KIND_SERVER\", http_target!~\"/debug/pprof.*\"}, http_target)",
         "hide": 0,
         "includeAll": true,
         "multi": false,
         "name": "Endpoint",
         "options": [],
         "query": {
-          "query": "label_values(traces_spanmetrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",http_target!~\"/debug/pprof.*\"}, http_target)\n",
+          "query": "label_values(traces_spanmetrics_calls_total{span_kind=\"SPAN_KIND_SERVER\", http_target!~\"/debug/pprof.*\"}, http_target)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,

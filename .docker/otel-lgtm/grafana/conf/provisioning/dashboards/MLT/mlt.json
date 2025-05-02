@@ -132,14 +132,14 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "(sum by (http_target)(rate(traces_spanmetrics_latency_sum{http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[1m]))) / (sum by (http_target)(rate(traces_spanmetrics_latency_count{http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[1m])))",
+          "expr": "sum by(http_target) (rate(traces_spanmetrics_latency_sum{http_target=~\"${httpEndpoint}\", service_version=~\"${serviceVersion}\"}[1m])) / sum by(http_target) (rate(traces_spanmetrics_latency_count{http_target=~\"${httpEndpoint}\", service_version=~\"${serviceVersion}\"}[1m]))",
           "interval": "",
           "legendFormat": "",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Request Rate",
+      "title": "Average Latency per HTTP Endpoint (Last 1 mins)",
       "type": "timeseries"
     },
     {
@@ -196,13 +196,13 @@
             "uid": "prometheus"
           },
           "exemplar": true,
-          "expr": "(sum(increase(traces_spanmetrics_calls_total{status_code=\"STATUS_CODE_ERROR\",http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[5m]))/sum(increase(traces_spanmetrics_calls_total{status_code!=\"\",http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[5m]))) * 100",
+          "expr": "(sum(rate(traces_spanmetrics_calls_total{status_code=\"STATUS_CODE_ERROR\", http_target=~\"${httpEndpoint}\", service_version=~\"${serviceVersion}\"}[5m])) / sum(rate(traces_spanmetrics_calls_total{status_code!=\"\", http_target=~\"${httpEndpoint}\", service_version=~\"${serviceVersion}\"}[5m]))) * 100",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "Overall Error %age",
+      "title": "Overall Error Percentage (Last 5 mins)",
       "type": "gauge"
     },
     {
@@ -267,7 +267,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(sum by (http_target)(increase(traces_spanmetrics_calls_total{status_code=\"STATUS_CODE_ERROR\",http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[5m])))/(sum by (http_target)(increase(traces_spanmetrics_calls_total{status_code!=\"\",http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[5m]))) * 100",
+          "expr": "(sum by(http_target) (rate(traces_spanmetrics_calls_total{status_code=\"STATUS_CODE_ERROR\",http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[5m])) / sum by(http_target) (rate(traces_spanmetrics_calls_total{status_code!=\"\",http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[5m]))) * 100",
           "instant": false,
           "interval": "",
           "legendFormat": "{{http_target}}",
@@ -275,7 +275,7 @@
           "refId": "A"
         }
       ],
-      "title": "Error Percentages by Target",
+      "title": "Error Percentages by Target (Last 5 mins)",
       "type": "stat"
     },
     {
@@ -298,7 +298,7 @@
           "links": [
             {
               "targetBlank": true,
-              "title": "Traces for Status Code/Endpoint",
+              "title": "Traces for Status Code per Endpoint",
               "url": "/explore?orgId=1&left={\"datasource\":\"tempo\",\"queries\":[{\"refId\":\"A\",\"datasource\":{\"type\":\"tempo\",\"uid\":\"tempo\"},\"queryType\":\"traceql\",\"limit\":20,\"query\":\"{ %2Ehttp%2Etarget = \\\"${__data.fields.http_target}﻿\\\" %26%26 %2Ehttp%2Estatus_code = ${__data.fields.http_status_code} }\"}],\"range\":{\"from\":\"now-1h\",\"to\":\"now\"}}"
             }
           ],
@@ -345,7 +345,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by (http_status_code,http_target,service_version)(increase(traces_spanmetrics_calls_total{http_status_code=~\"${httpStatus}\",http_target=~\"${httpEndpoint}\"}[10m]))",
+          "expr": "sum by(http_status_code, http_target, service_version) (rate(traces_spanmetrics_calls_total{http_status_code=~\"${httpStatus}\", http_target=~\"${httpEndpoint}\", service_version=~\"${serviceVersion}\"}[10m]))",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -353,7 +353,7 @@
           "refId": "A"
         }
       ],
-      "title": "HTTP Status codes by Endpoint",
+      "title": "HTTP Status Codes by HTTP Endpoint (Last 10 mins)",
       "transformations": [
         {
           "id": "filterFieldsByName",
@@ -398,7 +398,7 @@
           },
           "links": [
             {
-              "title": "Traces for Latencies for Method/Endpoint",
+              "title": "Traces for Latencies for Method per Endpoint",
               "url": "/explore?orgId=1&left={\"datasource\":\"tempo\",\"queries\":[{\"refId\":\"A\",\"datasource\":{\"type\":\"tempo\",\"uid\":\"tempo\"},\"queryType\":\"traceql\",\"limit\":20,\"query\":\"{ %2Ehttp%2Etarget = \\\"${__data.fields.http_target}﻿﻿﻿\\\" %26%26 %2Ehttp%2Emethod = \\\"${__data.fields[\"HTTP Method\"]}\\\"  %26%26 %2Eservice%2Eversion = \\\"${__data.fields.service_version}\\\" }\"}],\"range\":{\"from\":\"now-1h\",\"to\":\"now\"}}"
             }
           ],
@@ -470,7 +470,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "topk(10, sum by (http_method,http_target,service_version)(increase(traces_spanmetrics_latency_sum{http_method=~\".+\", http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[1m]) / increase(traces_spanmetrics_latency_count{http_method=~\".+\", http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[1m])))",
+          "expr": "topk(10, sum by(http_method, http_target, service_version) (rate(traces_spanmetrics_latency_sum{http_method=~\".+\", http_target=~\"${httpEndpoint}\", service_version=~\"${serviceVersion}\"}[1m]) / rate(traces_spanmetrics_latency_count{http_method=~\".+\", http_target=~\"${httpEndpoint}\", service_version=~\"${serviceVersion}\"}[1m])))",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -478,7 +478,7 @@
           "refId": "A"
         }
       ],
-      "title": "Top 10 Highest Endpoint Latencies Over Last Minute",
+      "title": "Top 10 Highest Endpoint Latencies Over Last Minute (Last 1 mins)",
       "transformations": [
         {
           "id": "filterFieldsByName",
@@ -602,14 +602,14 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by (http_method,http_target)(increase(traces_spanmetrics_latency_sum{http_method=~\".+\", http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[10m]) / increase(traces_spanmetrics_latency_count{http_method=~\".+\", http_target=~\"${httpEndpoint}\",service_version=~\"${serviceVersion}\"}[10m]))",
+          "expr": "sum by(http_method, http_target) (rate(traces_spanmetrics_latency_sum{http_method=~\".+\", http_target=~\"${httpEndpoint}\", service_version=~\"${serviceVersion}\"}[10m]) / rate(traces_spanmetrics_latency_count{http_method=~\".+\", http_target=~\"${httpEndpoint}\", service_version=~\"${serviceVersion}\"}[10m]))",
           "interval": "",
           "legendFormat": "",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "All Endpoint Latencies in ms (Last 10 mins)",
+      "title": "All Endpoint Latencies in Second (Last 10 mins)",
       "type": "timeseries"
     },
     {
@@ -701,14 +701,14 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[$__rate_interval])) by (le, service_name))",
+          "expr": "histogram_quantile(0.95, sum by(le, service_name) (rate(http_request_duration_seconds_bucket[$__rate_interval])))",
           "interval": "",
           "legendFormat": "{{le}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "95th Percentile Response Latencies (ms)",
+      "title": "95th Percentile Response Latencies in Second",
       "type": "timeseries"
     },
     {
@@ -743,7 +743,7 @@
           "refId": "A"
         }
       ],
-      "title": "Autologged Errors",
+      "title": "Auto Logged Errors",
       "type": "logs"
     }
   ],
