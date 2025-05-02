@@ -3,6 +3,11 @@
 x-default-logging: &logging
   driver: json-file
   options:
+    # compress:
+    # env:
+    # env-regex:
+    # label:
+    # labels-regex:
     max-file: 2
     max-size: 5m
 
@@ -173,15 +178,15 @@ services:
       - run
       - --compatibility-mode=base
       - --config=/home/k6/workspace/test/e2e/config.json
-      - --out=experimental-prometheus-rw
+      - --out=experimental-opentelemetry
       - /home/k6/workspace/test/e2e/build/mlt.js
     container_name: hono-poc-k6
     environment:
-      - K6_DURATION=3600s
-      - K6_PROMETHEUS_RW_SERVER_URL=http://otel-lgtm:9090/api/v1/write
-      - K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM=true
-      - K6_VUS=4
       - BASE_URL=http://server:8081/api/v1
+      - K6_OTEL_EXPORTER_TYPE=http
+      - K6_OTEL_HTTP_EXPORTER_ENDPOINT=otel-lgtm:4318
+      - K6_OTEL_HTTP_EXPORTER_INSECURE=true
+      - K6_OTEL_METRIC_PREFIX=k6_
       - SLEEP_DURATION=0.1
     depends_on:
       server:
@@ -460,6 +465,7 @@ services:
       - ENABLE_LOGS_ALL=true
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      # - GF_AUTH_BASIC_ENABLED=false
       - GF_FEATURE_TOGGLES_ENABLE=flameGraph traceqlSearch correlations traceQLStreaming metricsSummary traceqlEditor traceToMetrics traceToProfiles datatrails
       - GF_INSTALL_PLUGINS=grafana-exploretraces-app,grafana-llm-app,grafana-lokiexplore-app,grafana-pyroscope-app
     expose:
