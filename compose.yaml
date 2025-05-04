@@ -75,7 +75,7 @@ services:
       - CLIENT_DATABASE_URI=mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1
       - CLIENT_ELASTICSEARCH_NODE=http://elasticsearch:9200
       - CLIENT_REDIS_URL=redis://redis:6379
-      - SERVER_AUTH_APP_NAME="Hono POC"
+      - SERVER_AUTH_APP_NAME=Hono POC
       - SERVER_AUTH_BASE_URL=http://127.0.0.1:8081
       - SERVER_AUTH_SECRET=hono-poc-12345678901234567890-!@
       - SERVER_FEATURE_FLAG_USER_POC_FULLNAME=1
@@ -117,7 +117,7 @@ services:
       - CLIENT_REDIS_URL=redis://redis:6379
       - DEBUG=*
       - NODE_ENV=development
-      - SERVER_AUTH_APP_NAME="Hono POC"
+      - SERVER_AUTH_APP_NAME=Hono POC
       - SERVER_AUTH_BASE_URL=http://127.0.0.1:8081
       - SERVER_AUTH_SECRET=hono-poc-12345678901234567890-!@
       - SERVER_FEATURE_FLAG_USER_POC_FULLNAME=1
