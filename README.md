@@ -70,12 +70,14 @@ curl \
 ## OpenTelemetry
 
 ```SHELL
-export OTEL_TRACES_EXPORTER="http"
-export OTEL_EXPORTER_OTLP_ENDPOINT="http://127.0.0.1:4318"
-export OTEL_NODE_RESOURCE_DETECTORS="env,host,process"
-export OTEL_SERVICE_NAME="server"
-export OTEL_RESOURCE_ATTRIBUTES="service.name=hono-poc,service.version=0.0.0"
-export NODE_OPTIONS="--require @opentelemetry/auto-instrumentations-node/register"
+export NODE_OPTIONS=--require @opentelemetry/auto-instrumentations-node/register
+export OTEL_EXPORTER_OTLP_ENDPOINT=127.0.0.1:4318
+export OTEL_LOG_LEVEL=all
+export OTEL_NODE_ENABLED_INSTRUMENTATIONS=http,mysql2,redis-4
+export OTEL_NODE_RESOURCE_DETECTORS=env,host,process
+export OTEL_RESOURCE_ATTRIBUTES=service.name=hono-poc,service.version=0.0.0
+export OTEL_SERVICE_NAME=server
+export OTEL_TRACES_EXPORTER=http
 ```
 
 ## K6 Test
