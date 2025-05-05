@@ -1,9 +1,9 @@
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
   InMemorySpanExporter,
+  NodeTracerProvider,
   SimpleSpanProcessor,
-} from "@opentelemetry/sdk-trace-base";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+} from "@opentelemetry/sdk-trace-node";
 import { Hono } from "hono";
 import { describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
