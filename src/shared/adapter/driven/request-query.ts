@@ -46,7 +46,7 @@ const applyExpand = <
   TNullabilityMap
 > => {
   if (expand) {
-    // TODO: implement expand logic here
+    throw new Error("implement expand logic here");
   }
   return query;
 };
@@ -75,7 +75,7 @@ const applyFields = <
   TNullabilityMap
 > => {
   if (fields) {
-    // TODO: implement fields logic here
+    throw new Error("implement expand logic here");
   }
   return query;
 };

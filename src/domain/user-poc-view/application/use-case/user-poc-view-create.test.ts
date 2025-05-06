@@ -109,7 +109,7 @@ describe("UserPOCView UseCase Create", () => {
       id,
       logger,
       tracer,
-    } = await createMocks(drivingUserPOCViewCreateRequest);
+    } = createMocks(drivingUserPOCViewCreateRequest);
     const useCaseUserPOCViewCreate = new UseCaseUserPOCViewCreate(
       config,
       drivingUserPOCCreate,

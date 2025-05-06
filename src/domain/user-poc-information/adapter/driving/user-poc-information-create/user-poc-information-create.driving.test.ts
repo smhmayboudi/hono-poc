@@ -63,7 +63,7 @@ describe("UserPOCInformation Driving Create", () => {
       domainType,
       drivingUserPOCInformationCreate,
       logger,
-    } = await createMocks(drivingUserPOCInformationCreateResponse);
+    } = createMocks(drivingUserPOCInformationCreateResponse);
     adapterDrivingUserPOCInformationCreate(
       app,
       basePath,

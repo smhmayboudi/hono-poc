@@ -28,7 +28,7 @@ describe("Driving Mobile Handler OnError", () => {
   it("should call onError", async () => {
     expect.assertions(3);
 
-    const { config, logger } = await mocks();
+    const { config, logger } = mocks();
     const mockApp = new OpenAPIHono<Env>({ defaultHook });
     mockApp.onError(onErrorHandler(config, logger));
     mockApp.get("/onError", () => {
@@ -57,7 +57,7 @@ describe("Driving Mobile Handler OnError", () => {
   it("user onError first if", async () => {
     expect.assertions(3);
 
-    const { config, logger } = await mocks();
+    const { config, logger } = mocks();
     const mockApp = new OpenAPIHono<Env>({ defaultHook });
     mockApp.onError(onErrorHandler(config, logger));
     mockApp.get("/onError", () => {
@@ -88,7 +88,7 @@ describe("Driving Mobile Handler OnError", () => {
   it("user onError second if", async () => {
     expect.assertions(3);
 
-    const { config, logger } = await mocks();
+    const { config, logger } = mocks();
     const mockApp = new OpenAPIHono<Env>({ defaultHook });
     mockApp.onError(onErrorHandler(config, logger));
     mockApp.get("/onError", () => {

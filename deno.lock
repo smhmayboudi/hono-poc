@@ -1337,7 +1337,6 @@
         "npm:eslint-config-prettier@^10.1.2",
         "npm:eslint-plugin-es-x@^8.6.2",
         "npm:eslint-plugin-jsdoc@^50.6.11",
-        "npm:eslint-plugin-markdown@^5.1.0",
         "npm:eslint-plugin-n@^17.17.0",
         "npm:eslint-plugin-promise@^7.2.1",
         "npm:eslint-plugin-security@^3.0.1",

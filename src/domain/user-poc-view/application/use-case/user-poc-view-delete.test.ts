@@ -105,7 +105,7 @@ describe("UserPOCView UseCase Delete", () => {
       eventEmitter,
       logger,
       tracer,
-    } = await deleteMocks(drivingUserPOCViewDeleteRequest);
+    } = deleteMocks(drivingUserPOCViewDeleteRequest);
     const useCaseUserPOCViewDelete = new UseCaseUserPOCViewDelete(
       config,
       drivingUserPOCDelete,

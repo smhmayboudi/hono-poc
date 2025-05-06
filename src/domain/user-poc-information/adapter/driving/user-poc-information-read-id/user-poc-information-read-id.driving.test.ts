@@ -64,7 +64,7 @@ describe("UserPOCInformation Driving ReadID", () => {
       domainType,
       drivingUserPOCInformationReadID,
       logger,
-    } = await readMocks(drivingUserPOCInformationReadIDResponse);
+    } = readMocks(drivingUserPOCInformationReadIDResponse);
     adapterDrivingUserPOCInformationReadID(
       app,
       basePath,

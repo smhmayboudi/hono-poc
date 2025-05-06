@@ -84,7 +84,7 @@ describe("UserPOC UseCase Update", () => {
       eventEmitter,
       logger,
       tracer,
-    } = await updateMocks(drivingUserPOCUpdateRequest);
+    } = updateMocks(drivingUserPOCUpdateRequest);
     const useCaseUserPOCUpdate = new UseCaseUserPOCUpdate(
       config,
       drivenUserPOCUpdate,

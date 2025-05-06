@@ -61,7 +61,7 @@ describe("UserPOCInformation Driving Delete", () => {
       domainType,
       drivingUserPOCInformationDelete,
       logger,
-    } = await deleteMocks(drivingUserPOCInformationDeleteResponse);
+    } = deleteMocks(drivingUserPOCInformationDeleteResponse);
     adapterDrivingUserPOCInformationDelete(
       app,
       basePath,

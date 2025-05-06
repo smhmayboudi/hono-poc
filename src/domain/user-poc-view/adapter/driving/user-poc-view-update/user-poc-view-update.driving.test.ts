@@ -62,7 +62,7 @@ describe("UserPOCView Driving Update", () => {
       domainType,
       drivingUserPOCViewUpdate,
       logger,
-    } = await updateMocks(drivingUserPOCViewUpdateResponse);
+    } = updateMocks(drivingUserPOCViewUpdateResponse);
     adapterDrivingUserPOCViewUpdate(
       app,
       basePath,

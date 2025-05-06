@@ -59,7 +59,7 @@ describe("UserPOCView Driving Read", () => {
       domainType,
       drivingUserPOCViewRead,
       logger,
-    } = await readMocks(drivingUserPOCViewReadResponse);
+    } = readMocks(drivingUserPOCViewReadResponse);
     adapterDrivingUserPOCViewRead(
       app,
       basePath,

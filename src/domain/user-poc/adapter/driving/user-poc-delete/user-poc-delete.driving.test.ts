@@ -50,7 +50,7 @@ describe("UserPOC Driving Delete", () => {
       id: drivingUserPOCDeleteRequest.id,
     };
     const { app, basePath, config, domainType, drivingUserPOCDelete, logger } =
-      await deleteMocks(drivingUserPOCDeleteResponse);
+      deleteMocks(drivingUserPOCDeleteResponse);
     adapterDrivingUserPOCDelete(
       app,
       basePath,

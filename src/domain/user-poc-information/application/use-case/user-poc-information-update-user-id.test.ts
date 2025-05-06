@@ -88,7 +88,7 @@ describe("UserPOCInformation UseCase UpdateUserID", () => {
       eventEmitter,
       logger,
       tracer,
-    } = await updateMocks(drivingUserPOCInformationUpdateUserIDRequest);
+    } = updateMocks(drivingUserPOCInformationUpdateUserIDRequest);
     const useCaseUserPOCInformationUpdateUserID =
       new UseCaseUserPOCInformationUpdateUserID(
         config,

@@ -86,7 +86,7 @@ describe("UserPOCInformation UseCase DeleteUserID", () => {
       eventEmitter,
       logger,
       tracer,
-    } = await deleteMocks(drivingUserPOCInformationDeleteUserIDRequest);
+    } = deleteMocks(drivingUserPOCInformationDeleteUserIDRequest);
     const useCaseUserPOCInformationDeleteUserID =
       new UseCaseUserPOCInformationDeleteUserID(
         config,

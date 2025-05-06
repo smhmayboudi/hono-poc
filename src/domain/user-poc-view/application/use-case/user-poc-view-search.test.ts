@@ -94,7 +94,7 @@ describe("UserPOCView UseCase Search", () => {
       eventEmitter,
       logger,
       tracer,
-    } = await readMocks(drivingUserPOCViewSearchRequest);
+    } = readMocks(drivingUserPOCViewSearchRequest);
     const useCaseUserPOCViewSearch = new UseCaseUserPOCViewSearch(
       config,
       drivenUserPOCViewSearch,

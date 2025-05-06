@@ -127,21 +127,6 @@ export const topLevelLinks = z.object({
   self: link.optional(),
 });
 
-// const requiredTopLevelMembers = z.union([
-//   z.object({ data: data }),
-//   z.object({ errors: errors }),
-//   z.object({ meta: meta }),
-// ]);
-
-// const oneOfDataOrErrors = z
-//   .object({
-//     data: data.optional(),
-//     errors: errors.optional(),
-//   })
-//   .refine((val) => !(val.data && val.errors), {
-//     message: "Only one of 'data' or 'errors' can be present",
-//   });
-
 export const jsonApiSchema = z
   .object({
     data: data.optional(),

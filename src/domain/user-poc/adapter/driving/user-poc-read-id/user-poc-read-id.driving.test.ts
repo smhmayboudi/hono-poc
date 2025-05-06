@@ -51,7 +51,7 @@ describe("UserPOC Driving ReadID", () => {
       id: drivingUserPOCReadIDRequest.id,
     };
     const { app, basePath, config, domainType, drivingUserPOCReadID, logger } =
-      await readMocks(drivingUserPOCReadIDResponse);
+      readMocks(drivingUserPOCReadIDResponse);
     adapterDrivingUserPOCReadID(
       app,
       basePath,

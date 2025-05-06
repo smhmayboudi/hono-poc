@@ -50,7 +50,7 @@ describe("UserPOC Driving Create", () => {
       id: faker.string.nanoid(24),
     };
     const { app, basePath, config, domainType, drivingUserPOCCreate, logger } =
-      await createMocks(drivingUserPOCCreateResponse);
+      createMocks(drivingUserPOCCreateResponse);
     adapterDrivingUserPOCCreate(
       app,
       basePath,

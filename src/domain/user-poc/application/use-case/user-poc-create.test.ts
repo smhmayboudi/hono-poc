@@ -91,7 +91,7 @@ describe("UserPOC UseCase Create", () => {
       generate,
       logger,
       tracer,
-    } = await createMocks(drivingUserPOCCreateRequest);
+    } = createMocks(drivingUserPOCCreateRequest);
     const useCaseUserPOCCreate = new UseCaseUserPOCCreate(
       config,
       drivenUserPOCCreate,

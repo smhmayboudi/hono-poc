@@ -63,7 +63,7 @@ describe("UserPOCView Driving Search", () => {
       domainType,
       drivingUserPOCViewSearch,
       logger,
-    } = await readMocks(drivingUserPOCViewSearchResponse);
+    } = readMocks(drivingUserPOCViewSearchResponse);
     adapterDrivingUserPOCViewSearch(
       app,
       basePath,

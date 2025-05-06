@@ -89,7 +89,7 @@ describe("UserPOCInformation UseCase Update", () => {
       eventEmitter,
       logger,
       tracer,
-    } = await updateMocks(drivingUserPOCInformationUpdateRequest);
+    } = updateMocks(drivingUserPOCInformationUpdateRequest);
     const useCaseUserPOCInformationUpdate = new UseCaseUserPOCInformationUpdate(
       config,
       drivenUserPOCInformationUpdate,

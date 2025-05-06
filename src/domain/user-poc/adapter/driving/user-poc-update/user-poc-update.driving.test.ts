@@ -52,7 +52,7 @@ describe("UserPOC Driving Update", () => {
       id: drivingUserPOCUpdateRequest.id,
     };
     const { app, basePath, config, domainType, drivingUserPOCUpdate, logger } =
-      await updateMocks(drivingUserPOCUpdateResponse);
+      updateMocks(drivingUserPOCUpdateResponse);
     adapterDrivingUserPOCUpdate(
       app,
       basePath,

@@ -96,7 +96,7 @@ describe("UserPOCInformation UseCase Create", () => {
       generate,
       logger,
       tracer,
-    } = await createMocks(drivingUserPOCInformationCreateRequest);
+    } = createMocks(drivingUserPOCInformationCreateRequest);
     const useCaseUserPOCInformationCreate = new UseCaseUserPOCInformationCreate(
       config,
       drivenUserPOCInformationCreate,

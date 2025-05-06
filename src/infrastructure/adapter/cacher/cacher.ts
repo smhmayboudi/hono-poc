@@ -25,8 +25,6 @@ export class Cacher implements PortCacher {
         { keyPrefixSeparator: ":" },
       ),
     });
-    // keyv.on("clear", () => {});
-    // keyv.on("disconnect", () => {});
     keyv.on("error", (err) => {
       this.logger.error(err);
     });

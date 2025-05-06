@@ -97,7 +97,7 @@ describe("UserPOCInformation UseCase Read", () => {
       eventEmitter,
       logger,
       tracer,
-    } = await readMocks(drivingUserPOCInformationReadRequest);
+    } = readMocks(drivingUserPOCInformationReadRequest);
     const useCaseUserPOCInformationRead = new UseCaseUserPOCInformationRead(
       config,
       drivenUserPOCInformationRead,

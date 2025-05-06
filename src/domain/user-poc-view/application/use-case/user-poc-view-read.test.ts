@@ -92,7 +92,7 @@ describe("UserPOCView UseCase Read", () => {
       eventEmitter,
       logger,
       tracer,
-    } = await readMocks(drivingUserPOCViewReadRequest);
+    } = readMocks(drivingUserPOCViewReadRequest);
     const useCaseUserPOCViewRead = new UseCaseUserPOCViewRead(
       config,
       drivenUserPOCViewRead,

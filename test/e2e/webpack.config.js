@@ -1,9 +1,10 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-require-imports, no-undef */
 
+const path = require("node:path");
+
 const CopyPlugin = require("copy-webpack-plugin");
 const GlobEntries = require("webpack-glob-entries");
-const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 /**

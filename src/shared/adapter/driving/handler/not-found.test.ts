@@ -22,7 +22,7 @@ describe("Driving Mobile Handler NotFound", () => {
   it("should call notFound", async () => {
     expect.assertions(3);
 
-    const { config, logger } = await mocks();
+    const { config, logger } = mocks();
     const mockApp = new OpenAPIHono<Env>({ defaultHook });
     mockApp.notFound(notFoundHandler(config, logger));
 

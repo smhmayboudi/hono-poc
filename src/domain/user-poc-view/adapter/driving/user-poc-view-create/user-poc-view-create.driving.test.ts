@@ -60,7 +60,7 @@ describe("UserPOCView Driving Create", () => {
       domainType,
       drivingUserPOCViewCreate,
       logger,
-    } = await createMocks(drivingUserPOCViewCreateResponse);
+    } = createMocks(drivingUserPOCViewCreateResponse);
     adapterDrivingUserPOCViewCreate(
       app,
       basePath,

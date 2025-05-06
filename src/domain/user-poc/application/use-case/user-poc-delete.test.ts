@@ -83,7 +83,7 @@ describe("UserPOC UseCase Delete", () => {
       eventEmitter,
       logger,
       tracer,
-    } = await deleteMocks(drivingUserPOCDeleteRequest);
+    } = deleteMocks(drivingUserPOCDeleteRequest);
     const useCaseUserPOCDelete = new UseCaseUserPOCDelete(
       config,
       drivenUserPOCDelete,

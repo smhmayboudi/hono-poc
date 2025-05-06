@@ -5,7 +5,6 @@
 
 import pluginJs from "@eslint/js";
 import pluginJSON from "@eslint/json";
-import pluginMarkdown from "@eslint/markdown";
 import pluginComment from "@eslint-community/eslint-plugin-eslint-comments";
 import pluginVitest from "@vitest/eslint-plugin";
 import configPrettier from "eslint-config-prettier";
@@ -49,10 +48,6 @@ export default [
       "jsdoc/require-returns": "off",
     },
   },
-  {
-    ...pluginMarkdown.configs.recommended,
-    files: ["**/*.md/*.js"],
-  },
   pluginN.configs["flat/recommended-module"],
   pluginPromise.configs["flat/recommended"],
   pluginSecurity.configs.recommended,
@@ -67,24 +62,15 @@ export default [
     plugins: { sonarjs: pluginSonarJS },
     rules: {
       ...pluginSonarJS.configs.recommended.rules,
-      "security/detect-non-literal-fs-filename": "off",
-      "sonarjs/deprecation": "off",
-      "sonarjs/no-commented-code": "off",
-      "sonarjs/no-invalid-await": "off",
-      "sonarjs/no-nested-functions": "off",
-      "sonarjs/prefer-nullish-coalescing": "off",
-      "sonarjs/redundant-type-aliases": "off",
-      "sonarjs/sonar-max-params": "off",
-      "sonarjs/sonar-prefer-optional-chain": "off",
-      "sonarjs/todo-tag": "off",
-      "sonarjs/no-redundant-jump": "off",
-      "sonarjs/no-base-to-string": "off",
-      "sonarjs/no-extra-arguments": "off",
-      "sonarjs/cognitive-complexity": "off",
       "import/*": "off",
       "jsx-a11y/*": "off",
       "react-hooks/*": "off",
       "react/*": "off",
+      "sonarjs/cognitive-complexity": "off",
+      "sonarjs/no-extra-arguments": "off",
+      "sonarjs/no-nested-functions": "off",
+      "sonarjs/no-redundant-jump": "off",
+      "sonarjs/redundant-type-aliases": "off",
     },
     settings: { react: { version: "0" } },
   },
@@ -127,68 +113,10 @@ export default [
       parserOptions: { project: ["./tsconfig.eslint.json"] },
     },
   },
-  // Google TypeScript Recommended
   {
     rules: {
       "@typescript-eslint/ban-ts-comment": "warn",
-      "@typescript-eslint/ban-types": "off",
-      "@typescript-eslint/camelcase": "off",
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-empty-function": "off",
-      "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/no-use-before-define": "off",
-      "@typescript-eslint/no-var-requires": "off",
-      "@typescript-eslint/no-warning-comments": "off",
-      "block-scoped-var": "error",
-      "eol-last": "error",
-      eqeqeq: "error",
-      "n/no-empty-function": "off",
       "n/no-missing-import": "off",
-      "n/no-missing-require": "off",
-      "n/no-unsupported-features/es-syntax": "off",
-      "n/shebang": "off",
-      "no-dupe-class-members": "off",
-      "no-restricted-properties": [
-        "error",
-        {
-          object: "describe",
-          property: "only",
-        },
-        {
-          object: "it",
-          property: "only",
-        },
-      ],
-      "no-trailing-spaces": "error",
-      "no-var": "error",
-      "prefer-arrow-callback": "error",
-      "prefer-const": "error",
-      quotes: ["warn", "single", { avoidEscape: true }],
-      "require-atomic-updates": "off",
-    },
-  },
-  // CI Time
-  {
-    rules: {
-      "import/no-cycle": "off",
-      "import/no-deprecated": "off",
-      "import/no-named-as-default": "off",
-      "import/no-unused-modules": "off",
-    },
-  },
-  // NOT AT ALL
-  {
-    rules: {
-      "import/default": "off",
-      "import/extensions": "off",
-      "import/named": "off",
-      "import/namespace": "off",
-      "import/no-named-as-default-member": "off",
-      "import/no-unresolved": "off",
-      "n/no-missing-import": "off",
-      "n/no-unpublished-import": "off",
-      "n/no-unsupported-features/node-builtins": "off",
     },
   },
   {

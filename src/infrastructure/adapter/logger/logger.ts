@@ -1,4 +1,4 @@
-import api from "@opentelemetry/api-logs";
+import * as api from "@opentelemetry/api-logs";
 import { pino } from "pino";
 import { merge } from "ts-deepmerge";
 
