@@ -5,12 +5,12 @@
 
 import pluginJs from "@eslint/js";
 import pluginJSON from "@eslint/json";
+import pluginMarkdown from "@eslint/markdown";
 import pluginComment from "@eslint-community/eslint-plugin-eslint-comments";
 import pluginVitest from "@vitest/eslint-plugin";
 import configPrettier from "eslint-config-prettier";
 import pluginESX from "eslint-plugin-es-x";
 import pluginJSDoc from "eslint-plugin-jsdoc";
-import pluginMarkdown from "eslint-plugin-markdown";
 import pluginN from "eslint-plugin-n";
 import pluginPromise from "eslint-plugin-promise";
 import pluginSecurity from "eslint-plugin-security";
@@ -49,7 +49,10 @@ export default [
       "jsdoc/require-returns": "off",
     },
   },
-  ...pluginMarkdown.configs.recommended,
+  {
+    ...pluginMarkdown.configs.recommended,
+    files: ["**/*.md/*.js"],
+  },
   pluginN.configs["flat/recommended-module"],
   pluginPromise.configs["flat/recommended"],
   pluginSecurity.configs.recommended,
@@ -58,19 +61,6 @@ export default [
     rules: {
       "simple-import-sort/exports": "error",
       "simple-import-sort/imports": "error",
-      // "simple-import-sort/imports": [
-      //   "error",
-      //   {
-      //     groups: [
-      //       ["^\\u0000"],
-      //       ["^node:"],
-      //       ["^@?\\w"],
-      //       ["^"],
-      //       ["^\\."],
-      //       ["^@config", "^@customer", "^@infrastructure", "^@shared"],
-      //     ],
-      //   },
-      // ],
     },
   },
   {
