@@ -232,7 +232,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(histogram_count(rate({__name__=~\"http_request_duration_seconds_count\", service_name=~\"$serviceName\", status=~\"5..\"}[5m]))) / sum(histogram_count(rate({__name__=~\"http_request_duration_seconds_count\", service_name=~\"$serviceName\"}[5m])))\n\n",
+          "expr": "sum(histogram_count(rate({__name__=~\"http_request_duration_seconds_count\", service_name=~\"$serviceName\", http_response_status_code=~\"5..\"}[5m]))) / sum(histogram_count(rate({__name__=~\"http_request_duration_seconds_count\", service_name=~\"$serviceName\"}[5m])))\n\n",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"

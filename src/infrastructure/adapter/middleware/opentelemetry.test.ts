@@ -36,8 +36,8 @@ describe("OpenTelemetry middleware", () => {
     const spans = memoryExporter.getFinishedSpans();
     expect(spans.length).toBe(1);
     const [span] = spans;
-    expect(span?.name).toBe("opentelemetry-middleware.infrastructure");
-    expect(span?.kind).toBe(SpanKind.INTERNAL);
+    expect(span?.name).toBe("GET /ok");
+    expect(span?.kind).toBe(SpanKind.SERVER);
     expect(span?.status.code).toBe(SpanStatusCode.OK);
     expect(span?.status.message).toBeUndefined();
   });
@@ -49,8 +49,8 @@ describe("OpenTelemetry middleware", () => {
     const spans = memoryExporter.getFinishedSpans();
     expect(spans.length).toBe(1);
     const [span] = spans;
-    expect(span?.name).toBe("opentelemetry-middleware.infrastructure");
-    expect(span?.kind).toBe(SpanKind.INTERNAL);
+    expect(span?.name).toBe("GET /error");
+    expect(span?.kind).toBe(SpanKind.SERVER);
     expect(span?.status.code).toBe(SpanStatusCode.ERROR);
     expect(span?.status.message).toBe("error message");
   });

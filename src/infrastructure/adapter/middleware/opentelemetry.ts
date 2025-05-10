@@ -1,7 +1,10 @@
 import {
+  context,
   type Meter,
   metrics,
+  propagation,
   type Span,
+  SpanKind,
   SpanStatusCode,
   trace,
   type Tracer,
@@ -9,6 +12,14 @@ import {
 } from "@opentelemetry/api";
 import * as opentelemetry from "@opentelemetry/api";
 import { type Logger, logs } from "@opentelemetry/api-logs";
+import {
+  ATTR_HTTP_REQUEST_HEADER,
+  ATTR_HTTP_REQUEST_METHOD,
+  ATTR_HTTP_RESPONSE_HEADER,
+  ATTR_HTTP_RESPONSE_STATUS_CODE,
+  ATTR_HTTP_ROUTE,
+  ATTR_URL_FULL,
+} from "@opentelemetry/semantic-conventions";
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
 import type { MiddlewareHandler } from "hono";
 
@@ -83,39 +94,56 @@ export const opentelemetryMiddleware = (
         code: opentelemetry.SpanStatusCode.ERROR,
         message: err.message,
       });
-      span.end();
     };
 
     return rawTracer?.startActiveSpan(
-      "opentelemetry-middleware.infrastructure",
+      `${ctx.req.method} ${ctx.req.routePath}`,
+      {
+        kind: SpanKind.SERVER,
+        attributes: {
+          [ATTR_HTTP_REQUEST_METHOD]: ctx.req.method,
+          [ATTR_HTTP_ROUTE]: ctx.req.routePath,
+          [ATTR_URL_FULL]: ctx.req.url,
+        },
+      },
+      propagation.extract(context.active(), ctx.req.header()),
       async (span) => {
         let duration = 0;
         try {
           span.setStatus({ code: SpanStatusCode.OK });
+          for (const [key, value] of Object.entries(ctx.req.header())) {
+            span.setAttribute(ATTR_HTTP_REQUEST_HEADER(key), value);
+          }
           const start = performance.now();
           await next();
           const end = performance.now();
           duration = (end - start) / 1000;
+          span.updateName(`${ctx.req.method} ${ctx.req.routePath}`);
+          ctx.res.headers.forEach((value, key) => {
+            span.setAttribute(ATTR_HTTP_RESPONSE_HEADER(key), value);
+          });
+          span.setAttributes({
+            [ATTR_HTTP_REQUEST_METHOD]: ctx.req.method,
+            [ATTR_HTTP_RESPONSE_STATUS_CODE]: ctx.res.status,
+            [ATTR_HTTP_ROUTE]: ctx.req.routePath,
+          });
           if (ctx.error) {
             handleSpanError(span, ctx.error);
-          } else {
-            span.end();
           }
         } catch (error) {
           handleSpanError(span, error);
           throw error;
         } finally {
+          span.end();
           counterHTTPRequestsTotal.add(1, {
-            method: ctx.req.method,
-            ok: String(ctx.res.ok),
-            path: ctx.req.routePath,
-            status: ctx.res.status.toString(),
+            [ATTR_HTTP_REQUEST_METHOD]: ctx.req.method,
+            [ATTR_HTTP_RESPONSE_STATUS_CODE]: ctx.res.status.toString(),
+            [ATTR_HTTP_ROUTE]: ctx.req.routePath,
           });
           histogramHTTPRequestDurationSeconds.record(duration, {
-            method: ctx.req.method,
-            ok: String(ctx.res.ok),
-            path: ctx.req.routePath,
-            status: ctx.res.status.toString(),
+            [ATTR_HTTP_REQUEST_METHOD]: ctx.req.method,
+            [ATTR_HTTP_RESPONSE_STATUS_CODE]: ctx.res.status.toString(),
+            [ATTR_HTTP_ROUTE]: ctx.req.routePath,
           });
         }
       },
