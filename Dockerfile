@@ -29,10 +29,11 @@ ARG SERVER_AUTH_APP_NAME=${SERVER_AUTH_APP_NAME:-Hono POC}
 ARG SERVER_AUTH_BASE_URL=${SERVER_AUTH_BASE_URL:-http://127.0.0.1:8081}
 ARG SERVER_AUTH_SECRET=${SERVER_AUTH_SECRET:-hono-poc-12345678901234567890-!@}
 ARG SERVER_FEATURE_FLAG_USER_POC_FULLNAME=${SERVER_FEATURE_FLAG_USER_POC_FULLNAME:-1}
-ARG SERVER_SERVER_PORT=${SERVER_SERVER_PORT:-80}
+ARG SERVER_SERVER_PORT=${SERVER_SERVER_PORT:-8081}
 
-FROM ${NODE_IMAGE_URL}:${NODE_IMAGE_VERSION}
+FROM ${NODE_IMAGE_URL}:${NODE_IMAGE_VERSION} AS base
 
+FROM base AS server-dev
 ARG ORG_OPENCONTAINERS_IMAGE_AUTHORS
 ARG ORG_OPENCONTAINERS_IMAGE_BASE_DIGEST
 ARG ORG_OPENCONTAINERS_IMAGE_BASE_NAME
@@ -47,7 +48,6 @@ ARG ORG_OPENCONTAINERS_IMAGE_TITLE
 ARG ORG_OPENCONTAINERS_IMAGE_URL
 ARG ORG_OPENCONTAINERS_IMAGE_VENDOR
 ARG ORG_OPENCONTAINERS_IMAGE_VERSION
-
 ARG CLIENT_DATABASE_URI
 ARG CLIENT_ELASTICSEARCH_NODE
 ARG CLIENT_REDIS_URL
@@ -59,7 +59,6 @@ ARG SERVER_AUTH_BASE_URL
 ARG SERVER_AUTH_SECRET
 ARG SERVER_FEATURE_FLAG_USER_POC_FULLNAME
 ARG SERVER_SERVER_PORT
-
 LABEL org.opencontainers.image.authors=${ORG_OPENCONTAINERS_IMAGE_AUTHORS}
 LABEL org.opencontainers.image.base.digest=${ORG_OPENCONTAINERS_IMAGE_BASE_DIGEST}
 LABEL org.opencontainers.image.base.name=${ORG_OPENCONTAINERS_IMAGE_BASE_NAME}
@@ -74,7 +73,6 @@ LABEL org.opencontainers.image.title=${ORG_OPENCONTAINERS_IMAGE_TITLE}
 LABEL org.opencontainers.image.url=${ORG_OPENCONTAINERS_IMAGE_URL}
 LABEL org.opencontainers.image.vendor=${ORG_OPENCONTAINERS_IMAGE_VENDOR}
 LABEL org.opencontainers.image.version=${ORG_OPENCONTAINERS_IMAGE_VERSION}
-
 ENV CLIENT_DATABASE_URI=${CLIENT_DATABASE_URI}
 ENV CLIENT_ELASTICSEARCH_NODE=${CLIENT_ELASTICSEARCH_NODE}
 ENV CLIENT_REDIS_URL=${CLIENT_REDIS_URL}
@@ -86,7 +84,6 @@ ENV SERVER_AUTH_BASE_URL=${SERVER_AUTH_BASE_URL}
 ENV SERVER_AUTH_SECRET=${SERVER_AUTH_SECRET}
 ENV SERVER_FEATURE_FLAG_USER_POC_FULLNAME=${SERVER_FEATURE_FLAG_USER_POC_FULLNAME}
 ENV SERVER_SERVER_PORT=${SERVER_SERVER_PORT}
-
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt update \
   && apt --yes upgrade \
@@ -94,18 +91,80 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     wget \
   && apt clean \
   && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /usr/node/hono-poc/
-
 COPY ./package.json ./pnpm-lock.yaml ./
 COPY ./script/husky.install.js ./script/
 RUN npm install --global pnpm@${PNPM_VERSION} \
   && pnpm install --frozen-lockfile
-
 COPY --chown=node:node . .
-
 RUN pnpm run docker:build
 
-# USER node
+FROM base AS server
+ARG ORG_OPENCONTAINERS_IMAGE_AUTHORS
+ARG ORG_OPENCONTAINERS_IMAGE_BASE_DIGEST
+ARG ORG_OPENCONTAINERS_IMAGE_BASE_NAME
+ARG ORG_OPENCONTAINERS_IMAGE_CREATED
+ARG ORG_OPENCONTAINERS_IMAGE_DESCRIPTION
+ARG ORG_OPENCONTAINERS_IMAGE_DOCUMENTATION
+ARG ORG_OPENCONTAINERS_IMAGE_LICENSES
+ARG ORG_OPENCONTAINERS_IMAGE_REF_NAME
+ARG ORG_OPENCONTAINERS_IMAGE_REVISION
+ARG ORG_OPENCONTAINERS_IMAGE_SOURCE
+ARG ORG_OPENCONTAINERS_IMAGE_TITLE
+ARG ORG_OPENCONTAINERS_IMAGE_URL
+ARG ORG_OPENCONTAINERS_IMAGE_VENDOR
+ARG ORG_OPENCONTAINERS_IMAGE_VERSION
+ARG CLIENT_DATABASE_URI
+ARG CLIENT_ELASTICSEARCH_NODE
+ARG CLIENT_REDIS_URL
+ARG HUSKY
+ARG NODE_ENV
+ARG PNPM_VERSION
+ARG SERVER_AUTH_APP_NAME
+ARG SERVER_AUTH_BASE_URL
+ARG SERVER_AUTH_SECRET
+ARG SERVER_FEATURE_FLAG_USER_POC_FULLNAME
+ARG SERVER_SERVER_PORT
+LABEL org.opencontainers.image.authors=${ORG_OPENCONTAINERS_IMAGE_AUTHORS}
+LABEL org.opencontainers.image.base.digest=${ORG_OPENCONTAINERS_IMAGE_BASE_DIGEST}
+LABEL org.opencontainers.image.base.name=${ORG_OPENCONTAINERS_IMAGE_BASE_NAME}
+LABEL org.opencontainers.image.created=${ORG_OPENCONTAINERS_IMAGE_CREATED}
+LABEL org.opencontainers.image.description=${ORG_OPENCONTAINERS_IMAGE_DESCRIPTION}
+LABEL org.opencontainers.image.documentation=${ORG_OPENCONTAINERS_IMAGE_DOCUMENTATION}
+LABEL org.opencontainers.image.licenses=${ORG_OPENCONTAINERS_IMAGE_LICENSES}
+LABEL org.opencontainers.image.ref.name=${ORG_OPENCONTAINERS_IMAGE_REF_NAME}
+LABEL org.opencontainers.image.revision=${ORG_OPENCONTAINERS_IMAGE_REVISION}
+LABEL org.opencontainers.image.source=${ORG_OPENCONTAINERS_IMAGE_SOURCE}
+LABEL org.opencontainers.image.title=${ORG_OPENCONTAINERS_IMAGE_TITLE}
+LABEL org.opencontainers.image.url=${ORG_OPENCONTAINERS_IMAGE_URL}
+LABEL org.opencontainers.image.vendor=${ORG_OPENCONTAINERS_IMAGE_VENDOR}
+LABEL org.opencontainers.image.version=${ORG_OPENCONTAINERS_IMAGE_VERSION}
+ENV CLIENT_DATABASE_URI=${CLIENT_DATABASE_URI}
+ENV CLIENT_ELASTICSEARCH_NODE=${CLIENT_ELASTICSEARCH_NODE}
+ENV CLIENT_REDIS_URL=${CLIENT_REDIS_URL}
+ENV HUSKY=${HUSKY}
+ENV NODE_ENV=${NODE_ENV}
+ENV PNPM_VERSION=${PNPM_VERSION}
+ENV SERVER_AUTH_APP_NAME=${SERVER_AUTH_APP_NAME}
+ENV SERVER_AUTH_BASE_URL=${SERVER_AUTH_BASE_URL}
+ENV SERVER_AUTH_SECRET=${SERVER_AUTH_SECRET}
+ENV SERVER_FEATURE_FLAG_USER_POC_FULLNAME=${SERVER_FEATURE_FLAG_USER_POC_FULLNAME}
+ENV SERVER_SERVER_PORT=${SERVER_SERVER_PORT}
+WORKDIR /usr/node/hono-poc/
+# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.deno.js ./build/
+# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.deno.js.map ./build/
+# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.js ./build/
+# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.js.map ./build/
+COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.node.js ./build/
+COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.node.js.map ./build/
+# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.opentelemetry.js ./build/
+# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.opentelemetry.js.map ./build/
+# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.sentry.js ./build/
+# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.sentry.js.map ./build/
+# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/meta.json ./build/
+COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/package.json ./build/
+# esbuild external
+COPY --from=server-dev --chown=node:node /usr/node/hono-poc/node_modules/bull ./build/node_modules/
+USER node
 EXPOSE ${SERVER_SERVER_PORT}
 CMD ["node", "./build/app.node.js"]

@@ -67,6 +67,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      target: server
     container_name: hono-poc-server
     depends_on:
       server-migration:
@@ -101,13 +102,14 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      target: server-dev
     command:
       - /bin/sh
       - -c
       - -Eefuvx
       - >-
         pnpm run docker:dev
-    container_name: hono-poc-server
+    container_name: hono-poc-server-dev
     depends_on:
       server-migration:
         condition: service_completed_successfully
@@ -117,6 +119,8 @@ services:
       - CLIENT_REDIS_URL=redis://redis:6379
       - DEBUG=*
       - NODE_ENV=development
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-lgtm:4318
+      - OTEL_EXPORTER_OTLP_INSECURE=true
       - SERVER_AUTH_APP_NAME=Hono POC
       - SERVER_AUTH_BASE_URL=http://127.0.0.1:8081
       - SERVER_AUTH_SECRET=hono-poc-12345678901234567890-!@
@@ -130,7 +134,7 @@ services:
       start_period: 10s
       test:
         - CMD-SHELL
-        - wget --no-verbose --spider --tries=1 http://server:8081/api/v1/healthy
+        - wget --no-verbose --spider --tries=1 http://server-dev:8081/api/v1/healthy
       timeout: 10s
     labels:
       namespace: server
@@ -143,6 +147,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      target: server-dev
     command:
       - /bin/sh
       - -c
