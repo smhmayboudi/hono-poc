@@ -19,8 +19,8 @@ export const adapterDrivingUserPOCCreate = (
 ) => {
   app.notFound(notFoundHandler(config, logger));
   app.onError(onErrorHandler(config, logger));
-  app.openapi(
-    userPOCCreateRoute(basePath, domainType),
+  return app.openapi(
+    userPOCCreateRoute(),
     userPOCCreateHandler(
       basePath,
       config,

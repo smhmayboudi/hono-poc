@@ -16,6 +16,10 @@ export const userPOCViewSearchQuerySchema = requestQuerySchema(
 );
 
 export interface UserPOCViewSearchRequestValidationTarget extends Input {
+  in: {
+    json: z.infer<typeof userPOCViewSearchJSONSchema>;
+    query: z.infer<typeof userPOCViewSearchQuerySchema>;
+  };
   out: {
     json: z.infer<typeof userPOCViewSearchJSONSchema>;
     query: z.infer<typeof userPOCViewSearchQuerySchema>;

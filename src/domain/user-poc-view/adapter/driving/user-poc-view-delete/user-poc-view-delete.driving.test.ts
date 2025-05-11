@@ -8,7 +8,7 @@ import type { Env } from "../../../../../env.ts";
 import type { PortConfig } from "../../../../../infrastructure/application/port/config/config.ts";
 import type { PortLogger } from "../../../../../infrastructure/application/port/logger/logger.ts";
 import { defaultHook } from "../../../../../shared/adapter/driving/default-hook.ts";
-import { successResponse } from "../../../../../shared/adapter/driving/response/success.ts";
+import { successResponse200 } from "../../../../../shared/adapter/driving/response/success.ts";
 import type {
   PortDrivingUserPOCViewDelete,
   PortDrivingUserPOCViewDeleteRequest,
@@ -84,7 +84,7 @@ describe("UserPOCView Driving Delete", () => {
       drivingUserPOCViewDeleteRequest,
     );
     expect(response).not.toBeNull();
-    const expectedSuccessResponse = successResponse(
+    const expectedSuccessResponse = successResponse200(
       {
         json: vi.fn((responseBody) => responseBody),
         req: {
@@ -95,7 +95,6 @@ describe("UserPOCView Driving Delete", () => {
       basePath,
       domainType,
       drivingUserPOCViewDeleteRequest,
-      true,
     );
     await expect(response.json()).resolves.toStrictEqual(
       expectedSuccessResponse,

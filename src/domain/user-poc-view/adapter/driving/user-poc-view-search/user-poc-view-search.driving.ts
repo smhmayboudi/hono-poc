@@ -19,8 +19,8 @@ export const adapterDrivingUserPOCViewSearch = (
 ) => {
   app.notFound(notFoundHandler(config, logger));
   app.onError(onErrorHandler(config, logger));
-  app.openapi(
-    userPOCViewSearchRoute(basePath, domainType),
+  return app.openapi(
+    userPOCViewSearchRoute(),
     userPOCViewSearchHandler(
       basePath,
       config,

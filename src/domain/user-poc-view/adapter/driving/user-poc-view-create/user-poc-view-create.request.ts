@@ -11,6 +11,9 @@ export const userPOCViewCreateJSONSchema = z
   .openapi("UserPOCViewCreateRequest");
 
 export interface UserPOCViewCreateRequestValidationTarget extends Input {
+  in: {
+    json: z.infer<typeof userPOCViewCreateJSONSchema>;
+  };
   out: {
     json: z.infer<typeof userPOCViewCreateJSONSchema>;
   };

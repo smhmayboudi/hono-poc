@@ -8,6 +8,9 @@ export const userPOCDeleteParamSchema = z
   .strict();
 
 export interface UserPOCDeleteRequestValidationTarget extends Input {
+  in: {
+    param: z.infer<typeof userPOCDeleteParamSchema>;
+  };
   out: {
     param: z.infer<typeof userPOCDeleteParamSchema>;
   };

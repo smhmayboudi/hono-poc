@@ -11,6 +11,9 @@ export const userPOCInformationCreateJSONSchema = z
   .openapi("UserPOCInformationCreateRequest");
 
 export interface UserPOCInformationCreateRequestValidationTarget extends Input {
+  in: {
+    json: z.infer<typeof userPOCInformationCreateJSONSchema>;
+  };
   out: {
     json: z.infer<typeof userPOCInformationCreateJSONSchema>;
   };

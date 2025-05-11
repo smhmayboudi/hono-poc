@@ -18,6 +18,10 @@ export const userPOCUpdateParamSchema = z
   .strict();
 
 export interface UserPOCUpdateRequestValidationTarget extends Input {
+  in: {
+    json: z.infer<typeof userPOCUpdateJSONSchema>;
+    param: z.infer<typeof userPOCUpdateParamSchema>;
+  };
   out: {
     json: z.infer<typeof userPOCUpdateJSONSchema>;
     param: z.infer<typeof userPOCUpdateParamSchema>;

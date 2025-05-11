@@ -19,8 +19,8 @@ export const adapterDrivingUserPOCInformationDelete = (
 ) => {
   app.notFound(notFoundHandler(config, logger));
   app.onError(onErrorHandler(config, logger));
-  app.openapi(
-    userPOCInformationDeleteRoute(basePath, domainType),
+  return app.openapi(
+    userPOCInformationDeleteRoute(),
     userPOCInformationDeleteHandler(
       basePath,
       config,

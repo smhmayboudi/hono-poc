@@ -48,14 +48,15 @@ export const userPOCInformation = (
     logger,
     tracer,
   );
-  adapterDrivingUserPOCInformationCreate(
-    app,
-    basePath,
-    config,
-    domainType,
-    logger,
-    useCaseUserPOCInformationCreate,
-  );
+  const adapterDrivingUserPOCInformationCreateRoute =
+    adapterDrivingUserPOCInformationCreate(
+      app,
+      basePath,
+      config,
+      domainType,
+      logger,
+      useCaseUserPOCInformationCreate,
+    );
   const adapterDrivenUserPOCInformationDelete =
     new AdapterDrivenUserPOCInformationDelete(config, database, logger, tracer);
   const useCaseUserPOCInformationDelete = new UseCaseUserPOCInformationDelete(
@@ -65,14 +66,15 @@ export const userPOCInformation = (
     logger,
     tracer,
   );
-  adapterDrivingUserPOCInformationDelete(
-    app,
-    basePath,
-    config,
-    domainType,
-    logger,
-    useCaseUserPOCInformationDelete,
-  );
+  const adapterDrivingUserPOCInformationDeleteRoute =
+    adapterDrivingUserPOCInformationDelete(
+      app,
+      basePath,
+      config,
+      domainType,
+      logger,
+      useCaseUserPOCInformationDelete,
+    );
   const adapterDrivenUserPOCInformationDeleteUserID =
     new AdapterDrivenUserPOCInformationDeleteUserID(
       config,
@@ -97,14 +99,15 @@ export const userPOCInformation = (
     logger,
     tracer,
   );
-  adapterDrivingUserPOCInformationRead(
-    app,
-    basePath,
-    config,
-    domainType,
-    logger,
-    useCaseUserPOCInformationRead,
-  );
+  const adapterDrivingUserPOCInformationReadRoute =
+    adapterDrivingUserPOCInformationRead(
+      app,
+      basePath,
+      config,
+      domainType,
+      logger,
+      useCaseUserPOCInformationRead,
+    );
   const adapterDrivenUserPOCInformationReadID =
     new AdapterDrivenUserPOCInformationReadID(config, database, logger, tracer);
   const useCaseUserPOCInformationReadID = new UseCaseUserPOCInformationReadID(
@@ -114,14 +117,15 @@ export const userPOCInformation = (
     logger,
     tracer,
   );
-  adapterDrivingUserPOCInformationReadID(
-    app,
-    basePath,
-    config,
-    domainType,
-    logger,
-    useCaseUserPOCInformationReadID,
-  );
+  const adapterDrivingUserPOCInformationReadIDRoute =
+    adapterDrivingUserPOCInformationReadID(
+      app,
+      basePath,
+      config,
+      domainType,
+      logger,
+      useCaseUserPOCInformationReadID,
+    );
   const adapterDrivenUserPOCInformationUpdate =
     new AdapterDrivenUserPOCInformationUpdate(config, database, logger, tracer);
   const useCaseUserPOCInformationUpdate = new UseCaseUserPOCInformationUpdate(
@@ -131,15 +135,16 @@ export const userPOCInformation = (
     logger,
     tracer,
   );
-  adapterDrivingUserPOCInformationUpdate(
-    app,
-    basePath,
-    config,
-    domainType,
-    logger,
+  const adapterDrivingUserPOCInformationUpdateRoute =
+    adapterDrivingUserPOCInformationUpdate(
+      app,
+      basePath,
+      config,
+      domainType,
+      logger,
 
-    useCaseUserPOCInformationUpdate,
-  );
+      useCaseUserPOCInformationUpdate,
+    );
   const adapterDrivenUserPOCInformationUpdateUserID =
     new AdapterDrivenUserPOCInformationUpdateUserID(
       config,
@@ -157,6 +162,11 @@ export const userPOCInformation = (
     );
 
   return {
+    adapterDrivingUserPOCInformationCreateRoute,
+    adapterDrivingUserPOCInformationDeleteRoute,
+    adapterDrivingUserPOCInformationReadIDRoute,
+    adapterDrivingUserPOCInformationReadRoute,
+    adapterDrivingUserPOCInformationUpdateRoute,
     useCaseUserPOCInformationCreate,
     useCaseUserPOCInformationDelete,
     useCaseUserPOCInformationDeleteUserID,

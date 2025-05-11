@@ -8,7 +8,7 @@ import type { Env } from "../../../../../env.ts";
 import type { PortConfig } from "../../../../../infrastructure/application/port/config/config.ts";
 import type { PortLogger } from "../../../../../infrastructure/application/port/logger/logger.ts";
 import { defaultHook } from "../../../../../shared/adapter/driving/default-hook.ts";
-import { successResponse } from "../../../../../shared/adapter/driving/response/success.ts";
+import { successResponse200 } from "../../../../../shared/adapter/driving/response/success.ts";
 import { objectPropertiesOmit } from "../../../../../util/object-properties-omit.ts";
 import type {
   PortDrivingUserPOCViewUpdate,
@@ -91,7 +91,7 @@ describe("UserPOCView Driving Update", () => {
       drivingUserPOCViewUpdateRequest,
     );
     expect(response).not.toBeNull();
-    const expectedSuccessResponse = successResponse(
+    const expectedSuccessResponse = successResponse200(
       {
         json: vi.fn((responseBody) => responseBody),
         req: {
@@ -102,7 +102,6 @@ describe("UserPOCView Driving Update", () => {
       basePath,
       domainType,
       drivingUserPOCViewUpdateResponse,
-      true,
     );
     await expect(response.json()).resolves.toStrictEqual(
       expectedSuccessResponse,

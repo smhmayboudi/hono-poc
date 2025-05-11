@@ -29,7 +29,7 @@ export const successArrayResponseSchema = <
   z.object({
     data: z.array(
       z.object({
-        attributes: dataAttributesSchema,
+        attributes: dataAttributesSchema.optional(),
         id: z.string().openapi({ examples: ["id"] }),
         links: dataLinksSchema ?? resourceLinks.optional(),
         meta: dataMetaSchema ?? meta.optional(),

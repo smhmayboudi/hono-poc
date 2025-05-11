@@ -9,6 +9,9 @@ export const userPOCReadQuerySchema = requestQuerySchema(
 );
 
 export interface UserPOCReadRequestValidationTarget extends Input {
+  in: {
+    query: z.infer<typeof userPOCReadQuerySchema>;
+  };
   out: {
     query: z.infer<typeof userPOCReadQuerySchema>;
   };

@@ -19,8 +19,8 @@ export const adapterDrivingUserPOCViewDelete = (
 ) => {
   app.notFound(notFoundHandler(config, logger));
   app.onError(onErrorHandler(config, logger));
-  app.openapi(
-    userPOCViewDeleteRoute(basePath, domainType),
+  return app.openapi(
+    userPOCViewDeleteRoute(),
     userPOCViewDeleteHandler(
       basePath,
       config,

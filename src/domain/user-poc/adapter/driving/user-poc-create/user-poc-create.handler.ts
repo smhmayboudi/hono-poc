@@ -5,7 +5,7 @@ import type { Env } from "../../../../../env.ts";
 import { tracer } from "../../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../../infrastructure/application/port/config/config.ts";
 import type { PortLogger } from "../../../../../infrastructure/application/port/logger/logger.ts";
-import { successResponse } from "../../../../../shared/adapter/driving/response/success.ts";
+import { successResponse201 } from "../../../../../shared/adapter/driving/response/success.ts";
 import type { PortDrivingUserPOCCreate } from "../../../application/port/driving/user-poc-create.ts";
 import type { UserPOCCreateRequestValidationTarget } from "./user-poc-create.request.ts";
 import { userPOCCreateResponseSchema } from "./user-poc-create.response.ts";
@@ -42,5 +42,5 @@ export const userPOCCreateHandler =
       };
       logger.debug({ response });
 
-      return successResponse(ctx, basePath, domainType, response, false);
+      return successResponse201(ctx, basePath, domainType, response);
     });

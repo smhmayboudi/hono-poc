@@ -27,7 +27,7 @@ export const successResponseSchema = <
 ) =>
   z.object({
     data: z.object({
-      attributes: dataAttributesSchema,
+      attributes: dataAttributesSchema.optional(),
       id: z.string().openapi({ examples: ["id"] }),
       links: dataLinksSchema ?? resourceLinks.optional(),
       meta: dataMetaSchema ?? meta.optional(),
@@ -40,7 +40,7 @@ export const successResponseSchema = <
     meta: meta.optional(),
   });
 
-export const successResponse = <
+export const successResponse200 = <
   RQ extends z.ZodObject<z.ZodRawShape & { id: z.ZodString }>,
   R extends z.infer<RQ> & { id: string },
 >(
@@ -48,10 +48,9 @@ export const successResponse = <
   basePath: string,
   domainType: string,
   response: R,
-  statusCode200: boolean,
   requestQuery?: z.infer<ReturnType<typeof requestQuerySchema<RQ>>>,
 ) =>
-  ctx.json<z.infer<ReturnType<typeof successResponseSchema>>, 200 | 201>(
+  ctx.json<z.infer<ReturnType<typeof successResponseSchema>>, 200>(
     {
       data: {
         attributes: objectPropertiesPick(
@@ -66,5 +65,33 @@ export const successResponse = <
       },
       jsonapi: { version: "1.0" },
     },
-    statusCode200 ? 200 : 201,
+    200,
+  );
+
+export const successResponse201 = <
+  RQ extends z.ZodObject<z.ZodRawShape & { id: z.ZodString }>,
+  R extends z.infer<RQ> & { id: string },
+>(
+  ctx: Context<Env>,
+  basePath: string,
+  domainType: string,
+  response: R,
+  requestQuery?: z.infer<ReturnType<typeof requestQuerySchema<RQ>>>,
+) =>
+  ctx.json<z.infer<ReturnType<typeof successResponseSchema>>, 201>(
+    {
+      data: {
+        attributes: objectPropertiesPick(
+          response,
+          requestQuery?.fields?.split(","),
+        ),
+        id: response.id,
+        links: {
+          self: `${new URL(ctx.req.url).origin}${basePath}/${domainType}/${response.id}`,
+        },
+        type: domainType,
+      },
+      jsonapi: { version: "1.0" },
+    },
+    201,
   );

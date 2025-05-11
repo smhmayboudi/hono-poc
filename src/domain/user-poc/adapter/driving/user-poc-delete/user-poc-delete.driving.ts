@@ -19,8 +19,8 @@ export const adapterDrivingUserPOCDelete = (
 ) => {
   app.notFound(notFoundHandler(config, logger));
   app.onError(onErrorHandler(config, logger));
-  app.openapi(
-    userPOCDeleteRoute(basePath, domainType),
+  return app.openapi(
+    userPOCDeleteRoute(),
     userPOCDeleteHandler(
       basePath,
       config,

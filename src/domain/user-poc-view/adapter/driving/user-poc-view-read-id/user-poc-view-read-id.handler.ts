@@ -5,7 +5,7 @@ import type { Env } from "../../../../../env.ts";
 import { tracer } from "../../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../../infrastructure/application/port/config/config.ts";
 import type { PortLogger } from "../../../../../infrastructure/application/port/logger/logger.ts";
-import { successResponse } from "../../../../../shared/adapter/driving/response/success.ts";
+import { successResponse200 } from "../../../../../shared/adapter/driving/response/success.ts";
 import type { PortDrivingUserPOCViewReadID } from "../../../application/port/driving/user-poc-view-read-id.ts";
 import type { UserPOCViewReadIDRequestValidationTarget } from "./user-poc-view-read-id.request.ts";
 import { userPOCViewReadIDResponseSchema } from "./user-poc-view-read-id.response.ts";
@@ -42,5 +42,5 @@ export const userPOCViewReadIDHandler =
       };
       logger.debug({ response });
 
-      return successResponse(ctx, basePath, domainType, response, true);
+      return successResponse200(ctx, basePath, domainType, response);
     });

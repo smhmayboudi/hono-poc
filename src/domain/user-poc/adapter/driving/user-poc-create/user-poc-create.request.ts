@@ -9,6 +9,9 @@ export const userPOCCreateJSONSchema = z
   .openapi("UserPOCCreateRequest");
 
 export interface UserPOCCreateRequestValidationTarget extends Input {
+  in: {
+    json: z.infer<typeof userPOCCreateJSONSchema>;
+  };
   out: {
     json: z.infer<typeof userPOCCreateJSONSchema>;
   };

@@ -5,7 +5,7 @@ import type { Env } from "../../../../../env.ts";
 import { tracer } from "../../../../../infrastructure/adapter/opentelemetry/opentelemetry.ts";
 import type { PortConfig } from "../../../../../infrastructure/application/port/config/config.ts";
 import type { PortLogger } from "../../../../../infrastructure/application/port/logger/logger.ts";
-import { successResponse } from "../../../../../shared/adapter/driving/response/success.ts";
+import { successResponse200 } from "../../../../../shared/adapter/driving/response/success.ts";
 import type { PortDrivingUserPOCViewDelete } from "../../../application/port/driving/user-poc-view-delete.ts";
 import type { UserPOCViewDeleteRequestValidationTarget } from "./user-poc-view-delete.request.ts";
 import { userPOCViewDeleteResponseSchema } from "./user-poc-view-delete.response.ts";
@@ -42,5 +42,5 @@ export const userPOCViewDeleteHandler =
       };
       logger.debug({ response });
 
-      return successResponse(ctx, basePath, domainType, response, true);
+      return successResponse200(ctx, basePath, domainType, response);
     });

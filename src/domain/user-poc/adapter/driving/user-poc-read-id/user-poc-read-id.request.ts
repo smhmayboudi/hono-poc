@@ -8,6 +8,9 @@ export const userPOCReadIDParamSchema = z
   .strict();
 
 export interface UserPOCReadIDRequestValidationTarget extends Input {
+  in: {
+    param: z.infer<typeof userPOCReadIDParamSchema>;
+  };
   out: {
     param: z.infer<typeof userPOCReadIDParamSchema>;
   };

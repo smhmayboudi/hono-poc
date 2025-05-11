@@ -56,7 +56,7 @@ export const userPOCView = (
     logger,
     tracer,
   );
-  adapterDrivingUserPOCViewCreate(
+  const adapterDrivingUserPOCViewCreateRoute = adapterDrivingUserPOCViewCreate(
     app,
     basePath,
     config,
@@ -72,7 +72,7 @@ export const userPOCView = (
     logger,
     tracer,
   );
-  adapterDrivingUserPOCViewDelete(
+  const adapterDrivingUserPOCViewDeleteRoute = adapterDrivingUserPOCViewDelete(
     app,
     basePath,
     config,
@@ -93,7 +93,7 @@ export const userPOCView = (
     logger,
     tracer,
   );
-  adapterDrivingUserPOCViewRead(
+  const adapterDrivingUserPOCViewReadRoute = adapterDrivingUserPOCViewRead(
     app,
     basePath,
     config,
@@ -115,7 +115,7 @@ export const userPOCView = (
     logger,
     tracer,
   );
-  adapterDrivingUserPOCViewReadID(
+  const adapterDrivingUserPOCViewReadIDRoute = adapterDrivingUserPOCViewReadID(
     app,
     basePath,
     config,
@@ -136,7 +136,7 @@ export const userPOCView = (
     logger,
     tracer,
   );
-  adapterDrivingUserPOCViewSearch(
+  const adapterDrivingUserPOCViewSearchRoute = adapterDrivingUserPOCViewSearch(
     app,
     basePath,
     config,
@@ -152,7 +152,7 @@ export const userPOCView = (
     logger,
     tracer,
   );
-  adapterDrivingUserPOCViewUpdate(
+  const adapterDrivingUserPOCViewUpdateRoute = adapterDrivingUserPOCViewUpdate(
     app,
     basePath,
     config,
@@ -162,6 +162,12 @@ export const userPOCView = (
   );
 
   return {
+    adapterDrivingUserPOCViewCreateRoute,
+    adapterDrivingUserPOCViewDeleteRoute,
+    adapterDrivingUserPOCViewReadIDRoute,
+    adapterDrivingUserPOCViewReadRoute,
+    adapterDrivingUserPOCViewSearchRoute,
+    adapterDrivingUserPOCViewUpdateRoute,
     useCaseUserPOCViewCreate,
     useCaseUserPOCViewDelete,
     useCaseUserPOCViewRead,

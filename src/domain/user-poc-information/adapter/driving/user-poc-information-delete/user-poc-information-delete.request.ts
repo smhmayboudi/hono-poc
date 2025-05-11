@@ -8,6 +8,9 @@ export const userPOCInformationDeleteParamSchema = z
   .strict();
 
 export interface UserPOCInformationDeleteRequestValidationTarget extends Input {
+  in: {
+    param: z.infer<typeof userPOCInformationDeleteParamSchema>;
+  };
   out: {
     param: z.infer<typeof userPOCInformationDeleteParamSchema>;
   };
