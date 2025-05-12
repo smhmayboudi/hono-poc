@@ -40,7 +40,7 @@ export const unprocessableContentResponse = (
         code: "UNPROCESSABLE_CONTENT",
         detail: issue.message,
         links: {
-          about: `${new URL(ctx.req.url).origin}/docs/errors/UNPROCESSABLE_CONTENT`,
+          about: `${new URL(ctx.req.url).origin}/page/doc/error/unprocessable-content`,
         },
         meta: issue,
         source: {

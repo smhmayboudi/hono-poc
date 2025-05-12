@@ -22,7 +22,7 @@ export const internalServerErrorResponse = (
           code: "INTERNAL_SERVER_ERROR",
           detail: detail ?? "there was an internal server error",
           links: {
-            about: `${new URL(ctx.req.url).origin}/docs/errors/INTERNAL_SERVER_ERROR`,
+            about: `${new URL(ctx.req.url).origin}/page/doc/error/internal-server-error`,
           },
           status: 500,
           title: "Internal Server Error",

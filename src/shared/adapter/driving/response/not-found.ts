@@ -19,7 +19,7 @@ export const notFoundResponse = (ctx: Context<Env>, detail?: string) =>
           code: "NOT_FOUND",
           detail: detail ?? "the resource does not exist",
           links: {
-            about: `${new URL(ctx.req.url).origin}/docs/errors/NOT_FOUND`,
+            about: `${new URL(ctx.req.url).origin}/page/doc/error/not-found`,
           },
           status: 404,
           title: "Not Found",

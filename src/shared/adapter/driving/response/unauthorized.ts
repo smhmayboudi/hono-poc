@@ -20,7 +20,7 @@ export const unauthorizedResponse = (ctx: Context<Env>, detail?: string) =>
           detail:
             detail ?? "authentication is required to access this resource",
           links: {
-            about: `${new URL(ctx.req.url).origin}/docs/errors/UNAUTHORIZED`,
+            about: `${new URL(ctx.req.url).origin}/page/doc/error/unauthorized`,
           },
           status: 401,
           title: "Unauthorized",

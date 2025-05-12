@@ -36,7 +36,7 @@ describe("Driving Mobile Handler NotFound", () => {
           code: "NOT_FOUND",
           detail: "Not found",
           links: {
-            about: "http://localhost/docs/errors/NOT_FOUND",
+            about: "http://localhost/page/doc/error/not-found",
           },
           status: 404,
           title: "Not Found",

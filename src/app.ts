@@ -4,6 +4,7 @@ import { csrf } from "hono/csrf";
 import { pino } from "pino";
 
 import { appEventEmitter } from "./app.event-emitter.ts";
+import { page } from "./app.page.tsx";
 import { swagger } from "./app.swagger.ts";
 import { userPOC } from "./domain/user-poc/user-poc.ts";
 import { userPOCInformation } from "./domain/user-poc-information/user-poc-information.ts";
@@ -30,6 +31,7 @@ const basePath = "/api/v1";
 const authPath = `${basePath}/auth`;
 const healthyPath = `${basePath}/healthy`;
 const k6TestPath = `${basePath}/user-poc-view`;
+const pagePath = "/page";
 const swaggerPath = `${basePath}/reference`;
 
 const config2 = config(tracer);
@@ -40,7 +42,7 @@ const auth2 = auth(
   cacher2,
   config2,
   database2,
-  [authPath, healthyPath, k6TestPath, swaggerPath],
+  [authPath, healthyPath, k6TestPath, pagePath, swaggerPath],
   new Logger(pino({ level })),
   new Logger(pino({ level })),
   new Logger(pino({ level })),
@@ -82,7 +84,7 @@ app.use(
     auth2,
     basePath,
     config2,
-    [authPath, healthyPath, k6TestPath, swaggerPath],
+    [authPath, healthyPath, k6TestPath, pagePath, swaggerPath],
     new Logger(pino({ level })),
   ),
 );
@@ -92,19 +94,32 @@ app.on(["POST", "GET"], `${authPath}/*`, (ctx) => auth2.handler(ctx.req.raw));
 // /health/liveness, /health/readiness
 app.get(healthyPath, (ctx) => ctx.text(""));
 
-const { useCaseUserPOCCreate, useCaseUserPOCDelete, useCaseUserPOCUpdate } =
-  userPOC(
-    app,
-    basePath,
-    config2,
-    database2,
-    "user-poc",
-    eventEmitter2,
-    generate2,
-    new Logger(pino({ level })),
-    tracer,
-  );
-const {
+export const {
+  adapterDrivingUserPOCCreateRoute,
+  adapterDrivingUserPOCDeleteRoute,
+  adapterDrivingUserPOCReadIDRoute,
+  adapterDrivingUserPOCReadRoute,
+  adapterDrivingUserPOCUpdateRoute,
+  useCaseUserPOCCreate,
+  useCaseUserPOCDelete,
+  useCaseUserPOCUpdate,
+} = userPOC(
+  app,
+  basePath,
+  config2,
+  database2,
+  "user-poc",
+  eventEmitter2,
+  generate2,
+  new Logger(pino({ level })),
+  tracer,
+);
+export const {
+  adapterDrivingUserPOCInformationCreateRoute,
+  adapterDrivingUserPOCInformationDeleteRoute,
+  adapterDrivingUserPOCInformationReadIDRoute,
+  adapterDrivingUserPOCInformationReadRoute,
+  adapterDrivingUserPOCInformationUpdateRoute,
   useCaseUserPOCInformationCreate,
   useCaseUserPOCInformationDeleteUserID,
   useCaseUserPOCInformationUpdateUserID,
@@ -119,7 +134,14 @@ const {
   new Logger(pino({ level })),
   tracer,
 );
-userPOCView(
+export const {
+  adapterDrivingUserPOCViewCreateRoute,
+  adapterDrivingUserPOCViewDeleteRoute,
+  adapterDrivingUserPOCViewReadIDRoute,
+  adapterDrivingUserPOCViewReadRoute,
+  adapterDrivingUserPOCViewSearchRoute,
+  adapterDrivingUserPOCViewUpdateRoute,
+} = userPOCView(
   app,
   basePath,
   cacher2,
@@ -139,6 +161,7 @@ userPOCView(
 );
 
 swagger(app, swaggerPath);
+page(app, pagePath);
 
 app.notFound(notFoundHandler(config2, new Logger(pino({ level }))));
 app.onError(onErrorHandler(config2, new Logger(pino({ level }))));
@@ -148,3 +171,21 @@ export default {
   logger: new Logger(pino({ level })),
   port: config2.server().server().port(),
 };
+
+export type AppType =
+  | typeof adapterDrivingUserPOCCreateRoute
+  | typeof adapterDrivingUserPOCDeleteRoute
+  | typeof adapterDrivingUserPOCReadIDRoute
+  | typeof adapterDrivingUserPOCReadRoute
+  | typeof adapterDrivingUserPOCUpdateRoute
+  | typeof adapterDrivingUserPOCInformationCreateRoute
+  | typeof adapterDrivingUserPOCInformationDeleteRoute
+  | typeof adapterDrivingUserPOCInformationReadIDRoute
+  | typeof adapterDrivingUserPOCInformationReadRoute
+  | typeof adapterDrivingUserPOCInformationUpdateRoute
+  | typeof adapterDrivingUserPOCViewCreateRoute
+  | typeof adapterDrivingUserPOCViewDeleteRoute
+  | typeof adapterDrivingUserPOCViewReadIDRoute
+  | typeof adapterDrivingUserPOCViewReadRoute
+  | typeof adapterDrivingUserPOCViewSearchRoute
+  | typeof adapterDrivingUserPOCViewUpdateRoute;

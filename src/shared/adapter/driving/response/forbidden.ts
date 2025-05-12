@@ -19,7 +19,7 @@ export const forbiddenResponse = (ctx: Context<Env>, detail?: string) =>
           code: "FORBIDDEN",
           detail: detail ?? "authorization is required to access this resource",
           links: {
-            about: `${new URL(ctx.req.url).origin}/docs/errors/FORBIDDEN`,
+            about: `${new URL(ctx.req.url).origin}/page/doc/error/forbidden`,
           },
           status: 403,
           title: "Forbidden",

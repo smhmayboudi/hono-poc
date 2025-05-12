@@ -19,7 +19,7 @@ export const badRequestResponse = (ctx: Context<Env>, detail?: string) =>
           code: "BAD_REQUEST",
           detail: detail ?? "there was an error while processing the request",
           links: {
-            about: `${new URL(ctx.req.url).origin}/docs/errors/BAD_REQUEST`,
+            about: `${new URL(ctx.req.url).origin}/page/doc/error/bad-request`,
           },
           status: 400,
           title: "Bad Request",

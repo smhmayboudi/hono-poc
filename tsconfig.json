@@ -6,6 +6,8 @@
     "declaration": false,
     "esModuleInterop": false,
     "incremental": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
     "lib": ["dom"],
     "noEmit": true,
     "noEmitOnError": false,
