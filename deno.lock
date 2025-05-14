@@ -11,8 +11,7 @@
     "npm:plop@^4.0.1": "4.0.1",
     "npm:rimraf@^6.0.1": "6.0.1",
     "npm:slugify@^1.6.6": "1.6.6",
-    "npm:source-map-support@~0.5.21": "0.5.21",
-    "npm:tplant@^3.1.3": "3.1.3"
+    "npm:source-map-support@~0.5.21": "0.5.21"
   },
   "npm": {
     "@inquirer/figures@1.0.7": {
@@ -253,12 +252,6 @@
     },
     "color-name@1.1.4": {
       "integrity": "sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA=="
-    },
-    "commander@2.20.3": {
-      "integrity": "sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ=="
-    },
-    "commander@6.2.1": {
-      "integrity": "sha512-U7VdrJFnJgo4xjrHpTzu0yrHPGImdsmD95ZlgYSEajAn2JKzDhDTPG9kBTefmObL2w/ngeZnilk+OV9CG3d7UA=="
     },
     "concat-map@0.0.1": {
       "integrity": "sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg=="
@@ -750,31 +743,6 @@
         "tslib"
       ]
     },
-    "node-nailgun-client@0.1.2": {
-      "integrity": "sha512-OC611lR0fsDUSptwnhBf8d3sj4DZ5fiRKfS2QaGPe0kR3Dt9YoZr1MY7utK0scFPTbXuQdSBBbeoKYVbME1q5g==",
-      "dependencies": [
-        "commander@2.20.3"
-      ],
-      "bin": true
-    },
-    "node-nailgun-server@0.1.4": {
-      "integrity": "sha512-e0Hbh6XPb/7GqATJ45BePaUEO5AwR7InRW/pGeMKHH1cqPMBFCeqdBNfvi+bkVLnsbYOOQE+pAek9nmNoD8sYw==",
-      "dependencies": [
-        "commander@2.20.3"
-      ],
-      "bin": true
-    },
-    "node-plantuml@0.9.0": {
-      "integrity": "sha512-bUnntTGjbpYu1pvXZI/GS6ctcXf3AOMqJxBMO8vFzTT5RwH8Cj/J5Ca6Dy+PEfMiMDdSBCFKSGnvYyBvYnucXg==",
-      "dependencies": [
-        "commander@2.20.3",
-        "node-nailgun-client",
-        "node-nailgun-server",
-        "plantuml-encoder"
-      ],
-      "scripts": true,
-      "bin": true
-    },
     "node-plop@0.32.0": {
       "integrity": "sha512-lKFSRSRuDHhwDKMUobdsvaWCbbDRbV3jMUSMiajQSQux1aNUevAZVxUHc2JERI//W8ABPRbi3ebYuSuIzkNIpQ==",
       "dependencies": [
@@ -935,9 +903,6 @@
     },
     "picomatch@2.3.1": {
       "integrity": "sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA=="
-    },
-    "plantuml-encoder@1.4.0": {
-      "integrity": "sha512-sxMwpDw/ySY1WB2CE3+IdMuEcWibJ72DDOsXLkSmEaSzwEUaYBT6DWgOfBiHGCux4q433X6+OEFWjlVqp7gL6g=="
     },
     "plop@4.0.1": {
       "integrity": "sha512-5n8QU93kvL/ObOzBcPAB1siVFtAH1TZM6TntJ3JK5kXT0jIgnQV+j+uaOWWFJlg1cNkzLYm8klgASF65K36q9w==",
@@ -1168,26 +1133,11 @@
         "is-number"
       ]
     },
-    "tplant@3.1.3": {
-      "integrity": "sha512-2LuWRFmpoipfme0c1B8GWZSHm9KEJKIyqC+u7qZUdQSwk0UyycTDD+fvtTJ9PosRrGLoSehnsfhJzX2gOckLig==",
-      "dependencies": [
-        "commander@6.2.1",
-        "glob@7.2.3",
-        "node-plantuml",
-        "plantuml-encoder",
-        "typescript"
-      ],
-      "bin": true
-    },
     "tslib@2.7.0": {
       "integrity": "sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA=="
     },
     "type-fest@0.21.3": {
       "integrity": "sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w=="
-    },
-    "typescript@5.2.2": {
-      "integrity": "sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==",
-      "bin": true
     },
     "uglify-js@3.19.3": {
       "integrity": "sha512-v3Xu+yuwBXisp6QYTcH4UbH+xYJXqnq2m/LtQVWKWzYc1iehYnLixoQDN9FH6/j9/oybfd6W9Ghwkl8+UMKTKQ==",
@@ -1354,6 +1304,7 @@
         "npm:lint-staged@^15.5.1",
         "npm:markdownlint-cli2@~0.17.2",
         "npm:markdownlint@0.38",
+        "npm:mysql2@^3.14.1",
         "npm:node-plop@0.32",
         "npm:openapi-typescript@^7.7.1",
         "npm:openapi-zod-client@^1.18.3",
@@ -1364,13 +1315,11 @@
         "npm:prettier@^3.5.3",
         "npm:redis@5",
         "npm:rimraf@^6.0.1",
-        "npm:rolldown@1.0.0-beta.8",
         "npm:rollup-plugin-esbuild@^6.2.1",
         "npm:rollup-plugin-visualizer@^5.14.0",
         "npm:rollup@^4.40.1",
         "npm:slugify@^1.6.6",
         "npm:source-map-support@~0.5.21",
-        "npm:tplant@^3.1.3",
         "npm:ts-deepmerge@^7.0.3",
         "npm:tsuml2@~0.17.1",
         "npm:tsx@^4.19.4",

@@ -76,6 +76,17 @@ services:
       - CLIENT_DATABASE_URI=mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1
       - CLIENT_ELASTICSEARCH_NODE=http://elasticsearch:9200
       - CLIENT_REDIS_URL=redis://redis:6379
+      - SENTRY_AUTH_TOKEN=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
+      - SENTRY_DEBUG=true
+      - SENTRY_DSN=https://9d1d754fb509b48d9215719cb1c95e14@o313438.ingest.us.sentry.io/4507917724090368
+      - SENTRY_ENVIRONMENT=development
+      - SENTRY_ORG=smhmayboudi
+      - SENTRY_PROFILER_LOGGING_MODE=eager
+      - SENTRY_PROFILES_SAMPLE_RATE=1.0
+      - SENTRY_PROJECT=node
+      - SENTRY_RELEASE=0.0.0
+      - SENTRY_TRACES_SAMPLE_RATE=1.0
+      - SENTRY_USE_ENVIRONMENT=development
       - SERVER_AUTH_APP_NAME=Hono POC
       - SERVER_AUTH_BASE_URL=http://127.0.0.1:8081
       - SERVER_AUTH_SECRET=hono-poc-12345678901234567890-!@
@@ -108,7 +119,7 @@ services:
       - -c
       - -Eefuvx
       - >-
-        pnpm run docker:dev
+        npm run docker:dev
     container_name: hono-poc-server-dev
     depends_on:
       server-migration:
@@ -121,6 +132,17 @@ services:
       - NODE_ENV=development
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-lgtm:4318
       - OTEL_EXPORTER_OTLP_INSECURE=true
+      - SENTRY_AUTH_TOKEN=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
+      - SENTRY_DEBUG=true
+      - SENTRY_DSN=https://9d1d754fb509b48d9215719cb1c95e14@o313438.ingest.us.sentry.io/4507917724090368
+      - SENTRY_ENVIRONMENT=development
+      - SENTRY_ORG=smhmayboudi
+      - SENTRY_PROFILER_LOGGING_MODE=eager
+      - SENTRY_PROFILES_SAMPLE_RATE=1.0
+      - SENTRY_PROJECT=node
+      - SENTRY_RELEASE=0.0.0
+      - SENTRY_TRACES_SAMPLE_RATE=1.0
+      - SENTRY_USE_ENVIRONMENT=development
       - SERVER_AUTH_APP_NAME=Hono POC
       - SERVER_AUTH_BASE_URL=http://127.0.0.1:8081
       - SERVER_AUTH_SECRET=hono-poc-12345678901234567890-!@
@@ -153,7 +175,7 @@ services:
       - -c
       - -Eefuvx
       - >-
-        pnpm run docker:db
+        npm run docker:db
     container_name: hono-poc-server-migration
     depends_on:
       elasticsearch:

@@ -248,7 +248,6 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/node,linux,macos,osx,visualstudiocode,windows
 
 .env.keys
-.pnpm-store/
 build/
 coverage/
 drizzle/

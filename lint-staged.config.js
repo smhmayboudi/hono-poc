@@ -14,5 +14,5 @@ export default {
     "oxlint",
     "vitest related --bail 0 --run",
   ],
-  "**": ["pnpm audit --prod", "prettier --ignore-unknown --write"],
+  "**": ["npm audit --omit=dev", "prettier --ignore-unknown --write"],
 };

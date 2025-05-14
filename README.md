@@ -3,7 +3,7 @@
 ## Dependencies Installation
 
 ```SHELL
-pnpm i
+npm i
 ```
 
 ## Run
@@ -12,8 +12,8 @@ pnpm i
 
 ```SHELL
 docker compose up -d mysql
-pnpm run db
-pnpm run dev
+npm run db
+npm run dev
 ```
 
 OR
@@ -26,8 +26,8 @@ docker compose up hono-poc
 
 ```SHELL
 docker compose up -d mysql
-pnpm run db:migrate
-pnpm run build && pnpm run start:production
+npm run db:migrate
+npm run build && npm run start:production
 ```
 
 ## Swagger UI
@@ -43,7 +43,7 @@ docker compose up swagger-ui
 ### Unit and Integration Test
 
 ```SHELL
-pnpm run test
+npm run test
 ```
 
 ### E2E Test

@@ -10,7 +10,6 @@
   "editor.guides.bracketPairs": "active",
   "editor.tabSize": 2,
   "npm.packageManager": "pnpm",
-  "plantuml.server": "http://127.0.0.1:8083",
   "redhat.telemetry.enabled": true,
   "sqltools.connections": [
     {
