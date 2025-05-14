@@ -6,7 +6,7 @@ import {
   envDetector,
   hostDetector,
   processDetector,
-  Resource,
+  resourceFromAttributes,
 } from "@opentelemetry/resources";
 import {
   ConsoleLogRecordExporter,
@@ -66,11 +66,10 @@ const sdk = new NodeSDK({
   logRecordProcessors: [
     new SimpleLogRecordProcessor(new ConsoleLogRecordExporter()),
   ],
-  mergeResourceWithDefaults: false,
   metricReader: new PeriodicExportingMetricReader({
     exporter: new ConsoleMetricExporter(),
   }),
-  resource: new Resource({
+  resource: resourceFromAttributes({
     [ATTR_SERVICE_NAME]: "hono-poc",
     [ATTR_SERVICE_VERSION]: "0.0.0",
   }),

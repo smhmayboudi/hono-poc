@@ -15,7 +15,7 @@ import {
   envDetector,
   hostDetector,
   processDetector,
-  Resource,
+  resourceFromAttributes,
 } from "@opentelemetry/resources";
 import { SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
@@ -44,11 +44,10 @@ const sdk = new NodeSDK({
     new RedisInstrumentation(),
   ],
   logRecordProcessors: [new SimpleLogRecordProcessor(new OTLPLogExporter())],
-  mergeResourceWithDefaults: false,
   metricReader: new PeriodicExportingMetricReader({
     exporter: new OTLPMetricExporter(),
   }),
-  resource: new Resource({
+  resource: resourceFromAttributes({
     [ATTR_SERVICE_NAME]: "hono-poc",
     [ATTR_SERVICE_VERSION]: "0.0.0",
   }),
