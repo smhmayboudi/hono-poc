@@ -1,4 +1,4 @@
-import { EventEmitter as NodeEventEmitter } from "node:events";
+import * as events from "node:events";
 
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
 
@@ -11,14 +11,16 @@ import type { PortLogger } from "../../application/port/logger/logger.ts";
 import type { PortTracer } from "../../application/port/opentelemetry/opentelemetry.ts";
 
 export class EventEmitter implements PortEventEmitter {
-  #nodeEventEmitter: NodeEventEmitter;
+  #nodeEventEmitter: events.EventEmitter;
 
   constructor(
     private readonly config: PortConfig,
     private readonly logger: PortLogger,
     // private readonly tracer: PortTracer,
   ) {
-    this.#nodeEventEmitter = new NodeEventEmitter({ captureRejections: true });
+    this.#nodeEventEmitter = new events.EventEmitter({
+      captureRejections: true,
+    });
   }
   emit<K extends keyof EventEmitterMap>(
     event: K,

@@ -54,7 +54,7 @@ const sdk = new NodeSDK({
   resourceDetectors: [envDetector, hostDetector, processDetector],
   sampler: new AlwaysOnSampler(),
   // spanLimits: SpanLimits;
-  serviceName: "server",
+  serviceName: "backend",
   spanProcessors: [new SimpleSpanProcessor(otlpTraceExporter)],
   textMapPropagator: new CompositePropagator({
     propagators: [new W3CTraceContextPropagator(), new W3CBaggagePropagator()],

@@ -1,32 +1,10 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
-    "allowSyntheticDefaultImports": false,
-    "declaration": false,
-    "esModuleInterop": false,
-    "incremental": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx",
-    "lib": ["dom"],
-    "noEmit": true,
-    "noEmitOnError": false,
-    "noErrorTruncation": true,
-    "outDir": "./build/",
-    "sourceMap": true,
-    "verbatimModuleSyntax": true
+    "composite": true
   },
-  "exclude": [
-    "**/build/**",
-    "**/coverage/**",
-    "**/doc/**",
-    "**/drizzle/**",
-    "**/node_modules/**",
-    "**/plop-template/**"
-  ],
-  "extends": [
-    "@tsconfig/node22/tsconfig.json",
-    "@tsconfig/strictest/tsconfig.json"
-  ],
-  "include": ["./src/**/*.ts"]
+  "extends": ["./tsconfig.base.json"],
+  "files": [],
+  "references": [
+    { "path": "./packages/backend/" },
+  ]
 }

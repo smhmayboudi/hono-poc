@@ -68,7 +68,7 @@
   },
   "overrides": [
     {
-      "include": ["**/*.config.*"],
+      "include": ["packages/backend/**/*.config.*"],
       "linter": {
         "rules": {
           "complexity": {
@@ -81,7 +81,7 @@
       }
     },
     {
-      "include": ["**/*.test.ts"],
+      "include": ["packages/backend/**/*.test.ts"],
       "linter": {
         "rules": {
           "suspicious": {
@@ -92,14 +92,14 @@
     },
     {
       "include": [
-        "**/application/port/driven/*-create*.ts",
-        "**/application/port/driven/*-delete*.ts",
-        "**/application/port/driven/*-update*.ts",
-        "**/application/port/driving/*-create.ts",
-        "**/application/port/driving/*-delete.ts",
-        "**/application/port/driving/*-disabled.ts",
-        "**/application/port/driving/*-update.ts",
-        "**/application/port/driving/*-upsert.ts"
+        "packages/backend/**/application/port/driven/*-create*.ts",
+        "packages/backend/**/application/port/driven/*-delete*.ts",
+        "packages/backend/**/application/port/driven/*-update*.ts",
+        "packages/backend/**/application/port/driving/*-create.ts",
+        "packages/backend/**/application/port/driving/*-delete.ts",
+        "packages/backend/**/application/port/driving/*-disabled.ts",
+        "packages/backend/**/application/port/driving/*-update.ts",
+        "packages/backend/**/application/port/driving/*-upsert.ts"
       ],
       "linter": {
         "rules": {
@@ -110,7 +110,10 @@
       }
     },
     {
-      "include": ["app.deno.ts", "app.env.ts"],
+      "include": [
+        "packages/backend/**/app.deno.ts",
+        "packages/backend/**/app.env.ts"
+      ],
       "linter": {
         "rules": {
           "correctness": {
@@ -123,7 +126,10 @@
       }
     },
     {
-      "include": ["app.node.ts", "app.ts"],
+      "include": [
+        "packages/backend/**/app.node.ts",
+        "packages/backend/**/app.ts"
+      ],
       "linter": {
         "rules": {
           "style": {
@@ -133,7 +139,7 @@
       }
     },
     {
-      "include": ["app.opentelemetry.ts"],
+      "include": ["packages/backend/**/app.opentelemetry.ts"],
       "linter": {
         "rules": {
           "complexity": {
@@ -147,7 +153,7 @@
       }
     },
     {
-      "include": ["app.sentry.ts"],
+      "include": ["packages/backend/**/app.sentry.ts"],
       "linter": {
         "rules": {
           "complexity": {
@@ -161,7 +167,9 @@
       }
     },
     {
-      "include": ["infrastructure/adapter/auth/auth-logger.ts"],
+      "include": [
+        "packages/backend/**/infrastructure/adapter/auth/auth-logger.ts"
+      ],
       "linter": {
         "rules": {
           "suspicious": {
@@ -171,7 +179,9 @@
       }
     },
     {
-      "include": ["infrastructure/adapter/auth/auth-secondary-storage.ts"],
+      "include": [
+        "packages/backend/**/infrastructure/adapter/auth/auth-secondary-storage.ts"
+      ],
       "linter": {
         "rules": {
           "suspicious": {
@@ -181,7 +191,9 @@
       }
     },
     {
-      "include": ["infrastructure/adapter/casbin/casbin-drizzle-adapter.ts"],
+      "include": [
+        "packages/backend/**/infrastructure/adapter/casbin/casbin-drizzle-adapter.ts"
+      ],
       "linter": {
         "rules": {
           "complexity": {
@@ -191,7 +203,9 @@
       }
     },
     {
-      "include": ["infrastructure/adapter/logger/logger.ts"],
+      "include": [
+        "packages/backend/**/infrastructure/adapter/logger/logger.ts"
+      ],
       "linter": {
         "rules": {
           "suspicious": {
@@ -201,7 +215,9 @@
       }
     },
     {
-      "include": ["infrastructure/adapter/middleware/logger.test.ts"],
+      "include": [
+        "packages/backend/**/infrastructure/adapter/middleware/logger.test.ts"
+      ],
       "linter": {
         "rules": {
           "complexity": {
@@ -212,7 +228,9 @@
       }
     },
     {
-      "include": ["infrastructure/adapter/middleware/logger.ts"],
+      "include": [
+        "packages/backend/**/infrastructure/adapter/middleware/logger.ts"
+      ],
       "linter": {
         "rules": {
           "complexity": {
@@ -226,7 +244,9 @@
       }
     },
     {
-      "include": ["infrastructure/adapter/middleware/opentelemetry.ts"],
+      "include": [
+        "packages/backend/**/infrastructure/adapter/middleware/opentelemetry.ts"
+      ],
       "linter": {
         "rules": {
           "complexity": {
@@ -242,7 +262,9 @@
       }
     },
     {
-      "include": ["infrastructure/adapter/opentelemetry/opentelemetry.ts"],
+      "include": [
+        "packages/backend/**/infrastructure/adapter/opentelemetry/opentelemetry.ts"
+      ],
       "linter": {
         "rules": {
           "style": {
@@ -257,18 +279,8 @@
       }
     },
     {
-      "include": ["infrastructure/application/port/database/database.ts"],
-      "linter": {
-        "rules": {
-          "suspicious": {
-            "noExplicitAny": "off"
-          }
-        }
-      }
-    },
-    {
       "include": [
-        "infrastructure/application/port/opentelemetry/opentelemetry.ts"
+        "packages/backend/**/infrastructure/application/port/database/database.ts"
       ],
       "linter": {
         "rules": {
@@ -279,7 +291,19 @@
       }
     },
     {
-      "include": ["script/*"],
+      "include": [
+        "packages/backend/**/infrastructure/application/port/opentelemetry/opentelemetry.ts"
+      ],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["packages/backend/**/script/*"],
       "linter": {
         "rules": {
           "complexity": {
@@ -299,7 +323,7 @@
       }
     },
     {
-      "include": ["shared/adapter/driven/request-query.ts"],
+      "include": ["packages/backend/**/shared/adapter/driven/request-query.ts"],
       "linter": {
         "rules": {
           "style": { "noParameterAssign": "off" }
@@ -307,7 +331,9 @@
       }
     },
     {
-      "include": ["shared/adapter/driving/request-query.ts"],
+      "include": [
+        "packages/backend/**/shared/adapter/driving/request-query.ts"
+      ],
       "linter": {
         "rules": {
           "style": {
@@ -317,7 +343,9 @@
       }
     },
     {
-      "include": ["shared/adapter/driving/response/json-api.ts"],
+      "include": [
+        "packages/backend/**/shared/adapter/driving/response/json-api.ts"
+      ],
       "linter": {
         "rules": {
           "complexity": {
@@ -327,7 +355,7 @@
       }
     },
     {
-      "include": ["test/e2e/src/**"],
+      "include": ["packages/backend/**/test/e2e/src/**"],
       "linter": {
         "rules": {
           "complexity": {
@@ -341,7 +369,7 @@
       }
     },
     {
-      "include": ["test/e2e/webpack.config.js"],
+      "include": ["packages/backend/**/test/e2e/webpack.config.js"],
       "linter": {
         "rules": {
           "correctness": {
@@ -350,6 +378,29 @@
           },
           "style": {
             "useNodejsImportProtocol": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["packages/backend/plopfile.js"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["script/husky.install.js"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off"
+          },
+          "suspicious": {
+            "noConsoleLog": "off"
           }
         }
       }

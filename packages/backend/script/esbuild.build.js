@@ -1,12 +1,15 @@
-import path from "node:path";
+import * as fs from "node:fs";
+import * as path from "node:path";
 
+import { sentryEsbuildPlugin } from "@sentry/esbuild-plugin";
 import esbuild from "esbuild";
 
-const metafile = false;
+const metafile = true;
 const minify =
   process.env["CI"] === "true" || process.env["NODE_ENV"] === "production";
 const outdir = path.join(import.meta.dirname, "../build/");
-const context = await esbuild.context({
+console.log(outdir);
+const build = await esbuild.build({
   bundle: true,
   entryPoints: [
     path.join(import.meta.dirname, "../src/app.deno.ts"),
@@ -20,8 +23,16 @@ const context = await esbuild.context({
   minify,
   outdir,
   platform: "node",
+  plugins: [
+    sentryEsbuildPlugin({
+      authToken: process.env["SENTRY_AUTH_TOKEN"] ?? "",
+      org: process.env["SENTRY_ORG"] ?? "",
+      project: process.env["SENTRY_PROJECT"] ?? "",
+    }),
+  ],
   sourcemap: true,
   tsconfig: path.join(import.meta.dirname, "../tsconfig.build.json"),
 });
-await context.watch();
-console.log("watching...");
+const metafilePath = path.join(outdir, "./meta.json");
+fs.writeFileSync(metafilePath, JSON.stringify(build.metafile, null, 2));
+console.log(`Metafile written to ${metafilePath}`);

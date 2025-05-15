@@ -33,7 +33,7 @@ ARG SERVER_SERVER_PORT=${SERVER_SERVER_PORT:-8081}
 
 FROM ${NODE_IMAGE_URL}:${NODE_IMAGE_VERSION} AS base
 
-FROM base AS server-dev
+FROM base AS backend-dev
 ARG ORG_OPENCONTAINERS_IMAGE_AUTHORS
 ARG ORG_OPENCONTAINERS_IMAGE_BASE_DIGEST
 ARG ORG_OPENCONTAINERS_IMAGE_BASE_NAME
@@ -92,14 +92,16 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && apt clean \
   && rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/node/hono-poc/
-COPY ./package.json ./package-lock.json ./
+COPY ./package.json ./package-lock.json* ./
+COPY ./packages/backend/package.json ./packages/backend/package-lock.json* ./packages/backend/
 COPY ./script/husky.install.js ./script/
 RUN npm install --global npm@${NPM_VERSION} \
-  && npm ci
+  && npm clean-install
 COPY --chown=node:node . .
-RUN npm run docker:build
+RUN npm run docker:build --workspace=backend
+RUN npm run build --workspace=backend-test
 
-FROM base AS server
+FROM base AS backend
 ARG ORG_OPENCONTAINERS_IMAGE_AUTHORS
 ARG ORG_OPENCONTAINERS_IMAGE_BASE_DIGEST
 ARG ORG_OPENCONTAINERS_IMAGE_BASE_NAME
@@ -151,20 +153,20 @@ ENV SERVER_AUTH_SECRET=${SERVER_AUTH_SECRET}
 ENV SERVER_FEATURE_FLAG_USER_POC_FULLNAME=${SERVER_FEATURE_FLAG_USER_POC_FULLNAME}
 ENV SERVER_SERVER_PORT=${SERVER_SERVER_PORT}
 WORKDIR /usr/node/hono-poc/
-# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.deno.js ./build/
-# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.deno.js.map ./build/
-# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.js ./build/
-# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.js.map ./build/
-COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.node.js ./build/
-COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.node.js.map ./build/
-# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.opentelemetry.js ./build/
-# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.opentelemetry.js.map ./build/
-# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.sentry.js ./build/
-# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/app.sentry.js.map ./build/
-# COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/meta.json ./build/
-COPY --from=server-dev --chown=node:node /usr/node/hono-poc/build/package.json ./build/
+# COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/packages/backend/build/app.deno.js ./
+# COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/packages/backend/build/app.deno.js.map ./
+# COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/packages/backend/build/app.js ./
+# COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/packages/backend/build/app.js.map ./
+COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/packages/backend/build/app.node.js ./
+COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/packages/backend/build/app.node.js.map ./
+# COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/packages/backend/build/app.opentelemetry.js ./
+# COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/packages/backend/build/app.opentelemetry.js.map ./
+# COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/packages/backend/build/app.sentry.js ./
+# COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/packages/backend/build/app.sentry.js.map ./
+# COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/packages/backend/build/meta.json ./
+COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/packages/backend/build/package.json ./
 # esbuild external
-COPY --from=server-dev --chown=node:node /usr/node/hono-poc/node_modules/bull ./build/node_modules/
+COPY --from=backend-dev --chown=node:node /usr/node/hono-poc/node_modules/bull ./node_modules/
 USER node
 EXPOSE ${SERVER_SERVER_PORT}
-CMD ["node", "./build/app.node.js"]
+CMD ["node", "./app.node.js"]

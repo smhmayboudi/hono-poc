@@ -1,8 +1,3 @@
-/**
- * For a detailed explanation regarding each configuration property, visit:
- * https://orm.drizzle.team/kit-docs/conf
- */
-
 import { z } from "@hono/zod-openapi";
 import { defineConfig } from "drizzle-kit";
 

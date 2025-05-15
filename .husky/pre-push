@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
 npm audit --omit=dev
-npm run build:esbuild:pre-push
+npm run build
 npm run test
 npm run lint

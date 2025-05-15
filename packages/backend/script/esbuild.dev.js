@@ -1,4 +1,4 @@
-import path from "node:path";
+import * as path from "node:path";
 
 import esbuild from "esbuild";
 
@@ -6,8 +6,7 @@ const metafile = false;
 const minify =
   process.env["CI"] === "true" || process.env["NODE_ENV"] === "production";
 const outdir = path.join(import.meta.dirname, "../build/");
-console.log(outdir);
-await esbuild.build({
+const context = await esbuild.context({
   bundle: true,
   entryPoints: [
     path.join(import.meta.dirname, "../src/app.deno.ts"),
@@ -17,7 +16,6 @@ await esbuild.build({
     path.join(import.meta.dirname, "../src/app.ts"),
   ],
   external: ["@sentry/profiling-node", "bull"],
-  format: "esm",
   metafile,
   minify,
   outdir,
@@ -25,3 +23,5 @@ await esbuild.build({
   sourcemap: true,
   tsconfig: path.join(import.meta.dirname, "../tsconfig.build.json"),
 });
+await context.watch();
+console.log("watching...");

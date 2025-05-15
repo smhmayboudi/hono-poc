@@ -3,6 +3,6 @@
   "ignores": [
     "**/doc/openapi/**",
     "**/node_modules/**",
-    "./doc/ARCHITECTURE.md",
+    "packages/backend/doc/ARCHITECTURE.md",
   ],
 }

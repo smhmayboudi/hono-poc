@@ -739,7 +739,7 @@
             "type": "loki",
             "uid": "loki"
           },
-          "expr": "{service_name=\"server\"} | logfmt | detected_level=\"error\"",
+          "expr": "{service_name=\"backend\"} | logfmt | detected_level=\"error\"",
           "refId": "A"
         }
       ],

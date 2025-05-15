@@ -3,12 +3,6 @@ import { type FC, memo, type PropsWithChildren } from "hono/jsx";
 
 import type { Env } from "./env.ts";
 
-declare module "hono" {
-  interface ContextRenderer {
-    (content: string | Promise<string>, props: { title: string }): Response;
-  }
-}
-
 export const page = (app: OpenAPIHono<Env>, pagePath: string) => {
   const Header = memo(() => (
     <header>
@@ -26,7 +20,12 @@ export const page = (app: OpenAPIHono<Env>, pagePath: string) => {
   ));
 
   const Footer = memo(() => (
-    <footer>Powered by Hono | HTTP Status Code Reference</footer>
+    <footer>
+      <p>
+        Powered by <a href="https://github.com/honojs/hono">Hono</a> | HTTP
+        Status Code Reference
+      </p>
+    </footer>
   ));
 
   interface Props {
@@ -36,7 +35,13 @@ export const page = (app: OpenAPIHono<Env>, pagePath: string) => {
   const Layout: FC<PropsWithChildren<Props>> = ({ children, title }) => (
     <html>
       <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{title}</title>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css"
+        />
         <style>
           {`
             body {
@@ -105,7 +110,7 @@ export const page = (app: OpenAPIHono<Env>, pagePath: string) => {
           `}
         </style>
       </head>
-      <body>
+      <body style="padding: 1em 2em">
         <Header />
         {children}
         <Footer />
@@ -174,16 +179,16 @@ export const page = (app: OpenAPIHono<Env>, pagePath: string) => {
         you might encounter.
       </p>
       <div>
-        {Object.values(httpErrors).map((error) => (
-          <div class="error-card">
-            <div class="error-code">{error.code}</div>
-            <h3 class="error-title">{error.title}</h3>
-            <p class="error-description">{error.description}</p>
+        {Object.values(httpErrors).map((value, index) => (
+          <div key={index} class="error-card">
+            <div class="error-code">{value.code}</div>
+            <h3 class="error-title">{value.title}</h3>
+            <p class="error-description">{value.description}</p>
             <p>
-              <strong>Suggested solution:</strong> {error.solution}
+              <strong>Suggested solution:</strong> {value.solution}
             </p>
             <a
-              href={`${pagePath}/doc/error/${error.title.toLowerCase().replace(/\s+/g, "-")}`}
+              href={`${pagePath}/doc/error/${value.title.toLowerCase().replace(/\s+/g, "-")}`}
               class="back-link"
             >
               Detailed documentation →

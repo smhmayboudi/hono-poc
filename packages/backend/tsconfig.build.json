@@ -1,5 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "rootDir": "./src/"
+  },
   "exclude": [
     "**/build/**",
     "**/coverage/**",
@@ -10,5 +16,6 @@
     "./src/**/*.test.ts"
   ],
   "extends": ["./tsconfig.json"],
-  "include": ["./src/**/*.ts"]
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
+  "references": []
 }

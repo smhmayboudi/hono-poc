@@ -152,7 +152,7 @@ export default (
   const domainActions = (data) => {
     const dataList = ["create", "delete", "read", "update"].map((value) => ({
       crud: value,
-      domain: String(data.domain),
+      domain: String(data ? data["domain"] : ""),
     }));
 
     return [

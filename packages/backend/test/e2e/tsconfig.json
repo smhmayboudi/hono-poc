@@ -21,5 +21,6 @@
     "target": "es5"
   },
   "exclude": ["**/build/**", "**/node_modules/**"],
-  "include": ["**/*.js", "**/*.json", "**/*.ts"]
+  "include": ["**/*.js", "**/*.json", "**/*.ts"],
+  "references": []
 }

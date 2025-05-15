@@ -1,8 +1,3 @@
-/**
- * For a detailed explanation regarding each configuration property, visit:
- * https://rollupjs.org/configuration-options
- */
-
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import nodeResolve from "@rollup/plugin-node-resolve";
@@ -29,15 +24,15 @@ export default {
     sourcemap: true,
   },
   plugins: [
-    commonjs(),
+    commonjs.default(),
     esbuild({
       minify,
       platform: "node",
       sourceMap: true,
-      tsconfig: "tsconfig.build.json",
+      tsconfig: "./tsconfig.build.json",
     }),
-    json(),
-    nodeResolve({
+    json.default(),
+    nodeResolve.default({
       extensions: [".js", ".json", ".mjs", ".mts", ".ts"],
       preferBuiltins: true,
     }),
@@ -46,7 +41,7 @@ export default {
       : [
           visualizer({
             brotliSize: true,
-            filename: "build/stats.html",
+            filename: "./build/stats.html",
             gzipSize: true,
             sourcemap: true,
           }),

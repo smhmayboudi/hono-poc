@@ -31,7 +31,7 @@ services:
         condition: service_healthy
     image: node:22.15.0-bookworm
     labels:
-      namespace: devcontainer
+      namespace: service
     logging: *logging
     restart: "no"
 
@@ -56,21 +56,21 @@ services:
       timeout: 10s
     image: elasticsearch:8.18.0
     labels:
-      namespace: elasticsearch
+      namespace: service
     logging: *logging
     ports:
       - "9200:9200"
       - "9300:9300"
     restart: "no"
 
-  server:
+  backend:
     build:
-      context: .
+      context: ./
       dockerfile: ./Dockerfile
-      target: server
-    container_name: hono-poc-server
+      target: backend
+    container_name: hono-poc-backend
     depends_on:
-      server-migration:
+      backend-migration:
         condition: service_completed_successfully
     environment:
       - CLIENT_DATABASE_URI=mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1
@@ -100,29 +100,29 @@ services:
       start_period: 10s
       test:
         - CMD-SHELL
-        - wget --no-verbose --spider --tries=1 http://server:8081/api/v1/healthy
+        - wget --no-verbose --spider --tries=1 http://backend:8081/api/v1/healthy
       timeout: 10s
     labels:
-      namespace: server
+      namespace: backend
     logging: *logging
     ports:
       - "8081:8081"
     restart: "no"
 
-  server-dev:
+  backend-dev:
     build:
-      context: .
+      context: ./
       dockerfile: ./Dockerfile
-      target: server-dev
+      target: backend-dev
     command:
       - /bin/sh
       - -c
       - -Eefuvx
       - >-
-        npm run docker:dev
-    container_name: hono-poc-server-dev
+        npm run docker:dev --workspace=backend
+    container_name: hono-poc-backend-dev
     depends_on:
-      server-migration:
+      backend-migration:
         condition: service_completed_successfully
     environment:
       - CLIENT_DATABASE_URI=mysql://mysql_user:mysql_password@mysql:3306/hono-poc?charset=utf8mb4&connectionLimit=1
@@ -156,27 +156,27 @@ services:
       start_period: 10s
       test:
         - CMD-SHELL
-        - wget --no-verbose --spider --tries=1 http://server-dev:8081/api/v1/healthy
+        - wget --no-verbose --spider --tries=1 http://backend-dev:8081/api/v1/healthy
       timeout: 10s
     labels:
-      namespace: server
+      namespace: backend
     logging: *logging
     ports:
       - "8081:8081"
     restart: "no"
 
-  server-migration:
+  backend-migration:
     build:
-      context: .
+      context: ./
       dockerfile: ./Dockerfile
-      target: server-dev
+      target: backend-dev
     command:
       - /bin/sh
       - -c
       - -Eefuvx
       - >-
-        npm run docker:db
-    container_name: hono-poc-server-migration
+        npm run docker:db --workspace=backend
+    container_name: hono-poc-backend-migration
     depends_on:
       elasticsearch:
         condition: service_healthy
@@ -196,7 +196,7 @@ services:
       - SERVER_FEATURE_FLAG_USER_POC_FULLNAME=1
       - SERVER_SERVER_PORT=8081
     labels:
-      namespace: server-migration
+      namespace: backend
     logging: *logging
     restart: "no"
 
@@ -210,7 +210,7 @@ services:
       - /home/k6/workspace/test/e2e/build/mlt.js
     container_name: hono-poc-k6
     environment:
-      - BASE_URL=http://server-dev:8081/api/v1
+      - BASE_URL=http://backend-dev:8081/api/v1
       - K6_DURATION=3600s
       - K6_OTEL_EXPORTER_TYPE=http
       - K6_OTEL_HTTP_EXPORTER_ENDPOINT=otel-lgtm:4318
@@ -220,11 +220,11 @@ services:
     depends_on:
       otel-lgtm:
         condition: service_healthy
-      server-dev:
+      backend-dev:
         condition: service_healthy
     image: grafana/k6:0.58.0
     labels:
-      namespace: k6
+      namespace: service
     logging: *logging
     restart: "no"
     volumes:
@@ -262,7 +262,7 @@ services:
   #     timeout: 10s
   #   image: yuzutech/kroki:0.26.0
   #   labels:
-  #     namespace: kroki
+  #     namespace: service
   #   ports:
   #     - "8000:8000"
   #   restart: "no"
@@ -281,7 +281,7 @@ services:
   #     timeout: 10s
   #   image: yuzutech/kroki-bpmn:0.26.0
   #   labels:
-  #     namespace: kroki
+  #     namespace: service
   #   ports:
   #     - "8003:8003"
   #   restart: "no"
@@ -300,7 +300,7 @@ services:
   #     timeout: 10s
   #   image: yuzutech/kroki-diagramsnet:0.26.0
   #   labels:
-  #     namespace: kroki
+  #     namespace: service
   #   ports:
   #     - "8005:8005"
   #   restart: "no"
@@ -319,7 +319,7 @@ services:
   #     timeout: 10s
   #   image: yuzutech/kroki-excalidraw:0.26.0
   #   labels:
-  #     namespace: kroki
+  #     namespace: service
   #   ports:
   #     - "8004:8004"
   #   restart: "no"
@@ -338,7 +338,7 @@ services:
   #     timeout: 10s
   #   image: yuzutech/kroki-mermaid:0.26.0
   #   labels:
-  #     namespace: kroki
+  #     namespace: service
   #   logging: *logging
   #   ports:
   #     - "8002:8002"
@@ -365,7 +365,7 @@ services:
   #     timeout: 10s
   #   image: minio/minio:RELEASE.2025-01-18T00-31-37Z
   #   labels:
-  #     namespace: minio
+  #     namespace: service
   #   logging: *logging
   #   ports:
   #     - "9000:9000"
@@ -388,7 +388,7 @@ services:
   #     "
   #   image: minio/mc:RELEASE.2025-01-17T23-25-50Z
   #   labels:
-  #     namespace: minio-createbuckets
+  #     namespace: service
   #   logging: *logging
   #   restart: "no"
 
@@ -415,7 +415,7 @@ services:
       timeout: 10s
     image: mysql:9.3.0-oraclelinux9
     labels:
-      namespace: mysql
+      namespace: service
     logging: *logging
     ports:
       - "3306:3306"
@@ -447,7 +447,7 @@ services:
   #     timeout: 10s
   #   image: opensearchproject/opensearch:2.19.1
   #   labels:
-  #     namespace: opensearch
+  #     namespace: service
   #   logging: *logging
   #   ports:
   #     - "9200:9200"
@@ -477,7 +477,7 @@ services:
   #     timeout: 10s
   #   image: opensearchproject/opensearch-dashboards:2.19.1
   #   labels:
-  #     namespace: opensearch-dashboards
+  #     namespace: service
   #   logging: *logging
   #   ports:
   #     - "5601:5601"
@@ -517,7 +517,7 @@ services:
       - "4317:4317"
       - "4318:4318"
     labels:
-      namespace: otel-lgtm
+      namespace: service
     logging: *logging
     restart: "no"
     volumes:
@@ -553,7 +553,7 @@ services:
     ports:
       - "8082:80"
     labels:
-      namespace: phpmyadmin
+      namespace: service
     logging: *logging
     restart: "no"
 
@@ -582,7 +582,7 @@ services:
   #   ports:
   #     - "8083:8080"
   #   labels:
-  #     namespace: plantuml-server
+  #     namespace: service
   #   logging: *logging
   #   restart: "no"
   #   volumes:
@@ -604,7 +604,7 @@ services:
       timeout: 10s
     image: redis:7.4.2-bookworm
     labels:
-      namespace: redis
+      namespace: service
     logging: *logging
     ports:
       - "6379:6379"
@@ -616,7 +616,7 @@ services:
   # swagger-ui:
   #   container_name: hono-poc-swagger-ui
   #   depends_on:
-  #     server:
+  #     backend-dev:
   #       condition: service_healthy
   #   environment:
   #     - SWAGGER_JSON_URL=http://127.0.0.1:8081/api/v1/swagger.json
@@ -634,7 +634,7 @@ services:
   #     timeout: 10s
   #   image: swaggerapi/swagger-ui:v5.18.2
   #   labels:
-  #     namespace: swagger-ui
+  #     namespace: service
   #   logging: *logging
   #   ports:
   #     - "8084:80"
