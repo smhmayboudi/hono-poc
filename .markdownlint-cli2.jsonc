@@ -1,8 +1,11 @@
 {
   "$schema": "./node_modules/markdownlint-cli2/schema/markdownlint-cli2-config-schema.json",
   "ignores": [
-    "**/doc/openapi/**",
+    "**/build/**",
+    "**/coverage/**",
+    "**/doc/ARCHITECTURE.md",
+    "**/drizzle/**",
     "**/node_modules/**",
-    "packages/backend/doc/ARCHITECTURE.md",
+    "**/plop-template/**",
   ],
 }

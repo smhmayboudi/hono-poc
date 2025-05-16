@@ -204,10 +204,10 @@ services:
     command:
       - run
       - --compatibility-mode=base
-      - --config=/home/k6/workspace/test/e2e/config.json
+      - --config=/home/k6/workspace/packages/backend-test/config.json
       - --out=experimental-opentelemetry
       - --tag=testid=1
-      - /home/k6/workspace/test/e2e/build/mlt.js
+      - /home/k6/workspace/packages/backend-test/build/mlt.js
     container_name: hono-poc-k6
     environment:
       - BASE_URL=http://backend-dev:8081/api/v1

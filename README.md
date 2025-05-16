@@ -46,7 +46,7 @@ docker compose up swagger-ui
 npm run test
 ```
 
-### E2E Test
+### Backend Test
 
 Note: it builds and runs hono-poc with migration.
 
@@ -94,7 +94,7 @@ docker run --rm -i \
 --volume .:/home/k6/workspace \
 grafana/k6:0.58.0 run \
 --compatibility-mode=base \
---config=/home/k6/workspace/test/e2e/config.json \
+--config=/home/k6/workspace/packages/backend-test/config.json \
 --out=experimental-opentelemetry \
-/home/k6/workspace/test/e2e/build/mlt.js
+/home/k6/workspace/packages/backend-test/build/mlt.js
 ```

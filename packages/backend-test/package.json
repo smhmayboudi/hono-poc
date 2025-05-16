@@ -44,7 +44,7 @@
   "homepage": "https://github.com/smhmayboudi/hono-poc",
   "license": "UNLICENSED",
   "main": "",
-  "name": "hono-poc-k6",
+  "name": "backend-test",
   "os": [
     "darwin",
     "linux",
@@ -56,7 +56,8 @@
     "url": "https://github.com/smhmayboudi/hono-poc"
   },
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "test": "echo test"
   },
   "type": "commonjs",
   "version": "0.0.0"

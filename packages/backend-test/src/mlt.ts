@@ -1,4 +1,3 @@
-// @ts-ignore
 import { check, group, sleep } from "k6";
 import http from "k6/http";
 import type { Options } from "k6/options";

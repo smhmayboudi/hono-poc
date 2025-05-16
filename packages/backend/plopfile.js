@@ -165,17 +165,6 @@ export default (
     ];
   };
 
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const testE2EActions = () => [
-    {
-      path: "./test/e2e/src/{{kebabCase domain}}.ts",
-      templateFile: "./plop-template/test/e2e/domain.hbs",
-      type: "add",
-    },
-  ];
-
   plop.setGenerator("adapter.driven", {
     actions: adapterDrivenActions,
     description: "Adapter Driven",
@@ -248,12 +237,6 @@ export default (
     prompts: [{ message: "please domain name", name: "domain", type: "input" }],
   });
 
-  plop.setGenerator("test.e2e", {
-    actions: testE2EActions,
-    description: "Test E2E",
-    prompts: [{ message: "please domain name", name: "domain", type: "input" }],
-  });
-
   plop.setGenerator("all", {
     description: "Generate all parts for a domain",
     prompts: [
@@ -272,7 +255,6 @@ export default (
       ...applicationPortDrivingActions(data),
       ...applicationUseCaseActions(data),
       ...domainActions(data),
-      ...testE2EActions(data),
     ],
   });
 
@@ -298,7 +280,6 @@ export default (
       ...applicationUseCaseActions(data),
       ...applicationUseCaseSlugActions(data),
       ...domainActions(data),
-      ...testE2EActions(data),
     ],
   });
 };

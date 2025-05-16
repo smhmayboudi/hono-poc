@@ -5,10 +5,10 @@
   "extends": ["config:base"],
   "labels": [
     "dev::build",
-    "product::hono-poc-e2e",
+    "product::backend-test",
     "status::work in progress",
     "team::backend"
   ],
-  "reviewers": ["mh.mayboudi"],
+  "reviewers": ["smhmayboudi"],
   "reviewersFromCodeOwners": true
 }

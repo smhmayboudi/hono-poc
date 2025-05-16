@@ -111,7 +111,8 @@ export default [
       ecmaVersion: 2022,
       globals: globals.es2022,
       parserOptions: {
-        project: ["./tsconfig.eslint.json"],
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
   },

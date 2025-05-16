@@ -111,63 +111,6 @@
     },
     {
       "include": [
-        "packages/backend/**/app.deno.ts",
-        "packages/backend/**/app.env.ts"
-      ],
-      "linter": {
-        "rules": {
-          "correctness": {
-            "noUndeclaredVariables": "off"
-          },
-          "style": {
-            "noUselessElse": "off"
-          }
-        }
-      }
-    },
-    {
-      "include": [
-        "packages/backend/**/app.node.ts",
-        "packages/backend/**/app.ts"
-      ],
-      "linter": {
-        "rules": {
-          "style": {
-            "noDefaultExport": "off"
-          }
-        }
-      }
-    },
-    {
-      "include": ["packages/backend/**/app.opentelemetry.ts"],
-      "linter": {
-        "rules": {
-          "complexity": {
-            "useLiteralKeys": "off"
-          },
-          "style": {
-            "noNamespaceImport": "off",
-            "noNonNullAssertion": "off"
-          }
-        }
-      }
-    },
-    {
-      "include": ["packages/backend/**/app.sentry.ts"],
-      "linter": {
-        "rules": {
-          "complexity": {
-            "useLiteralKeys": "off"
-          },
-          "style": {
-            "noNamespaceImport": "off",
-            "noNonNullAssertion": "off"
-          }
-        }
-      }
-    },
-    {
-      "include": [
         "packages/backend/**/infrastructure/adapter/auth/auth-logger.ts"
       ],
       "linter": {
@@ -303,26 +246,6 @@
       }
     },
     {
-      "include": ["packages/backend/**/script/*"],
-      "linter": {
-        "rules": {
-          "complexity": {
-            "useLiteralKeys": "off"
-          },
-          "correctness": {
-            "noNodejsModules": "off"
-          },
-          "style": {
-            "noNamespaceImport": "off"
-          },
-          "suspicious": {
-            "noConsole": "off",
-            "noConsoleLog": "off"
-          }
-        }
-      }
-    },
-    {
       "include": ["packages/backend/**/shared/adapter/driven/request-query.ts"],
       "linter": {
         "rules": {
@@ -355,7 +278,94 @@
       }
     },
     {
-      "include": ["packages/backend/**/test/e2e/src/**"],
+      "include": [
+        "packages/backend/**/app.deno.ts",
+        "packages/backend/**/app.env.ts"
+      ],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUndeclaredVariables": "off"
+          },
+          "style": {
+            "noUselessElse": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": [
+        "packages/backend/**/app.node.ts",
+        "packages/backend/**/app.ts"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["packages/backend/**/app.opentelemetry.ts"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off"
+          },
+          "style": {
+            "noNamespaceImport": "off",
+            "noNonNullAssertion": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["packages/backend/**/app.sentry.ts"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off"
+          },
+          "style": {
+            "noNamespaceImport": "off",
+            "noNonNullAssertion": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["packages/backend/plopfile.js"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["packages/backend/script/*"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useLiteralKeys": "off"
+          },
+          "correctness": {
+            "noNodejsModules": "off"
+          },
+          "style": {
+            "noNamespaceImport": "off"
+          },
+          "suspicious": {
+            "noConsole": "off",
+            "noConsoleLog": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["packages/backend-test/src/**"],
       "linter": {
         "rules": {
           "complexity": {
@@ -369,7 +379,7 @@
       }
     },
     {
-      "include": ["packages/backend/**/test/e2e/webpack.config.js"],
+      "include": ["packages/backend-test/webpack.config.js"],
       "linter": {
         "rules": {
           "correctness": {
@@ -378,16 +388,6 @@
           },
           "style": {
             "useNodejsImportProtocol": "off"
-          }
-        }
-      }
-    },
-    {
-      "include": ["packages/backend/plopfile.js"],
-      "linter": {
-        "rules": {
-          "complexity": {
-            "useLiteralKeys": "off"
           }
         }
       }

@@ -1,9 +1,0 @@
-# Auto detect text files and perform LF normalization
-package-lock.json -diff -merge
-package-lock.json linguist-generated=true
-* text=auto
-
-# JS, JSON and TS files must always use LF for tools to work
-*.js eol=lf
-*.json eol=lf
-*.ts eol=lf

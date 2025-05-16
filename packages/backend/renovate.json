@@ -5,7 +5,7 @@
   "extends": ["config:base"],
   "labels": [
     "dev::build",
-    "product::hono-poc",
+    "product::backend",
     "status::work in progress",
     "team::backend"
   ],
