@@ -7,5 +7,6 @@
   "references": [
     { "path": "./packages/backend/" },
     { "path": "./packages/backend-test/" },
+    { "path": "./packages/frontend/" }
   ]
 }
