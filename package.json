@@ -22,7 +22,6 @@
   ],
   "description": "",
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
     "@commitlint/types": "^19.8.0",
@@ -49,7 +48,6 @@
     "lint-staged": "^16.0.0",
     "markdownlint": "^0.38.0",
     "markdownlint-cli2": "^0.18.1",
-    "oxlint": "^0.16.9",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.31.1"
   },
@@ -76,10 +74,7 @@
   "scripts": {
     "build": "npm run build --workspaces",
     "format": "prettier --write .",
-    "lint": "npm run lint:es && npm run lint:ox && npm run lint:biome",
-    "lint:biome": "biome check .",
-    "lint:es": "eslint .",
-    "lint:ox": "oxlint .",
+    "lint": "eslint --fix .",
     "prepare": "node ./script/husky.install.js",
     "test": "npm run test --workspaces"
   },

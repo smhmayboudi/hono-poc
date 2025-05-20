@@ -1,16 +1,10 @@
-/// <reference types="vitest" />
-/**
- * For a detailed explanation regarding each configuration property, visit:
- * https://vitest.dev/config
- */
-
 import { configDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
     coverage: {
-      // exclude: ["src/**/application/port"],
-      include: ["src"],
+      exclude: [...configDefaults.exclude],
+      include: ["server"],
       provider: "istanbul",
       reporter: ["lcov", "text-summary"],
       reportsDirectory: "coverage/",

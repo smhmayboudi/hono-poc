@@ -1,5 +1,5 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
-/* eslint-disable @typescript-eslint/no-require-imports, no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
 
 const path = require("node:path");
 

@@ -8,11 +8,6 @@
  */
 export default {
   "**/*.md": ["markdownlint-cli2"],
-  "**/*.ts": [
-    "biome check --no-errors-on-unmatched --write",
-    "eslint --fix",
-    "oxlint",
-    "vitest related --bail 0 --run",
-  ],
+  "**/*.ts": ["eslint --fix", "vitest related --bail 0 --run"],
   "**": ["npm audit --omit=dev", "prettier --ignore-unknown --write"],
 };

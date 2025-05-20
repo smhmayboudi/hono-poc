@@ -109,7 +109,11 @@ export default [
   {
     languageOptions: {
       ecmaVersion: 2022,
-      globals: globals.es2022,
+      globals: {
+        ...globals.browser,
+        ...globals.es2022,
+        ...globals.node,
+      },
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
@@ -124,12 +128,17 @@ export default [
   },
   {
     ignores: [
+      "**/.react-router/**",
       "**/build/**",
       "**/coverage/**",
       "**/doc/**",
       "**/drizzle/**",
       "**/node_modules/**",
       "**/plop-template/**",
+      "**/script/**",
+      // "**/vite.config.js",
+      // "**/vitest.config.js",
+      "./*.config.js",
       "./tsconfig.base.json",
     ],
   },
