@@ -59,7 +59,7 @@
   },
   "engines": {
     "node": "^22.15.1",
-    "npm": "^11.3.0"
+    "npm": "^11.4.0"
   },
   "homepage": "https://github.com/smhmayboudi/hono-poc",
   "license": "UNLICENSED",
