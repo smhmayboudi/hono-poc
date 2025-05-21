@@ -1,11 +1,5 @@
-/**
- * For a detailed explanation regarding each configuration property, visit:
- * https://commitlint.js.org/reference/configuration.html
- */
+import type { UserConfig } from "@commitlint/types";
 
-/**
- * @type {import("@commitlint/types").UserConfig}
- */
 export default {
   extends: ["@commitlint/config-conventional"],
   rules: {
@@ -15,4 +9,4 @@ export default {
       ["build", "ci", "docs", "feat", "fix", "perf", "refactor", "test"],
     ],
   },
-};
+} satisfies UserConfig;

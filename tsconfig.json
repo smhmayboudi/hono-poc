@@ -3,7 +3,7 @@
     "composite": true
   },
   "extends": ["./tsconfig.base.json"],
-  "files": [],
+  "include": ["**/*.config.ts"],
   "references": [
     { "path": "./packages/backend/" },
     { "path": "./packages/backend-test/" },

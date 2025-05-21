@@ -46,6 +46,7 @@
     "autoprefixer": "^10.4.21",
     "hono-react-router-adapter": "^0.6.5",
     "playwright": "^1.52.0",
+    "postcss-load-config": "^6.0.1",
     "rimraf": "^6.0.1",
     "tailwindcss": "^4.1.7",
     "tsx": "^4.19.4",

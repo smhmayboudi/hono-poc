@@ -1,16 +1,14 @@
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import nodeResolve from "@rollup/plugin-node-resolve";
+import { defineConfig } from "rollup";
 import esbuild from "rollup-plugin-esbuild";
 import { visualizer } from "rollup-plugin-visualizer";
 
 const minify =
   process.env["CI"] === "true" || process.env["NODE_ENV"] === "production";
 
-/**
- * @type {import("rollup").RollupOptions}
- */
-export default {
+export default defineConfig({
   external: ["@sentry/profiling-node", "bull"],
   input: {
     app: "./src/app.ts",
@@ -22,19 +20,20 @@ export default {
   output: {
     dir: "./build/",
     sourcemap: true,
+    format: "esm",
   },
   plugins: [
     commonjs.default(),
+    json.default(),
+    nodeResolve.default({
+      extensions: [".js", ".json", ".mjs", ".mts", ".ts"],
+      preferBuiltins: true,
+    }),
     esbuild({
       minify,
       platform: "node",
       sourceMap: true,
       tsconfig: "./tsconfig.build.json",
-    }),
-    json.default(),
-    nodeResolve.default({
-      extensions: [".js", ".json", ".mjs", ".mts", ".ts"],
-      preferBuiltins: true,
     }),
     ...(minify
       ? []
@@ -47,4 +46,4 @@ export default {
           }),
         ]),
   ],
-};
+});

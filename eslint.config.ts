@@ -5,6 +5,7 @@ import pluginJSON from "@eslint/json";
 import pluginMarkdown from "@eslint/markdown";
 import pluginComment from "@eslint-community/eslint-plugin-eslint-comments";
 import pluginVitest from "@vitest/eslint-plugin";
+import { defineConfig } from "eslint/config";
 import configPrettier from "eslint-config-prettier/flat";
 import pluginESX from "eslint-plugin-es-x";
 import pluginJSDoc from "eslint-plugin-jsdoc";
@@ -19,11 +20,10 @@ import pluginSimpleImportSort from "eslint-plugin-simple-import-sort";
 import pluginSonarJS from "eslint-plugin-sonarjs";
 import pluginSortClassMembers from "eslint-plugin-sort-class-members";
 import pluginSortDestructureKeys from "eslint-plugin-sort-destructure-keys";
-import pluginTSDoc from "eslint-plugin-tsdoc";
 import pluginTestingLibrary from "eslint-plugin-testing-library";
-import { defineConfig } from "eslint/config";
-import pluginTypeScriptESLint from "typescript-eslint";
+import pluginTSDoc from "eslint-plugin-tsdoc";
 import globals from "globals";
+import pluginTypeScriptESLint from "typescript-eslint";
 
 export default defineConfig([
   {
@@ -196,8 +196,6 @@ export default defineConfig([
       "**/drizzle/**",
       "**/node_modules/**",
       "**/plop-template/**",
-      "**/script/**",
-      "./*.config.js",
       "./tsconfig.base.json",
     ],
   },

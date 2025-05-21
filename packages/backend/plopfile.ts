@@ -1,23 +1,15 @@
-export default (
-  /**
-   * @type {import("node-plop").NodePlopAPI}
-   */
-  plop,
-) => {
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const adapterDrivenActions = () =>
+import type { Actions } from "node-plop";
+import type { NodePlopAPI } from "plop";
+
+export default (plop: NodePlopAPI) => {
+  const adapterDrivenActions: Actions = () =>
     ["create", "delete", "read", "update"].map((value) => ({
       path: `./src/{{kebabCase domain}}/adapter/driven/{{kebabCase domain}}-${value}.ts`,
       templateFile: `./plop-template/domain/adapter/driven/domain-${value}.hbs`,
       type: "add",
     }));
 
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const adapterDrivingActions = () =>
+  const adapterDrivingActions: Actions = () =>
     ["create", "delete", "read", "update"].flatMap((crud) =>
       [
         "driving",
@@ -33,10 +25,7 @@ export default (
       })),
     );
 
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const adapterDrivingSlugActions = () =>
+  const adapterDrivingSlugActions: Actions = () =>
     ["create", "update"].flatMap((crud) =>
       ["driving.test", "handler", "request", "response"].map((filename) => ({
         force: true,
@@ -46,10 +35,7 @@ export default (
       })),
     );
 
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const applicationDomainActions = () => [
+  const applicationDomainActions: Actions = () => [
     {
       path: "./src/{{kebabCase domain}}/application/domain/{{kebabCase domain}}.ts",
       templateFile: "./plop-template/domain/application/domain/domain.hbs",
@@ -57,10 +43,7 @@ export default (
     },
   ];
 
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const applicationErrorActions = () => [
+  const applicationErrorActions: Actions = () => [
     {
       path: "./src/{{kebabCase domain}}/application/error/{{kebabCase domain}}.ts",
       templateFile: "./plop-template/domain/application/error/domain.hbs",
@@ -68,20 +51,14 @@ export default (
     },
   ];
 
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const applicationPortDrivenActions = () =>
+  const applicationPortDrivenActions: Actions = () =>
     ["create", "delete", "read", "update"].map((value) => ({
       path: `./src/{{kebabCase domain}}/application/port/driven/{{kebabCase domain}}-${value}.ts`,
       templateFile: `./plop-template/domain/application/port/driven/domain-${value}.hbs`,
       type: "add",
     }));
 
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const applicationPortDrivenSlugActions = () =>
+  const applicationPortDrivenSlugActions: Actions = () =>
     ["create", "update"].map((value) => ({
       force: true,
       path: `./src/{{kebabCase domain}}/application/port/driven/{{kebabCase domain}}-${value}.ts`,
@@ -89,20 +66,14 @@ export default (
       type: "add",
     }));
 
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const applicationPortDrivingActions = () =>
+  const applicationPortDrivingActions: Actions = () =>
     ["create", "delete", "read", "update"].map((value) => ({
       path: `./src/{{kebabCase domain}}/application/port/driving/{{kebabCase domain}}-${value}.ts`,
       templateFile: `./plop-template/domain/application/port/driving/domain-${value}.hbs`,
       type: "add",
     }));
 
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const applicationPortDrivingSlugActions = () =>
+  const applicationPortDrivingSlugActions: Actions = () =>
     ["create", "update"].map((value) => ({
       force: true,
       path: `./src/{{kebabCase domain}}/application/port/driving/{{kebabCase domain}}-${value}.ts`,
@@ -110,10 +81,7 @@ export default (
       type: "add",
     }));
 
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const applicationUseCaseActions = () =>
+  const applicationUseCaseActions: Actions = () =>
     ["create", "delete", "read", "update"].flatMap((crud) => [
       ...[".", ".test."].map((filename) => ({
         path: `./src/{{kebabCase domain}}/application/use-case/{{kebabCase domain}}-${crud}${filename}ts`,
@@ -127,10 +95,7 @@ export default (
       })),
     ]);
 
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const applicationUseCaseSlugActions = () =>
+  const applicationUseCaseSlugActions: Actions = () =>
     ["create", "update"].flatMap((crud) => [
       ...[".", ".test."].map((filename) => ({
         force: true,
@@ -146,10 +111,7 @@ export default (
       })),
     ]);
 
-  /**
-   * @type {import("node-plop").Actions}
-   */
-  const domainActions = (data) => {
+  const domainActions: Actions = (data) => {
     const dataList = ["create", "delete", "read", "update"].map((value) => ({
       crud: value,
       domain: String(data ? data["domain"] : ""),

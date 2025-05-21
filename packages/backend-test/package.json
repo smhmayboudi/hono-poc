@@ -29,10 +29,10 @@
     "babel-loader": "^10.0.0",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^13.0.0",
+    "glob": "^9.3.5",
     "typescript": "^5.8.3",
     "webpack": "^5.99.9",
-    "webpack-cli": "^6.0.1",
-    "webpack-glob-entries": "^1.0.1"
+    "webpack-cli": "^6.0.1"
   },
   "engines": {
     "node": "^22.15.1",
@@ -57,7 +57,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "test": "echo test"
+    "test": "echo backend-test"
   },
   "type": "commonjs",
   "version": "0.0.0"

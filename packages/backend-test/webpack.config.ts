@@ -1,16 +1,21 @@
-// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
-/* eslint-disable @typescript-eslint/no-require-imports */
+import * as path from "node:path";
 
-const path = require("node:path");
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import CopyPlugin from "copy-webpack-plugin";
+import glob from "glob";
+import { Configuration } from "webpack";
 
-const CopyPlugin = require("copy-webpack-plugin");
-const GlobEntries = require("webpack-glob-entries");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const GlobEntries = (globPath: string) => {
+  const files = glob.sync(globPath);
+  const entries: Record<string, string> = {};
 
-/**
- * @type {import("webpack").Configuration}
- */
-module.exports = {
+  for (const entry of files) {
+    entries[path.basename(entry, path.extname(entry))] = `./${entry}`;
+  }
+
+  return entries;
+};
+const config: Configuration = {
   devtool: "source-map",
   entry: GlobEntries("./src/*.ts"),
   externals: /^(k6|https?:\/\/)(\/.*)?/,
@@ -53,3 +58,5 @@ module.exports = {
   },
   target: ["es5", "web"],
 };
+
+export default config;

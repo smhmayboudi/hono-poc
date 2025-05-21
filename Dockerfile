@@ -95,7 +95,7 @@ WORKDIR /usr/node/hono-poc/
 COPY ./package.json ./package-lock.json* ./
 COPY ./packages/backend/package.json ./packages/backend/package-lock.json* ./packages/backend/
 COPY ./packages/backend-test/package.json ./packages/backend-test/package-lock.json* ./packages/backend-test/
-COPY ./script/husky.install.js ./script/
+COPY ./script/husky.config.ts ./script/
 RUN npm install --global npm@${NPM_VERSION} \
   && npm clean-install
 COPY --chown=node:node . .
