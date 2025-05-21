@@ -60,7 +60,7 @@
       "nvmInstallPath": "/usr/local/share/nvm",
       "nvmVersion": "0.40.3",
       "pnpmVersion": "latest",
-      "version": "22.15.0"
+      "version": "22.15.1"
     }
   },
   "forwardPorts": [3000, 9229],

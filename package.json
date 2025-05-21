@@ -58,7 +58,7 @@
     "typescript-eslint": "^8.31.1"
   },
   "engines": {
-    "node": "^22.15.0",
+    "node": "^22.15.1",
     "npm": "^11.3.0"
   },
   "homepage": "https://github.com/smhmayboudi/hono-poc",
