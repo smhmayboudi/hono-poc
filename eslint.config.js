@@ -1,46 +1,72 @@
-/**
- * For a detailed explanation regarding each configuration property, visit:
- * https://eslint.org/docs/latest/use/configure/
- */
-
-import pluginJs from "@eslint/js";
+import pluginCSS from "@eslint/css";
+import { tailwindSyntax } from "@eslint/css/syntax";
+import pluginJS from "@eslint/js";
 import pluginJSON from "@eslint/json";
+import pluginMarkdown from "@eslint/markdown";
 import pluginComment from "@eslint-community/eslint-plugin-eslint-comments";
 import pluginVitest from "@vitest/eslint-plugin";
-import configPrettier from "eslint-config-prettier";
+import configPrettier from "eslint-config-prettier/flat";
 import pluginESX from "eslint-plugin-es-x";
 import pluginJSDoc from "eslint-plugin-jsdoc";
+import pluginReactJSXA11Y from "eslint-plugin-jsx-a11y";
 import pluginN from "eslint-plugin-n";
+import pluginPlaywright from "eslint-plugin-playwright";
 import pluginPromise from "eslint-plugin-promise";
+import pluginReact from "eslint-plugin-react";
+import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginSecurity from "eslint-plugin-security";
 import pluginSimpleImportSort from "eslint-plugin-simple-import-sort";
 import pluginSonarJS from "eslint-plugin-sonarjs";
 import pluginSortClassMembers from "eslint-plugin-sort-class-members";
 import pluginSortDestructureKeys from "eslint-plugin-sort-destructure-keys";
 import pluginTSDoc from "eslint-plugin-tsdoc";
-import globals from "globals";
+import pluginTestingLibrary from "eslint-plugin-testing-library";
+import { defineConfig } from "eslint/config";
 import pluginTypeScriptESLint from "typescript-eslint";
+import globals from "globals";
 
-/**
- * @type {import("eslint").Linter.Config[]}
- */
-export default [
-  pluginJs.configs.recommended,
-  pluginJSON.configs.recommended,
+export default defineConfig([
   {
+    ...pluginCSS.configs.recommended,
+    files: ["packages/frontend/**/*.css"],
+    language: "css/css",
+    languageOptions: { customSyntax: tailwindSyntax },
+    plugins: { css: pluginCSS },
+  },
+  {
+    ...pluginJS.configs.recommended,
+    files: ["**/*.js", "**/*.mjs"],
+  },
+  {
+    ...pluginJSON.configs.recommended,
+    files: ["**/*.json"],
+    ignores: ["**/package-lock.json"],
+    language: "json/json",
+  },
+  ...pluginMarkdown.configs.recommended,
+  {
+    ...pluginComment.configs.recommended,
+    files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: { "@eslint-community/eslint-comments": pluginComment },
-    rules: pluginComment.configs.recommended.rules,
   },
   {
     ...pluginVitest.configs.recommended,
-    files: ["**/*.test.ts"],
+    files: ["**/*.test.{js,ts}"],
     settings: {
       vitest: { typecheck: true },
     },
   },
-  pluginESX.configs["flat/restrict-to-es2022"],
+  {
+    ...pluginESX.configs["flat/restrict-to-es2022"],
+    files: ["**/*.{js,jsx,ts,tsx}"],
+  },
+  {
+    ...pluginReactJSXA11Y.flatConfigs.recommended,
+    files: ["**/*.{js,jsx,ts,tsx}"],
+  },
   {
     ...pluginJSDoc.configs["flat/recommended-typescript-error"],
+    files: ["**/*.{js,jsx}"],
     rules: {
       ...pluginJSDoc.configs["flat/recommended-typescript-error"].rules,
       "jsdoc/check-tag-names": "off",
@@ -48,9 +74,38 @@ export default [
       "jsdoc/require-returns": "off",
     },
   },
-  pluginN.configs["flat/recommended-module"],
-  pluginPromise.configs["flat/recommended"],
-  pluginSecurity.configs.recommended,
+  {
+    ...pluginN.configs["flat/recommended-module"],
+    files: ["**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      ...pluginN.configs["flat/recommended-module"].rules,
+      "n/no-missing-import": "off",
+    },
+  },
+  {
+    ...pluginPlaywright.configs["flat/recommended"],
+    files: ["**/*.spec.{js,ts}"],
+  },
+  {
+    ...pluginReact.configs.flat.all,
+    files: ["**/*.{js,jsx,ts,tsx}"],
+    settings: { react: { version: "detect" } },
+    rules: {
+      "react/react-in-jsx-scope": "off",
+    },
+  },
+  {
+    ...pluginReactHooks.configs["recommended-latest"],
+    files: ["**/*.{js,jsx,ts,tsx}"],
+  },
+  {
+    ...pluginPromise.configs["flat/recommended"],
+    files: ["**/*.{js,jsx,ts,tsx}"],
+  },
+  {
+    ...pluginSecurity.configs.recommended,
+    files: ["**/*.{js,jsx,ts,tsx}"],
+  },
   {
     plugins: { "simple-import-sort": pluginSimpleImportSort },
     rules: {
@@ -59,6 +114,7 @@ export default [
     },
   },
   {
+    files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: { sonarjs: pluginSonarJS },
     rules: {
       ...pluginSonarJS.configs.recommended.rules,
@@ -72,9 +128,9 @@ export default [
       "sonarjs/no-redundant-jump": "off",
       "sonarjs/redundant-type-aliases": "off",
     },
-    settings: { react: { version: "0" } },
   },
   {
+    files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: { "sort-class-members": pluginSortClassMembers },
     rules: {
       "sort-class-members/sort-class-members": [
@@ -101,10 +157,18 @@ export default [
     },
   },
   {
+    files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: { "sort-destructure-keys": pluginSortDestructureKeys },
     rules: { "sort-destructure-keys/sort-destructure-keys": "error" },
   },
-  { plugins: { tsdoc: pluginTSDoc } },
+  {
+    files: ["**/*.{ts,tsx}"],
+    plugins: { tsdoc: pluginTSDoc },
+  },
+  {
+    ...pluginTestingLibrary.configs["flat/react"],
+    files: ["**/*.spec.{jsx,tsx}", "**/*.test.{jsx,tsx}"],
+  },
   ...pluginTypeScriptESLint.configs.recommended,
   {
     languageOptions: {
@@ -119,11 +183,8 @@ export default [
         tsconfigRootDir: import.meta.dirname,
       },
     },
-  },
-  {
     rules: {
       "@typescript-eslint/ban-ts-comment": "warn",
-      "n/no-missing-import": "off",
     },
   },
   {
@@ -136,11 +197,9 @@ export default [
       "**/node_modules/**",
       "**/plop-template/**",
       "**/script/**",
-      // "**/vite.config.js",
-      // "**/vitest.config.js",
       "./*.config.js",
       "./tsconfig.base.json",
     ],
   },
   configPrettier,
-];
+]);

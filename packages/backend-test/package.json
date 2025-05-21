@@ -39,7 +39,7 @@
     "npm": "^11.3.0"
   },
   "files": [
-    "*"
+    "./build/*"
   ],
   "homepage": "https://github.com/smhmayboudi/hono-poc",
   "license": "UNLICENSED",

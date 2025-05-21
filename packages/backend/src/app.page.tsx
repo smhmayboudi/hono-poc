@@ -33,14 +33,14 @@ export const page = (app: OpenAPIHono<Env>, pagePath: string) => {
   }
 
   const Layout: FC<PropsWithChildren<Props>> = ({ children, title }) => (
-    <html>
+    <html lang="en">
       <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
         <title>{title}</title>
         <link
-          rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css"
+          rel="stylesheet"
         />
         <style>
           {`
@@ -180,16 +180,16 @@ export const page = (app: OpenAPIHono<Env>, pagePath: string) => {
       </p>
       <div>
         {Object.values(httpErrors).map((value, index) => (
-          <div key={index} class="error-card">
-            <div class="error-code">{value.code}</div>
-            <h3 class="error-title">{value.title}</h3>
-            <p class="error-description">{value.description}</p>
+          <div className="error-card" key={index}>
+            <div className="error-code">{value.code}</div>
+            <h3 className="error-title">{value.title}</h3>
+            <p className="error-description">{value.description}</p>
             <p>
               <strong>Suggested solution:</strong> {value.solution}
             </p>
             <a
+              className="back-link"
               href={`${pagePath}/doc/error/${value.title.toLowerCase().replace(/\s+/g, "-")}`}
-              class="back-link"
             >
               Detailed documentation →
             </a>
@@ -204,11 +204,11 @@ export const page = (app: OpenAPIHono<Env>, pagePath: string) => {
     error: (typeof httpErrors)[keyof typeof httpErrors];
   }> = ({ error }) => (
     <Layout title={`${error.code} ${error.title} Documentation`}>
-      <div class="error-card">
-        <h2 class="error-title">
+      <div className="error-card">
+        <h2 className="error-title">
           {error.code} - {error.title}
         </h2>
-        <div class="error-description">
+        <div className="error-description">
           <p>{error.description}</p>
           <h3>When this occurs:</h3>
           <ul>
@@ -258,7 +258,7 @@ export const page = (app: OpenAPIHono<Env>, pagePath: string) => {
           <h3>How to resolve:</h3>
           <p>{error.solution}</p>
         </div>
-        <a href={`${pagePath}/doc/error`} class="back-link">
+        <a className="back-link" href={`${pagePath}/doc/error`}>
           ← Back to all status codes
         </a>
       </div>
