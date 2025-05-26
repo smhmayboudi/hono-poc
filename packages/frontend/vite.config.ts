@@ -8,12 +8,12 @@ import { getLoadContext } from "./server/app.node.load-context";
 
 export default defineConfig({
   plugins: [
-    tailwindcss(),
     reactRouter(),
     serverAdapter({
-      getLoadContext,
       entry: "./server/app.ts",
+      getLoadContext,
     }),
+    tailwindcss(),
     tsconfigPaths(),
   ],
 });

@@ -7,18 +7,16 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "module": "ESNext",
+    "module": "ES2022",
     "moduleResolution": "Bundler",
     "noEmit": true,
-    "paths": {
-      "~/*": ["./app/*"]
-    },
+    "paths": { "~/*": ["./app/*"] },
     "resolveJsonModule": true,
     "rootDirs": [".", "./.react-router/types"],
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2022",
-    "types": ["vite/client"]
+    "types": ["@react-router/node", "node", "vite/client"]
   },
   "include": [
     "**/*.ts",
