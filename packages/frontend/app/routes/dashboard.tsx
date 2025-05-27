@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 
-import type { Route } from "./+types/dashboard";
+// import type { Route } from "./+types/dashboard";
 
 // export const meta = ({}: Route.MetaArgs) => [
 //   { title: "Dashboard" },

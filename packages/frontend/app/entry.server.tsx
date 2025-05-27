@@ -4,8 +4,27 @@ import { createReadableStreamFromReadable } from "@react-router/node";
 import { isbot } from "isbot";
 import type { RenderToPipeableStreamOptions } from "react-dom/server";
 import { renderToPipeableStream } from "react-dom/server";
-import type { AppLoadContext, EntryContext } from "react-router";
+import type {
+  AppLoadContext,
+  EntryContext,
+  HandleErrorFunction,
+} from "react-router";
 import { ServerRouter } from "react-router";
+
+// export const handleDataRequest = (
+//   response: Response,
+//   { request, params, context }: LoaderFunctionArgs | ActionFunctionArgs,
+// ) => {
+//   response.headers.set("X-Custom-Header", "value");
+//   return response;
+// };
+
+export const handleError: HandleErrorFunction = (error, { request }) => {
+  if (!request.signal.aborted) {
+    // myReportError(error);
+    console.error(error);
+  }
+};
 
 export const streamTimeout = 5_000;
 

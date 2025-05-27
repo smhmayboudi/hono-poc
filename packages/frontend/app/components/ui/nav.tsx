@@ -1,6 +1,6 @@
 import { href, NavLink } from "react-router";
 
-import Spinner from "~/components/spinner";
+import Loading from "~/components/ui/loading";
 
 export default () => (
   <nav>
@@ -14,7 +14,7 @@ export default () => (
           {({ isPending }) => (
             <>
               <span>Home</span>
-              {isPending && <Spinner />}
+              {isPending && <Loading c_size="xs" />}
             </>
           )}
         </NavLink>
@@ -28,7 +28,7 @@ export default () => (
           {({ isPending }) => (
             <>
               <span>About</span>
-              {isPending && <Spinner />}
+              {isPending && <Loading c_size="xs" />}
             </>
           )}
         </NavLink>
@@ -42,7 +42,7 @@ export default () => (
           {({ isPending }) => (
             <>
               <span>Dashboard</span>
-              {isPending && <Spinner />}
+              {isPending && <Loading c_size="xs" />}
             </>
           )}
         </NavLink>
@@ -56,7 +56,7 @@ export default () => (
               {({ isPending }) => (
                 <>
                   <span>User POC Create</span>
-                  {isPending && <Spinner />}
+                  {isPending && <Loading c_size="xs" />}
                 </>
               )}
             </NavLink>
@@ -70,7 +70,7 @@ export default () => (
               {({ isPending }) => (
                 <>
                   <span>User POC Read</span>
-                  {isPending && <Spinner />}
+                  {isPending && <Loading c_size="xs" />}
                 </>
               )}
             </NavLink>

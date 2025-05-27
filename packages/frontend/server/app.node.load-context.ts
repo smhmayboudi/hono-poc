@@ -9,9 +9,7 @@ declare module "react-router" {
   }
 }
 
-export const getLoadContext = (args: GetLoadContextArgs) => {
-  return {
-    extra: "stuff",
-    url: args.request.url,
-  };
-};
+export const getLoadContext = (args: GetLoadContextArgs) => ({
+  extra: "stuff",
+  url: args.request.url,
+});

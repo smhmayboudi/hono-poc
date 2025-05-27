@@ -2,59 +2,65 @@ import { cva, VariantProps } from "class-variance-authority";
 
 import { twc } from "~/utils/css";
 
-const button = cva("button", {
+const button = cva("btn", {
   variants: {
-    intent: {
-      primary: ["bg-blue-500", "border-transparent", "text-white"],
-      secondary: ["bg-white", "border-gray-400", "text-gray-800"],
+    c_behavior: {
+      active: "btn-active",
+      disabled: "btn-disabled",
     },
-    size: {
-      small: ["px-2", "py-1", "text-sm"],
-      medium: ["px-4", "py-2", "text-base"],
+    c_color: {
+      neutral: "btn-neutral",
+      primary: "btn-primary",
+      secondary: "btn-secondary",
+      accent: "btn-accent",
+      info: "btn-info",
+      success: "btn-success",
+      warning: "btn-warning",
+      error: "btn-error",
     },
-    disabled: {
-      false: [],
-      true: ["cursor-not-allowed", "opacity-50"],
+    c_modifier: {
+      wide: "btn-wide",
+      block: "btn-block",
+      square: "btn-square",
+      circle: "btn-circle",
+    },
+    c_size: {
+      xs: "btn-xs",
+      sm: "btn-sm",
+      md: "btn-md",
+      lg: "btn-lg",
+      xl: "btn-xl",
+    },
+    c_style: {
+      outline: "btn-outline",
+      dash: "btn-dash",
+      soft: "btn-soft",
+      ghost: "btn-ghost",
+      link: "btn-link",
     },
   },
-  compoundVariants: [
-    {
-      class: "hover:bg-blue-600",
-      disabled: false,
-      intent: "primary",
-    },
-    {
-      class: "hover:bg-gray-100",
-      disabled: false,
-      intent: "secondary",
-    },
-    {
-      class: "uppercase",
-      intent: "primary",
-      size: "medium",
-    },
-  ],
-  defaultVariants: {
-    disabled: false,
-    intent: "primary",
-    size: "medium",
-  },
+  compoundVariants: [],
+  defaultVariants: {},
 });
 
 export interface ButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled">,
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof button> {}
 
 export default ({
+  c_behavior,
+  c_color,
+  c_modifier,
+  c_size,
+  c_style,
   className,
-  disabled,
-  intent,
-  size,
   ...props
 }: ButtonProps) => (
   <button
-    className={twc(button({ intent, size, disabled, className }))}
-    disabled={disabled || undefined}
+    className={twc(
+      button({ c_behavior, c_color, c_modifier, c_size, c_style }),
+      className,
+    )}
     {...props}
   />
 );

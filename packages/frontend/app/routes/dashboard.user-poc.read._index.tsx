@@ -1,18 +1,38 @@
+import { AppType } from "backend";
+import { hc } from "hono/client";
 import { href, Link } from "react-router";
+
+import errorBoundary from "~/components/error-boundary";
+import hydrateFallback from "~/components/hydrate-fallback";
 
 import type { Route } from "./+types/dashboard.user-poc.read._index";
 
-export const clientLoader = ({}: Route.ClientLoaderArgs) => {
+export const clientLoader = async ({}: Route.ClientLoaderArgs) => {
   console.log("CLIENT - clientLoader");
-  return { list: [{ id: 1, fullname: "test" }] };
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const client = hc<AppType>("http://127.0.0.1:8081/");
+  const res = await client.api.v1["user-poc"].$get({ query: {} });
+  if (res.ok) {
+    const { data } = await res.json();
+    return { data };
+  }
+  const { errors } = await res.json();
+  return { errors };
 };
 
 // clientLoader.hydrate = true as const;
 
-export const loader = ({}: Route.LoaderArgs) => {
-  console.log("SERVER - loader");
-  return { list: [{ id: 1, fullname: "test" }] };
-};
+// export const loader = async ({}: Route.LoaderArgs) => {
+//   console.log("SERVER - loader");
+//   const client = hc<AppType>("http://127.0.0.1:8081/");
+//   const res = await client.api.v1["user-poc"].$get({ query: {} });
+//   if (res.ok) {
+//     const { data } = await res.json();
+//     return { data };
+//   }
+//   const { errors } = await res.json();
+//   return { errors };
+// };
 
 // export const meta = ({}: Route.MetaArgs) => [
 //   { title: "User POC Read" },
@@ -21,7 +41,7 @@ export const loader = ({}: Route.LoaderArgs) => {
 
 export default ({ loaderData }: Route.ComponentProps) => (
   <div>
-    {loaderData.list.length === 0 ? (
+    {loaderData.data?.length === 0 ? (
       <p>No Records</p>
     ) : (
       <>
@@ -34,10 +54,10 @@ export default ({ loaderData }: Route.ComponentProps) => (
             </tr>
           </thead>
           <tbody>
-            {loaderData.list.map((value) => (
+            {loaderData.data?.map((value) => (
               <tr key={value.id}>
                 <td>{value.id}</td>
-                <td>{value.fullname}</td>
+                <td>{value.attributes?.fullname}</td>
                 <td>
                   <div className="join">
                     <Link
@@ -75,24 +95,24 @@ export default ({ loaderData }: Route.ComponentProps) => (
           <input
             aria-label="1"
             checked
-            className="join-item btn btn-square"
+            className="btn btn-square join-item"
             name="options"
             type="radio"
           />
           <input
             aria-label="2"
-            className="join-item btn btn-square"
+            className="btn btn-square join-item"
             name="options"
             type="radio"
           />
           <input
             aria-label="3"
-            className="join-item btn btn-square"
+            className="btn btn-square join-item"
             name="options"
             type="radio"
           />
           <input
-            className="join-item btn btn-square"
+            className="btn btn-square join-item"
             type="radio"
             name="options"
             aria-label="4"
@@ -103,6 +123,6 @@ export default ({ loaderData }: Route.ComponentProps) => (
   </div>
 );
 
-export function HydrateFallback() {
-  return <div>Loading...</div>;
-}
+export const ErrorBoundary = errorBoundary;
+
+export const HydrateFallback = hydrateFallback;

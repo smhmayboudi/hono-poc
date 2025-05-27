@@ -1,19 +1,37 @@
+import { AppType } from "backend";
+import { hc } from "hono/client";
 import { href, useFetcher, useNavigate } from "react-router";
+
+import errorBoundary from "~/components/error-boundary";
+import hydrateFallback from "~/components/hydrate-fallback";
+import Button from "~/components/ui/button";
+import Loading from "~/components/ui/loading";
 
 import type { Route } from "./+types/dashboard.user-poc.$id.delete";
 
-export const action = async ({ request }: Route.ActionArgs) => {
-  console.log("SERVER - action");
-  const formData = await request.formData();
-  const id = formData.get("id")?.toString() ?? "";
-  return { id };
-};
+// export const action = async ({ params }: Route.ActionArgs) => {
+//   console.log("SERVER - action");
+//   const client = hc<AppType>("http://127.0.0.1:8081/");
+//   const res = await client.api.v1["user-poc"][":id"].$delete({ param: params });
+//   if (res.ok) {
+//     const { data } = await res.json();
+//     return { data };
+//   }
+//   const { errors } = await res.json();
+//   return { errors };
+// };
 
-export const clientAction = async ({ request }: Route.ClientActionArgs) => {
+export const clientAction = async ({ params }: Route.ClientActionArgs) => {
   console.log("CLIENT - clientAction");
-  const formData = await request.formData();
-  const id = formData.get("id")?.toString() ?? "";
-  return { id };
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const client = hc<AppType>("http://127.0.0.1:8081/");
+  const res = await client.api.v1["user-poc"][":id"].$delete({ param: params });
+  if (res.ok) {
+    const { data } = await res.json();
+    return { data };
+  }
+  const { errors } = await res.json();
+  return { errors };
 };
 
 // export const meta = ({ params }: Route.MetaArgs) => [
@@ -25,40 +43,70 @@ export const clientAction = async ({ request }: Route.ClientActionArgs) => {
 // ];
 
 export default ({ params }: Route.ComponentProps) => {
-  const fetcher = useFetcher();
+  const fetcher = useFetcher<typeof clientAction>();
   const busy = fetcher.state !== "idle";
-  // const { errors } = useActionData<typeof action>();
   const navigate = useNavigate();
 
   return (
     <div>
       <fetcher.Form method="post">
-        <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+        <fieldset className="bg-base-200 border border-base-300 fieldset p-4 rounded-box">
           <legend className="fieldset-legend">
             User POC #{params.id} Delete
           </legend>
-          <p>Are you sure want to delete User POC #{params.id}?</p>
-          <input type="hidden" id="id" name="id" defaultValue={params.id} />
+          <label className="floating-label">
+            <span>ID</span>
+            <input
+              aria-label="ID"
+              className="input validator"
+              disabled
+              defaultValue={params.id}
+              name="id"
+              placeholder="ID"
+              required
+              type="text"
+            />
+          </label>
           <div className="join">
-            <button
-              className="btn join-item btn-sm btn-active btn-primary"
+            <Button
+              c_behavior="active"
+              c_color="primary"
+              c_size="sm"
+              className="join-item"
+              disabled={busy}
               type="submit"
             >
-              {busy ? <span className="loading loading-spinner" /> : "OK"}
-            </button>
-            <button
-              className="btn btn-sm join-item"
+              {busy ? <Loading c_size="xs" /> : "OK"}
+            </Button>
+            <Button
+              c_size="sm"
+              className="join-item"
               onClick={() => {
                 navigate(href("/dashboard/user-poc/read"));
               }}
               type="button"
             >
               CANCEL
-            </button>
+            </Button>
           </div>
         </fieldset>
       </fetcher.Form>
-      {/* {actionData ? <p>#{actionData.id} updated</p> : null} */}
+      {fetcher?.data?.data?.id ? <p>#{fetcher.data.data.id} delete.</p> : <></>}
+      {fetcher?.data?.errors ? (
+        <>
+          {fetcher.data.errors.map((values) => (
+            <p>
+              {values.title}[{values.code}]: {values.detail}
+            </p>
+          ))}
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
+
+export const ErrorBoundary = errorBoundary;
+
+export const HydrateFallback = hydrateFallback;

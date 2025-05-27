@@ -1,5 +1,4 @@
 import {
-  isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
@@ -8,10 +7,10 @@ import {
   useNavigation,
 } from "react-router";
 
-import Footer from "~/components/footer";
-import Header from "~/components/header";
-import Nav from "~/components/nav";
-import SpinnerGlobal from "~/components/spinner-global";
+import Footer from "~/components/ui/footer";
+import Header from "~/components/ui/header";
+import Loading from "~/components/ui/loading";
+import Nav from "~/components/ui/nav";
 // import hono from "~/hono.svg?url";
 // import manifest from "~/manifest.json?url";
 import styles from "~/style.css?url";
@@ -19,10 +18,11 @@ import styles from "~/style.css?url";
 import type { Route } from "./+types/root";
 
 export const headers = ({ parentHeaders }: Route.HeadersArgs) => {
-  parentHeaders.set(
-    "Cache-Control",
-    "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400",
-  );
+  parentHeaders.set("Cache-Control", "max-age=3600, s-maxage=86400");
+  // parentHeaders.set("Content-Security-Policy", "default-src 'self';");
+  // parentHeaders.set("X-Content-Type-Options", "nosniff");
+  // parentHeaders.set("X-Frame-Options", "DENY");
+  // parentHeaders.set("Permissions-Policy", "geolocation=(self)");
   return parentHeaders;
 };
 
@@ -77,12 +77,12 @@ export const Layout = () => {
         <Meta />
         <Links />
       </head>
-      <body className="flex min-h-screen flex-col">
+      <body className="flex flex-col min-h-screen">
         <Header />
         <div className="flex flex-1">
           <Nav />
-          <main className="flex-1 bg-white p-6">
-            {isNavigating && <SpinnerGlobal />}
+          <main className="bg-white flex-1 p-6">
+            {isNavigating && <Loading c_size="xl" />}
             <Outlet />
           </main>
         </div>
@@ -95,34 +95,3 @@ export const Layout = () => {
 };
 
 export default () => <Outlet />;
-
-export const ErrorBoundary = ({ error }: Route.ErrorBoundaryProps) => {
-  if (isRouteErrorResponse(error)) {
-    return (
-      <div>
-        <h1>
-          {error.status} {error.statusText}
-        </h1>
-        <p>{error.data}</p>
-      </div>
-    );
-  } else if (error instanceof Error) {
-    return (
-      <div>
-        <h1>Error</h1>
-        <p>{error.name}</p>
-        <p>{error.message}</p>
-        <p>The stack trace is:</p>
-        <pre>
-          <code>{error.stack}</code>
-        </pre>
-      </div>
-    );
-  } else {
-    return <h1>Unknown Error</h1>;
-  }
-};
-
-export function HydrateFallback() {
-  return <div>Loading...</div>;
-}

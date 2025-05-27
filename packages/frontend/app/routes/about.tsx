@@ -1,6 +1,6 @@
 import { href, Link } from "react-router";
 
-import type { Route } from "./+types/about";
+// import type { Route } from "./+types/about";
 
 // export const meta = ({}: Route.MetaArgs) => [
 //   { title: "About" },
