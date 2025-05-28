@@ -7,6 +7,7 @@ import hydrateFallback from "~/components/hydrate-fallback";
 import Button from "~/components/ui/button";
 import { FormBlocker, useFormBlocker } from "~/components/ui/form-blocker";
 import Loading from "~/components/ui/loading";
+import { sleep } from "~/utils/time";
 
 import type { Route } from "./+types/dashboard.user-poc.create";
 
@@ -28,7 +29,7 @@ import type { Route } from "./+types/dashboard.user-poc.create";
 
 export const clientAction = async ({ request }: Route.ClientActionArgs) => {
   console.log("CLIENT - clientAction");
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await sleep(1000);
   const formData = await request.formData();
   const fullname = formData.get("fullname") as string;
   const client = hc<AppType>("http://127.0.0.1:8081/");

@@ -4,12 +4,13 @@ import { href, Link } from "react-router";
 
 import errorBoundary from "~/components/error-boundary";
 import hydrateFallback from "~/components/hydrate-fallback";
+import { sleep } from "~/utils/time";
 
 import type { Route } from "./+types/dashboard.user-poc.read._index";
 
 export const clientLoader = async ({}: Route.ClientLoaderArgs) => {
   console.log("CLIENT - clientLoader");
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await sleep(1000);
   const client = hc<AppType>("http://127.0.0.1:8081/");
   const res = await client.api.v1["user-poc"].$get({ query: {} });
   if (res.ok) {
@@ -41,9 +42,7 @@ export const clientLoader = async ({}: Route.ClientLoaderArgs) => {
 
 export default ({ loaderData }: Route.ComponentProps) => (
   <div>
-    {loaderData.data?.length === 0 ? (
-      <p>No Records</p>
-    ) : (
+    {loaderData.data?.length ? (
       <>
         <table className="table table-zebra">
           <thead>
@@ -54,7 +53,7 @@ export default ({ loaderData }: Route.ComponentProps) => (
             </tr>
           </thead>
           <tbody>
-            {loaderData.data?.map((value) => (
+            {loaderData.data.map((value) => (
               <tr key={value.id}>
                 <td>{value.id}</td>
                 <td>{value.attributes?.fullname}</td>
@@ -119,6 +118,8 @@ export default ({ loaderData }: Route.ComponentProps) => (
           />
         </div>
       </>
+    ) : (
+      <p>No Records</p>
     )}
   </div>
 );

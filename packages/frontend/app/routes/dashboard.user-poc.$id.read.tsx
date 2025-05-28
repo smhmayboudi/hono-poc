@@ -4,12 +4,13 @@ import { href, Link } from "react-router";
 
 import errorBoundary from "~/components/error-boundary";
 import hydrateFallback from "~/components/hydrate-fallback";
+import { sleep } from "~/utils/time";
 
 import type { Route } from "./+types/dashboard.user-poc.$id.read";
 
 export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
   console.log("CLIENT - clientLoader");
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await sleep(1000);
   const client = hc<AppType>("http://127.0.0.1:8081/");
   const res = await client.api.v1["user-poc"][":id"].$get({ param: params });
   if (res.ok) {

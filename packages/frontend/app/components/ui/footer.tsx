@@ -4,8 +4,8 @@ export default () => (
       <p>
         Powered by&nbsp;
         <a href="https://github.com/remix-run/react-router">React Router</a>
-        <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
       </p>
+      <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
     </aside>
   </footer>
 );

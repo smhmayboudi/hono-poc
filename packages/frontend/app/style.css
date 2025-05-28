@@ -2,7 +2,12 @@
 
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
-  themes: light --default;
+  exclude: ;
+  include: ;
+  logs: true;
+  prefix: ;
+  root: ":root";
+  themes: light --default, dark --prefersdark;
 }
 
 a.active {
@@ -14,4 +19,48 @@ a.pending {
 }
 
 a.transitioning {
+}
+
+/* Layout styles for the image grid */
+.image-list > div {
+  column-gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.image-list h1 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.image-list img {
+  contain: layout;
+  max-width: 100%;
+}
+
+.image-list p {
+  width: fit-content;
+}
+
+/* Assign transition names to elements during navigation */
+.image-list a.transitioning img {
+  view-transition-name: image-expand;
+}
+
+.image-list a.transitioning p {
+  view-transition-name: image-title;
+}
+
+/* Match transition names from the list view */
+.image-detail h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  view-transition-name: image-title;
+  width: fit-content;
+}
+
+.image-detail img {
+  contain: layout;
+  max-width: 100%;
+  view-transition-name: image-expand;
 }

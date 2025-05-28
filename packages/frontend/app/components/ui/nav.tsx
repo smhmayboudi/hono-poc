@@ -9,6 +9,48 @@ export default () => (
         <NavLink
           className={({ isActive }) => (isActive ? "menu-active" : "")}
           end
+          to={href("/login")}
+        >
+          {({ isPending }) => (
+            <>
+              <span>login</span>
+              {isPending && <Loading c_size="xs" />}
+            </>
+          )}
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) => (isActive ? "menu-active" : "")}
+          end
+          to={href("/logout")}
+        >
+          {({ isPending }) => (
+            <>
+              <span>logout</span>
+              {isPending && <Loading c_size="xs" />}
+            </>
+          )}
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) => (isActive ? "menu-active" : "")}
+          end
+          to={href("/image/gallery")}
+        >
+          {({ isPending }) => (
+            <>
+              <span>image/gallery</span>
+              {isPending && <Loading c_size="xs" />}
+            </>
+          )}
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) => (isActive ? "menu-active" : "")}
+          end
           to={href("/")}
         >
           {({ isPending }) => (
