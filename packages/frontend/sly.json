@@ -1,0 +1,1586 @@
+{
+  "$schema": "https://sly-cli.fly.dev/registry/config.v2.json",
+  "config": {
+    "icons": {},
+    "components": {},
+    "utils": {}
+  },
+  "libraries": {
+    "iconify:academicons": {
+      "name": "Academicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:akar-icons": {
+      "name": "Akar Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:ant-design": {
+      "name": "Ant Design Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:arcticons": {
+      "name": "Arcticons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:basil": {
+      "name": "Basil",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:bitcoin-icons": {
+      "name": "Bitcoin Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:bi": {
+      "name": "Bootstrap Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:bx": {
+      "name": "BoxIcons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:bxl": {
+      "name": "BoxIcons Logo",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:bxs": {
+      "name": "BoxIcons Solid",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:bpmn": {
+      "name": "BPMN",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:brandico": {
+      "name": "Brandico",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:bytesize": {
+      "name": "Bytesize Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:carbon": {
+      "name": "Carbon",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:catppuccin": {
+      "name": "Catppuccin Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:charm": {
+      "name": "Charm Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:circle-flags": {
+      "name": "Circle Flags",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:circum": {
+      "name": "Circum Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:clarity": {
+      "name": "Clarity",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:codex": {
+      "name": "CodeX Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:codicon": {
+      "name": "Codicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:ci": {
+      "name": "coolicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:cib": {
+      "name": "CoreUI Brands",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:cif": {
+      "name": "CoreUI Flags",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:cil": {
+      "name": "CoreUI Free",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:covid": {
+      "name": "Covid Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:cryptocurrency-color": {
+      "name": "Cryptocurrency Color Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:cryptocurrency": {
+      "name": "Cryptocurrency Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:gg": {
+      "name": "css.gg",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:cuida": {
+      "name": "Cuida Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:cbi": {
+      "name": "Custom Brand Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:streamline-cyber": {
+      "name": "Cyber free icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:dashicons": {
+      "name": "Dashicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:devicon": {
+      "name": "Devicon",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:devicon-plain": {
+      "name": "Devicon Plain",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:duo-icons": {
+      "name": "Duoicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:et": {
+      "name": "Elegant",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:ep": {
+      "name": "Element Plus",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:el": {
+      "name": "Elusive Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:emojione": {
+      "name": "Emoji One (Colored)",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:emojione-monotone": {
+      "name": "Emoji One (Monotone)",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:emojione-v1": {
+      "name": "Emoji One (v1)",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:entypo": {
+      "name": "Entypo+",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:entypo-social": {
+      "name": "Entypo+ Social",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:eos-icons": {
+      "name": "EOS Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:eva": {
+      "name": "Eva Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:ei": {
+      "name": "Evil Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:famicons": {
+      "name": "Famicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fe": {
+      "name": "Feather Icon",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:feather": {
+      "name": "Feather Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:file-icons": {
+      "name": "File Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fxemoji": {
+      "name": "Firefox OS Emoji",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:flag": {
+      "name": "Flag Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:flagpack": {
+      "name": "Flagpack",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:flat-color-icons": {
+      "name": "Flat Color Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:flat-ui": {
+      "name": "Flat UI Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:streamline-flex": {
+      "name": "Flex free icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:flowbite": {
+      "name": "Flowbite Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fluent-emoji": {
+      "name": "Fluent Emoji",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fluent-emoji-flat": {
+      "name": "Fluent Emoji Flat",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fluent-emoji-high-contrast": {
+      "name": "Fluent Emoji High Contrast",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fluent-mdl2": {
+      "name": "Fluent UI MDL2",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fluent-color": {
+      "name": "Fluent UI System Color Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fluent": {
+      "name": "Fluent UI System Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fa": {
+      "name": "Font Awesome 4",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fa-brands": {
+      "name": "Font Awesome 5 Brands",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fa-regular": {
+      "name": "Font Awesome 5 Regular",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fa-solid": {
+      "name": "Font Awesome 5 Solid",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fa6-brands": {
+      "name": "Font Awesome Brands",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fa6-regular": {
+      "name": "Font Awesome Regular",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fa6-solid": {
+      "name": "Font Awesome Solid",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:gis": {
+      "name": "Font-GIS",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fad": {
+      "name": "FontAudio",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fontelico": {
+      "name": "Fontelico",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:fontisto": {
+      "name": "Fontisto",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:formkit": {
+      "name": "FormKit Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:foundation": {
+      "name": "Foundation",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:f7": {
+      "name": "Framework7 Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:gala": {
+      "name": "Gala Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:game-icons": {
+      "name": "Game Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:garden": {
+      "name": "Garden SVG Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:geo": {
+      "name": "GeoGlyphs",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:pajamas": {
+      "name": "Gitlab SVGs",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:ic": {
+      "name": "Google Material Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:gravity-ui": {
+      "name": "Gravity UI Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:gridicons": {
+      "name": "Gridicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:guidance": {
+      "name": "Guidance",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:healthicons": {
+      "name": "Health Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:heroicons": {
+      "name": "HeroIcons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:heroicons-outline": {
+      "name": "HeroIcons v1 Outline",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:heroicons-solid": {
+      "name": "HeroIcons v1 Solid",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:hugeicons": {
+      "name": "Huge Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:humbleicons": {
+      "name": "Humbleicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:il": {
+      "name": "Icalicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:icomoon-free": {
+      "name": "IcoMoon Free",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:iconamoon": {
+      "name": "IconaMoon",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:iconoir": {
+      "name": "Iconoir",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:icon-park": {
+      "name": "IconPark",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:icon-park-outline": {
+      "name": "IconPark Outline",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:icon-park-solid": {
+      "name": "IconPark Solid",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:icon-park-twotone": {
+      "name": "IconPark TwoTone",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:icons8": {
+      "name": "Icons8 Windows 10 Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:wpf": {
+      "name": "Icons8 Windows 8 Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:iwwa": {
+      "name": "Innowatio Font",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:ion": {
+      "name": "IonIcons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:jam": {
+      "name": "Jam Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:lets-icons": {
+      "name": "Lets Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:ls": {
+      "name": "Ligature Symbols",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:la": {
+      "name": "Line Awesome",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:lineicons": {
+      "name": "Lineicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:lsicon": {
+      "name": "Lsicon",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:lucide": {
+      "name": "Lucide",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:lucide-lab": {
+      "name": "Lucide Lab",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:mage": {
+      "name": "Mage Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:majesticons": {
+      "name": "Majesticons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:maki": {
+      "name": "Maki",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:map": {
+      "name": "Map Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:marketeq": {
+      "name": "Marketeq",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:zmdi": {
+      "name": "Material Design Iconic Font",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:mdi": {
+      "name": "Material Design Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:mdi-light": {
+      "name": "Material Design Light",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:material-icon-theme": {
+      "name": "Material Icon Theme",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:line-md": {
+      "name": "Material Line Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:material-symbols": {
+      "name": "Material Symbols",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:material-symbols-light": {
+      "name": "Material Symbols Light",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:medical-icon": {
+      "name": "Medical Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:memory": {
+      "name": "Memory Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:meteocons": {
+      "name": "Meteocons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:meteor-icons": {
+      "name": "Meteor Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:mingcute": {
+      "name": "MingCute Icon",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:mi": {
+      "name": "Mono Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:mono-icons": {
+      "name": "Mono Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:mynaui": {
+      "name": "Myna UI Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:nimbus": {
+      "name": "Nimbus",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:nonicons": {
+      "name": "Nonicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:noto": {
+      "name": "Noto Emoji",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:noto-v1": {
+      "name": "Noto Emoji (v1)",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:nrk": {
+      "name": "NRK Core Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:octicon": {
+      "name": "Octicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:ooui": {
+      "name": "OOUI",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:oi": {
+      "name": "Open Iconic",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:openmoji": {
+      "name": "OpenMoji",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:oui": {
+      "name": "OpenSearch UI",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:pepicons": {
+      "name": "Pepicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:pepicons-pencil": {
+      "name": "Pepicons Pencil",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:pepicons-pop": {
+      "name": "Pepicons Pop!",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:pepicons-print": {
+      "name": "Pepicons Print",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:ph": {
+      "name": "Phosphor",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:picon": {
+      "name": "Pico-icon",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:pixel": {
+      "name": "Pixel Icon",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:pixelarticons": {
+      "name": "Pixelarticons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:ps": {
+      "name": "PrestaShop Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:prime": {
+      "name": "Prime Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:proicons": {
+      "name": "ProIcons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:qlementine-icons": {
+      "name": "Qlementine Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:quill": {
+      "name": "Quill Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:radix-icons": {
+      "name": "Radix Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:raphael": {
+      "name": "Raphael",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:ri": {
+      "name": "Remix Icon",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:rivet-icons": {
+      "name": "Rivet Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:si": {
+      "name": "Sargam Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:ix": {
+      "name": "Siemens Industrial Experience Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:simple-icons": {
+      "name": "Simple Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:simple-line-icons": {
+      "name": "Simple line icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:skill-icons": {
+      "name": "Skill Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:si-glyph": {
+      "name": "SmartIcons Glyph",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:solar": {
+      "name": "Solar",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:stash": {
+      "name": "Stash Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:streamline": {
+      "name": "Streamline",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:streamline-block": {
+      "name": "Streamline Block",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:streamline-emojis": {
+      "name": "Streamline Emojis",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:subway": {
+      "name": "Subway Icon Set",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:logos": {
+      "name": "SVG Logos",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:svg-spinners": {
+      "name": "SVG Spinners",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:system-uicons": {
+      "name": "System UIcons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:tabler": {
+      "name": "Tabler Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:tdesign": {
+      "name": "TDesign Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:teenyicons": {
+      "name": "Teenyicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:topcoat": {
+      "name": "TopCoat Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:twemoji": {
+      "name": "Twitter Emoji",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:typcn": {
+      "name": "Typicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:uiw": {
+      "name": "uiw icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:uil": {
+      "name": "Unicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:uim": {
+      "name": "Unicons Monochrome",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:uis": {
+      "name": "Unicons Solid",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:uit": {
+      "name": "Unicons Thin Line",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:unjs": {
+      "name": "UnJS Logos",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:vaadin": {
+      "name": "Vaadin Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:vs": {
+      "name": "Vesper Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:vscode-icons": {
+      "name": "VSCode Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:wi": {
+      "name": "Weather Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:websymbol": {
+      "name": "Web Symbols Liga",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:token": {
+      "name": "Web3 Icons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:token-branded": {
+      "name": "Web3 Icons Branded",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:whh": {
+      "name": "WebHostingHub Glyphs",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:weui": {
+      "name": "WeUI Icon",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    },
+    "iconify:zondicons": {
+      "name": "Zondicons",
+      "config": {
+        "directory": "./icons",
+        "postinstall": [],
+        "transformers": []
+      }
+    }
+  }
+}

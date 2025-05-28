@@ -11,8 +11,6 @@ import Footer from "~/components/ui/footer";
 import Header from "~/components/ui/header";
 import Loading from "~/components/ui/loading";
 import Nav from "~/components/ui/nav";
-// import hono from "~/hono.svg?url";
-// import manifest from "~/manifest.json?url";
 import styles from "~/style.css?url";
 
 import type { Route } from "./+types/root";
@@ -27,10 +25,21 @@ export const headers = ({ parentHeaders }: Route.HeadersArgs) => {
 };
 
 export const links: Route.LinksFunction = () => [
-  { href: "/hono.svg", rel: "apple-touch-icon", type: "image/svg+xml" },
-  { href: "/hono.svg", rel: "icon", type: "image/svg+xml" },
-  { href: "/manifest.json", rel: "apple-touch-icon" },
-  { href: styles, rel: "stylesheet" },
+  {
+    as: "image",
+    href: "/hono.svg",
+    rel: "apple-touch-icon",
+    type: "image/svg+xml",
+  },
+  { as: "image", href: "/hono.svg", rel: "icon", type: "image/svg+xml" },
+  { as: "manifest", href: "/manifest.json", rel: "apple-touch-icon" },
+  { as: "style", href: styles, rel: "stylesheet" },
+  {
+    as: "image",
+    href: "/icon.svg",
+    rel: "preload",
+    type: "image/svg+xml",
+  },
 ];
 
 export const meta = ({}: Route.MetaArgs) => [
