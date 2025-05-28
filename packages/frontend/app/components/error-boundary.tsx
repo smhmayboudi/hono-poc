@@ -15,7 +15,6 @@ export default () => {
   } else if (error instanceof Error) {
     return (
       <div>
-        <h1>Error</h1>
         <p>{error.name}</p>
         <p>{error.message}</p>
         <p>The stack trace is:</p>
@@ -25,6 +24,10 @@ export default () => {
       </div>
     );
   } else {
-    return <h1>Unknown Error</h1>;
+    return (
+      <div>
+        <h1>Unknown Error</h1>
+      </div>
+    );
   }
 };

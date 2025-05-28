@@ -41,13 +41,7 @@ export default ({ loaderData }: Route.ComponentProps) => (
   <div>
     {loaderData.showBanner ? (
       <div role="alert" className="alert alert-info">
-        <Icon
-          className="h-6 w-6 shrink-0 stroke-current"
-          fill="none"
-          name="outline-info"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        />
+        <Icon c_name="outline-info" />
         <span>Don't miss our banner!</span>
         <Form method="post">
           <input name="showBanner" type="hidden" value="hidden" />

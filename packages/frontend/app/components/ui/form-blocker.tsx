@@ -38,13 +38,7 @@ export const FormBlocker = ({ blocker }: FormBlockerProps) => {
 
   return (
     <div role="alert" className="alert alert-warning">
-      <Icon
-        name="outline-warning"
-        className="h-6 w-6 shrink-0 stroke-current"
-        fill="none"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      />
+      <Icon c_name="outline-warning" />
       <span>Wait! You didn't submit the form.</span>
       <div className="join">
         <Button

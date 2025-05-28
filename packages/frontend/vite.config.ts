@@ -13,6 +13,25 @@ export default defineConfig({
     sourcemap: true,
   },
   plugins: [
+    // Core Functionality
+    reactRouter(),
+    serverAdapter({
+      entry: "./server/app.ts",
+      getLoadContext,
+    }),
+
+    // Build/Optimization
+    sentryVitePlugin({
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+    }),
+    tailwindcss(),
+
+    // Development Helpers
+    tsconfigPaths(),
+
+    // Asset Handling
     iconsSpritesheet({
       cwd: process.cwd(),
       fileName: "./icon.svg",
@@ -20,20 +39,8 @@ export default defineConfig({
       iconNameTransformer: (iconName) => iconName,
       inputDir: "./resources/icons/",
       outputDir: "./public/",
-      typesOutputFile: "./app/utils/icons.ts",
+      typesOutputFile: "./app/components/ui/icon-type.ts",
       withTypes: true,
     }),
-    reactRouter(),
-    sentryVitePlugin({
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      org: process.env.SENTRY_ORG,
-      project: process.env.SENTRY_PROJECT,
-    }),
-    serverAdapter({
-      entry: "./server/app.ts",
-      getLoadContext,
-    }),
-    tailwindcss(),
-    tsconfigPaths(),
   ],
 });
