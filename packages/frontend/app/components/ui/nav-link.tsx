@@ -1,0 +1,90 @@
+import { useMemo } from "react";
+import {
+  NavLink as ReactRouterNavLink,
+  type NavLinkProps as ReactRouterNavLinkProps,
+  useSearchParams,
+} from "react-router";
+
+import type { Language } from "~/localization/resource";
+
+export interface NavLinkProps extends ReactRouterNavLinkProps {
+  keepSearchParams?: boolean;
+  language?: Language;
+}
+
+/**
+ * Enhances the default to prop by adding the language to the search params and conditionally keeping the search params
+ * @param language The language to use over the search param language
+ * @param to The new location to navigate to
+ * @param keepSearchParams Whether to keep the search params or not
+ *
+ * @example
+ * ```tsx
+ * // override the language
+ * function Component(){
+ * 	const enhancedTo = useEnhancedTo({ language: "en", to: "/" })
+ * 	return <NavLink to={enhancedTo} /> // Will navigate to /?lng=en even if the current url contains a different lanugage
+ * }
+ *
+ * function Component(){
+ * 	const enhancedTo = useEnhancedTo({ to: "/" })
+ * 	return <NavLink to={enhancedTo} /> // Will navigate to /?lng=X where X is the current language in the url search params, or just to / if no language is found
+ * }
+ *
+ * function Component(){
+ * 	const enhancedTo = useEnhancedTo({ to: "/", keepSearchParams: true })
+ * 	return <NavLink to={enhancedTo} /> // Will navigate to /?params=from_the_url_search_params&lng=en
+ * }
+ * ```
+ */
+export const useEnhancedTo = ({
+  keepSearchParams,
+  language,
+  to,
+}: NavLinkProps) => {
+  const [params] = useSearchParams();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { lng, ...searchParams } = Object.fromEntries(params.entries());
+  const newSearchParams = new URLSearchParams(searchParams);
+  const searchString = newSearchParams.toString();
+  const hasSearchParams = searchString.length > 0;
+  const lang = language ?? params.get("lng");
+  const appendSearchParams = hasSearchParams || lang;
+  const newPath = useMemo(
+    () =>
+      to +
+      (appendSearchParams
+        // eslint-disable-next-line sonarjs/no-nested-template-literals
+        ? `?${[keepSearchParams && hasSearchParams && searchString, lang && `lng=${lang}`].filter(Boolean).join("&")}`
+        : ""),
+    [
+      to,
+      appendSearchParams,
+      keepSearchParams,
+      hasSearchParams,
+      searchString,
+      lang,
+    ],
+  );
+  return newPath;
+};
+
+export const NavLink = ({
+  keepSearchParams = false,
+  language,
+  prefetch = "intent",
+  to,
+  viewTransition = true,
+  ...props
+}: NavLinkProps) => {
+  const enhancedTo = useEnhancedTo({ keepSearchParams, language, to });
+
+  return (
+    <ReactRouterNavLink
+      prefetch={prefetch}
+      viewTransition={viewTransition}
+      to={enhancedTo}
+      {...props}
+    />
+  );
+};

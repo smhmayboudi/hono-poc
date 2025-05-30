@@ -2,9 +2,10 @@ import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { handler } from "hono-react-router-adapter/node";
 
+// @ts-ignore
 import * as build from "../build/server";
 import app from "./app";
-import { getLoadContext } from "./app.node.load-context";
+import { getLoadContext } from "./app.node.context";
 
 app.use(serveStatic({ root: "./build/client" }));
 

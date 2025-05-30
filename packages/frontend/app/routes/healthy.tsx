@@ -1,1 +1,3 @@
-export const loader = () => new Response();
+import { data } from "react-router";
+
+export const loader = () => data({});

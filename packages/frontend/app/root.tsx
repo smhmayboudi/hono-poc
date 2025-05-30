@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Links,
   Meta,
@@ -5,11 +6,12 @@ import {
   Scripts,
   ScrollRestoration,
   useNavigation,
+  useRouteLoaderData,
 } from "react-router";
 
 import Footer from "~/components/ui/footer";
 import Header from "~/components/ui/header";
-import Loading from "~/components/ui/loading";
+import LanguageSwitcher from "~/components/ui/language-switcher";
 import Nav from "~/components/ui/nav";
 import styles from "~/style.css?url";
 
@@ -21,6 +23,7 @@ export const headers = ({ parentHeaders }: Route.HeadersArgs) => {
   // parentHeaders.set("X-Content-Type-Options", "nosniff");
   // parentHeaders.set("X-Frame-Options", "DENY");
   // parentHeaders.set("Permissions-Policy", "geolocation=(self)");
+
   return parentHeaders;
 };
 
@@ -48,7 +51,7 @@ export const meta = ({}: Route.MetaArgs) => [
   { content: "width=device-width, initial-scale=1.0", name: "viewport" },
 ];
 
-// export function meta({ error, data, matches }: Route.MetaArgs) {
+// export const meta = ({ error, data, matches }: Route.MetaArgs) => {
 //   if (error || !data.doc) {
 //     return [{ title: "Not Found" }];
 //   }
@@ -79,28 +82,40 @@ export const meta = ({}: Route.MetaArgs) => [
 export const Layout = () => {
   const navigation = useNavigation();
   const isNavigating = Boolean(navigation.location);
+  const { i18n } = useTranslation();
+  const { envClient } = useRouteLoaderData("root");
 
   return (
-    <html data-theme="light" lang="en">
+    <html data-theme="light" dir={i18n.dir()} lang={i18n.language}>
       <head>
         <Meta />
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
+        {isNavigating && (
+          <progress className="absolute flex progress w-full"></progress>
+        )}
+        <LanguageSwitcher />
         <Header />
         <div className="flex flex-1">
           <Nav />
           <main className="flex-1 p-4">
-            {isNavigating && <Loading c_size="xl" />}
             <Outlet />
           </main>
         </div>
         <Footer />
         <ScrollRestoration />
         <Scripts />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.env = ${JSON.stringify(envClient)}`,
+          }}
+        />
       </body>
     </html>
   );
 };
+
+export const loader = async ({ context }: Route.LoaderArgs) => context;
 
 export default () => <Outlet />;

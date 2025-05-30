@@ -1,4 +1,6 @@
-import { href, Link } from "react-router";
+import { href } from "react-router";
+
+import { Link } from "~/components/ui/link";
 
 // import type { Route } from "./+types/about";
 
@@ -7,9 +9,18 @@ import { href, Link } from "react-router";
 //   { content: "About | description", name: "description" },
 // ];
 
+// export const Layout = () => (
+//   <div>
+//     <h1>about</h1>
+//     <Link to={href("/")}>BACK TO WEBSITE</Link>
+//   </div>
+// );
+
 export default () => (
   <div>
-    <h1>about</h1>
-    <Link to={href("/")}>BACK TO WEBSITE</Link>
+    <h1>About</h1>
+    <p>About Description</p>
+    <br />
+    <Link to={href("/")}>BACK TO HOME</Link>
   </div>
 );

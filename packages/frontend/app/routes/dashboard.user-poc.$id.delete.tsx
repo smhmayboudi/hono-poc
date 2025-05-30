@@ -1,4 +1,4 @@
-import { AppType } from "backend";
+import type { AppType } from "backend";
 import { hc } from "hono/client";
 import { href, useFetcher, useNavigate } from "react-router";
 
@@ -16,9 +16,11 @@ import type { Route } from "./+types/dashboard.user-poc.$id.delete";
 //   const res = await client.api.v1["user-poc"][":id"].$delete({ param: params });
 //   if (res.ok) {
 //     const { data } = await res.json();
+// 
 //     return { data };
 //   }
 //   const { errors } = await res.json();
+// 
 //   return { errors };
 // };
 
@@ -29,9 +31,11 @@ export const clientAction = async ({ params }: Route.ClientActionArgs) => {
   const res = await client.api.v1["user-poc"][":id"].$delete({ param: params });
   if (res.ok) {
     const { data } = await res.json();
+
     return { data };
   }
   const { errors } = await res.json();
+
   return { errors };
 };
 
@@ -55,11 +59,10 @@ export default ({ params }: Route.ComponentProps) => {
           <legend className="fieldset-legend">
             User POC #{params.id} Delete
           </legend>
-          <label className="floating-label">
+          <label className="input floating-label">
             <span>ID</span>
             <input
               aria-label="ID"
-              className="input validator"
               disabled
               defaultValue={params.id}
               name="id"

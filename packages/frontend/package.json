@@ -21,16 +21,25 @@
     "x64"
   ],
   "dependencies": {
+    "@forge42/seo-tools": "1.4.0",
     "@hono/node-server": "^1.14.2",
     "@react-router/fs-routes": "^7.6.0",
     "@react-router/node": "^7.6.0",
     "@react-router/serve": "^7.6.0",
     "backend": "file:../backend",
     "hono": "^4.7.10",
+    "i18next": "^24.2.3",
+    "i18next-browser-languagedetector": "^8.1.0",
+    "i18next-http-backend": "^3.0.2",
     "isbot": "^5.1.28",
+    "pretty-cache-header": "1.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router": "^7.6.0"
+    "react-i18next": "^15.5.2",
+    "react-router": "^7.6.0",
+    "remix-hono": "0.0.18",
+    "remix-i18next": "^7.2.1",
+    "zod": "3.25.36"
   },
   "description": "",
   "devDependencies": {
@@ -42,10 +51,17 @@
     "@sly-cli/sly": "^2.1.1",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.7",
+    "@testing-library/react": "^16.3.0",
+    "@tsconfig/node22": "22.0.2",
+    "@tsconfig/remix": "2.0.5",
+    "@tsconfig/strictest": "2.0.5",
+    "@tsconfig/vite-react": "6.3.5",
     "@types/node": "^22.15.21",
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.5",
+    "@vitest/browser": "^3.1.4",
     "@vitest/coverage-istanbul": "^3.1.4",
+    "@vitest/ui": "^3.1.4",
     "autoprefixer": "^10.4.21",
     "class-variance-authority": "^0.7.1",
     "daisyui": "^5.0.37",
@@ -60,7 +76,8 @@
     "vite": "^6.3.5",
     "vite-plugin-icons-spritesheet": "^3.0.1",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.1.4"
+    "vitest": "^3.1.4",
+    "vitest-browser-react": "^0.2.0"
   },
   "engines": {
     "node": "^22.15.1",

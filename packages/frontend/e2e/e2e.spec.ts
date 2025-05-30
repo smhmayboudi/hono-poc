@@ -5,7 +5,9 @@ test.describe("E2E Test", () => {
     const response = await page.goto("/");
     expect(response?.status()).toBe(200);
 
-    const contentH1 = page.locator("h1");
+    const contentH1 = page.getByRole("heading", {
+      name: "React Router and Hono",
+    });
     await expect(contentH1).toHaveText("React Router and Hono");
 
     const contentH2 = await page.textContent("h2");

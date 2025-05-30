@@ -1,8 +1,7 @@
-import { cva, VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 
+import type { IconName } from "~/components/ui/icon-type";
 import { twc } from "~/utils/css";
-
-import type { IconName } from "./icon-type";
 
 const icon = cva("icon", {
   variants: {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Blocker, useBlocker, useFetcher } from "react-router";
+import { type Blocker, useBlocker, useFetcher } from "react-router";
 
 import Button from "~/components/ui/button";
 import Icon from "~/components/ui/icon";

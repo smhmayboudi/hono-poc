@@ -1,4 +1,4 @@
-import { AppType } from "backend";
+import type { AppType } from "backend";
 import { hc } from "hono/client";
 import { href, useFetcher, useNavigate } from "react-router";
 
@@ -22,9 +22,11 @@ import type { Route } from "./+types/dashboard.user-poc.$id.update";
 //   });
 //   if (res.ok) {
 //     const { data } = await res.json();
+// 
 //     return { data };
 //   }
 //   const { errors } = await res.json();
+// 
 //   return { errors };
 // };
 
@@ -43,9 +45,11 @@ export const clientAction = async ({
   });
   if (res.ok) {
     const { data } = await res.json();
+
     return { data };
   }
   const { errors } = await res.json();
+
   return { errors };
 };
 
@@ -56,9 +60,11 @@ export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
   const res = await client.api.v1["user-poc"][":id"].$get({ param: params });
   if (res.ok) {
     const { data } = await res.json();
+
     return { data };
   }
   const { errors } = await res.json();
+
   return { errors };
 };
 
@@ -70,9 +76,11 @@ export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
 //   const res = await client.api.v1["user-poc"][":id"].$get({ param: params });
 //   if (res.ok) {
 //     const { data } = await res.json();
+// 
 //     return { data };
 //   }
 //   const { errors } = await res.json();
+// 
 //   return { errors };
 // };
 
@@ -96,7 +104,7 @@ export default ({ loaderData, params }: Route.ComponentProps) => {
       <fetcher.Form
         method="post"
         onChange={(event) => {
-          const fullname = event.currentTarget.fullname.value;
+          const fullname = event.currentTarget["fullname"].value;
           setIsDirty(Boolean(fullname));
         }}
         ref={formRef}
@@ -105,11 +113,10 @@ export default ({ loaderData, params }: Route.ComponentProps) => {
           <legend className="fieldset-legend">
             User POC #{params.id} Update
           </legend>
-          <label className="floating-label">
+          <label className="floating-label input validator">
             <span>Name</span>
             <input
               aria-label="Fullname"
-              className="input validator"
               defaultValue={loaderData.data?.attributes?.fullname}
               name="fullname"
               placeholder="Fullname"

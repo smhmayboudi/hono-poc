@@ -6,7 +6,7 @@ import { defineConfig } from "vite";
 import { iconsSpritesheet } from "vite-plugin-icons-spritesheet";
 import tsconfigPaths from "vite-tsconfig-paths";
 
-import { getLoadContext } from "./server/app.node.load-context";
+import { getLoadContext } from "./server/app.node.context";
 
 export default defineConfig({
   build: {
@@ -22,9 +22,9 @@ export default defineConfig({
 
     // Build/Optimization
     sentryVitePlugin({
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      org: process.env.SENTRY_ORG,
-      project: process.env.SENTRY_PROJECT,
+      authToken: process.env["SENTRY_AUTH_TOKEN"] ?? "",
+      org: process.env["SENTRY_ORG"] ?? "",
+      project: process.env["SENTRY_PROJECT"] ?? "",
     }),
     tailwindcss(),
 

@@ -80,6 +80,7 @@ services:
       - SENTRY_DEBUG=true
       - SENTRY_DSN=https://9d1d754fb509b48d9215719cb1c95e14@o313438.ingest.us.sentry.io/4507917724090368
       - SENTRY_ENVIRONMENT=development
+      - SENTRY_LOG_LEVEL=debug
       - SENTRY_ORG=smhmayboudi
       - SENTRY_PROFILER_LOGGING_MODE=eager
       - SENTRY_PROFILES_SAMPLE_RATE=1.0
@@ -136,6 +137,7 @@ services:
       - SENTRY_DEBUG=true
       - SENTRY_DSN=https://9d1d754fb509b48d9215719cb1c95e14@o313438.ingest.us.sentry.io/4507917724090368
       - SENTRY_ENVIRONMENT=development
+      - SENTRY_LOG_LEVEL=debug
       - SENTRY_ORG=smhmayboudi
       - SENTRY_PROFILER_LOGGING_MODE=eager
       - SENTRY_PROFILES_SAMPLE_RATE=1.0
@@ -619,7 +621,7 @@ services:
   #     backend-dev:
   #       condition: service_healthy
   #   environment:
-  #     - SWAGGER_JSON_URL=http://127.0.0.1:8081/api/v1/swagger.json
+  #     - SWAGGER_JSON_URL=http://127.0.0.1:8081/api/v1/reference/swagger.json
   #     - PORT=80
   #   expose:
   #     - 80

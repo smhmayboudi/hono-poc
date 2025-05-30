@@ -8,19 +8,17 @@ type SessionFlashData = {
   error: string;
 };
 
-const { commitSession, destroySession, getSession } =
+export const { commitSession, destroySession, getSession } =
   createCookieSessionStorage<SessionData, SessionFlashData>({
     cookie: {
       // domain
       // expires
       httpOnly: true,
       maxAge: 60,
-      name: "__session",
+      name: "__user_session",
       path: "/",
       sameSite: "lax",
       secrets: ["s3cret1"],
       secure: true,
     },
   });
-
-export { commitSession, destroySession, getSession };

@@ -3,17 +3,19 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": false,
-    "declaration": false,
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
     "esModuleInterop": false,
     "incremental": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
-    "lib": ["dom"],
-    "noEmit": true,
     "noEmitOnError": false,
     "noErrorTruncation": true,
     "outDir": "./build/",
     "sourceMap": true,
+    "types": ["node", "vitest/globals"],
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "verbatimModuleSyntax": true
   },
   "exclude": [
@@ -25,9 +27,11 @@
     "**/plop-template/**"
   ],
   "extends": [
+    "../../tsconfig.json",
     "@tsconfig/node22/tsconfig.json",
     "@tsconfig/strictest/tsconfig.json"
   ],
+  "files": [],
   "include": [],
   "references": [
     { "path": "./tsconfig.build.json" },

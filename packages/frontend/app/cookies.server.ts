@@ -1,6 +1,6 @@
 import { createCookie } from "react-router";
 
-export const userPrefs = createCookie("user-prefs", {
+export const userPreferences = createCookie("__user_preferences", {
   // expires
   httpOnly: true,
   maxAge: 60 * 60 * 24 * 7,

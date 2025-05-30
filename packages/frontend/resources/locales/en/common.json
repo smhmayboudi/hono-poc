@@ -1,0 +1,41 @@
+{
+  "hi": "React Router is awesome!",
+  "navigation": {
+    "back": "Go back",
+    "home": "Back to home"
+  },
+  "error": {
+    "200": {
+      "title": "200",
+      "description": "200 Description"
+    },
+    "201": {
+      "title": "201 Title",
+      "description": "201 Description"
+    },
+    "400": {
+      "title": "Bad Request",
+      "description": "there was an error while processing the request"
+    },
+    "401": {
+      "title": "Unauthorized",
+      "description": "authentication is required to access this resource"
+    },
+    "403": {
+      "title": "Forbidden",
+      "description": "authorization is required to access this resource"
+    },
+    "404": {
+      "title": "Not Found",
+      "description": "there was an error while processing the request"
+    },
+    "422": {
+      "title": "Unprocessable Content",
+      "description": "the input is invalid"
+    },
+    "500": {
+      "title": "Internal Server Error",
+      "description": "there was an internal server error"
+    }
+  }
+}

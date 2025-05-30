@@ -4,7 +4,6 @@ export const images = [
   "https://remix.run/blog-images/headers/the-future-is-now.jpg",
   "https://remix.run/blog-images/headers/waterfall.jpg",
   "https://remix.run/blog-images/headers/webpack.png",
-  // ... more images ...
 ];
 
 export default () => (

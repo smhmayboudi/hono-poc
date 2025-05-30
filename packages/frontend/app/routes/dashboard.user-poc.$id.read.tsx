@@ -1,9 +1,10 @@
-import { AppType } from "backend";
+import type { AppType } from "backend";
 import { hc } from "hono/client";
-import { href, Link } from "react-router";
+import { href } from "react-router";
 
 import errorBoundary from "~/components/error-boundary";
 import hydrateFallback from "~/components/hydrate-fallback";
+import { Link } from "~/components/ui/link";
 import { sleep } from "~/utils/time";
 
 import type { Route } from "./+types/dashboard.user-poc.$id.read";
@@ -15,9 +16,11 @@ export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
   const res = await client.api.v1["user-poc"][":id"].$get({ param: params });
   if (res.ok) {
     const { data } = await res.json();
+
     return { data };
   }
   const { errors } = await res.json();
+
   return { errors };
 };
 
@@ -29,9 +32,11 @@ export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
 //   const res = await client.api.v1["user-poc"][":id"].$get({ param: params });
 //   if (res.ok) {
 //     const { data } = await res.json();
+// 
 //     return { data };
 //   }
 //   const { errors } = await res.json();
+// 
 //   return { errors };
 // };
 
@@ -47,11 +52,10 @@ export default ({ loaderData, params }: Route.ComponentProps) => (
   <div>
     <fieldset className="bg-base-200 border border-base-300 fieldset p-4 rounded-box">
       <legend className="fieldset-legend">User POC #{params.id} Read</legend>
-      <label className="floating-label">
+      <label className="input floating-label">
         <span>ID</span>
         <input
           aria-label="ID"
-          className="input validator"
           disabled
           defaultValue={params.id}
           name="id"
@@ -60,11 +64,10 @@ export default ({ loaderData, params }: Route.ComponentProps) => (
           type="text"
         />
       </label>
-      <label className="floating-label">
+      <label className="input floating-label">
         <span>Name</span>
         <input
           aria-label="Fullname"
-          className="input validator"
           disabled
           defaultValue={loaderData.data?.attributes?.fullname}
           name="fullname"

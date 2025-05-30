@@ -9,6 +9,6 @@
     "**/plop-template/**"
   ],
   "extends": ["./tsconfig.json"],
-  "include": ["**/*.js", "**/*.jsx", "**/*.json", "**/*.ts", "**/*.tsx"],
+  "include": ["**/*.json", "**/*.ts", "**/*.tsx"],
   "references": []
 }

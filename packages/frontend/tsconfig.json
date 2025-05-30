@@ -1,23 +1,26 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "baseUrl": ".",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "module": "ES2022",
-    "moduleResolution": "Bundler",
+    "baseUrl": "./",
+    "composite": true,
     "noEmit": true,
+    "outDir": "./build/",
     "paths": { "~/*": ["./app/*"] },
-    "resolveJsonModule": true,
-    "rootDirs": [".", "./.react-router/types"],
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "ES2022",
-    "types": ["@react-router/node", "node", "vite/client"]
+    "rootDirs": ["./", "./.react-router/types"],
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "types": [
+      "@react-router/node",
+      "@vitest/browser/providers/playwright",
+      "node",
+      "vite/client",
+      "vitest/globals"
+    ]
   },
+  "extends": [
+    "../../tsconfig.json",
+    "@tsconfig/remix/tsconfig.json",
+    // "@tsconfig/strictest/tsconfig.json",
+    "@tsconfig/vite-react/tsconfig.json"
+  ],
   "include": [
     "**/*.ts",
     "**/*.tsx",
@@ -25,6 +28,7 @@
     "**/.client/**/*.tsx",
     "**/.server/**/*.ts",
     "**/.server/**/*.tsx",
-    ".react-router/types/**/*"
+    ".react-router/types/**/*",
+    "resources/locales/**/*.json"
   ]
 }

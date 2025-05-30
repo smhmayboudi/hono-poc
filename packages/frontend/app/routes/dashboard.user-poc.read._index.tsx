@@ -1,9 +1,10 @@
-import { AppType } from "backend";
+import type { AppType } from "backend";
 import { hc } from "hono/client";
-import { href, Link } from "react-router";
+import { href } from "react-router";
 
 import errorBoundary from "~/components/error-boundary";
 import hydrateFallback from "~/components/hydrate-fallback";
+import { Link } from "~/components/ui/link";
 import { sleep } from "~/utils/time";
 
 import type { Route } from "./+types/dashboard.user-poc.read._index";
@@ -15,9 +16,11 @@ export const clientLoader = async ({}: Route.ClientLoaderArgs) => {
   const res = await client.api.v1["user-poc"].$get({ query: {} });
   if (res.ok) {
     const { data } = await res.json();
+
     return { data };
   }
   const { errors } = await res.json();
+
   return { errors };
 };
 
@@ -29,9 +32,11 @@ export const clientLoader = async ({}: Route.ClientLoaderArgs) => {
 //   const res = await client.api.v1["user-poc"].$get({ query: {} });
 //   if (res.ok) {
 //     const { data } = await res.json();
+// 
 //     return { data };
 //   }
 //   const { errors } = await res.json();
+// 
 //   return { errors };
 // };
 
@@ -93,8 +98,8 @@ export default ({ loaderData }: Route.ComponentProps) => (
         <div className="join">
           <input
             aria-label="1"
-            checked
             className="btn btn-square join-item"
+            defaultChecked
             name="options"
             type="radio"
           />

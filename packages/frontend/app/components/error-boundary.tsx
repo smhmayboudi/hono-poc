@@ -1,7 +1,9 @@
+import { useTranslation } from "react-i18next";
 import { isRouteErrorResponse, useRouteError } from "react-router";
 
 export default () => {
   const error = useRouteError();
+  const { t } = useTranslation();
 
   if (isRouteErrorResponse(error)) {
     return (
@@ -10,6 +12,8 @@ export default () => {
           {error.status} {error.statusText}
         </h1>
         <p>{error.data}</p>
+        <p>{t(`error.${error.status}.title`)}</p>
+        <p>{t(`error.${error.status}.description`)}</p>
       </div>
     );
   } else if (error instanceof Error) {
@@ -17,7 +21,6 @@ export default () => {
       <div>
         <p>{error.name}</p>
         <p>{error.message}</p>
-        <p>The stack trace is:</p>
         <pre>
           <code>{error.stack}</code>
         </pre>

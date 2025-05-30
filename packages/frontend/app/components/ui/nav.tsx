@@ -1,10 +1,11 @@
-import { href, NavLink } from "react-router";
+import { href } from "react-router";
 
 import Loading from "~/components/ui/loading";
+import { NavLink } from "~/components/ui/nav-link";
 
 export default () => (
-  <nav>
-    <ul className="menu menu-lg menu-vertical bg-base-200 p-0 [&_li>*]:rounded-none">
+  <nav className="flex-none p-4">
+    <ul className="[&_li>*]:rounded-none bg-base-200 menu menu-lg menu-vertical p-0">
       <li>
         <NavLink
           className={({ isActive }) => (isActive ? "menu-active" : "")}

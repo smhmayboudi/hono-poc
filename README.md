@@ -57,7 +57,7 @@ docker compose up k6
 ### Manual
 
 ```SHELL
-curl -v "http://127.0.0.1:8081/api/v1/swagger.json"
+curl -v "http://127.0.0.1:8081/api/v1/reference/swagger.json"
 
 curl \
 -H 'Content-Type: application/vnd.api+json' \
