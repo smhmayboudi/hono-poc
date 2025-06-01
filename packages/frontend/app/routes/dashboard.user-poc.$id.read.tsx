@@ -65,7 +65,7 @@ export default ({ loaderData, params }: Route.ComponentProps) => (
         />
       </label>
       <label className="input floating-label">
-        <span>Name</span>
+        <span>Fullname</span>
         <input
           aria-label="Fullname"
           disabled

@@ -27,6 +27,7 @@
     "@react-router/node": "^7.6.0",
     "@react-router/serve": "^7.6.0",
     "backend": "file:../backend",
+    "better-auth": "1.2.8",
     "hono": "^4.7.10",
     "i18next": "^24.2.3",
     "i18next-browser-languagedetector": "^8.1.0",

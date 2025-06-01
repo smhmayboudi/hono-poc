@@ -6,10 +6,15 @@ export const images = [
   "https://remix.run/blog-images/headers/webpack.png",
 ];
 
+// export const meta = ({}: Route.MetaArgs) => [
+//   { title: "Image Gallery" },
+//   { content: "Image Gallery | description", name: "description" },
+// ];
+
 export default () => (
   <>
     <div className="image-list">
-      <h1>Image List</h1>
+      <h1>Image Gallery</h1>
       <div>
         {images.map((src, idx) => (
           <NavLink

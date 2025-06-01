@@ -21,11 +21,11 @@ import type { Route } from "./+types/dashboard.user-poc.create";
 //   });
 //   if (res.ok) {
 //     const { data } = await res.json();
-// 
+//
 //     return { data };
 //   }
 //   const { errors } = await res.json();
-// 
+//
 //   return { errors };
 // };
 
@@ -73,7 +73,7 @@ export default ({}: Route.ComponentProps) => {
         <fieldset className="bg-base-200 border border-base-300 fieldset p-4 rounded-box">
           <legend className="fieldset-legend">User POC Create</legend>
           <label className="floating-label input validator">
-            <span>Name</span>
+            <span>Fullname</span>
             <input
               aria-label="Fullname"
               name="fullname"
@@ -109,12 +109,8 @@ export default ({}: Route.ComponentProps) => {
         </fieldset>
       </fetcher.Form>
       <FormBlocker blocker={blocker} />
-      {fetcher?.data?.data?.id ? (
-        <p>#{fetcher.data.data.id} created.</p>
-      ) : (
-        <></>
-      )}
-      {fetcher?.data?.errors ? (
+      {fetcher.data?.data?.id ? <p>#{fetcher.data.data.id} created.</p> : <></>}
+      {fetcher.data?.errors ? (
         <>
           {fetcher.data.errors.map((values) => (
             <p>

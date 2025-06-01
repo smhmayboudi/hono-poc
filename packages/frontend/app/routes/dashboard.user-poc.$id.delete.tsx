@@ -16,11 +16,11 @@ import type { Route } from "./+types/dashboard.user-poc.$id.delete";
 //   const res = await client.api.v1["user-poc"][":id"].$delete({ param: params });
 //   if (res.ok) {
 //     const { data } = await res.json();
-// 
+//
 //     return { data };
 //   }
 //   const { errors } = await res.json();
-// 
+//
 //   return { errors };
 // };
 
@@ -95,8 +95,8 @@ export default ({ params }: Route.ComponentProps) => {
           </div>
         </fieldset>
       </fetcher.Form>
-      {fetcher?.data?.data?.id ? <p>#{fetcher.data.data.id} delete.</p> : <></>}
-      {fetcher?.data?.errors ? (
+      {fetcher.data?.data?.id ? <p>#{fetcher.data.data.id} delete.</p> : <></>}
+      {fetcher.data?.errors ? (
         <>
           {fetcher.data.errors.map((values) => (
             <p>

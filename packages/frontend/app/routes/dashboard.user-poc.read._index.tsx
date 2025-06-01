@@ -53,7 +53,7 @@ export default ({ loaderData }: Route.ComponentProps) => (
           <thead>
             <tr>
               <th>ID</th>
-              <th>Name</th>
+              <th>Fullname</th>
               <th>ACTION</th>
             </tr>
           </thead>

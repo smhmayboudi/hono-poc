@@ -22,11 +22,11 @@ import type { Route } from "./+types/dashboard.user-poc.$id.update";
 //   });
 //   if (res.ok) {
 //     const { data } = await res.json();
-// 
+//
 //     return { data };
 //   }
 //   const { errors } = await res.json();
-// 
+//
 //   return { errors };
 // };
 
@@ -76,11 +76,11 @@ export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
 //   const res = await client.api.v1["user-poc"][":id"].$get({ param: params });
 //   if (res.ok) {
 //     const { data } = await res.json();
-// 
+//
 //     return { data };
 //   }
 //   const { errors } = await res.json();
-// 
+//
 //   return { errors };
 // };
 
@@ -114,7 +114,7 @@ export default ({ loaderData, params }: Route.ComponentProps) => {
             User POC #{params.id} Update
           </legend>
           <label className="floating-label input validator">
-            <span>Name</span>
+            <span>Fullname</span>
             <input
               aria-label="Fullname"
               defaultValue={loaderData.data?.attributes?.fullname}
@@ -152,12 +152,8 @@ export default ({ loaderData, params }: Route.ComponentProps) => {
         </fieldset>
       </fetcher.Form>
       <FormBlocker blocker={blocker} />
-      {fetcher?.data?.data?.id ? (
-        <p>#{fetcher.data.data.id} updated.</p>
-      ) : (
-        <></>
-      )}
-      {fetcher?.data?.errors ? (
+      {fetcher.data?.data?.id ? <p>#{fetcher.data.data.id} updated.</p> : <></>}
+      {fetcher.data?.errors ? (
         <>
           {fetcher.data.errors.map((values) => (
             <p>

@@ -1,4 +1,4 @@
-import "../app/style.css";
+import "../app/styles.css";
 
 import { renderHook as renderReactHook } from "@testing-library/react";
 import { createInstance } from "i18next";

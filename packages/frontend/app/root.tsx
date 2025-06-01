@@ -13,7 +13,7 @@ import Footer from "~/components/ui/footer";
 import Header from "~/components/ui/header";
 import LanguageSwitcher from "~/components/ui/language-switcher";
 import Nav from "~/components/ui/nav";
-import styles from "~/style.css?url";
+import styles from "~/styles.css?url";
 import { seo } from "~/utils/seo";
 
 import type { Route } from "./+types/root";

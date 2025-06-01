@@ -16,6 +16,11 @@ import { Link } from "~/components/ui/link";
 //   </div>
 // );
 
+// export const meta = ({}: Route.MetaArgs) => [
+//   { title: "Dashboard" },
+//   { content: "Dashboard | description", name: "description" },
+// ];
+
 export default () => (
   <div>
     <h1>About</h1>

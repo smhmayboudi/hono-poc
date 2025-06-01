@@ -66,6 +66,7 @@ export const useEnhancedTo = ({
       lang,
     ],
   );
+
   return newPath;
 };
 

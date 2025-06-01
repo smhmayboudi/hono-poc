@@ -37,10 +37,10 @@ export default () => {
           {busy ? (
             <Loading
               c_size="xs"
-              className="ml-1 mr-1 opacity-50 shrink-0 stroke-current w-4"
+              className="h-4 opacity-50 shrink-0 stroke-current w-4"
             />
           ) : (
-            <Icon c_name="outlinr-search" className="h-[1em] opacity-50" />
+            <Icon c_name="outlinr-search" className="h-4 opacity-50 w-4" />
           )}
           <input
             aria-label="Search"
