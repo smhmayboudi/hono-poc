@@ -14,6 +14,7 @@ import Header from "~/components/ui/header";
 import LanguageSwitcher from "~/components/ui/language-switcher";
 import Nav from "~/components/ui/nav";
 import styles from "~/style.css?url";
+import { seo } from "~/utils/seo";
 
 import type { Route } from "./+types/root";
 
@@ -27,29 +28,39 @@ export const headers = ({ parentHeaders }: Route.HeadersArgs) => {
   return parentHeaders;
 };
 
-export const links: Route.LinksFunction = () => [
-  {
-    as: "image",
-    href: "/hono.svg",
-    rel: "apple-touch-icon",
-    type: "image/svg+xml",
-  },
-  { as: "image", href: "/hono.svg", rel: "icon", type: "image/svg+xml" },
-  { as: "manifest", href: "/manifest.json", rel: "apple-touch-icon" },
-  { as: "style", href: styles, rel: "stylesheet" },
-  {
-    as: "image",
-    href: "/icon.svg",
-    rel: "preload",
-    type: "image/svg+xml",
-  },
-];
+export const links: Route.LinksFunction = () => {
+  const { linkTags } = seo();
 
-export const meta = ({}: Route.MetaArgs) => [
-  { charSet: "utf-8" },
-  { content: "/browserconfig.xml", name: "msapplication-config" },
-  { content: "width=device-width, initial-scale=1.0", name: "viewport" },
-];
+  return [
+    {
+      as: "image",
+      href: "/hono.svg",
+      rel: "apple-touch-icon",
+      type: "image/svg+xml",
+    },
+    { as: "image", href: "/hono.svg", rel: "icon", type: "image/svg+xml" },
+    { as: "manifest", href: "/manifest.json", rel: "apple-touch-icon" },
+    { as: "style", href: styles, rel: "stylesheet" },
+    {
+      as: "image",
+      href: "/icon.svg",
+      rel: "preload",
+      type: "image/svg+xml",
+    },
+    ...linkTags,
+  ];
+};
+
+export const meta = ({}: Route.MetaArgs) => {
+  const { metaTags } = seo();
+
+  return [
+    { charSet: "utf-8" },
+    { content: "/browserconfig.xml", name: "msapplication-config" },
+    { content: "width=device-width, initial-scale=1.0", name: "viewport" },
+    ...metaTags,
+  ];
+};
 
 // export const meta = ({ error, data, matches }: Route.MetaArgs) => {
 //   if (error || !data.doc) {
