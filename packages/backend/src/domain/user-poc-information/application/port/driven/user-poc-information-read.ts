@@ -8,5 +8,7 @@ export interface PortDrivenUserPOCInformationRead {
 }
 export type PortDrivenUserPOCInformationReadRequest =
   RequestQuery<DomainUserPOCInformation>;
-export type PortDrivenUserPOCInformationReadResponse =
-  DomainUserPOCInformation[];
+export type PortDrivenUserPOCInformationReadResponse = {
+  data: DomainUserPOCInformation[];
+  pagination: { total: number };
+};

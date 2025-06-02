@@ -43,13 +43,19 @@ describe("UserPOC Driving Read", () => {
   it("should call get with correct data", async () => {
     expect.assertions(4);
 
-    const drivingUserPOCReadRequest: PortDrivingUserPOCReadRequest = {};
-    const drivingUserPOCReadResponse: PortDrivingUserPOCReadResponse = [
-      {
-        fullname: faker.person.fullName(),
-        id: faker.string.nanoid(24),
-      },
-    ];
+    const drivingUserPOCReadRequest: PortDrivingUserPOCReadRequest = {
+      limit: "0",
+      offset: "0",
+    };
+    const drivingUserPOCReadResponse: PortDrivingUserPOCReadResponse = {
+      data: [
+        {
+          fullname: faker.person.fullName(),
+          id: faker.string.nanoid(24),
+        },
+      ],
+      pagination: { total: 1 },
+    };
     const { app, basePath, config, domainType, drivingUserPOCRead, logger } =
       readMocks(drivingUserPOCReadResponse);
     adapterDrivingUserPOCRead(
@@ -81,7 +87,9 @@ describe("UserPOC Driving Read", () => {
       } as unknown as Context<Env>,
       basePath,
       domainType,
-      drivingUserPOCReadResponse,
+      {},
+      drivingUserPOCReadResponse.data,
+      drivingUserPOCReadResponse.pagination,
     );
     await expect(response.json()).resolves.toStrictEqual(
       expectedSuccessResponse,

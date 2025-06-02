@@ -97,7 +97,9 @@ describe("UserPOCView Driving Search", () => {
       } as unknown as Context<Env>,
       basePath,
       domainType,
+      {},
       drivingUserPOCViewSearchResponse,
+      { total: drivingUserPOCViewSearchResponse.length },
     );
     await expect(response.json()).resolves.toStrictEqual(
       expectedSuccessResponse,

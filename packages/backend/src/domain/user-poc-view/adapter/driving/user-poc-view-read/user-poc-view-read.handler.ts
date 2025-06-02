@@ -36,11 +36,18 @@ export const userPOCViewReadHandler =
       logger.debug({ query });
       const result = await drivingUserPOCViewRead.execute(query);
       logger.debug({ result });
-      const response = result.map((value) => ({
+      const response = result.data.map((value) => ({
         ...userPOCViewReadResponseSchema.parse(value),
         id: value.id,
       }));
       logger.debug({ response });
 
-      return successArrayResponse(ctx, basePath, domainType, response, query);
+      return successArrayResponse(
+        ctx,
+        basePath,
+        domainType,
+        query,
+        response,
+        result.pagination,
+      );
     });

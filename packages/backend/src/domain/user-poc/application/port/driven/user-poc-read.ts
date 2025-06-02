@@ -7,4 +7,7 @@ export interface PortDrivenUserPOCRead {
   ): Promise<PortDrivenUserPOCReadResponse>;
 }
 export type PortDrivenUserPOCReadRequest = RequestQuery<DomainUserPOC>;
-export type PortDrivenUserPOCReadResponse = DomainUserPOC[];
+export type PortDrivenUserPOCReadResponse = {
+  data: DomainUserPOC[];
+  pagination: { total: number };
+};

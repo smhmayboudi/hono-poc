@@ -43,15 +43,21 @@ describe("UserPOCView Driving Read", () => {
   it("should call get with correct data", async () => {
     expect.assertions(4);
 
-    const drivingUserPOCViewReadRequest: PortDrivingUserPOCViewReadRequest = {};
-    const drivingUserPOCViewReadResponse: PortDrivingUserPOCViewReadResponse = [
-      {
-        address: faker.location.streetAddress(),
-        age: faker.number.int(),
-        fullname: faker.person.fullName(),
-        id: faker.string.nanoid(24),
-      },
-    ];
+    const drivingUserPOCViewReadRequest: PortDrivingUserPOCViewReadRequest = {
+      limit: "0",
+      offset: "0",
+    };
+    const drivingUserPOCViewReadResponse: PortDrivingUserPOCViewReadResponse = {
+      data: [
+        {
+          address: faker.location.streetAddress(),
+          age: faker.number.int(),
+          fullname: faker.person.fullName(),
+          id: faker.string.nanoid(24),
+        },
+      ],
+      pagination: { total: 1 },
+    };
     const {
       app,
       basePath,
@@ -92,7 +98,9 @@ describe("UserPOCView Driving Read", () => {
       } as unknown as Context<Env>,
       basePath,
       domainType,
-      drivingUserPOCViewReadResponse,
+      {},
+      drivingUserPOCViewReadResponse.data,
+      drivingUserPOCViewReadResponse.pagination,
     );
     await expect(response.json()).resolves.toStrictEqual(
       expectedSuccessResponse,

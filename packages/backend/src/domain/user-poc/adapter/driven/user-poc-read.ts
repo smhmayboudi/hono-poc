@@ -1,12 +1,15 @@
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
-import { sql } from "drizzle-orm";
+import { count, sql } from "drizzle-orm";
 
 import type { PortConfig } from "../../../../infrastructure/application/port/config/config.ts";
 import type { PortDatabase } from "../../../../infrastructure/application/port/database/database.ts";
 import { userPOC } from "../../../../infrastructure/application/port/database/schema/schema.ts";
 import type { PortLogger } from "../../../../infrastructure/application/port/logger/logger.ts";
 import type { PortTracer } from "../../../../infrastructure/application/port/opentelemetry/opentelemetry.ts";
-import { requestQuery } from "../../../../shared/adapter/driven/request-query.ts";
+import {
+  requestQuery,
+  requestQueryCount,
+} from "../../../../shared/adapter/driven/request-query.ts";
 import type {
   PortDrivenUserPOCRead,
   PortDrivenUserPOCReadRequest,
@@ -37,8 +40,14 @@ export class AdapterDrivenUserPOCRead implements PortDrivenUserPOCRead {
         this.database.db().select().from(userPOC),
       ).execute();
       this.logger.debug({ result });
+      const total = await requestQueryCount(
+        data,
+        (key) => sql`${userPOC[key as keyof typeof userPOC]}`,
+        this.database.db().select({ count: count() }).from(userPOC),
+      ).execute();
+      this.logger.debug({ total });
 
-      return result;
+      return { data: result, pagination: { total: total[0]?.count ?? 0 } };
     });
   }
 }

@@ -261,3 +261,26 @@ export const requestQuery = <
 
   return query;
 };
+
+export const requestQueryCount = <
+  D,
+  TTableName extends string,
+  TSelection extends ColumnsSelection,
+  TSelectMode extends SelectMode,
+  TPreparedQueryHKT extends PreparedQueryHKTBase,
+  TNullabilityMap extends Record<string, JoinNullability>,
+>(
+  requestQuery: RequestQuery<D>,
+  mapField: (key: keyof D) => SQL<TSelection>,
+  query: MySqlSelectBase<
+    TTableName,
+    TSelection,
+    TSelectMode,
+    TPreparedQueryHKT,
+    TNullabilityMap
+  >,
+) => {
+  query = applyFilters(query, requestQuery.filters, mapField);
+
+  return query;
+};

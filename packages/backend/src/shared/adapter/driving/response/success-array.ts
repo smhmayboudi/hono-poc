@@ -50,10 +50,61 @@ export const successArrayResponse = <
   ctx: Context<Env>,
   basePath: string,
   domainType: string,
+  requestQuery: z.infer<ReturnType<typeof requestQuerySchema<RQ>>>,
   responses: R[],
-  requestQuery?: z.infer<ReturnType<typeof requestQuerySchema<RQ>>>,
-) =>
-  ctx.json<z.infer<ReturnType<typeof successArrayResponseSchema>>, 200>(
+  pagination: { total: number },
+) => {
+  const origin = new URL(ctx.req.url).origin;
+  const limit = Number(requestQuery?.limit ?? "0");
+  const offset = Number(requestQuery?.offset ?? "0");
+  const totalRows = pagination.total;
+  const first = `${origin}${basePath}/${domainType}${objectPropertiesBuildUrlQueryString(
+    {
+      action: "first",
+      limit,
+      offset,
+      totalRows,
+    },
+    requestQuery,
+  )}`;
+  const last = `${origin}${basePath}/${domainType}${objectPropertiesBuildUrlQueryString(
+    {
+      action: "last",
+      limit,
+      offset,
+      totalRows,
+    },
+    requestQuery,
+  )}`;
+  const next = `${origin}${basePath}/${domainType}${objectPropertiesBuildUrlQueryString(
+    {
+      action: "next",
+      limit,
+      offset,
+      totalRows,
+    },
+    requestQuery,
+  )}`;
+  const prev = `${origin}${basePath}/${domainType}${objectPropertiesBuildUrlQueryString(
+    {
+      action: "prev",
+      limit,
+      offset,
+      totalRows,
+    },
+    requestQuery,
+  )}`;
+  const self = `${origin}${basePath}/${domainType}${objectPropertiesBuildUrlQueryString(
+    {
+      action: "self",
+      limit,
+      offset,
+      totalRows,
+    },
+    requestQuery,
+  )}`;
+
+  return ctx.json<z.infer<ReturnType<typeof successArrayResponseSchema>>, 200>(
     {
       data: responses.map((response) => ({
         attributes: objectPropertiesPick(
@@ -62,16 +113,20 @@ export const successArrayResponse = <
         ),
         id: response.id,
         links: {
-          self: `${new URL(ctx.req.url).origin}${basePath}/${domainType}/${response.id}`,
+          self: `${origin}${basePath}/${domainType}/${response.id}`,
         },
         type: domainType,
       })),
-      links: {
-        self: `${new URL(ctx.req.url).origin}${basePath}/${domainType}${objectPropertiesBuildUrlQueryString(
-          requestQuery,
-        )}`,
-      },
       jsonapi: { version: "1.0" },
+      links: {
+        first,
+        last,
+        next,
+        prev,
+        self,
+      },
+      meta: { total: totalRows },
     },
     200,
   );
+};

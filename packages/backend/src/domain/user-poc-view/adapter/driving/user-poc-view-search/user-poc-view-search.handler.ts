@@ -44,5 +44,7 @@ export const userPOCViewSearchHandler =
       }));
       logger.debug({ response });
 
-      return successArrayResponse(ctx, basePath, domainType, response, query);
+      return successArrayResponse(ctx, basePath, domainType, query, response, {
+        total: response.length,
+      });
     });

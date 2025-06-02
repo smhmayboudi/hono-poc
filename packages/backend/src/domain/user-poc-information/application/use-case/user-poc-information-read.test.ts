@@ -27,14 +27,17 @@ describe("UserPOCInformation UseCase Read", () => {
         ...drivingUserPOCInformationReadRequest,
       };
     const drivenUserPOCInformationReadResponse: PortDrivenUserPOCInformationReadResponse =
-      [
-        {
-          address: faker.location.streetAddress(),
-          age: faker.number.int(),
-          id: faker.string.nanoid(24),
-          userId: faker.string.nanoid(24),
-        },
-      ];
+      {
+        data: [
+          {
+            address: faker.location.streetAddress(),
+            age: faker.number.int(),
+            id: faker.string.nanoid(24),
+            userId: faker.string.nanoid(24),
+          },
+        ],
+        pagination: { total: 1 },
+      };
     const drivenUserPOCInformationRead = mock<PortDrivenUserPOCInformationRead>(
       {
         read: vi.fn().mockResolvedValue(drivenUserPOCInformationReadResponse),

@@ -47,16 +47,19 @@ describe("UserPOCInformation Driving Read", () => {
     expect.assertions(4);
 
     const drivingUserPOCInformationReadRequest: PortDrivingUserPOCInformationReadRequest =
-      {};
+      { limit: "0", offset: "0" };
     const drivingUserPOCInformationReadResponse: PortDrivingUserPOCInformationReadResponse =
-      [
-        {
-          address: faker.location.streetAddress(),
-          age: faker.number.int(),
-          id: faker.string.nanoid(24),
-          userId: faker.string.nanoid(24),
-        },
-      ];
+      {
+        data: [
+          {
+            address: faker.location.streetAddress(),
+            age: faker.number.int(),
+            id: faker.string.nanoid(24),
+            userId: faker.string.nanoid(24),
+          },
+        ],
+        pagination: { total: 1 },
+      };
     const {
       app,
       basePath,
@@ -97,7 +100,9 @@ describe("UserPOCInformation Driving Read", () => {
       } as unknown as Context<Env>,
       basePath,
       domainType,
-      drivingUserPOCInformationReadResponse,
+      {},
+      drivingUserPOCInformationReadResponse.data,
+      drivingUserPOCInformationReadResponse.pagination,
     );
     await expect(response.json()).resolves.toStrictEqual(
       expectedSuccessResponse,
