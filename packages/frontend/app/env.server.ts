@@ -1,16 +1,25 @@
 import { z } from "zod";
 
 const envSchema = z.object({
-  APP_ENV: z
-    .enum(["development", "production", "staging"])
-    .default("development"),
+  APP_PAGINATION_LIMIT: z
+    .string()
+    .refine((arg) => !Number.isNaN(Number(arg)) && Number(arg) >= 1, {
+      message: "The string must be a valid number greater than or equal to 1",
+    })
+    .default("10"),
+  APP_PAGINATION_OFFSET: z
+    .string()
+    .refine((arg) => !Number.isNaN(Number(arg)) && Number(arg) >= 0, {
+      message: "The string must be a valid number greater than or equal to 0",
+    })
+    .default("0"),
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
 });
 
 type EnvServer = z.infer<typeof envSchema>;
-type EnvClient = Omit<z.infer<typeof envSchema>, "APP_ENV">;
+type EnvClient = Omit<z.infer<typeof envSchema>, "NODE_ENV">;
 
 let env: EnvServer;
 
@@ -35,7 +44,8 @@ const initEnv = () => {
 export const getEnvServer = (): EnvServer => (env ? env : initEnv());
 
 export const getEnvClient = (): EnvClient => ({
-  NODE_ENV: getEnvServer().NODE_ENV,
+  APP_PAGINATION_LIMIT: getEnvServer().APP_PAGINATION_LIMIT,
+  APP_PAGINATION_OFFSET: getEnvServer().APP_PAGINATION_OFFSET,
 });
 
 declare global {

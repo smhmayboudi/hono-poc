@@ -39,7 +39,7 @@ export const getLoadContext = async (args: GetLoadContextArgs) => {
     body: body as unknown,
     envClient: getEnvClient(),
     envServer: getEnvServer(),
-    isProductionDeployment: getEnvServer().APP_ENV === "production",
+    isProductionDeployment: getEnvServer().NODE_ENV === "production",
     locale,
     t,
   };

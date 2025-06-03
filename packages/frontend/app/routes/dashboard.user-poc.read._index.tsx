@@ -14,8 +14,10 @@ export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   console.log("CLIENT - clientLoader");
   await sleep(1000);
   const url = new URL(request.url);
-  const limit = url.searchParams.get("limit") || "1";
-  const offset = url.searchParams.get("offset") || "0";
+  const limit =
+    url.searchParams.get("limit") || window.env.APP_PAGINATION_LIMIT;
+  const offset =
+    url.searchParams.get("offset") || window.env.APP_PAGINATION_OFFSET;
   const client = hc<AppType>("http://127.0.0.1:8081/");
   const res = await client.api.v1["user-poc"].$get({
     query: { limit, offset },
@@ -35,8 +37,10 @@ export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
 // export const loader = async ({ request }: Route.LoaderArgs) => {
 //   console.log("SERVER - loader");
 //   const url = new URL(request.url);
-//   const limit = url.searchParams.get("limit") || "1";
-//   const offset = url.searchParams.get("offset") || "0";
+//   const limit =
+//     url.searchParams.get("limit") || window.env.APP_PAGINATION_LIMIT;
+//   const offset =
+//     url.searchParams.get("offset") || window.env.APP_PAGINATION_OFFSET;
 //   const client = hc<AppType>("http://127.0.0.1:8081/");
 //   const res = await client.api.v1["user-poc"].$get({
 //     query: { limit, offset },
@@ -60,12 +64,15 @@ export default ({ loaderData }: Route.ComponentProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const revalidator = useRevalidator();
   const busy = revalidator.state !== "idle";
-  const currentLimit = parseInt(searchParams.get("limit") || "1");
-  const currentOffset = parseInt(searchParams.get("offset") || "0");
-  const isFirstPage = currentOffset === 0;
+  const limit = parseInt(
+    searchParams.get("limit") || window.env.APP_PAGINATION_LIMIT,
+  );
+  const offset = parseInt(
+    searchParams.get("offset") || window.env.APP_PAGINATION_OFFSET,
+  );
+  const isFirstPage = offset === 0;
   const totalCount = loaderData.data?.meta?.total || 0;
-  const isLastPage =
-    totalCount > 0 && (currentOffset + 1) * currentLimit >= totalCount;
+  const isLastPage = totalCount > 0 && (offset + 1) * limit >= totalCount;
 
   const handlePagination = (url?: string) => {
     if (!url) {
