@@ -81,7 +81,7 @@ export default ({}: Route.ComponentProps) => {
               required
               type="text"
             />
-            <div className="validator-hint">Please fill out this field.</div>
+            <p className="validator-hint">Please fill out this field.</p>
             {/* {errors?.fullname && <div>{errors.fullname}</div>} */}
           </label>
           <div className="join">

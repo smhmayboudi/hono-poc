@@ -123,7 +123,7 @@ export default ({ loaderData, params }: Route.ComponentProps) => {
               required
               type="text"
             />
-            <div className="validator-hint">Please fill out this field.</div>
+            <p className="validator-hint">Please fill out this field.</p>
             {/* {errors?.fullname && <div>{errors.fullname}</div>} */}
           </label>
           <input type="hidden" name="id" defaultValue={params.id} />

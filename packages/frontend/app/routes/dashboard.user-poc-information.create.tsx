@@ -89,7 +89,7 @@ export default ({}: Route.ComponentProps) => {
               required
               type="text"
             />
-            <div className="validator-hint">Please fill out this field.</div>
+            <p className="validator-hint">Please fill out this field.</p>
             {/* {errors?.address && <div>{errors.address}</div>} */}
           </label>
           <label className="floating-label input validator">
@@ -99,9 +99,9 @@ export default ({}: Route.ComponentProps) => {
               name="age"
               placeholder="Age"
               required
-              type="text"
+              type="number"
             />
-            <div className="validator-hint">Please fill out this field.</div>
+            <p className="validator-hint">Please fill out this field.</p>
             {/* {errors?.age && <div>{errors.age}</div>} */}
           </label>
           <label className="floating-label input validator">
@@ -113,7 +113,7 @@ export default ({}: Route.ComponentProps) => {
               required
               type="text"
             />
-            <div className="validator-hint">Please fill out this field.</div>
+            <p className="validator-hint">Please fill out this field.</p>
             {/* {errors?.userId && <div>{errors.userId}</div>} */}
           </label>
           <div className="join">

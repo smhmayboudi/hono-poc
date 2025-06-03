@@ -77,9 +77,7 @@ export default ({}: Route.ComponentProps) => {
         ref={formRef}
       >
         <fieldset className="bg-base-200 border border-base-300 fieldset p-4 rounded-box">
-          <legend className="fieldset-legend">
-            User POC View Create
-          </legend>
+          <legend className="fieldset-legend">User POC View Create</legend>
           <label className="floating-label input validator">
             <span>Address</span>
             <input
@@ -89,7 +87,7 @@ export default ({}: Route.ComponentProps) => {
               required
               type="text"
             />
-            <div className="validator-hint">Please fill out this field.</div>
+            <p className="validator-hint">Please fill out this field.</p>
             {/* {errors?.address && <div>{errors.address}</div>} */}
           </label>
           <label className="floating-label input validator">
@@ -99,9 +97,9 @@ export default ({}: Route.ComponentProps) => {
               name="age"
               placeholder="Age"
               required
-              type="text"
+              type="number"
             />
-            <div className="validator-hint">Please fill out this field.</div>
+            <p className="validator-hint">Please fill out this field.</p>
             {/* {errors?.age && <div>{errors.age}</div>} */}
           </label>
           <label className="floating-label input validator">
@@ -113,7 +111,7 @@ export default ({}: Route.ComponentProps) => {
               required
               type="text"
             />
-            <div className="validator-hint">Please fill out this field.</div>
+            <p className="validator-hint">Please fill out this field.</p>
             {/* {errors?.fullname && <div>{errors.fullname}</div>} */}
           </label>
           <div className="join">

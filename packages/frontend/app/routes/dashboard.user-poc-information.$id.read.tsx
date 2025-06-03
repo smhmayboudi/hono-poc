@@ -89,7 +89,7 @@ export default ({ loaderData, params }: Route.ComponentProps) => (
           name="age"
           placeholder="Age"
           required
-          type="text"
+          type="number"
         />
       </label>
       <label className="input floating-label">
