@@ -110,8 +110,10 @@ export default ({ loaderData, params }: Route.ComponentProps) => {
       <fetcher.Form
         method="post"
         onChange={(event) => {
+          const address = event.currentTarget["address"].value;
+          const age = event.currentTarget["age"].value;
           const fullname = event.currentTarget["fullname"].value;
-          setIsDirty(Boolean(fullname));
+          setIsDirty(Boolean(address || age || fullname));
         }}
         ref={formRef}
       >

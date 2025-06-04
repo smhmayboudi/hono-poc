@@ -4,6 +4,7 @@ import errorBoundary from "~/components/error-boundary";
 import hydrateFallback from "~/components/hydrate-fallback";
 import Icon from "~/components/ui/icon";
 import Loading from "~/components/ui/loading";
+import { sleep } from "~/utils/time";
 
 import type { Route } from "./+types/search";
 
@@ -17,7 +18,7 @@ const users = [
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   console.log("CLIENT - clientLoader");
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await sleep(1000);
   const url = new URL(request.url);
   const query = url.searchParams.get("q") || "";
 
@@ -55,9 +56,7 @@ export default () => {
           <kbd className="kbd kbd-sm">K</kbd>
         </label>
       </fetcher.Form>
-      {fetcher.data?.length === 0 ? (
-        <p>No Records</p>
-      ) : (
+      {fetcher.data?.length ? (
         <ul
           className="list shadow-sm"
           style={{
@@ -70,6 +69,8 @@ export default () => {
             </li>
           ))}
         </ul>
+      ) : (
+        <p>No Records</p>
       )}
     </div>
   );

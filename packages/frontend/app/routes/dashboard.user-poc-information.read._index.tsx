@@ -61,9 +61,9 @@ export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
 // ];
 
 export default ({ loaderData }: Route.ComponentProps) => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const revalidator = useRevalidator();
   const busy = revalidator.state !== "idle";
+  const [searchParams, setSearchParams] = useSearchParams();
   const limit = parseInt(
     searchParams.get("limit") || window.env.APP_PAGINATION_LIMIT,
   );

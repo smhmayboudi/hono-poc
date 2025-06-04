@@ -14,7 +14,7 @@ export const userPOCViewSearchRoute = () =>
   createRoute({
     description: "Search UserPOCView(s)",
     method: "post",
-    path: "/api/v1/user-poc-view/:id",
+    path: "/api/v1/user-poc-view/search",
     request: {
       body: {
         content: {

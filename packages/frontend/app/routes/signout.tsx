@@ -22,7 +22,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
 //   { content: "Signout | description", name: "description" },
 // ];
 
-export default () => {
+export default ({}: Route.ComponentProps) => {
   const fetcher = useFetcher();
   const busy = fetcher.state !== "idle";
   const navigate = useNavigate();

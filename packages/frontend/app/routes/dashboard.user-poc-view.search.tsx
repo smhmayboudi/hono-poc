@@ -1,14 +1,15 @@
 import type { AppType } from "backend";
 import { hc } from "hono/client";
-import { href, useRevalidator, useSearchParams } from "react-router";
+import { href, useFetcher, useSubmit } from "react-router";
 
 import errorBoundary from "~/components/error-boundary";
 import hydrateFallback from "~/components/hydrate-fallback";
-import Button from "~/components/ui/button";
+import Icon from "~/components/ui/icon";
 import { Link } from "~/components/ui/link";
+import Loading from "~/components/ui/loading";
 import { sleep } from "~/utils/time";
 
-import type { Route } from "./+types/dashboard.user-poc-view.read._index";
+import type { Route } from "./+types/dashboard.user-poc-view.search";
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   console.log("CLIENT - clientLoader");
@@ -18,14 +19,17 @@ export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
     url.searchParams.get("limit") || window.env.APP_PAGINATION_LIMIT;
   const offset =
     url.searchParams.get("offset") || window.env.APP_PAGINATION_OFFSET;
+  const query = url.searchParams.get("q") || "";
+  const abortController = new AbortController();
   const client = hc<AppType>("http://127.0.0.1:8081/");
-  const res = await client.api.v1["user-poc-view"].$get({
-    query: { limit, offset },
-  });
+  const res = await client.api.v1["user-poc-view"].search.$post(
+    { json: { query }, query: { limit, offset } },
+    { init: { signal: abortController.signal } },
+  );
   if (res.ok) {
     const data = await res.json();
 
-    return { data };
+    return { abortController, data, query };
   }
   const { errors } = await res.json();
 
@@ -41,14 +45,17 @@ export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
 //     url.searchParams.get("limit") || window.env.APP_PAGINATION_LIMIT;
 //   const offset =
 //     url.searchParams.get("offset") || window.env.APP_PAGINATION_OFFSET;
+//   const query = url.searchParams.get("q") || "";
+//   const abortController = new AbortController();
 //   const client = hc<AppType>("http://127.0.0.1:8081/");
-//   const res = await client.api.v1["user-poc-view"].$get({
-//     query: { limit, offset },
-//   });
+//   const res = await client.api.v1["user-poc-view"].search.$post(
+//     { json: { query }, query: { limit, offset } },
+//     { init: { signal: abortController.signal } },
+//   );
 //   if (res.ok) {
 //     const { data } = await res.json();
 //
-//     return { data };
+//     return { abortController, data, query };
 //   }
 //   const { errors } = await res.json();
 //
@@ -61,33 +68,44 @@ export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
 // ];
 
 export default ({ loaderData }: Route.ComponentProps) => {
-  const revalidator = useRevalidator();
-  const busy = revalidator.state !== "idle";
-  const [searchParams, setSearchParams] = useSearchParams();
-  const limit = parseInt(
-    searchParams.get("limit") || window.env.APP_PAGINATION_LIMIT,
-  );
-  const offset = parseInt(
-    searchParams.get("offset") || window.env.APP_PAGINATION_OFFSET,
-  );
-  const isFirstPage = offset === 0;
-  const totalCount = loaderData.data?.meta?.total || 0;
-  const isLastPage = totalCount > 0 && (offset + 1) * limit >= totalCount;
-
-  const handlePagination = (url?: string) => {
-    if (!url) {
-      return;
-    }
-    const newUrl = new URL(url);
-    const newURLSearchParams = new URLSearchParams(newUrl.search);
-    if (newURLSearchParams.toString() !== searchParams.toString()) {
-      setSearchParams(newURLSearchParams);
-      revalidator.revalidate();
-    }
-  };
+  const fetcher = useFetcher();
+  const busy = fetcher.state !== "idle";
+  // const navigation = useNavigation();
+  // const busy = navigation.state !== "idle";
+  const submit = useSubmit();
 
   return (
     <div>
+      <fetcher.Form
+        action={href("/dashboard/user-poc-view/search")}
+        method="get"
+        onChange={(event) => {
+          submit(event.currentTarget, { replace: !!loaderData?.query });
+        }}
+      >
+        <label className="input">
+          {busy ? (
+            <Loading
+              c_size="xs"
+              className="h-4 opacity-50 shrink-0 stroke-current w-4"
+            />
+          ) : (
+            <Icon c_name="outlinr-search" className="h-4 opacity-50 w-4" />
+          )}
+          <input
+            aria-label="Search"
+            defaultValue={loaderData.query || ""}
+            name="q"
+            // onChange={(event) => {
+            //   fetcher.submit(event.target.form);
+            // }}
+            placeholder="Search"
+            type="search"
+          />
+          <kbd className="kbd kbd-sm">⌘</kbd>
+          <kbd className="kbd kbd-sm">K</kbd>
+        </label>
+      </fetcher.Form>
       {loaderData.data?.data.length ? (
         <>
           <table className="table table-zebra">
@@ -140,64 +158,6 @@ export default ({ loaderData }: Route.ComponentProps) => {
             </tbody>
             <tfoot></tfoot>
           </table>
-          <div className="join">
-            <Button
-              aria-label="First"
-              className={
-                !loaderData.data?.links?.first || busy || isFirstPage
-                  ? "btn-disabled join-item"
-                  : "join-item"
-              }
-              onClick={() =>
-                handlePagination(loaderData.data?.links?.first?.toString())
-              }
-              disabled={!loaderData.data?.links?.first || busy || isFirstPage}
-            >
-              First
-            </Button>
-            <Button
-              aria-label="Previous"
-              className={
-                !loaderData.data?.links?.prev || busy || isFirstPage
-                  ? "btn-disabled join-item"
-                  : "join-item"
-              }
-              onClick={() =>
-                handlePagination(loaderData.data?.links?.prev?.toString())
-              }
-              disabled={!loaderData.data?.links?.prev || busy || isFirstPage}
-            >
-              Previous
-            </Button>
-            <Button
-              aria-label="Next"
-              className={
-                !loaderData.data?.links?.next || busy || isLastPage
-                  ? "btn-disabled join-item"
-                  : "join-item"
-              }
-              onClick={() =>
-                handlePagination(loaderData.data?.links?.next?.toString())
-              }
-              disabled={!loaderData.data?.links?.next || busy || isLastPage}
-            >
-              Next
-            </Button>
-            <Button
-              aria-label="Last"
-              className={
-                !loaderData.data?.links?.last || busy || isLastPage
-                  ? "btn-disabled join-item"
-                  : "join-item"
-              }
-              onClick={() =>
-                handlePagination(loaderData.data?.links?.last?.toString())
-              }
-              disabled={!loaderData.data?.links?.last || busy || isLastPage}
-            >
-              Last
-            </Button>
-          </div>
         </>
       ) : (
         <p>No Records</p>
