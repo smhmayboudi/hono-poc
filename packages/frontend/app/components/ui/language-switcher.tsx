@@ -10,11 +10,11 @@ export default () => {
 
   return (
     <div
-      className={`fixed flex gap-2 p-2 top-0 w-min z-10 ${i18n.dir() === "ltr" ? "right-0" : "left-0"}`}
+      className={`fixed flex gap-2 p-2 top-0 z-10 ${i18n.dir() === "ltr" ? "right-0" : "left-0"}`}
     >
       {supportedLanguages.map((language) => (
         <Link
-          className="dark:text-white hover:underline text-blue-500 transition-all"
+          className="dark:text-white hover:underline"
           keepSearchParams
           key={language}
           language={language}

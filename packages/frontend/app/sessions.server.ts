@@ -1,13 +1,13 @@
 import { createCookieSessionStorage } from "react-router";
 
-type SessionData = {
+export type SessionData = {
   token: string;
   user: {
     createdAt: Date;
     email: string;
     emailVerified: boolean;
     id: string;
-    image: string | null | undefined;
+    image?: string | null;
     name: string;
     updatedAt: Date;
   };

@@ -80,6 +80,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
         action={href("/dashboard/user-poc-view/search")}
         method="get"
         onChange={(event) => {
+          event.preventDefault();
           submit(event.currentTarget, { replace: !!loaderData?.query });
         }}
       >
@@ -90,7 +91,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
               className="h-4 opacity-50 shrink-0 stroke-current w-4"
             />
           ) : (
-            <Icon c_name="outlinr-search" className="h-4 opacity-50 w-4" />
+            <Icon c_name="outline-search" className="h-4 opacity-50 w-4" />
           )}
           <input
             aria-label="Search"

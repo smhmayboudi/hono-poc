@@ -17,6 +17,13 @@ export const action = async ({ request }: Route.ActionArgs) => {
   });
 };
 
+export const loader = async ({ request }: Route.LoaderArgs) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  if (!session.has("token") && !session.has("user")) {
+    return redirect(href("/signin"));
+  }
+};
+
 // export const meta = ({}: Route.MetaArgs) => [
 //   { title: "Signout" },
 //   { content: "Signout | description", name: "description" },

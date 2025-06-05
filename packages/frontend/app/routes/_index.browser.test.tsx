@@ -27,9 +27,7 @@ describe("Home route", () => {
     });
 
     expect(
-      getByText("React Router is awesome!", {
-        exact: false,
-      }),
+      getByText("React Router is awesome!", { exact: false }),
     ).not.toBeNull();
   });
 
@@ -41,19 +39,14 @@ describe("Home route", () => {
         {
           id: "home",
           path: "/",
-
           Component: () => Module(routeComponentProps),
         },
       ],
-      i18n: {
-        lng: "fa",
-      },
+      i18n: { lng: "fa" },
     });
 
     expect(
-      getByText("React Router je zakon!", {
-        exact: false,
-      }),
+      getByText("React Router je zakon!", { exact: false }),
     ).not.toBeNull();
   });
 });

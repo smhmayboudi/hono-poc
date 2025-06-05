@@ -9,7 +9,7 @@ interface FormBlockerProps {
 }
 
 export const useFormBlocker = (fetcher: ReturnType<typeof useFetcher>) => {
-  const [isDirty, setIsDirty] = useState(false);
+  const [isDirty, setIsDirty] = useState<boolean>(false);
   const blocker = useBlocker(useCallback(() => isDirty, [isDirty]));
   const formRef = useRef<HTMLFormElement>(null);
 

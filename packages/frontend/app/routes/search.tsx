@@ -41,7 +41,7 @@ export default () => {
               className="h-4 opacity-50 shrink-0 stroke-current w-4"
             />
           ) : (
-            <Icon c_name="outlinr-search" className="h-4 opacity-50 w-4" />
+            <Icon c_name="outline-search" className="h-4 opacity-50 w-4" />
           )}
           <input
             aria-label="Search"

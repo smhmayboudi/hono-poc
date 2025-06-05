@@ -67,7 +67,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
   const fetcher = useFetcher<typeof action>();
   const busy = fetcher.state !== "idle";
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
     <div>
