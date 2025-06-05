@@ -108,20 +108,6 @@ export default () => (
             <NavLink
               className={({ isActive }) => (isActive ? "menu-active" : "")}
               end
-              to={href("/dashboard/user-poc/create")}
-            >
-              {({ isPending }) => (
-                <>
-                  <span>User POC Create</span>
-                  {isPending && <Loading c_size="xs" />}
-                </>
-              )}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={({ isActive }) => (isActive ? "menu-active" : "")}
-              end
               to={href("/dashboard/user-poc/read")}
             >
               {({ isPending }) => (
@@ -136,39 +122,11 @@ export default () => (
             <NavLink
               className={({ isActive }) => (isActive ? "menu-active" : "")}
               end
-              to={href("/dashboard/user-poc-information/create")}
-            >
-              {({ isPending }) => (
-                <>
-                  <span>User POC Information Create</span>
-                  {isPending && <Loading c_size="xs" />}
-                </>
-              )}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={({ isActive }) => (isActive ? "menu-active" : "")}
-              end
               to={href("/dashboard/user-poc-information/read")}
             >
               {({ isPending }) => (
                 <>
                   <span>User POC Information Read</span>
-                  {isPending && <Loading c_size="xs" />}
-                </>
-              )}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={({ isActive }) => (isActive ? "menu-active" : "")}
-              end
-              to={href("/dashboard/user-poc-view/create")}
-            >
-              {({ isPending }) => (
-                <>
-                  <span>User POC View Create</span>
                   {isPending && <Loading c_size="xs" />}
                 </>
               )}

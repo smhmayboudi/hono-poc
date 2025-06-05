@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import type { SVGProps } from "react";
 
 import type { IconName } from "~/components/ui/icon-type";
 import { twc } from "~/utils/css";
@@ -26,7 +27,7 @@ const icon = cva("icon", {
 });
 
 export interface IconProps
-  extends React.SVGProps<SVGSVGElement>,
+  extends SVGProps<SVGSVGElement>,
     VariantProps<typeof icon> {
   c_name: IconName;
   c_testId?: string;

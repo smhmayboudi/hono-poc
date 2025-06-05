@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import type { HTMLAttributes } from "react";
 
 import { twc } from "~/utils/css";
 
@@ -28,7 +29,7 @@ const loading = cva("loading", {
 });
 
 export interface LoadingProps
-  extends React.HTMLAttributes<HTMLSpanElement>,
+  extends HTMLAttributes<HTMLSpanElement>,
     VariantProps<typeof loading> {}
 
 export default ({ c_size, c_style, className }: LoadingProps) => (
