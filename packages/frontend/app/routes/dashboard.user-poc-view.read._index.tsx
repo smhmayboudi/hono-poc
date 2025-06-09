@@ -206,7 +206,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
           </div>
         </>
       ) : (
-        <p>No Records</p>
+        <p className="p-3">No Records</p>
       )}
     </div>
   );

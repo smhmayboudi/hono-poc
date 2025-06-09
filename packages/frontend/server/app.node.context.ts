@@ -44,6 +44,7 @@ export const getLoadContext = async (args: GetLoadContextArgs) => {
     isProductionDeployment: getEnvServer().NODE_ENV === "production",
     locale,
     serverSession: session.data,
+    pagination: { limit: "10", offset: "0" },
     t,
     url: args.request.url,
   };

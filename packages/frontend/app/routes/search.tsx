@@ -20,7 +20,7 @@ export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   console.log("CLIENT - clientLoader");
   await sleep(1000);
   const url = new URL(request.url);
-  const query = url.searchParams.get("q") || "";
+  const query = url.searchParams.get("s") || "";
 
   return users.filter((user) =>
     user.name.toLowerCase().includes(query.toLowerCase()),
@@ -45,7 +45,7 @@ export default () => {
           )}
           <input
             aria-label="Search"
-            name="q"
+            name="s"
             onChange={(event) => {
               fetcher.submit(event.currentTarget.form);
             }}
@@ -70,7 +70,7 @@ export default () => {
           ))}
         </ul>
       ) : (
-        <p>No Records</p>
+        <p className="p-3">No Records</p>
       )}
     </div>
   );

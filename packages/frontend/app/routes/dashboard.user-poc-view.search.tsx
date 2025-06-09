@@ -1,6 +1,6 @@
 import type { AppType } from "backend";
 import { hc } from "hono/client";
-import { href, useFetcher, useSubmit } from "react-router";
+import { href, useFetcher } from "react-router";
 
 import errorBoundary from "~/components/error-boundary";
 import hydrateFallback from "~/components/hydrate-fallback";
@@ -11,78 +11,69 @@ import { sleep } from "~/utils/time";
 
 import type { Route } from "./+types/dashboard.user-poc-view.search";
 
-export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
-  console.log("CLIENT - clientLoader");
-  await sleep(1000);
-  const url = new URL(request.url);
-  const limit =
-    url.searchParams.get("limit") || window.env.APP_PAGINATION_LIMIT;
-  const offset =
-    url.searchParams.get("offset") || window.env.APP_PAGINATION_OFFSET;
-  const query = url.searchParams.get("q") || "";
-  const abortController = new AbortController();
-  const client = hc<AppType>("http://127.0.0.1:8081/");
-  const res = await client.api.v1["user-poc-view"].search.$post(
-    { json: { query }, query: { limit, offset } },
-    { init: { signal: abortController.signal } },
-  );
-  if (res.ok) {
-    const data = await res.json();
-
-    return { abortController, data, query };
-  }
-  const { errors } = await res.json();
-
-  return { errors };
-};
-
-// clientLoader.hydrate = true as const;
-
-// export const loader = async ({ request }: Route.LoaderArgs) => {
-//   console.log("SERVER - loader");
+// export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
+//   console.log("CLIENT - clientLoader");
+//   await sleep(1000);
 //   const url = new URL(request.url);
 //   const limit =
 //     url.searchParams.get("limit") || window.env.APP_PAGINATION_LIMIT;
 //   const offset =
 //     url.searchParams.get("offset") || window.env.APP_PAGINATION_OFFSET;
-//   const query = url.searchParams.get("q") || "";
-//   const abortController = new AbortController();
+//   const search = url.searchParams.get("search") || "";
 //   const client = hc<AppType>("http://127.0.0.1:8081/");
-//   const res = await client.api.v1["user-poc-view"].search.$post(
-//     { json: { query }, query: { limit, offset } },
-//     { init: { signal: abortController.signal } },
-//   );
+//   const res = await client.api.v1["user-poc-view"].search.$post({
+//     json: { query: search },
+//     query: { limit, offset },
+//   });
 //   if (res.ok) {
 //     const { data } = await res.json();
 //
-//     return { abortController, data, query };
+//     return { data, search };
 //   }
 //   const { errors } = await res.json();
 //
 //   return { errors };
 // };
 
+// clientLoader.hydrate = true as const;
+
+export const action = async ({ context, request }: Route.ActionArgs) => {
+  console.log("SERVER - action");
+  await sleep(1000);
+  const formData = await request.formData();
+  const limit = (formData.get("limit") as string) || context.pagination.limit;
+  const offset =
+    (formData.get("offset") as string) || context.pagination.offset;
+  const search = (formData.get("search") as string) || "";
+  const client = hc<AppType>("http://127.0.0.1:8081/");
+  const res = await client.api.v1["user-poc-view"].search.$post({
+    json: { query: search },
+    query: { limit, offset },
+  });
+  if (res.ok) {
+    const { data } = await res.json();
+
+    return { data, search };
+  }
+  const { errors } = await res.json();
+
+  return { errors };
+};
+
 // export const meta = ({}: Route.MetaArgs) => [
 //   { title: "User POC View Read" },
 //   { content: "User POC View Read | description", name: "description" },
 // ];
 
-export default ({ loaderData }: Route.ComponentProps) => {
-  const fetcher = useFetcher();
+export default ({}: Route.ComponentProps) => {
+  const fetcher = useFetcher<typeof action>();
   const busy = fetcher.state !== "idle";
-  // const navigation = useNavigation();
-  // const busy = navigation.state !== "idle";
-  const submit = useSubmit();
 
   return (
     <div>
       <fetcher.Form
         action={href("/dashboard/user-poc-view/search")}
-        method="get"
-        onChange={(event) => {
-          event.preventDefault();
-          submit(event.currentTarget, { replace: !!loaderData?.query });
-        }}
+        method="post"
       >
         <label className="input">
           {busy ? (
@@ -95,11 +86,10 @@ export default ({ loaderData }: Route.ComponentProps) => {
           )}
           <input
             aria-label="Search"
-            defaultValue={loaderData.query || ""}
-            name="q"
-            // onChange={(event) => {
-            //   fetcher.submit(event.target.form);
-            // }}
+            name="search"
+            onChange={(event) => {
+              fetcher.submit(event.currentTarget.form);
+            }}
             placeholder="Search"
             type="search"
           />
@@ -107,7 +97,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
           <kbd className="kbd kbd-sm">K</kbd>
         </label>
       </fetcher.Form>
-      {loaderData.data?.data.length ? (
+      {fetcher.data?.data?.length ? (
         <>
           <table className="table table-zebra">
             <thead>
@@ -120,7 +110,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
               </tr>
             </thead>
             <tbody>
-              {loaderData.data.data.map((value) => (
+              {fetcher.data.data.map((value) => (
                 <tr key={value.id}>
                   <td>{value.id}</td>
                   <td>{value.attributes?.address}</td>
@@ -161,7 +151,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
           </table>
         </>
       ) : (
-        <p>No Records</p>
+        <p className="p-3">No Records</p>
       )}
     </div>
   );
