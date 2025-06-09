@@ -15,13 +15,18 @@ const envSchema = z.object({
       message: "The string must be a valid number greater than or equal to 0",
     })
     .default("0"),
+  COOKIE_SECRET: z.string().default("s3cret!"),
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
+  SESSION_SECRET: z.string().default("s3cret!"),
 });
 
 type EnvServer = z.infer<typeof envSchema>;
-type EnvClient = Omit<z.infer<typeof envSchema>, "NODE_ENV">;
+type EnvClient = Omit<
+  z.infer<typeof envSchema>,
+  "COOKIE_SECRET" | "NODE_ENV" | "SESSION_SECRET"
+>;
 
 let env: EnvServer;
 

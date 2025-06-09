@@ -2,6 +2,7 @@ import {
   createContext,
   type JSX,
   type ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -11,7 +12,18 @@ import { href, Navigate, useLocation, useNavigate } from "react-router";
 
 import Button from "~/components/ui/button";
 import type { SessionData } from "~/sessions.server";
-import { authClient } from "~/utils/auth-client";
+
+type AuthApiResponse =
+  | {
+      error?: never;
+      token: string;
+      user: SessionData["user"];
+    }
+  | {
+      error: string;
+      token?: never;
+      user?: never;
+    };
 
 interface AuthContextType {
   error: Error | null;
@@ -54,121 +66,155 @@ export const AuthProvider = ({
     token: serverSession?.token || null,
     user: serverSession?.user || null,
   });
-  const updateState = (updates: Partial<typeof state>) => {
-    setState((prev) => ({ ...prev, ...updates }));
-  };
-  useEffect(() => {
-    if (!serverSession) {
-      getSession();
+
+  const updateState = useCallback(
+    (updates: Partial<typeof state>) =>
+      setState((prev) => ({ ...prev, ...updates })),
+    [],
+  );
+
+  const fetchAuth = async (url: string, options?: RequestInit) => {
+    try {
+      const response = await fetch(url, {
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        method: "POST",
+        ...options,
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return (await response.json()) as AuthApiResponse;
+    } catch (error) {
+      throw error instanceof Error ? error : new Error("fetchAuth Error");
     }
-  }, []);
-  const getSession = async () => {
+  };
+
+  const getSession = useCallback(async () => {
     updateState({ loading: true, error: null });
     try {
-      const { data, error } = await authClient.getSession({
-        fetchOptions: { credentials: "include" },
-      });
-      if (error) {
-        throw error;
+      const data = await fetchAuth("/api/auth/getsession", { method: "GET" });
+      if (data.error) {
+        throw new Error(data.error);
       }
-      updateState({
-        loading: false,
-        token: data?.session.token || null,
-        user: data?.user || null,
-      });
+      if (data.token && data.user) {
+        updateState({
+          loading: false,
+          token: data.token,
+          user: data.user,
+        });
+      }
     } catch (error) {
       updateState({
         error: error instanceof Error ? error : new Error("getSession Error"),
         loading: false,
       });
     }
-  };
-  const signIn = async (
-    email: string,
-    password: string,
-    rememberMe: boolean,
-    callback?: VoidFunction,
-  ) => {
-    updateState({ loading: true, error: null });
-    try {
-      const { data, error } = await authClient.signIn.email({
-        email,
-        password,
-        rememberMe,
-      });
-      if (error) {
-        throw error;
+  }, [updateState]);
+
+  const signIn = useCallback(
+    async (
+      email: string,
+      password: string,
+      rememberMe: boolean,
+      callback?: VoidFunction,
+    ) => {
+      updateState({ loading: true, error: null });
+      try {
+        const formData = new URLSearchParams();
+        formData.append("email", email);
+        formData.append("password", password);
+        formData.append("rememberMe", rememberMe.toString());
+        const data = await fetchAuth("/api/auth/signin", { body: formData });
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        if (data.token && data.user) {
+          updateState({
+            loading: false,
+            token: data.token,
+            user: data.user,
+          });
+          callback?.();
+        }
+      } catch (error) {
+        updateState({
+          error: error instanceof Error ? error : new Error("signIn Error"),
+          loading: false,
+        });
       }
-      updateState({
-        loading: false,
-        token: data.token,
-        user: data.user,
-      });
-      if (!error) {
+    },
+    [updateState],
+  );
+
+  const signOut = useCallback(
+    async (callback?: VoidFunction) => {
+      updateState({ loading: true });
+      try {
+        const data = await fetchAuth("/api/auth/signout");
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        updateState({
+          loading: false,
+          token: null,
+          user: null,
+        });
         callback?.();
+      } catch (error) {
+        updateState({
+          error: error instanceof Error ? error : new Error("signOut Error"),
+          loading: false,
+        });
       }
-    } catch (error) {
-      updateState({
-        error: error instanceof Error ? error : new Error("signIn Error"),
-        loading: false,
-      });
+    },
+    [updateState],
+  );
+
+  const signUp = useCallback(
+    async (
+      email: string,
+      name: string,
+      password: string,
+      callback?: VoidFunction,
+    ) => {
+      updateState({ loading: true });
+      try {
+        const formData = new URLSearchParams();
+        formData.append("email", email);
+        formData.append("name", name);
+        formData.append("password", password);
+        const data = await fetchAuth("/api/auth/signup", { body: formData });
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        if (data.token && data.user) {
+          updateState({
+            loading: false,
+            token: data.token,
+            user: data.user,
+          });
+          callback?.();
+        }
+      } catch (error) {
+        updateState({
+          error: error instanceof Error ? error : new Error("signUp Error"),
+          loading: false,
+        });
+      }
+    },
+    [updateState],
+  );
+
+  useEffect(() => {
+    if (!serverSession) {
+      getSession();
     }
-  };
-  const signOut = async (callback?: VoidFunction) => {
-    updateState({ loading: true });
-    try {
-      const { error } = await authClient.signOut({
-        fetchOptions: { credentials: "include" },
-      });
-      if (error) {
-        throw error;
-      }
-      updateState({
-        loading: false,
-        token: null,
-        user: null,
-      });
-      if (!error) {
-        callback?.();
-      }
-    } catch (error) {
-      updateState({
-        error: error instanceof Error ? error : new Error("signOut Error"),
-        loading: false,
-      });
-    }
-  };
-  const signUp = async (
-    email: string,
-    name: string,
-    password: string,
-    callback?: VoidFunction,
-  ) => {
-    updateState({ loading: true });
-    try {
-      const { data, error } = await authClient.signUp.email({
-        email,
-        name,
-        password,
-      });
-      if (error) {
-        throw error;
-      }
-      updateState({
-        loading: false,
-        token: data.token,
-        user: data.user,
-      });
-      if (!error) {
-        callback?.();
-      }
-    } catch (error) {
-      updateState({
-        error: error instanceof Error ? error : new Error("signUp Error"),
-        loading: false,
-      });
-    }
-  };
+  }, [getSession, serverSession]);
 
   return (
     <AuthContext.Provider
@@ -179,7 +225,13 @@ export const AuthProvider = ({
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};
 
 export const AuthStatus = () => {
   const { i18n } = useTranslation();
@@ -193,19 +245,31 @@ export const AuthStatus = () => {
       <p className="dark:text-white">
         {auth.token && auth.user ? (
           <>
-            Welcome {auth.user.name}!&nbsp;
+            <span className="flex gap-2">{auth.user.name}</span>
             <Button
               c_size="xs"
               className="btn"
               onClick={() => {
-                navigate(href("/signout"));
+                auth.signOut(() => {
+                  navigate(href("/"));
+                });
               }}
             >
               Sign out
             </Button>
           </>
         ) : (
-          <>You are not logged in.</>
+          <>
+            <Button
+              c_size="xs"
+              className="btn"
+              onClick={() => {
+                navigate(href("/signin"));
+              }}
+            >
+              Sign in
+            </Button>
+          </>
         )}
       </p>
     </div>
