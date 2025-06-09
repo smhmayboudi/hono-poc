@@ -1,6 +1,5 @@
 import * as api from "@opentelemetry/api-logs";
 import { pino } from "pino";
-import { merge } from "ts-deepmerge";
 
 import type { PortLogger } from "../../application/port/logger/logger.ts";
 import type { PortTracer } from "../../application/port/opentelemetry/opentelemetry.ts";
@@ -97,14 +96,19 @@ export class Logger implements PortLogger {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   #args(args: Record<string, any>) {
-    return Object.entries(args)
-      .map((value) =>
-        typeof value[1] === "string" ? { message: value[1] } : value[1],
-      )
-      .reduce(
-        (previousValue, currentValue) => merge(previousValue, currentValue),
-        {},
-      );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: Record<string, any> = {};
+    for (const [key, value] of Object.entries(args)) {
+      if (typeof value === "string") {
+        result["message"] = value;
+      } else if (typeof value === "object" && !Array.isArray(value)) {
+        Object.assign(result, value);
+      } else {
+        result[key] = value;
+      }
+    }
+
+    return result;
   }
 
   /**

@@ -7,6 +7,7 @@ import { I18nextProvider, initReactI18next } from "react-i18next";
 import { HydratedRouter } from "react-router/dom";
 import { getInitialNamespaces } from "remix-i18next/client";
 
+import { AuthProvider } from "~/components/auth-provider";
 import i18n from "~/localization/i18n";
 
 const hydrate = async () => {
@@ -31,9 +32,11 @@ const hydrate = async () => {
       document,
       // @ts-ignore
       <I18nextProvider i18n={i18next}>
-        <StrictMode>
-          <HydratedRouter />
-        </StrictMode>
+        <AuthProvider serverSession={window.session}>
+          <StrictMode>
+            <HydratedRouter />
+          </StrictMode>
+        </AuthProvider>
       </I18nextProvider>,
     );
   });

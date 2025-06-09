@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import type { SessionData } from "./sessions.server";
+
 const envSchema = z.object({
   APP_PAGINATION_LIMIT: z
     .string()
@@ -51,5 +53,6 @@ export const getEnvClient = (): EnvClient => ({
 declare global {
   interface Window {
     env: EnvClient;
+    session?: SessionData | null;
   }
 }

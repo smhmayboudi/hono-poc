@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { data, href, redirect, useFetcher, useNavigate } from "react-router";
+import { z } from "zod";
 
 import Button from "~/components/ui/button";
 import Icon from "~/components/ui/icon";
@@ -11,38 +12,41 @@ import type { Route } from "./+types/signin";
 
 export const action = async ({ request }: Route.ActionArgs) => {
   console.log("SERVER - action");
-  const form = await request.formData();
-  const email = form.get("email") as string;
-  const password = form.get("password") as string;
-  const rememberMe = (form.get("rememberMe") as string) === "on";
-  const { data, error } = await authClient.signIn.email({
-    email,
-    password,
-    rememberMe,
-  });
   const session = await getSession(request.headers.get("Cookie"));
-  if (error) {
-    session.flash(
-      "error",
-      `${error.statusText}[${error.status}] ${error.code}\n${error.message}`,
-    );
+  try {
+    const formData = await request.formData();
+    const user = z.object({
+      email: z.string().email(),
+      password: z.string(),
+      rememberMe: z
+        .string()
+        .optional()
+        .transform((val) => val === "on"),
+    });
+    const dataIn = user.parse(Object.fromEntries(formData));
+    const { data, error } = await authClient.signIn.email(dataIn);
+    if (error) {
+      throw error;
+    }
+    session.set("token", data.token);
+    session.set("user", data.user);
+
+    return redirect(href("/"), {
+      headers: {
+        "Set-Cookie": await commitSession(session, {
+          expires: dataIn.rememberMe
+            ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+            : undefined,
+        }),
+      },
+    });
+  } catch (error) {
+    session.flash("error", String(error));
 
     return redirect(href("/signin"), {
       headers: { "Set-Cookie": await commitSession(session) },
     });
   }
-  session.set("token", data.token);
-  session.set("user", data.user);
-
-  return redirect(href("/"), {
-    headers: {
-      "Set-Cookie": await commitSession(session, {
-        expires: rememberMe
-          ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-          : undefined,
-      }),
-    },
-  });
 };
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
@@ -64,10 +68,26 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 // ];
 
 export default ({ loaderData }: Route.ComponentProps) => {
-  const fetcher = useFetcher<typeof action>();
+  const fetcher = useFetcher();
   const busy = fetcher.state !== "idle";
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  // const auth = useAuth();
+  // const location = useLocation();
+  // const from = location.state?.from?.pathname || "/";
+  // const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   const formData = new FormData(event.currentTarget);
+  //   const user = z.object({
+  //     email: z.string().email(),
+  //     password: z.string(),
+  //     rememberMe: z.string().optional(),
+  //   });
+  //   const data = user.parse(Object.fromEntries(formData));
+  //   auth.signIn(data.email, data.password, data.rememberMe === "on", () => {
+  //     navigate(from, { replace: true });
+  //   });
+  // };
 
   return (
     <div>

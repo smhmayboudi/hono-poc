@@ -9,6 +9,7 @@ import {
   useRouteLoaderData,
 } from "react-router";
 
+import { AuthStatus } from "~/components/auth-provider";
 import Footer from "~/components/ui/footer";
 import Header from "~/components/ui/header";
 import LanguageSwitcher from "~/components/ui/language-switcher";
@@ -93,8 +94,8 @@ export const meta = ({}: Route.MetaArgs) => {
 export const Layout = () => {
   const navigation = useNavigation();
   const isNavigating = Boolean(navigation.location);
+  const loderData = useRouteLoaderData<typeof loader>("root");
   const { i18n } = useTranslation();
-  const { envClient } = useRouteLoaderData("root");
 
   return (
     <html data-theme="light" dir={i18n.dir()} lang={i18n.language}>
@@ -107,8 +108,9 @@ export const Layout = () => {
           <progress className="absolute flex progress w-full"></progress>
         )}
         <LanguageSwitcher />
+        <AuthStatus />
         <Header />
-        <div className="flex flex-1">
+        <div className="content flex flex-1">
           <Nav />
           <main className="flex-1 p-4">
             <Outlet />
@@ -119,7 +121,7 @@ export const Layout = () => {
         <Scripts />
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.env = ${JSON.stringify(envClient)}`,
+            __html: `window.env = ${JSON.stringify(loderData?.envClient || {})};window.session = ${JSON.stringify(loderData?.serverSession || {})};`,
           }}
         />
       </body>
@@ -127,6 +129,9 @@ export const Layout = () => {
   );
 };
 
-export const loader = async ({ context }: Route.LoaderArgs) => context;
+export const loader = async ({ context }: Route.LoaderArgs) => ({
+  envClient: context.envClient,
+  serverSession: context.serverSession,
+});
 
 export default () => <Outlet />;

@@ -59,8 +59,7 @@
     "mysql2": "^3.14.1",
     "pino": "^9.7.0",
     "redis": "^5.1.0",
-    "slugify": "^1.6.6",
-    "ts-deepmerge": "^7.0.3"
+    "slugify": "^1.6.6"
   },
   "description": "",
   "devDependencies": {

@@ -13,9 +13,12 @@ import type {
 } from "react-router";
 import { ServerRouter } from "react-router";
 
+import { AuthProvider } from "~/components/auth-provider";
 import i18n from "~/localization/i18n";
 import i18nextOpts from "~/localization/i18n.server";
 import { resources } from "~/localization/resource";
+
+import { getSession } from "./sessions.server";
 
 // export const handleDataRequest = (
 //   response: Response,
@@ -50,7 +53,8 @@ export default (
       (userAgent && isbot(userAgent)) || routerContext.isSpaMode
         ? "onAllReady"
         : "onShellReady";
-
+    const cookie = request.headers.get("Cookie") || "";
+    const session = await getSession(cookie);
     const instance = createInstance();
     const lng = loadContext.locale;
     const ns = i18nextOpts.getRouteNamespaces(routerContext);
@@ -64,7 +68,9 @@ export default (
     const { abort, pipe } = renderToPipeableStream(
       // @ts-ignore
       <I18nextProvider i18n={instance}>
-        <ServerRouter context={routerContext} url={request.url} />
+        <AuthProvider serverSession={session.data}>
+          <ServerRouter context={routerContext} url={request.url} />
+        </AuthProvider>
       </I18nextProvider>,
       {
         [readyOption]() {

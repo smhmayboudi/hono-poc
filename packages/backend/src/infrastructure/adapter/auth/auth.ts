@@ -50,7 +50,7 @@ const betterAuth2 = (
     }),
     disabledPaths,
     emailAndPassword: {
-      autoSignIn: false,
+      autoSignIn: true,
       enabled: true,
     },
     logger: new AuthLogger(false, "debug", loggerLogger),
