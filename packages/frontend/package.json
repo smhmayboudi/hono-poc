@@ -25,6 +25,7 @@
     "@hono/node-server": "^1.14.2",
     "@react-router/fs-routes": "^7.6.0",
     "@react-router/node": "^7.6.0",
+    "@react-router/serve": "^7.6.0",
     "backend": "file:../backend",
     "better-auth": "1.2.8",
     "hono": "^4.7.10",

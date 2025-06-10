@@ -1,5 +1,7 @@
 import { createCookieSessionStorage } from "react-router";
 
+import { getEnvServer } from "./env.server";
+
 export type SessionData = {
   token?: string;
   user?: {
@@ -27,7 +29,7 @@ export const { commitSession, destroySession, getSession } =
       name: "__user_session",
       path: "/",
       sameSite: "lax",
-      secrets: [process.env.APP_SESSION_SECRET || "s3cret!"],
-      secure: process.env.NODE_ENV === "production",
+      secrets: [getEnvServer().SESSION_SECRET],
+      secure: getEnvServer().NODE_ENV === "production",
     },
   });

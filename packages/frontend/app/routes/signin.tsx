@@ -25,13 +25,13 @@ export default ({}: Route.ComponentProps) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const user = z.object({
+    const userSchema = z.object({
       email: z.string().email(),
       password: z.string(),
       rememberMe: z.string().optional(),
     });
-    const data = user.parse(Object.fromEntries(formData));
-    auth.signIn(data.email, data.password, data.rememberMe === "on", () => {
+    const user = userSchema.parse(Object.fromEntries(formData));
+    auth.signIn(user.email, user.password, user.rememberMe === "on", () => {
       navigate(from, { replace: true });
     });
   };

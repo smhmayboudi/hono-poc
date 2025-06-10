@@ -5,7 +5,7 @@ import { commitSession, destroySession, getSession } from "~/sessions.server";
 
 import type { Route } from "./+types/api.auth.$";
 
-export const actionSignInEmail = async (request: Request) => {
+const actionSignInEmail = async (request: Request) => {
   const session = await getSession(request.headers.get("Cookie"));
   try {
     const formData = await request.formData();
@@ -55,7 +55,7 @@ export const actionSignInEmail = async (request: Request) => {
   }
 };
 
-export const actionSignOut = async (request: Request) => {
+const actionSignOut = async (request: Request) => {
   const session = await getSession(request.headers.get("Cookie"));
   try {
     const { data, error } = await authClient.signOut({
@@ -88,7 +88,7 @@ export const actionSignOut = async (request: Request) => {
   }
 };
 
-export const actionSignUpEmail = async (request: Request) => {
+const actionSignUpEmail = async (request: Request) => {
   const session = await getSession(request.headers.get("Cookie"));
   try {
     const formData = await request.formData();
@@ -131,7 +131,7 @@ export const actionSignUpEmail = async (request: Request) => {
   }
 };
 
-export const actionGetSession = async (request: Request) => {
+const actionGetSession = async (request: Request) => {
   const session = await getSession(request.headers.get("Cookie"));
   try {
     const { data, error } = await authClient.getSession({

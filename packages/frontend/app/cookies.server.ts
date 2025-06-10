@@ -1,12 +1,14 @@
 import { createCookie } from "react-router";
 
-export const userPreferences = createCookie("__user_preferences", {
+import { getEnvServer } from "./env.server";
+
+export const userPreferences = createCookie("__user_cookie", {
   // expires
   // domain
   httpOnly: true,
   maxAge: 60 * 60 * 24 * 30,
   path: "/",
   sameSite: "lax",
-  secrets: [process.env.APP_COOKIE_SECRET || "s3cret!"],
-  secure: process.env.NODE_ENV === "production",
+  secrets: [getEnvServer().COOKIE_SECRET],
+  secure: getEnvServer().NODE_ENV === "production",
 });

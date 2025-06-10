@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { twc } from "~/utils/css";
+import { twc } from "./css";
 
 describe("twc", () => {
   it("should merge classes", () => {

@@ -15,17 +15,30 @@ const envSchema = z.object({
       message: "The string must be a valid number greater than or equal to 0",
     })
     .default("0"),
+  AUTH_CLIENT_BASE_URL: z.string().default("http://127.0.0.1:8081/api/v1/auth"),
+  CLIENT_BASE_URL: z.string().default("http://127.0.0.1:8081/"),
   COOKIE_SECRET: z.string().default("s3cret!"),
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
+  PORT: z
+    .string()
+    .refine((arg) => !Number.isNaN(Number(arg)) && Number(arg) >= 1, {
+      message: "The string must be a valid number greater than or equal to 1",
+    })
+    .default("3010"),
   SESSION_SECRET: z.string().default("s3cret!"),
 });
 
 type EnvServer = z.infer<typeof envSchema>;
 type EnvClient = Omit<
   z.infer<typeof envSchema>,
-  "COOKIE_SECRET" | "NODE_ENV" | "SESSION_SECRET"
+  | "AUTH_CLIENT_BASE_URL"
+  | "CLIENT_BASE_URL"
+  | "COOKIE_SECRET"
+  | "NODE_ENV"
+  | "PORT"
+  | "SESSION_SECRET"
 >;
 
 let env: EnvServer;

@@ -19,6 +19,44 @@ import { seo } from "~/utils/seo";
 
 import type { Route } from "./+types/root";
 
+export const Layout = () => {
+  const navigation = useNavigation();
+  const isNavigating = Boolean(navigation.location);
+  const loderData = useRouteLoaderData<typeof loader>("root");
+  const { i18n } = useTranslation();
+
+  return (
+    <html data-theme="light" dir={i18n.dir()} lang={i18n.language}>
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body className="flex flex-col min-h-screen">
+        {isNavigating && (
+          <progress className="absolute flex progress w-full"></progress>
+        )}
+        <LanguageSwitcher />
+        <AuthStatus />
+        <Header />
+        <div className="content flex flex-1">
+          <Nav />
+          <main className="flex-1 p-4">
+            <Outlet />
+          </main>
+        </div>
+        <Footer />
+        <ScrollRestoration />
+        <Scripts />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.env = ${JSON.stringify(loderData?.envClient || {})};window.session = ${JSON.stringify(loderData?.serverSession || {})};`,
+          }}
+        />
+      </body>
+    </html>
+  );
+};
+
 export const headers = ({ parentHeaders }: Route.HeadersArgs) => {
   parentHeaders.set("Cache-Control", "max-age=3600, s-maxage=86400");
   // parentHeaders.set("Content-Security-Policy", "default-src 'self';");
@@ -51,6 +89,11 @@ export const links: Route.LinksFunction = () => {
     ...linkTags,
   ];
 };
+
+export const loader = async ({ context }: Route.LoaderArgs) => ({
+  envClient: context.envClient,
+  serverSession: context.serverSession,
+});
 
 export const meta = ({}: Route.MetaArgs) => {
   const { metaTags } = seo();
@@ -90,48 +133,5 @@ export const meta = ({}: Route.MetaArgs) => {
 //     ),
 //   ];
 // }
-
-export const Layout = () => {
-  const navigation = useNavigation();
-  const isNavigating = Boolean(navigation.location);
-  const loderData = useRouteLoaderData<typeof loader>("root");
-  const { i18n } = useTranslation();
-
-  return (
-    <html data-theme="light" dir={i18n.dir()} lang={i18n.language}>
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body className="flex flex-col min-h-screen">
-        {isNavigating && (
-          <progress className="absolute flex progress w-full"></progress>
-        )}
-        <LanguageSwitcher />
-        <AuthStatus />
-        <Header />
-        <div className="content flex flex-1">
-          <Nav />
-          <main className="flex-1 p-4">
-            <Outlet />
-          </main>
-        </div>
-        <Footer />
-        <ScrollRestoration />
-        <Scripts />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.env = ${JSON.stringify(loderData?.envClient || {})};window.session = ${JSON.stringify(loderData?.serverSession || {})};`,
-          }}
-        />
-      </body>
-    </html>
-  );
-};
-
-export const loader = async ({ context }: Route.LoaderArgs) => ({
-  envClient: context.envClient,
-  serverSession: context.serverSession,
-});
 
 export default () => <Outlet />;
