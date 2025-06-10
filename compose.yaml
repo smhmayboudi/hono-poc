@@ -54,7 +54,7 @@ services:
         - CMD-SHELL
         - curl --fail http://elasticsearch:9200/_cluster/health?timeout=50s&wait_for_status=green || exit 1
       timeout: 10s
-    image: elasticsearch:8.18.0
+    image: elasticsearch:9.0.2
     labels:
       namespace: service
     logging: *logging
@@ -224,7 +224,7 @@ services:
         condition: service_healthy
       backend-dev:
         condition: service_healthy
-    image: grafana/k6:0.58.0
+    image: grafana/k6:1.0.0
     labels:
       namespace: service
     logging: *logging
@@ -512,7 +512,7 @@ services:
         - CMD-SHELL
         - curl --fail http://otel-lgtm:3000 || exit 1
       timeout: 10s
-    image: grafana/otel-lgtm:0.11.0
+    image: grafana/otel-lgtm:0.11.4
     ports:
       - "3000:3000"
       - "4040:4040"
@@ -604,7 +604,7 @@ services:
         - CMD-SHELL
         - redis-cli --raw incr ping
       timeout: 10s
-    image: redis:7.4.2-bookworm
+    image: redis:8.0.2-bookworm
     labels:
       namespace: service
     logging: *logging
