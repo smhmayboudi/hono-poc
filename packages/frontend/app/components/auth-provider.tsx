@@ -97,7 +97,9 @@ export const AuthProvider = ({
   const getSession = useCallback(async () => {
     updateState({ loading: true, error: null });
     try {
-      const data = await fetchAuth("/api/auth/getsession", { method: "GET" });
+      const data = await fetchAuth(href("/api/auth/*", { "*": "getsession" }), {
+        method: "GET",
+      });
       if (data.error) {
         throw new Error(data.error);
       }
@@ -116,99 +118,94 @@ export const AuthProvider = ({
     }
   }, [updateState]);
 
-  const signIn = useCallback(
-    async (
-      email: string,
-      password: string,
-      rememberMe: boolean,
-      callback?: VoidFunction,
-    ) => {
-      updateState({ loading: true, error: null });
-      try {
-        const formData = new URLSearchParams();
-        formData.append("email", email);
-        formData.append("password", password);
-        formData.append("rememberMe", rememberMe.toString());
-        const data = await fetchAuth("/api/auth/signin", { body: formData });
-        if (data.error) {
-          throw new Error(data.error);
-        }
-        if (data.token && data.user) {
-          updateState({
-            loading: false,
-            token: data.token,
-            user: data.user,
-          });
-          callback?.();
-        }
-      } catch (error) {
-        updateState({
-          error: error instanceof Error ? error : new Error("signIn Error"),
-          loading: false,
-        });
+  const signIn = async (
+    email: string,
+    password: string,
+    rememberMe: boolean,
+    callback?: VoidFunction,
+  ) => {
+    updateState({ loading: true, error: null });
+    try {
+      const formData = new URLSearchParams();
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("rememberMe", rememberMe.toString());
+      const data = await fetchAuth(href("/api/auth/*", { "*": "signin" }), {
+        body: formData,
+      });
+      if (data.error) {
+        throw new Error(data.error);
       }
-    },
-    [updateState],
-  );
-
-  const signOut = useCallback(
-    async (callback?: VoidFunction) => {
-      updateState({ loading: true });
-      try {
-        const data = await fetchAuth("/api/auth/signout");
-        if (data.error) {
-          throw new Error(data.error);
-        }
+      if (data.token && data.user) {
         updateState({
           loading: false,
-          token: null,
-          user: null,
+          token: data.token,
+          user: data.user,
         });
         callback?.();
-      } catch (error) {
-        updateState({
-          error: error instanceof Error ? error : new Error("signOut Error"),
-          loading: false,
-        });
       }
-    },
-    [updateState],
-  );
+    } catch (error) {
+      updateState({
+        error: error instanceof Error ? error : new Error("signIn Error"),
+        loading: false,
+      });
+    }
+  };
 
-  const signUp = useCallback(
-    async (
-      email: string,
-      name: string,
-      password: string,
-      callback?: VoidFunction,
-    ) => {
-      updateState({ loading: true });
-      try {
-        const formData = new URLSearchParams();
-        formData.append("email", email);
-        formData.append("name", name);
-        formData.append("password", password);
-        const data = await fetchAuth("/api/auth/signup", { body: formData });
-        if (data.error) {
-          throw new Error(data.error);
-        }
-        if (data.token && data.user) {
-          updateState({
-            loading: false,
-            token: data.token,
-            user: data.user,
-          });
-          callback?.();
-        }
-      } catch (error) {
-        updateState({
-          error: error instanceof Error ? error : new Error("signUp Error"),
-          loading: false,
-        });
+  const signOut = async (callback?: VoidFunction) => {
+    updateState({ loading: true });
+    try {
+      const data = await fetchAuth(href("/api/auth/*", { "*": "signout" }));
+      if (data.error) {
+        throw new Error(data.error);
       }
-    },
-    [updateState],
-  );
+      updateState({
+        loading: false,
+        token: null,
+        user: null,
+      });
+      callback?.();
+    } catch (error) {
+      updateState({
+        error: error instanceof Error ? error : new Error("signOut Error"),
+        loading: false,
+      });
+    }
+  };
+
+  const signUp = async (
+    email: string,
+    name: string,
+    password: string,
+    callback?: VoidFunction,
+  ) => {
+    updateState({ loading: true });
+    try {
+      const formData = new URLSearchParams();
+      formData.append("email", email);
+      formData.append("name", name);
+      formData.append("password", password);
+      const data = await fetchAuth(href("/api/auth/*", { "*": "signup" }), {
+        body: formData,
+      });
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      if (data.token && data.user) {
+        updateState({
+          loading: false,
+          token: data.token,
+          user: data.user,
+        });
+        callback?.();
+      }
+    } catch (error) {
+      updateState({
+        error: error instanceof Error ? error : new Error("signUp Error"),
+        loading: false,
+      });
+    }
+  };
 
   useEffect(() => {
     if (!serverSession) {
@@ -273,6 +270,17 @@ export const AuthStatus = () => {
         )}
       </p>
     </div>
+  );
+};
+
+export const AuthNotRequire = ({ children }: { children: JSX.Element }) => {
+  const auth = useAuth();
+  const location = useLocation();
+
+  return auth.token && auth.user ? (
+    <Navigate to={location.state?.from?.pathname || "/"} replace />
+  ) : (
+    children
   );
 };
 

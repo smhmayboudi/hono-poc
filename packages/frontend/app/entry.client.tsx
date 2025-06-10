@@ -30,14 +30,16 @@ const hydrate = async () => {
   startTransition(() => {
     hydrateRoot(
       document,
-      // @ts-ignore
-      <I18nextProvider i18n={i18next}>
-        <AuthProvider serverSession={window.session}>
-          <StrictMode>
-            <HydratedRouter />
-          </StrictMode>
-        </AuthProvider>
-      </I18nextProvider>,
+      <StrictMode>
+        {
+          // @ts-ignore
+          <I18nextProvider i18n={i18next}>
+            <AuthProvider serverSession={window.session}>
+              <HydratedRouter />
+            </AuthProvider>
+          </I18nextProvider>
+        }
+      </StrictMode>,
     );
   });
 };

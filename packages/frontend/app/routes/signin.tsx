@@ -2,7 +2,7 @@ import { type FormEvent, useState } from "react";
 import { href, useFetcher, useLocation, useNavigate } from "react-router";
 import { z } from "zod";
 
-import { useAuth } from "~/components/auth-provider";
+import { AuthNotRequire, useAuth } from "~/components/auth-provider";
 import Button from "~/components/ui/button";
 import Icon from "~/components/ui/icon";
 import Loading from "~/components/ui/loading";
@@ -37,82 +37,84 @@ export default ({}: Route.ComponentProps) => {
   };
 
   return (
-    <div>
-      {auth.error ? (
-        <div>
-          <p>{String(auth.error)}</p>
-        </div>
-      ) : null}
-      <fetcher.Form method="post" onSubmit={handleSubmit}>
-        <fieldset className="bg-base-200 border border-base-300 fieldset p-4 rounded-box">
-          <legend className="fieldset-legend">Signin</legend>
-          <label className="floating-label input validator">
-            <Icon c_name="outline-email" className="h-4 opacity-50 w-4" />
-            <input
-              aria-label="Email"
-              name="email"
-              pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-              placeholder="Email"
-              required
-              type="email"
-            />
-          </label>
-          <label className="floating-label input validator">
-            <Icon c_name="outline-password" className="h-4 opacity-50 w-4" />
-            <input
-              aria-label="Password"
-              name="password"
-              placeholder="Password"
-              required
-              type={showPassword ? "text" : "password"}
-            />
-            <Button
-              aria-label={showPassword ? "Hide Password" : "Show Password"}
-              c_modifier="square"
-              c_size="xs"
-              c_style="ghost"
-              onClick={() => setShowPassword(!showPassword)}
-              type="button"
-            >
-              <Icon
-                c_name={showPassword ? "outline-eye-off" : "outline-eye"}
-                className="h-4 w-4"
-              />
-            </Button>
-          </label>
-          <label className="label">
-            <input
-              aria-label="Remember Me"
-              className="toggle"
-              name="rememberMe"
-              type="checkbox"
-            />
-            Remember Me
-          </label>
-          <div className="join">
-            <Button
-              c_behavior="active"
-              c_color="primary"
-              c_size="sm"
-              className="join-item"
-              disabled={busy}
-              type="submit"
-            >
-              {busy ? <Loading c_size="xs" /> : "OK"}
-            </Button>
-            <Button
-              c_size="sm"
-              className="join-item"
-              onClick={() => {
-                navigate(href("/"));
-              }}
-              type="button"
-            >
-              CANCEL
-            </Button>
+    <AuthNotRequire>
+      <div>
+        {auth.error ? (
+          <div>
+            <p>{String(auth.error)}</p>
           </div>
-        </fieldset>
-      </fetcher.Form>
-    </div>
+        ) : null}
+        <fetcher.Form method="post" onSubmit={handleSubmit}>
+          <fieldset className="bg-base-200 border border-base-300 fieldset p-4 rounded-box">
+            <legend className="fieldset-legend">Signin</legend>
+            <label className="floating-label input validator">
+              <Icon c_name="outline-email" className="h-4 opacity-50 w-4" />
+              <input
+                aria-label="Email"
+                name="email"
+                pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                placeholder="Email"
+                required
+                type="email"
+              />
+            </label>
+            <label className="floating-label input validator">
+              <Icon c_name="outline-password" className="h-4 opacity-50 w-4" />
+              <input
+                aria-label="Password"
+                name="password"
+                placeholder="Password"
+                required
+                type={showPassword ? "text" : "password"}
+              />
+              <Button
+                aria-label={showPassword ? "Hide Password" : "Show Password"}
+                c_modifier="square"
+                c_size="xs"
+                c_style="ghost"
+                onClick={() => setShowPassword(!showPassword)}
+                type="button"
+              >
+                <Icon
+                  c_name={showPassword ? "outline-eye-off" : "outline-eye"}
+                  className="h-4 w-4"
+                />
+              </Button>
+            </label>
+            <label className="label">
+              <input
+                aria-label="Remember Me"
+                className="toggle"
+                name="rememberMe"
+                type="checkbox"
+              />
+              Remember Me
+            </label>
+            <div className="join">
+              <Button
+                c_behavior="active"
+                c_color="primary"
+                c_size="sm"
+                className="join-item"
+                disabled={busy}
+                type="submit"
+              >
+                {busy ? <Loading c_size="xs" /> : "OK"}
+              </Button>
+              <Button
+                c_size="sm"
+                className="join-item"
+                onClick={() => {
+                  navigate(href("/"));
+                }}
+                type="button"
+              >
+                CANCEL
+              </Button>
+            </div>
+          </fieldset>
+        </fetcher.Form>
+      </div>
+    </AuthNotRequire>
   );
 };

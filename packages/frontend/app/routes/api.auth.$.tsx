@@ -1,7 +1,7 @@
 import z from "zod";
 
+import { authClient } from "~/auth-client.server";
 import { commitSession, destroySession, getSession } from "~/sessions.server";
-import { authClient } from "~/utils/auth-client";
 
 import type { Route } from "./+types/api.auth.$";
 
@@ -31,7 +31,6 @@ export const actionSignInEmail = async (request: Request) => {
         user: data.user,
       }),
       {
-        status: 200,
         headers: {
           "Content-Type": "application/json",
           "Set-Cookie": await commitSession(session, {
@@ -40,17 +39,18 @@ export const actionSignInEmail = async (request: Request) => {
               : undefined,
           }),
         },
+        status: 200,
       },
     );
   } catch (error) {
     session.flash("error", String(error));
 
     return new Response(JSON.stringify({ error: String(error) }), {
-      status: 400,
       headers: {
         "Content-Type": "application/json",
         "Set-Cookie": await commitSession(session),
       },
+      status: 400,
     });
   }
 };
@@ -69,21 +69,21 @@ export const actionSignOut = async (request: Request) => {
     }
 
     return new Response(JSON.stringify({}), {
-      status: 200,
       headers: {
         "Content-Type": "application/json",
         "Set-Cookie": await destroySession(session),
       },
+      status: 200,
     });
   } catch (error) {
     session.flash("error", String(error));
 
     return new Response(JSON.stringify({ error: String(error) }), {
-      status: 400,
       headers: {
         "Content-Type": "application/json",
         "Set-Cookie": await commitSession(session),
       },
+      status: 400,
     });
   }
 };
@@ -111,22 +111,22 @@ export const actionSignUpEmail = async (request: Request) => {
         user: data.user,
       }),
       {
-        status: 200,
         headers: {
           "Content-Type": "application/json",
           "Set-Cookie": await commitSession(session),
         },
+        status: 200,
       },
     );
   } catch (error) {
     session.flash("error", String(error));
 
     return new Response(JSON.stringify({ error: String(error) }), {
-      status: 400,
       headers: {
         "Content-Type": "application/json",
         "Set-Cookie": await commitSession(session),
       },
+      status: 400,
     });
   }
 };
@@ -139,6 +139,7 @@ export const actionGetSession = async (request: Request) => {
         credentials: "include",
         headers: { Authorization: `Bearer ${session.get("token") ?? ""}` },
       },
+      query: { disableCookieCache: true },
     });
     if (!data && error) {
       throw error;
@@ -152,31 +153,30 @@ export const actionGetSession = async (request: Request) => {
         user: data.user,
       }),
       {
-        status: 200,
         headers: {
           "Content-Type": "application/json",
           "Set-Cookie": await commitSession(session, {
             expires: data.session.expiresAt,
           }),
         },
+        status: 200,
       },
     );
   } catch (error) {
     session.flash("error", String(error));
 
     return new Response(JSON.stringify({ error: String(error) }), {
-      status: 400,
       headers: {
         "Content-Type": "application/json",
         "Set-Cookie": await commitSession(session),
       },
+      status: 400,
     });
   }
 };
 
-export const action = async ({ request }: Route.ActionArgs) => {
-  const url = new URL(request.url);
-  const actionType = url.pathname.split("/").pop();
+export const action = async ({ params, request }: Route.ActionArgs) => {
+  const actionType = params["*"];
   switch (actionType) {
     case "signin":
       return actionSignInEmail(request);
@@ -187,8 +187,8 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   return new Response(JSON.stringify({ error: "Not Found" }), {
-    status: 404,
     headers: { "Content-Type": "application/json" },
+    status: 404,
   });
 };
 
@@ -200,7 +200,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   }
 
   return new Response(JSON.stringify({ error: "Not Found" }), {
-    status: 404,
     headers: { "Content-Type": "application/json" },
+    status: 404,
   });
 };

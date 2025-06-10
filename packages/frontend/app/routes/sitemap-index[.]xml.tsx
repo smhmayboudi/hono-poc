@@ -1,5 +1,4 @@
 import { generateSitemapIndex } from "@forge42/seo-tools/sitemap";
-import { data } from "react-router";
 
 import { supportedLanguages } from "~/localization/resource";
 import { createDomain } from "~/utils/http";
@@ -15,9 +14,8 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
     })),
   );
 
-  return data(sitemaps, {
-    headers: {
-      "Content-Type": "application/xml; charset=utf-8",
-    },
+  return new Response(sitemaps, {
+    headers: { "Content-Type": "application/xml; charset=utf-8" },
+    status: 200,
   });
 };

@@ -1,5 +1,4 @@
 import { generateRobotsTxt } from "@forge42/seo-tools/robots";
-import { data } from "react-router";
 
 import { createDomain } from "~/utils/http";
 
@@ -16,9 +15,8 @@ export const loader = async ({ context, request }: Route.LoaderArgs) => {
     },
   ]);
 
-  return data(robotsTxt, {
-    headers: {
-      "Content-Type": "text/plain",
-    },
+  return new Response(robotsTxt, {
+    headers: { "Content-Type": "text/plain" },
+    status: 200,
   });
 };

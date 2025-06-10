@@ -1,5 +1,4 @@
 import { generateRemixSitemap } from "@forge42/seo-tools/remix/sitemap";
-import { data } from "react-router";
 
 import { createDomain } from "~/utils/http";
 
@@ -17,9 +16,8 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
     urlTransformer: (url) => `${url}?lng=${params.lang}`,
   });
 
-  return data(sitemap, {
-    headers: {
-      "Content-Type": "application/xml; charset=utf-8",
-    },
+  return new Response(sitemap, {
+    headers: { "Content-Type": "application/xml; charset=utf-8" },
+    status: 200,
   });
 };

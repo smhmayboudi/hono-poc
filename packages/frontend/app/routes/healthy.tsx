@@ -1,3 +1,5 @@
-import { data } from "react-router";
-
-export const loader = () => data({});
+export const loader = () =>
+  new Response(JSON.stringify({}), {
+    headers: { "Content-Type": "application/json" },
+    status: 200,
+  });
