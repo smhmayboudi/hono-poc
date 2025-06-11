@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import type { SessionData } from "./sessions.server";
+import type { SessionData } from "./session.server";
 
 const envSchema = z.object({
   APP_PAGINATION_LIMIT: z

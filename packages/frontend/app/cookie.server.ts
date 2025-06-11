@@ -2,7 +2,7 @@ import { createCookie } from "react-router";
 
 import { getEnvServer } from "./env.server";
 
-export const userPreferences = createCookie("__user_cookie", {
+export const userCookie = createCookie("__user_cookie", {
   // expires
   // domain
   httpOnly: true,

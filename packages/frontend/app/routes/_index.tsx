@@ -3,14 +3,14 @@ import { Form, href, redirect } from "react-router";
 
 import Button from "~/components/ui/button";
 import Icon from "~/components/ui/icon";
-import { userPreferences } from "~/cookies.server";
+import { userCookie } from "~/cookie.server";
 import Search from "~/routes/search";
 
 import type { Route } from "./+types/_index";
 
 export const action = async ({ request }: Route.ActionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
-  const cookie = (await userPreferences.parse(cookieHeader)) || {};
+  const cookie = (await userCookie.parse(cookieHeader)) || {};
   const bodyParams = await request.formData();
 
   if (bodyParams.get("showBanner") === "hidden") {
@@ -18,7 +18,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   return redirect(href("/"), {
-    headers: { "Set-Cookie": await userPreferences.serialize(cookie) },
+    headers: { "Set-Cookie": await userCookie.serialize(cookie) },
   });
 };
 
@@ -27,7 +27,7 @@ export const loader = async ({ context, request }: Route.LoaderArgs) => {
   const url = context.url;
 
   const cookieHeader = request.headers.get("Cookie");
-  const cookie = (await userPreferences.parse(cookieHeader)) || {};
+  const cookie = (await userCookie.parse(cookieHeader)) || {};
   const showBanner = cookie.showBanner ?? true;
 
   return { extra, showBanner, url };

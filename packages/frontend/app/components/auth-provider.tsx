@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { href, Navigate, useLocation, useNavigate } from "react-router";
 
 import Button from "~/components/ui/button";
-import type { SessionData } from "~/sessions.server";
+import type { SessionData } from "~/session.server";
 
 type AuthApiResponse =
   | {

@@ -1,7 +1,7 @@
 import type { Context } from "hono";
 
 import { getEnvClient, getEnvServer } from "../app/env.server";
-import { getSession } from "../app/sessions.server";
+import { userSession } from "../app/session.server";
 import type { Env } from "./app.env";
 import { i18next } from "./app.i18next";
 
@@ -34,7 +34,7 @@ export const getLoadContext = async (args: GetLoadContextArgs) => {
       ? await i18next.getFixedT(args.context.hono.context)
       : undefined;
   const cookie = args?.context?.hono?.context.req.header("Cookie");
-  const session = await getSession(cookie);
+  const session = await userSession.getSession(cookie);
 
   return {
     body: body as unknown,

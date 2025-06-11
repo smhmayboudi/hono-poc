@@ -1,12 +1,12 @@
 import z from "zod";
 
 import { authClient } from "~/auth-client.server";
-import { commitSession, destroySession, getSession } from "~/sessions.server";
+import { userSession } from "~/session.server";
 
 import type { Route } from "./+types/api.auth.$";
 
 const actionSignInEmail = async (request: Request) => {
-  const session = await getSession(request.headers.get("Cookie"));
+  const session = await userSession.getSession(request.headers.get("Cookie"));
   try {
     const formData = await request.formData();
     const userSchema = z.object({
@@ -33,7 +33,7 @@ const actionSignInEmail = async (request: Request) => {
       {
         headers: {
           "Content-Type": "application/json",
-          "Set-Cookie": await commitSession(session, {
+          "Set-Cookie": await userSession.commitSession(session, {
             expires: user.rememberMe
               ? new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
               : undefined,
@@ -48,7 +48,7 @@ const actionSignInEmail = async (request: Request) => {
     return new Response(JSON.stringify({ error: String(error) }), {
       headers: {
         "Content-Type": "application/json",
-        "Set-Cookie": await commitSession(session),
+        "Set-Cookie": await userSession.commitSession(session),
       },
       status: 400,
     });
@@ -56,7 +56,7 @@ const actionSignInEmail = async (request: Request) => {
 };
 
 const actionSignOut = async (request: Request) => {
-  const session = await getSession(request.headers.get("Cookie"));
+  const session = await userSession.getSession(request.headers.get("Cookie"));
   try {
     const { data, error } = await authClient.signOut({
       fetchOptions: {
@@ -71,7 +71,7 @@ const actionSignOut = async (request: Request) => {
     return new Response(JSON.stringify({}), {
       headers: {
         "Content-Type": "application/json",
-        "Set-Cookie": await destroySession(session),
+        "Set-Cookie": await userSession.destroySession(session),
       },
       status: 200,
     });
@@ -81,7 +81,7 @@ const actionSignOut = async (request: Request) => {
     return new Response(JSON.stringify({ error: String(error) }), {
       headers: {
         "Content-Type": "application/json",
-        "Set-Cookie": await commitSession(session),
+        "Set-Cookie": await userSession.commitSession(session),
       },
       status: 400,
     });
@@ -89,7 +89,7 @@ const actionSignOut = async (request: Request) => {
 };
 
 const actionSignUpEmail = async (request: Request) => {
-  const session = await getSession(request.headers.get("Cookie"));
+  const session = await userSession.getSession(request.headers.get("Cookie"));
   try {
     const formData = await request.formData();
     const userSchema = z.object({
@@ -113,7 +113,7 @@ const actionSignUpEmail = async (request: Request) => {
       {
         headers: {
           "Content-Type": "application/json",
-          "Set-Cookie": await commitSession(session),
+          "Set-Cookie": await userSession.commitSession(session),
         },
         status: 200,
       },
@@ -124,7 +124,7 @@ const actionSignUpEmail = async (request: Request) => {
     return new Response(JSON.stringify({ error: String(error) }), {
       headers: {
         "Content-Type": "application/json",
-        "Set-Cookie": await commitSession(session),
+        "Set-Cookie": await userSession.commitSession(session),
       },
       status: 400,
     });
@@ -132,7 +132,7 @@ const actionSignUpEmail = async (request: Request) => {
 };
 
 const actionGetSession = async (request: Request) => {
-  const session = await getSession(request.headers.get("Cookie"));
+  const session = await userSession.getSession(request.headers.get("Cookie"));
   try {
     const { data, error } = await authClient.getSession({
       fetchOptions: {
@@ -155,7 +155,7 @@ const actionGetSession = async (request: Request) => {
       {
         headers: {
           "Content-Type": "application/json",
-          "Set-Cookie": await commitSession(session, {
+          "Set-Cookie": await userSession.commitSession(session, {
             expires: data.session.expiresAt,
           }),
         },
@@ -168,7 +168,7 @@ const actionGetSession = async (request: Request) => {
     return new Response(JSON.stringify({ error: String(error) }), {
       headers: {
         "Content-Type": "application/json",
-        "Set-Cookie": await commitSession(session),
+        "Set-Cookie": await userSession.commitSession(session),
       },
       status: 400,
     });

@@ -18,14 +18,14 @@ import i18n from "~/localization/i18n";
 import i18nextOpts from "~/localization/i18n.server";
 import { resources } from "~/localization/resource";
 
-import { getSession } from "./sessions.server";
+import { userSession } from "./session.server";
 
 // export const handleDataRequest = (
 //   response: Response,
 //   { request, params, context }: LoaderFunctionArgs | ActionFunctionArgs,
 // ) => {
 //   response.headers.set("X-Custom-Header", "value");
-// 
+//
 //   return response;
 // };
 
@@ -54,7 +54,7 @@ export default (
         ? "onAllReady"
         : "onShellReady";
     const cookie = request.headers.get("Cookie") || "";
-    const session = await getSession(cookie);
+    const session = await userSession.getSession(cookie);
     const instance = createInstance();
     const lng = loadContext.locale;
     const ns = i18nextOpts.getRouteNamespaces(routerContext);
