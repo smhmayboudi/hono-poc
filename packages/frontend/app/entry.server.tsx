@@ -14,6 +14,7 @@ import type {
 import { ServerRouter } from "react-router";
 
 import { AuthProvider } from "~/components/auth-provider";
+import { DarkModeProvider } from "~/components/dark-mode-provider";
 import i18n from "~/localization/i18n";
 import i18nextOpts from "~/localization/i18n.server";
 import { resources } from "~/localization/resource";
@@ -68,9 +69,11 @@ export default (
     const { abort, pipe } = renderToPipeableStream(
       // @ts-ignore
       <I18nextProvider i18n={instance}>
-        <AuthProvider serverSession={session.data}>
-          <ServerRouter context={routerContext} url={request.url} />
-        </AuthProvider>
+        <DarkModeProvider>
+          <AuthProvider serverSession={session.data}>
+            <ServerRouter context={routerContext} url={request.url} />
+          </AuthProvider>
+        </DarkModeProvider>
       </I18nextProvider>,
       {
         [readyOption]() {

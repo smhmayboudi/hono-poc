@@ -10,6 +10,7 @@ import {
 } from "react-router";
 
 import { AuthStatus } from "~/components/auth-provider";
+import { DarkModeStatus } from "~/components/dark-mode-provider";
 import Footer from "~/components/ui/footer";
 import Header from "~/components/ui/header";
 import LanguageSwitcher from "~/components/ui/language-switcher";
@@ -26,7 +27,7 @@ export const Layout = () => {
   const { i18n } = useTranslation();
 
   return (
-    <html data-theme="light" dir={i18n.dir()} lang={i18n.language}>
+    <html dir={i18n.dir()} lang={i18n.language}>
       <head>
         <Meta />
         <Links />
@@ -36,6 +37,7 @@ export const Layout = () => {
           <progress className="absolute flex progress w-full"></progress>
         )}
         <LanguageSwitcher />
+        <DarkModeStatus />
         <AuthStatus />
         <Header />
         <div className="content flex flex-1">

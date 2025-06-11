@@ -13,7 +13,6 @@
 }
 
 @theme {
-  /* Your theme styles go here */
   --animate-float: float 3s ease-in-out infinite;
 
   @keyframes float {
@@ -32,7 +31,7 @@ a.active {
 }
 
 a.pending {
-  /* animate: pulse 1s infinite; */
+  animate: pulse 1s infinite;
 }
 
 a.transitioning {

@@ -1,7 +1,8 @@
 import {
   createContext,
+  type FC,
   type JSX,
-  type ReactNode,
+  type PropsWithChildren,
   useCallback,
   useContext,
   useEffect,
@@ -46,27 +47,11 @@ interface AuthContextType {
   user: SessionData["user"] | null;
 }
 
-const AuthContext = createContext<AuthContextType>(null!);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({
-  children,
-  serverSession,
-}: {
-  children: ReactNode;
-  serverSession?: SessionData | null;
-}) => {
-  const [state, setState] = useState<{
-    error: Error | null;
-    loading: boolean;
-    token: string | null;
-    user: SessionData["user"] | null;
-  }>({
-    error: null,
-    loading: !serverSession,
-    token: serverSession?.token || null,
-    user: serverSession?.user || null,
-  });
-
+export const AuthProvider: FC<
+  PropsWithChildren<{ serverSession?: SessionData | null }>
+> = ({ children, serverSession }) => {
   const updateState = useCallback(
     (updates: Partial<typeof state>) =>
       setState((prev) => ({ ...prev, ...updates })),
@@ -207,6 +192,18 @@ export const AuthProvider = ({
     }
   };
 
+  const [state, setState] = useState<{
+    error: Error | null;
+    loading: boolean;
+    token: string | null;
+    user: SessionData["user"] | null;
+  }>({
+    error: null,
+    loading: !serverSession,
+    token: serverSession?.token || null,
+    user: serverSession?.user || null,
+  });
+
   useEffect(() => {
     if (!serverSession) {
       getSession();
@@ -227,6 +224,7 @@ export const useAuth = () => {
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
+
   return context;
 };
 
@@ -237,15 +235,15 @@ export const AuthStatus = () => {
 
   return (
     <div
-      className={`fixed flex mt-10 p-2 top-0 z-10 ${i18n.dir() === "ltr" ? "right-0" : "left-0"}`}
+      className={`fixed flex mt-20 p-2 top-0 z-10 ${i18n.dir() === "ltr" ? "right-0" : "left-0"}`}
     >
       <p className="dark:text-white">
         {auth.token && auth.user ? (
           <>
             <span className="flex gap-2">{auth.user.name}</span>
             <Button
+              aria-label="Sign out"
               c_size="xs"
-              className="btn"
               onClick={() => {
                 auth.signOut(() => {
                   navigate(href("/"));
@@ -258,8 +256,8 @@ export const AuthStatus = () => {
         ) : (
           <>
             <Button
+              aria-label="Sign in"
               c_size="xs"
-              className="btn"
               onClick={() => {
                 navigate(href("/signin"));
               }}

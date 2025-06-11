@@ -88,14 +88,11 @@ export default ({ loaderData }: Route.ComponentProps) => {
 
   return (
     <div>
+      <Link className="btn btn-xs" to={href("/dashboard/user-poc-view/create")}>
+        User POC View Create
+      </Link>
       {loaderData.data?.data.length ? (
         <>
-          <Link
-            className="btn btn-xs"
-            to={href("/dashboard/user-poc-view/create")}
-          >
-            User POC View Create
-          </Link>
           <table className="table table-zebra">
             <thead>
               <tr>

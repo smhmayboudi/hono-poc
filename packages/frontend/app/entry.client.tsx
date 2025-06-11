@@ -8,6 +8,7 @@ import { HydratedRouter } from "react-router/dom";
 import { getInitialNamespaces } from "remix-i18next/client";
 
 import { AuthProvider } from "~/components/auth-provider";
+import { DarkModeProvider } from "~/components/dark-mode-provider";
 import i18n from "~/localization/i18n";
 
 const hydrate = async () => {
@@ -34,9 +35,11 @@ const hydrate = async () => {
         {
           // @ts-ignore
           <I18nextProvider i18n={i18next}>
-            <AuthProvider serverSession={window.session}>
-              <HydratedRouter />
-            </AuthProvider>
+            <DarkModeProvider>
+              <AuthProvider serverSession={window.session}>
+                <HydratedRouter />
+              </AuthProvider>
+            </DarkModeProvider>
           </I18nextProvider>
         }
       </StrictMode>,

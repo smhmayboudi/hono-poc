@@ -12,10 +12,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = (await userCookie.parse(cookieHeader)) || {};
   const bodyParams = await request.formData();
-
-  if (bodyParams.get("showBanner") === "hidden") {
-    cookie.showBanner = false;
-  }
+  cookie.showBanner = bodyParams.get("showBanner") !== "hidden";
 
   return redirect(href("/"), {
     headers: { "Set-Cookie": await userCookie.serialize(cookie) },
@@ -25,7 +22,6 @@ export const action = async ({ request }: Route.ActionArgs) => {
 export const loader = async ({ context, request }: Route.LoaderArgs) => {
   const extra = context.extra;
   const url = context.url;
-
   const cookieHeader = request.headers.get("Cookie");
   const cookie = (await userCookie.parse(cookieHeader)) || {};
   const showBanner = cookie.showBanner ?? true;
