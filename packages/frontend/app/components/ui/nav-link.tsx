@@ -46,25 +46,17 @@ export const useEnhancedTo = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { lng, ...searchParams } = Object.fromEntries(params.entries());
   const newSearchParams = new URLSearchParams(searchParams);
-  const searchString = newSearchParams.toString();
-  const hasSearchParams = searchString.length > 0;
-  const lang = language ?? params.get("lng");
-  const appendSearchParams = hasSearchParams || lang;
+  const newSearchParamsString = newSearchParams.toString();
+  const newLng = language ?? params.get("lng");
+  const appendSearchParams = !!newSearchParamsString || !!newLng;
   const newPath = useMemo(
     () =>
       to +
       (appendSearchParams
-        // eslint-disable-next-line sonarjs/no-nested-template-literals
-        ? `?${[keepSearchParams && hasSearchParams && searchString, lang && `lng=${lang}`].filter(Boolean).join("&")}`
+        ? // eslint-disable-next-line sonarjs/no-nested-template-literals
+          `?${[keepSearchParams && !!newSearchParamsString && newSearchParamsString, !!newLng && `lng=${newLng}`].filter(Boolean).join("&")}`
         : ""),
-    [
-      to,
-      appendSearchParams,
-      keepSearchParams,
-      hasSearchParams,
-      searchString,
-      lang,
-    ],
+    [to, appendSearchParams, keepSearchParams, newSearchParamsString, newLng],
   );
 
   return newPath;

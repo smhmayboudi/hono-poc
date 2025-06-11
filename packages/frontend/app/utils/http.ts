@@ -12,9 +12,8 @@ export const createDomain = (request: Request) => {
   if (maybeProto) {
     return `${maybeProto}://${maybeHost ?? url.host}`;
   }
-  if (url.hostname === "localhost") {
-    return `http://${url.host}`;
-  }
 
-  return `https://${url.host}`;
+  return url.hostname === "localhost"
+    ? `http://${url.host}`
+    : `https://${url.host}`;
 };

@@ -13,7 +13,7 @@ import { AuthStatus } from "~/components/auth-provider";
 import { DarkModeStatus } from "~/components/dark-mode-provider";
 import Footer from "~/components/ui/footer";
 import Header from "~/components/ui/header";
-import LanguageSwitcher from "~/components/ui/language-switcher";
+import I18Status from "~/components/ui/i18-status";
 import Nav from "~/components/ui/nav";
 import styles from "~/styles.css?url";
 import { seo } from "~/utils/seo";
@@ -36,7 +36,7 @@ export const Layout = () => {
         {isNavigating && (
           <progress className="absolute flex progress w-full"></progress>
         )}
-        <LanguageSwitcher />
+        <I18Status />
         <DarkModeStatus />
         <AuthStatus />
         <Header />

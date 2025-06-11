@@ -3,7 +3,7 @@ export default () => (
     <aside>
       <p>
         Powered by&nbsp;
-        <a href="https://github.com/remix-run/react-router">React Router</a>
+        <a className="link link-hover" href="https://github.com/remix-run/react-router">React Router</a>
       </p>
       <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
     </aside>

@@ -8,32 +8,9 @@ interface FormBlockerProps {
   blocker: Blocker;
 }
 
-export const useFormBlocker = (fetcher: ReturnType<typeof useFetcher>) => {
-  const [isDirty, setIsDirty] = useState<boolean>(false);
-  const blocker = useBlocker(useCallback(() => isDirty, [isDirty]));
-  const formRef = useRef<HTMLFormElement>(null);
-
-  useEffect(() => {
-    if (fetcher.data) {
-      if (blocker.state === "blocked") {
-        blocker.proceed();
-      } else {
-        formRef.current?.reset();
-      }
-    }
-  }, [fetcher.data, blocker]);
-
-  return {
-    blocker,
-    formRef,
-    isDirty,
-    setIsDirty,
-  };
-};
-
 export const FormBlocker = ({ blocker }: FormBlockerProps) => {
   if (blocker.state !== "blocked") {
-    return null;
+    return <></>;
   }
 
   return (
@@ -60,4 +37,27 @@ export const FormBlocker = ({ blocker }: FormBlockerProps) => {
       </div>
     </div>
   );
+};
+
+export const useFormBlocker = (fetcher: ReturnType<typeof useFetcher>) => {
+  const [isDirty, setIsDirty] = useState<boolean>(false);
+  const blocker = useBlocker(useCallback(() => isDirty, [isDirty]));
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (fetcher.data) {
+      if (blocker.state === "blocked") {
+        blocker.proceed();
+      } else {
+        formRef.current?.reset();
+      }
+    }
+  }, [fetcher.data, blocker]);
+
+  return {
+    blocker,
+    formRef,
+    isDirty,
+    setIsDirty,
+  };
 };

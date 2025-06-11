@@ -29,14 +29,6 @@ const DarkModeContext = createContext<DarkModeContextType | undefined>(
 export const DarkModeProvider: FC<
   PropsWithChildren<{ serverThemePreference?: ThemePreference }>
 > = ({ children, serverThemePreference = "system" }) => {
-  const [currentTheme, setCurrentTheme] = useState<"light" | "dark">(
-    serverThemePreference === "dark" ? "dark" : "light",
-  );
-  const [isHydrated, setIsHydrated] = useState(false);
-  const [themePreference, setThemePreference] = useState<ThemePreference>(
-    serverThemePreference,
-  );
-
   const getCookie = useCallback((name: string): string | null => {
     if (typeof window === "undefined") {
       return null;
@@ -56,6 +48,14 @@ export const DarkModeProvider: FC<
     const expires = new Date(Date.now() + days * 86400e3).toUTCString();
     document.cookie = `${name}=${value}; expires=${expires}; path=/; sameSite=lax`;
   }, []);
+
+  const [currentTheme, setCurrentTheme] = useState<"light" | "dark">(
+    serverThemePreference === "dark" ? "dark" : "light",
+  );
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [themePreference, setThemePreference] = useState<ThemePreference>(
+    serverThemePreference,
+  );
 
   useEffect(() => {
     setIsHydrated(true);
@@ -129,14 +129,14 @@ export const DarkModeStatus = () => {
 
   const cycleTheme = useCallback(() => {
     setThemePreference((prev) => {
-      if (prev === "dark") {
-        return "light";
+      switch (prev) {
+        case "dark":
+          return "light";
+        case "light":
+          return "system";
+        default:
+          return "dark";
       }
-      if (prev === "light") {
-        return "system";
-      }
-
-      return "dark";
     });
   }, [setThemePreference]);
 

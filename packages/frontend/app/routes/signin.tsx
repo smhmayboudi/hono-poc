@@ -21,7 +21,6 @@ export default ({}: Route.ComponentProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const auth = useAuth();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -32,7 +31,7 @@ export default ({}: Route.ComponentProps) => {
     });
     const user = userSchema.parse(Object.fromEntries(formData));
     auth.signIn(user.email, user.password, user.rememberMe === "on", () => {
-      navigate(from, { replace: true });
+      navigate(location.state?.from?.pathname || "/", { replace: true });
     });
   };
 

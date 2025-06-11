@@ -12,7 +12,9 @@ export default () => {
           {error.status} {error.statusText}
         </h1>
         <p>{error.data}</p>
+        {/* @ts-ignore */}
         <p>{t(`error.${error.status}.title`)}</p>
+        {/* @ts-ignore */}
         <p>{t(`error.${error.status}.description`)}</p>
       </div>
     );
