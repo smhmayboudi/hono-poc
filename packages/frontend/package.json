@@ -23,6 +23,7 @@
   "dependencies": {
     "@forge42/seo-tools": "1.4.0",
     "@hono/node-server": "^1.14.2",
+    "@paralleldrive/cuid2": "2.2.2",
     "@react-router/fs-routes": "^7.6.0",
     "@react-router/node": "^7.6.0",
     "@react-router/serve": "^7.6.0",

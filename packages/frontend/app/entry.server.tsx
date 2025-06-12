@@ -67,15 +67,19 @@ export default (
     });
 
     const { abort, pipe } = renderToPipeableStream(
-      // @ts-ignore
       <I18nextProvider i18n={instance}>
         <DarkModeProvider>
           <AuthProvider serverSession={session.data}>
-            <ServerRouter context={routerContext} url={request.url} />
+            <ServerRouter
+              context={routerContext}
+              nonce={loadContext.nonce}
+              url={request.url}
+            />
           </AuthProvider>
         </DarkModeProvider>
       </I18nextProvider>,
       {
+        nonce: loadContext.nonce,
         [readyOption]() {
           shellRendered = true;
           const body = new PassThrough();

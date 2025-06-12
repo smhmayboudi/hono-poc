@@ -52,7 +52,7 @@ export const DarkModeProvider: FC<
   const [currentTheme, setCurrentTheme] = useState<"light" | "dark">(
     serverThemePreference === "dark" ? "dark" : "light",
   );
-  const [isHydrated, setIsHydrated] = useState(false);
+  const [isHydrated, setIsHydrated] = useState<boolean>(false);
   const [themePreference, setThemePreference] = useState<ThemePreference>(
     serverThemePreference,
   );

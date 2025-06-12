@@ -42,12 +42,9 @@ const renderStub = async (args?: {
       children: args?.entries ?? [],
       Component: () => (
         <div data-testid="root">
-          {
-            // @ts-ignore
-            <I18nextProvider i18n={instance}>
-              <Outlet />
-            </I18nextProvider>
-          }
+          <I18nextProvider i18n={instance}>
+            <Outlet />
+          </I18nextProvider>
         </div>
       ),
     },

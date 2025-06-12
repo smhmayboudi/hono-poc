@@ -32,16 +32,13 @@ const hydrate = async () => {
     hydrateRoot(
       document,
       <StrictMode>
-        {
-          // @ts-ignore
-          <I18nextProvider i18n={i18next}>
-            <DarkModeProvider>
-              <AuthProvider serverSession={window.session}>
-                <HydratedRouter />
-              </AuthProvider>
-            </DarkModeProvider>
-          </I18nextProvider>
-        }
+        <I18nextProvider i18n={i18next}>
+          <DarkModeProvider>
+            <AuthProvider serverSession={window.session}>
+              <HydratedRouter />
+            </AuthProvider>
+          </DarkModeProvider>
+        </I18nextProvider>
       </StrictMode>,
     );
   });

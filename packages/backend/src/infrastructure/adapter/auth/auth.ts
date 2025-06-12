@@ -1,5 +1,5 @@
 import { ATTR_CODE_FUNCTION_NAME } from "@opentelemetry/semantic-conventions/incubating";
-import { createId, init } from "@paralleldrive/cuid2";
+import { init } from "@paralleldrive/cuid2";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin, bearer, jwt, openAPI } from "better-auth/plugins";
@@ -37,9 +37,7 @@ const betterAuth2 = (
           options,
         });
         logger.debug({});
-        init({ length: options.size ?? 0 });
-
-        return createId();
+        return init({ length: options.size ?? 32 })();
       },
     },
     appName: config.server().auth().appName(),

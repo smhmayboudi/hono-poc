@@ -26,9 +26,14 @@ type AuthApiResponse =
       user?: never;
     };
 
+type AuthProviderMessage = {
+  type: "GET_SESSION";
+};
+type BroadcastMessage = AuthProviderMessage;
+
 interface AuthContextType {
   error: Error | null;
-  getSession: () => Promise<void>;
+  getSession: (abortController: AbortController) => Promise<void>;
   loading: boolean;
   signIn: (
     email: string,
@@ -70,7 +75,10 @@ export const AuthProvider: FC<
         ...options,
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.error || `HTTP error! status: ${response.status}`,
+        );
       }
 
       return (await response.json()) as AuthApiResponse;
@@ -79,29 +87,40 @@ export const AuthProvider: FC<
     }
   };
 
-  const getSession = useCallback(async () => {
-    updateState({ loading: true, error: null });
-    try {
-      const data = await fetchAuth(href("/api/auth/*", { "*": "getsession" }), {
-        method: "GET",
-      });
-      if (data.error) {
-        throw new Error(data.error);
-      }
-      if (data.token && data.user) {
+  const getSession = useCallback(
+    async (abortController: AbortController) => {
+      updateState({ error: null, loading: true });
+      try {
+        const data = await fetchAuth(
+          href("/api/auth/*", { "*": "getsession" }),
+          {
+            method: "GET",
+            signal: abortController.signal,
+          },
+        );
+        if (data.error) {
+          updateState({
+            error: null,
+            loading: false,
+            token: null,
+            user: null,
+          });
+        }
         updateState({
+          error: null,
           loading: false,
           token: data.token,
           user: data.user,
         });
+      } catch (error) {
+        updateState({
+          error: error instanceof Error ? error : new Error("getSession Error"),
+          loading: false,
+        });
       }
-    } catch (error) {
-      updateState({
-        error: error instanceof Error ? error : new Error("getSession Error"),
-        loading: false,
-      });
-    }
-  }, [updateState]);
+    },
+    [updateState],
+  );
 
   const signIn = async (
     email: string,
@@ -109,7 +128,7 @@ export const AuthProvider: FC<
     rememberMe: boolean,
     callback?: VoidFunction,
   ) => {
-    updateState({ loading: true, error: null });
+    updateState({ error: null, loading: true });
     try {
       const formData = new URLSearchParams();
       formData.append("email", email);
@@ -123,10 +142,14 @@ export const AuthProvider: FC<
       }
       if (data.token && data.user) {
         updateState({
+          error: null,
           loading: false,
           token: data.token,
           user: data.user,
         });
+        broadcastChannel?.postMessage({
+          type: "GET_SESSION",
+        } as AuthProviderMessage);
         callback?.();
       }
     } catch (error) {
@@ -138,17 +161,21 @@ export const AuthProvider: FC<
   };
 
   const signOut = async (callback?: VoidFunction) => {
-    updateState({ loading: true });
+    updateState({ error: null, loading: true });
     try {
       const data = await fetchAuth(href("/api/auth/*", { "*": "signout" }));
       if (data.error) {
         throw new Error(data.error);
       }
       updateState({
+        error: null,
         loading: false,
         token: null,
         user: null,
       });
+      broadcastChannel?.postMessage({
+        type: "GET_SESSION",
+      } as AuthProviderMessage);
       callback?.();
     } catch (error) {
       updateState({
@@ -164,7 +191,7 @@ export const AuthProvider: FC<
     password: string,
     callback?: VoidFunction,
   ) => {
-    updateState({ loading: true });
+    updateState({ error: null, loading: true });
     try {
       const formData = new URLSearchParams();
       formData.append("email", email);
@@ -178,10 +205,14 @@ export const AuthProvider: FC<
       }
       if (data.token && data.user) {
         updateState({
+          error: null,
           loading: false,
           token: data.token,
           user: data.user,
         });
+        broadcastChannel?.postMessage({
+          type: "GET_SESSION",
+        } as AuthProviderMessage);
         callback?.();
       }
     } catch (error) {
@@ -192,6 +223,8 @@ export const AuthProvider: FC<
     }
   };
 
+  const [broadcastChannel, setBroadcastChannel] =
+    useState<BroadcastChannel | null>(null);
   const [state, setState] = useState<{
     error: Error | null;
     loading: boolean;
@@ -205,10 +238,40 @@ export const AuthProvider: FC<
   });
 
   useEffect(() => {
+    const abortController = new AbortController();
     if (!serverSession) {
-      getSession();
+      getSession(abortController);
     }
-  }, [getSession, serverSession]);
+
+    return () => {
+      abortController.abort();
+    };
+  }, [serverSession, getSession]);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const channel = new BroadcastChannel("auth_provider");
+    const listener = (event: MessageEvent<BroadcastMessage>) => {
+      const isAuthProviderMessage = (
+        message: unknown,
+      ): message is AuthProviderMessage =>
+        typeof message === "object" &&
+        message !== null &&
+        "type" in message &&
+        message.type === "GET_SESSION";
+      if (isAuthProviderMessage(event.data)) {
+        getSession(abortController);
+      }
+    };
+    channel.addEventListener("message", listener);
+    setBroadcastChannel(channel);
+
+    return () => {
+      abortController.abort();
+      channel.removeEventListener("message", listener);
+      channel.close();
+    };
+  }, [getSession]);
 
   return (
     <AuthContext.Provider

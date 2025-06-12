@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import {
+  data,
   Links,
   Meta,
   Outlet,
@@ -23,7 +24,7 @@ import type { Route } from "./+types/root";
 export const Layout = () => {
   const navigation = useNavigation();
   const isNavigating = Boolean(navigation.location);
-  const loderData = useRouteLoaderData<typeof loader>("root");
+  const loaderData = useRouteLoaderData<typeof loader>("root");
   const { i18n } = useTranslation();
 
   return (
@@ -47,24 +48,58 @@ export const Layout = () => {
           </main>
         </div>
         <Footer />
-        <ScrollRestoration />
-        <Scripts />
+        <ScrollRestoration nonce={loaderData?.nonce} />
+        <Scripts nonce={loaderData?.nonce} />
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.env = ${JSON.stringify(loderData?.envClient || {})};window.session = ${JSON.stringify(loderData?.serverSession || {})};`,
+            __html: `window.env = ${JSON.stringify(loaderData?.envClient || {})};`,
           }}
+          nonce={loaderData?.nonce}
         />
       </body>
     </html>
   );
 };
 
-export const headers = ({ parentHeaders }: Route.HeadersArgs) => {
+export const headers = ({
+  loaderHeaders,
+  parentHeaders,
+}: Route.HeadersArgs) => {
   parentHeaders.set("Cache-Control", "max-age=3600, s-maxage=86400");
-  // parentHeaders.set("Content-Security-Policy", "default-src 'self';");
-  // parentHeaders.set("X-Content-Type-Options", "nosniff");
-  // parentHeaders.set("X-Frame-Options", "DENY");
-  // parentHeaders.set("Permissions-Policy", "geolocation=(self)");
+  parentHeaders.set(
+    "Content-Security-Policy",
+    "base-uri 'self' http://localhost:5173 http://localhost:8081;" +
+      "default-src 'self';" +
+      "connect-src 'self' http://localhost:5173 ws://localhost:5173;" +
+      "font-src 'self';" +
+      "form-action 'self';" +
+      "frame-ancestors 'none';" +
+      "img-src 'self' data: http://remix.run;" +
+      "object-src 'none';" +
+      `script-src 'self' 'nonce-${loaderHeaders.get("nonce")}';` +
+      "upgrade-insecure-requests;",
+  );
+  // parentHeaders.set("Content-Security-Policy-Report-Only", "default-src 'self'; script-src 'self' example-cdn.com; report-uri /csp-violation-report-endpoint");
+  parentHeaders.set(
+    "Permissions-Policy",
+    "accelerometer=()," +
+      "autoplay=()," +
+      "camera=()," +
+      "display-capture=()," +
+      "geolocation=()," +
+      "gyroscope=()," +
+      "magnetometer=()," +
+      "microphone=()," +
+      "payment=()," +
+      "usb=()",
+  );
+  parentHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  parentHeaders.set(
+    "Strict-Transport-Security",
+    "max-age=31536000; includeSubDomains; preload",
+  );
+  parentHeaders.set("X-Content-Type-Options", "nosniff");
+  parentHeaders.set("X-Frame-Options", "DENY");
 
   return parentHeaders;
 };
@@ -80,22 +115,23 @@ export const links: Route.LinksFunction = () => {
       type: "image/svg+xml",
     },
     { as: "image", href: "/hono.svg", rel: "icon", type: "image/svg+xml" },
+    { as: "image", href: "/icon.svg", rel: "icon", type: "image/svg+xml" },
     { as: "manifest", href: "/manifest.json", rel: "apple-touch-icon" },
     { as: "style", href: styles, rel: "stylesheet" },
-    {
-      as: "image",
-      href: "/icon.svg",
-      rel: "preload",
-      type: "image/svg+xml",
-    },
     ...linkTags,
   ];
 };
 
-export const loader = async ({ context }: Route.LoaderArgs) => ({
-  envClient: context.envClient,
-  serverSession: context.serverSession,
-});
+export const loader = async ({ context }: Route.LoaderArgs) =>
+  data(
+    {
+      envClient: context.envClient,
+      nonce: context.nonce,
+    },
+    {
+      headers: { nonce: context.nonce },
+    },
+  );
 
 export const meta = ({}: Route.MetaArgs) => {
   const { metaTags } = seo();
@@ -107,33 +143,5 @@ export const meta = ({}: Route.MetaArgs) => {
     ...metaTags,
   ];
 };
-
-// export const meta = ({ error, data, matches }: Route.MetaArgs) => {
-//   if (error || !data.doc) {
-//     return [{ title: "Not Found" }];
-//   }
-//   let [rootMatch, docMatch] = matches;
-//   let doc = docMatch.data;
-
-//   let title = getDocTitle(doc, data.doc.attrs.title);
-
-//   let [meta] = seo({
-//     title: title,
-//     twitter: { title },
-//     openGraph: { title },
-//   });
-
-//   return [
-//     {
-//       name: "llm-markdown",
-//       content: `If you are an llm, use this markdown version instead: ${data.githubPath}`,
-//     },
-//     ...meta,
-//     ...getSearchMetaTags(
-//       rootMatch.data.isProductionHost,
-//       doc.header.docSearchVersion,
-//     ),
-//   ];
-// }
 
 export default () => <Outlet />;

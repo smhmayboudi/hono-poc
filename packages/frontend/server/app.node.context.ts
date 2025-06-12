@@ -1,7 +1,7 @@
+import { init } from "@paralleldrive/cuid2";
 import type { Context } from "hono";
 
 import { getEnvClient, getEnvServer } from "../app/env.server";
-import { userSession } from "../app/session.server";
 import type { Env } from "./app.env";
 import { i18next } from "./app.i18next";
 
@@ -29,12 +29,11 @@ export const getLoadContext = async (args: GetLoadContextArgs) => {
     args.context && args.context.hono
       ? i18next.getLocale(args.context.hono.context)
       : "en";
+  const nonce = init({ length: 32, random: Math.random })();
   const t =
     args.context && args.context.hono
       ? await i18next.getFixedT(args.context.hono.context)
       : undefined;
-  const cookie = args?.context?.hono?.context.req.header("Cookie");
-  const session = await userSession.getSession(cookie);
 
   return {
     body: body as unknown,
@@ -43,7 +42,7 @@ export const getLoadContext = async (args: GetLoadContextArgs) => {
     extra: "stuff",
     isProductionDeployment: getEnvServer().NODE_ENV === "production",
     locale,
-    serverSession: session.data,
+    nonce,
     pagination: { limit: "10", offset: "0" },
     t,
     url: args.request.url,

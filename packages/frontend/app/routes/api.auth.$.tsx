@@ -9,7 +9,7 @@ const actionSignInEmail = async (request: Request) => {
   const session = await userSession.getSession(request.headers.get("Cookie"));
   try {
     const formData = await request.formData();
-    const userSchema = z.object({
+    const signinSchema = z.object({
       email: z.string().email(),
       password: z.string(),
       rememberMe: z
@@ -17,9 +17,9 @@ const actionSignInEmail = async (request: Request) => {
         .optional()
         .transform((val) => val === "true"),
     });
-    const user = userSchema.parse(Object.fromEntries(formData));
-    const { data, error } = await authClient.signIn.email(user);
-    if (!data && error) {
+    const signin = signinSchema.parse(Object.fromEntries(formData));
+    const { data, error } = await authClient.signIn.email(signin);
+    if (!data && !!error) {
       throw error;
     }
     session.set("token", data.token);
@@ -34,7 +34,7 @@ const actionSignInEmail = async (request: Request) => {
         headers: {
           "Content-Type": "application/json",
           "Set-Cookie": await userSession.commitSession(session, {
-            expires: user.rememberMe
+            expires: signin.rememberMe
               ? new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
               : undefined,
           }),
@@ -64,7 +64,7 @@ const actionSignOut = async (request: Request) => {
         headers: { Authorization: `Bearer ${session.get("token") ?? ""}` },
       },
     });
-    if (!data && error) {
+    if (!data && !!error) {
       throw error;
     }
 
@@ -92,14 +92,14 @@ const actionSignUpEmail = async (request: Request) => {
   const session = await userSession.getSession(request.headers.get("Cookie"));
   try {
     const formData = await request.formData();
-    const userSchema = z.object({
+    const signupSchema = z.object({
       email: z.string().email(),
       name: z.string(),
       password: z.string(),
     });
-    const user = userSchema.parse(Object.fromEntries(formData));
-    const { data, error } = await authClient.signUp.email(user);
-    if (!data && error) {
+    const signup = signupSchema.parse(Object.fromEntries(formData));
+    const { data, error } = await authClient.signUp.email(signup);
+    if (!data && !!error) {
       throw error;
     }
     session.set("token", data.token ?? undefined);
@@ -133,6 +133,14 @@ const actionSignUpEmail = async (request: Request) => {
 
 const actionGetSession = async (request: Request) => {
   const session = await userSession.getSession(request.headers.get("Cookie"));
+  if (!session.has("token") || !session.has("user")) {
+    return new Response(JSON.stringify({}), {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      status: 200,
+    });
+  }
   try {
     const { data, error } = await authClient.getSession({
       fetchOptions: {
@@ -141,8 +149,14 @@ const actionGetSession = async (request: Request) => {
       },
       query: { disableCookieCache: true },
     });
-    if (!data && error) {
-      throw error;
+    if (!data && !!error) {
+      return new Response(JSON.stringify({}), {
+        headers: {
+          "Content-Type": "application/json",
+          "Set-Cookie": await userSession.destroySession(session),
+        },
+        status: 200,
+      });
     }
     session.set("token", data.session.token);
     session.set("user", data.user);
@@ -163,12 +177,10 @@ const actionGetSession = async (request: Request) => {
       },
     );
   } catch (error) {
-    session.flash("error", String(error));
-
     return new Response(JSON.stringify({ error: String(error) }), {
       headers: {
         "Content-Type": "application/json",
-        "Set-Cookie": await userSession.commitSession(session),
+        "Set-Cookie": await userSession.destroySession(session),
       },
       status: 400,
     });

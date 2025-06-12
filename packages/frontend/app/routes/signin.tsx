@@ -24,13 +24,13 @@ export default ({}: Route.ComponentProps) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const userSchema = z.object({
+    const signinSchema = z.object({
       email: z.string().email(),
       password: z.string(),
       rememberMe: z.string().optional(),
     });
-    const user = userSchema.parse(Object.fromEntries(formData));
-    auth.signIn(user.email, user.password, user.rememberMe === "on", () => {
+    const signin = signinSchema.parse(Object.fromEntries(formData));
+    auth.signIn(signin.email, signin.password, signin.rememberMe === "on", () => {
       navigate(location.state?.from?.pathname || "/", { replace: true });
     });
   };
