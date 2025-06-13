@@ -68,12 +68,12 @@ const actionSignOut = async (request: Request) => {
       throw error;
     }
 
-    return new Response(JSON.stringify({}), {
+    return new Response(null, {
       headers: {
         "Content-Type": "application/json",
         "Set-Cookie": await userSession.destroySession(session),
       },
-      status: 200,
+      status: 204,
     });
   } catch (error) {
     session.flash("error", String(error));
@@ -134,11 +134,11 @@ const actionSignUpEmail = async (request: Request) => {
 const actionGetSession = async (request: Request) => {
   const session = await userSession.getSession(request.headers.get("Cookie"));
   if (!session.has("token") || !session.has("user")) {
-    return new Response(JSON.stringify({}), {
+    return new Response(null, {
       headers: {
         "Content-Type": "application/json",
       },
-      status: 200,
+      status: 204,
     });
   }
   try {
@@ -150,12 +150,12 @@ const actionGetSession = async (request: Request) => {
       query: { disableCookieCache: true },
     });
     if (!data && !!error) {
-      return new Response(JSON.stringify({}), {
+      return new Response(null, {
         headers: {
           "Content-Type": "application/json",
           "Set-Cookie": await userSession.destroySession(session),
         },
-        status: 200,
+        status: 204,
       });
     }
     session.set("token", data.session.token);

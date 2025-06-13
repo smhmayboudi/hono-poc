@@ -8,12 +8,8 @@ interface FormBlockerProps {
   blocker: Blocker;
 }
 
-export const FormBlocker = ({ blocker }: FormBlockerProps) => {
-  if (blocker.state !== "blocked") {
-    return <></>;
-  }
-
-  return (
+export const FormBlocker = ({ blocker }: FormBlockerProps) =>
+  blocker.state === "blocked" ? (
     <div role="alert" className="alert alert-warning">
       <Icon c_name="outline-warning" />
       <span>Wait! You didn't submit the form.</span>
@@ -36,8 +32,9 @@ export const FormBlocker = ({ blocker }: FormBlockerProps) => {
         </Button>
       </div>
     </div>
+  ) : (
+    <></>
   );
-};
 
 export const useFormBlocker = (fetcher: ReturnType<typeof useFetcher>) => {
   const [isDirty, setIsDirty] = useState<boolean>(false);

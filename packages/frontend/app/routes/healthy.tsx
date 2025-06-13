@@ -1,5 +1,5 @@
 export const loader = () =>
-  new Response(JSON.stringify({}), {
+  new Response(null, {
     headers: { "Content-Type": "application/json" },
-    status: 200,
+    status: 204,
   });
