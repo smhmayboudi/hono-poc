@@ -97,13 +97,11 @@ export default ({ params }: Route.ComponentProps) => {
       </fetcher.Form>
       {fetcher.data?.data?.id ? <p>#{fetcher.data.data.id} delete.</p> : <></>}
       {fetcher.data?.errors ? (
-        <>
-          {fetcher.data.errors.map((values) => (
-            <p>
-              {values.title}[{values.code}]: {values.detail}
-            </p>
-          ))}
-        </>
+        fetcher.data.errors.map((values) => (
+          <p>
+            {values.title}[{values.code}]: {values.detail}
+          </p>
+        ))
       ) : (
         <></>
       )}

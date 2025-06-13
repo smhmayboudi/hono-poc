@@ -154,13 +154,11 @@ export default ({ loaderData, params }: Route.ComponentProps) => {
       <FormBlocker blocker={blocker} />
       {fetcher.data?.data?.id ? <p>#{fetcher.data.data.id} updated.</p> : <></>}
       {fetcher.data?.errors ? (
-        <>
-          {fetcher.data.errors.map((values) => (
-            <p>
-              {values.title}[{values.code}]: {values.detail}
-            </p>
-          ))}
-        </>
+        fetcher.data.errors.map((values) => (
+          <p>
+            {values.title}[{values.code}]: {values.detail}
+          </p>
+        ))
       ) : (
         <></>
       )}
