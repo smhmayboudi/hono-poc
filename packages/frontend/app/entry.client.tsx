@@ -8,6 +8,7 @@ import { HydratedRouter } from "react-router/dom";
 import { getInitialNamespaces } from "remix-i18next/client";
 
 import { AuthProvider } from "~/components/auth-provider";
+import { BannerVisibilityProvider } from "~/components/banner-visibility-provider";
 import { BroadcastChannelProvider } from "~/components/broadcast-channel-provider";
 import { ThemeProvider } from "~/components/theme-provider";
 import i18n from "~/localization/i18n";
@@ -33,15 +34,17 @@ const hydrate = async () => {
     hydrateRoot(
       document,
       <StrictMode>
-        <BroadcastChannelProvider channelName="frontend">
-          <I18nextProvider i18n={i18next}>
-            <ThemeProvider>
-              <AuthProvider serverSession={window.session}>
-                <HydratedRouter />
-              </AuthProvider>
-            </ThemeProvider>
-          </I18nextProvider>
-        </BroadcastChannelProvider>
+        <I18nextProvider i18n={i18next}>
+          <BroadcastChannelProvider channelName="frontend">
+            <BannerVisibilityProvider>
+              <ThemeProvider>
+                <AuthProvider serverSession={window.session}>
+                  <HydratedRouter />
+                </AuthProvider>
+              </ThemeProvider>
+            </BannerVisibilityProvider>
+          </BroadcastChannelProvider>
+        </I18nextProvider>
       </StrictMode>,
     );
   });

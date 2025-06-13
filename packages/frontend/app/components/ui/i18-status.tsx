@@ -14,7 +14,7 @@ export default () => {
     >
       {supportedLanguages.map((language) => (
         <Link
-          className="dark:text-white hover:underline"
+          className="btn btn-xs"
           keepSearchParams
           key={language}
           language={language}
