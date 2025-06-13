@@ -11,59 +11,89 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useBroadcastChannel } from "~/components/broadcast-channel-provider";
 import Button from "~/components/ui/button";
 
 type ThemePreference = "dark" | "light" | "system";
 
-interface DarkModeContextType {
+interface ThemeContextType {
   currentTheme: "dark" | "light";
   isHydrated: boolean;
   setThemePreference: Dispatch<SetStateAction<ThemePreference>>;
   themePreference: ThemePreference;
 }
 
-const DarkModeContext = createContext<DarkModeContextType | undefined>(
-  undefined,
-);
+type ThemeMessage = {
+  theme: ThemePreference;
+  type: "THEME_UPDATE";
+};
 
-export const DarkModeProvider: FC<
+const ThemeContext = createContext<ThemeContextType | null>(null);
+
+export const ThemeProvider: FC<
   PropsWithChildren<{ serverThemePreference?: ThemePreference }>
 > = ({ children, serverThemePreference = "system" }) => {
-  const getCookie = useCallback((name: string): string | null => {
-    if (typeof window === "undefined") {
-      return null;
-    }
+  const getCookie = useCallback((name: string): "dark" | "light" | null => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
       const [cookieName, cookieValue] = cookie.split("=");
       if (cookieName === name) {
-        return cookieValue;
+        return cookieValue as "dark" | "light";
       }
     }
-
     return null;
   }, []);
 
-  const setCookie = useCallback((name: string, value: string, days = 365) => {
-    const expires = new Date(Date.now() + days * 86400e3).toUTCString();
-    document.cookie = `${name}=${value}; expires=${expires}; path=/; sameSite=lax`;
-  }, []);
+  const setCookie = useCallback(
+    (name: string, value: "dark" | "light", days = 365) => {
+      const expires = new Date(Date.now() + days * 86400e3).toUTCString();
+      document.cookie = `${name}=${value}; expires=${expires}; path=/; sameSite=lax`;
+    },
+    [],
+  );
 
+  const broadcastChannel = useBroadcastChannel();
   const [currentTheme, setCurrentTheme] = useState<"light" | "dark">(
     serverThemePreference === "dark" ? "dark" : "light",
   );
-  const [isHydrated, setIsHydrated] = useState<boolean>(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const [themePreference, setThemePreference] = useState<ThemePreference>(
     serverThemePreference,
   );
 
   useEffect(() => {
+    const cleanup = broadcastChannel.onMessage<ThemeMessage>((message) => {
+      if (message.type === "THEME_UPDATE") {
+        setThemePreference(message.theme);
+      }
+    });
+
+    return () => {
+      cleanup();
+    };
+  }, [broadcastChannel]);
+
+  const handleSetThemePreference = useCallback<
+    Dispatch<SetStateAction<ThemePreference>>
+  >(
+    (action) => {
+      setThemePreference((prev) => {
+        const newValue = typeof action === "function" ? action(prev) : action;
+        broadcastChannel.postMessage<ThemeMessage>({
+          type: "THEME_UPDATE",
+          theme: newValue,
+        });
+
+        return newValue;
+      });
+    },
+    [broadcastChannel],
+  );
+
+  useEffect(() => {
     setIsHydrated(true);
-    const cookieValue = getCookie(
-      "__user_theme_preference",
-    ) as ThemePreference | null;
-    const initialPreference = cookieValue ?? "system";
-    setThemePreference(initialPreference);
+    const cookieValue = getCookie("__user_theme_preference");
+    setThemePreference(cookieValue ?? "system");
   }, [getCookie]);
 
   useEffect(() => {
@@ -100,21 +130,21 @@ export const DarkModeProvider: FC<
   }, [currentTheme, themePreference, isHydrated, setCookie]);
 
   return (
-    <DarkModeContext.Provider
+    <ThemeContext.Provider
       value={{
         currentTheme,
         isHydrated,
-        setThemePreference,
+        setThemePreference: handleSetThemePreference,
         themePreference,
       }}
     >
       {children}
-    </DarkModeContext.Provider>
+    </ThemeContext.Provider>
   );
 };
 
 export const useDarkMode = () => {
-  const context = useContext(DarkModeContext);
+  const context = useContext(ThemeContext);
   if (!context) {
     throw new Error("useDarkMode must be used within a DarkModeProvider");
   }

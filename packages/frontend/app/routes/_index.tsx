@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, href, redirect } from "react-router";
 
+import { useBroadcastChannel } from "~/components/broadcast-channel-provider";
 import Button from "~/components/ui/button";
 import Icon from "~/components/ui/icon";
 import { userCookie } from "~/cookie.server";
@@ -13,7 +14,6 @@ type BannerVisibilityMessage = {
   type: "VISIBILITY_UPDATE";
   visible: boolean;
 };
-type BroadcastMessage = BannerVisibilityMessage;
 
 export const action = async ({ request }: Route.ActionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
@@ -42,40 +42,34 @@ export const loader = async ({ context, request }: Route.LoaderArgs) => {
 // ];
 
 export default ({ loaderData }: Route.ComponentProps) => {
+  const broadcastChannel = useBroadcastChannel();
   const { t } = useTranslation();
-  const [broadcastChannel, setBroadcastChannel] =
-    useState<BroadcastChannel | null>(null);
   const [showBanner, setShowBanner] = useState<boolean>(loaderData.showBanner);
 
   useEffect(() => {
-    const channel = new BroadcastChannel("show_banner");
-    const listener = (event: MessageEvent<BroadcastMessage>) => {
-      const isBannerVisibilityMessage = (
-        message: unknown,
-      ): message is BannerVisibilityMessage =>
-        typeof message === "object" &&
-        message !== null &&
-        "type" in message &&
-        message.type === "VISIBILITY_UPDATE";
-      if (isBannerVisibilityMessage(event.data)) {
-        setShowBanner(event.data.visible);
-      }
-    };
-    channel.addEventListener("message", listener);
-    setBroadcastChannel(channel);
+    setShowBanner(loaderData.showBanner);
+  }, [loaderData.showBanner]);
+
+  useEffect(() => {
+    const cleanup = broadcastChannel.onMessage<BannerVisibilityMessage>(
+      (message) => {
+        if (message.type === "VISIBILITY_UPDATE") {
+          setShowBanner(message.visible);
+        }
+      },
+    );
 
     return () => {
-      channel.removeEventListener("message", listener);
-      channel.close();
+      cleanup();
     };
-  }, []);
+  }, [broadcastChannel]);
 
   const handleHideBanner = () => {
     setShowBanner(false);
-    broadcastChannel?.postMessage({
+    broadcastChannel.postMessage<BannerVisibilityMessage>({
       type: "VISIBILITY_UPDATE",
       visible: false,
-    } as BannerVisibilityMessage);
+    });
   };
 
   return (

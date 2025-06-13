@@ -8,7 +8,8 @@ import { HydratedRouter } from "react-router/dom";
 import { getInitialNamespaces } from "remix-i18next/client";
 
 import { AuthProvider } from "~/components/auth-provider";
-import { DarkModeProvider } from "~/components/dark-mode-provider";
+import { BroadcastChannelProvider } from "~/components/broadcast-channel-provider";
+import { ThemeProvider } from "~/components/theme-provider";
 import i18n from "~/localization/i18n";
 
 const hydrate = async () => {
@@ -32,13 +33,15 @@ const hydrate = async () => {
     hydrateRoot(
       document,
       <StrictMode>
-        <I18nextProvider i18n={i18next}>
-          <DarkModeProvider>
-            <AuthProvider serverSession={window.session}>
-              <HydratedRouter />
-            </AuthProvider>
-          </DarkModeProvider>
-        </I18nextProvider>
+        <BroadcastChannelProvider channelName="frontend">
+          <I18nextProvider i18n={i18next}>
+            <ThemeProvider>
+              <AuthProvider serverSession={window.session}>
+                <HydratedRouter />
+              </AuthProvider>
+            </ThemeProvider>
+          </I18nextProvider>
+        </BroadcastChannelProvider>
       </StrictMode>,
     );
   });

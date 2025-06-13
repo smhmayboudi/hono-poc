@@ -11,7 +11,7 @@ import {
 } from "react-router";
 
 import { AuthStatus } from "~/components/auth-provider";
-import { DarkModeStatus } from "~/components/dark-mode-provider";
+import { DarkModeStatus } from "~/components/theme-provider";
 import Footer from "~/components/ui/footer";
 import Header from "~/components/ui/header";
 import I18Status from "~/components/ui/i18-status";

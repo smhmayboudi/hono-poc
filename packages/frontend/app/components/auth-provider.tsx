@@ -11,6 +11,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { href, Navigate, useLocation, useNavigate } from "react-router";
 
+import { useBroadcastChannel } from "~/components/broadcast-channel-provider";
 import Button from "~/components/ui/button";
 import type { SessionData } from "~/session.server";
 
@@ -29,7 +30,6 @@ type AuthApiResponse =
 type AuthProviderMessage = {
   type: "GET_SESSION";
 };
-type BroadcastMessage = AuthProviderMessage;
 
 interface AuthContextType {
   error: Error | null;
@@ -52,7 +52,7 @@ interface AuthContextType {
   user: SessionData["user"] | null;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: FC<
   PropsWithChildren<{ serverSession?: SessionData | null }>
@@ -147,9 +147,9 @@ export const AuthProvider: FC<
           token: data.token,
           user: data.user,
         });
-        broadcastChannel?.postMessage({
+        broadcastChannel.postMessage<AuthProviderMessage>({
           type: "GET_SESSION",
-        } as AuthProviderMessage);
+        });
         callback?.();
       }
     } catch (error) {
@@ -173,9 +173,9 @@ export const AuthProvider: FC<
         token: null,
         user: null,
       });
-      broadcastChannel?.postMessage({
+      broadcastChannel.postMessage<AuthProviderMessage>({
         type: "GET_SESSION",
-      } as AuthProviderMessage);
+      });
       callback?.();
     } catch (error) {
       updateState({
@@ -210,9 +210,9 @@ export const AuthProvider: FC<
           token: data.token,
           user: data.user,
         });
-        broadcastChannel?.postMessage({
+        broadcastChannel.postMessage<AuthProviderMessage>({
           type: "GET_SESSION",
-        } as AuthProviderMessage);
+        });
         callback?.();
       }
     } catch (error) {
@@ -223,8 +223,7 @@ export const AuthProvider: FC<
     }
   };
 
-  const [broadcastChannel, setBroadcastChannel] =
-    useState<BroadcastChannel | null>(null);
+  const broadcastChannel = useBroadcastChannel();
   const [state, setState] = useState<{
     error: Error | null;
     loading: boolean;
@@ -250,28 +249,19 @@ export const AuthProvider: FC<
 
   useEffect(() => {
     const abortController = new AbortController();
-    const channel = new BroadcastChannel("auth_provider");
-    const listener = (event: MessageEvent<BroadcastMessage>) => {
-      const isAuthProviderMessage = (
-        message: unknown,
-      ): message is AuthProviderMessage =>
-        typeof message === "object" &&
-        message !== null &&
-        "type" in message &&
-        message.type === "GET_SESSION";
-      if (isAuthProviderMessage(event.data)) {
-        getSession(abortController);
-      }
-    };
-    channel.addEventListener("message", listener);
-    setBroadcastChannel(channel);
+    const cleanup = broadcastChannel.onMessage<AuthProviderMessage>(
+      (message) => {
+        if (message.type === "GET_SESSION") {
+          getSession(abortController);
+        }
+      },
+    );
 
     return () => {
       abortController.abort();
-      channel.removeEventListener("message", listener);
-      channel.close();
+      cleanup();
     };
-  }, [getSession]);
+  }, [broadcastChannel, getSession]);
 
   return (
     <AuthContext.Provider

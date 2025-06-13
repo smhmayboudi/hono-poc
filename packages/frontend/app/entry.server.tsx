@@ -14,7 +14,8 @@ import type {
 import { ServerRouter } from "react-router";
 
 import { AuthProvider } from "~/components/auth-provider";
-import { DarkModeProvider } from "~/components/dark-mode-provider";
+import { BroadcastChannelProvider } from "~/components/broadcast-channel-provider";
+import { ThemeProvider } from "~/components/theme-provider";
 import i18n from "~/localization/i18n";
 import i18nextOpts from "~/localization/i18n.server";
 import { resources } from "~/localization/resource";
@@ -67,17 +68,19 @@ export default (
     });
 
     const { abort, pipe } = renderToPipeableStream(
-      <I18nextProvider i18n={instance}>
-        <DarkModeProvider>
-          <AuthProvider serverSession={session.data}>
-            <ServerRouter
-              context={routerContext}
-              nonce={loadContext.nonce}
-              url={request.url}
-            />
-          </AuthProvider>
-        </DarkModeProvider>
-      </I18nextProvider>,
+      <BroadcastChannelProvider channelName="frontend">
+        <I18nextProvider i18n={instance}>
+          <ThemeProvider>
+            <AuthProvider serverSession={session.data}>
+              <ServerRouter
+                context={routerContext}
+                nonce={loadContext.nonce}
+                url={request.url}
+              />
+            </AuthProvider>
+          </ThemeProvider>
+        </I18nextProvider>
+      </BroadcastChannelProvider>,
       {
         nonce: loadContext.nonce,
         [readyOption]() {
