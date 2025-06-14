@@ -55,7 +55,7 @@ export default (
       (userAgent && isbot(userAgent)) || routerContext.isSpaMode
         ? "onAllReady"
         : "onShellReady";
-    const cookie = request.headers.get("Cookie") || "";
+    const cookie = request.headers.get("cookie") || "";
     const session = await userSession.getSession(cookie);
     const i18next = createInstance();
     await i18next.use(initReactI18next).init({

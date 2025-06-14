@@ -6,7 +6,7 @@ import { userSession } from "~/session.server";
 import type { Route } from "./+types/api.auth.$";
 
 const actionSignInEmail = async (request: Request) => {
-  const session = await userSession.getSession(request.headers.get("Cookie"));
+  const session = await userSession.getSession(request.headers.get("cookie"));
   try {
     const formData = await request.formData();
     const signinSchema = z.object({
@@ -56,7 +56,7 @@ const actionSignInEmail = async (request: Request) => {
 };
 
 const actionSignOut = async (request: Request) => {
-  const session = await userSession.getSession(request.headers.get("Cookie"));
+  const session = await userSession.getSession(request.headers.get("cookie"));
   try {
     const { data, error } = await authClient.signOut({
       fetchOptions: {
@@ -89,7 +89,7 @@ const actionSignOut = async (request: Request) => {
 };
 
 const actionSignUpEmail = async (request: Request) => {
-  const session = await userSession.getSession(request.headers.get("Cookie"));
+  const session = await userSession.getSession(request.headers.get("cookie"));
   try {
     const formData = await request.formData();
     const signupSchema = z.object({
@@ -132,7 +132,7 @@ const actionSignUpEmail = async (request: Request) => {
 };
 
 const actionGetSession = async (request: Request) => {
-  const session = await userSession.getSession(request.headers.get("Cookie"));
+  const session = await userSession.getSession(request.headers.get("cookie"));
   if (!session.has("token") || !session.has("user")) {
     return new Response(JSON.stringify({}), {
       headers: { "Content-Type": "application/json" },

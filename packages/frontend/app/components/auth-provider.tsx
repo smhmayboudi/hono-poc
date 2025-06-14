@@ -52,7 +52,7 @@ interface AuthContextType {
   user: SessionData["user"] | null;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const authContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: FC<
   PropsWithChildren<{ serverSession?: SessionData | null }>
@@ -264,16 +264,16 @@ export const AuthProvider: FC<
   }, [broadcastChannel, getSession]);
 
   return (
-    <AuthContext.Provider
+    <authContext.Provider
       value={{ ...state, getSession, signIn, signOut, signUp }}
     >
       {children}
-    </AuthContext.Provider>
+    </authContext.Provider>
   );
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(authContext);
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }

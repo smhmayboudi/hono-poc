@@ -17,7 +17,7 @@ interface BroadcastChannelProviderProps {
   channelName: string;
 }
 
-const BroadcastChannelContext =
+const broadcastChannelContext =
   createContext<BroadcastChannelContextType | null>(null);
 
 export const BroadcastChannelProvider: FC<
@@ -35,14 +35,14 @@ export const BroadcastChannelProvider: FC<
   }, [broadcastChannelService]);
 
   return (
-    <BroadcastChannelContext.Provider value={{ broadcastChannelService }}>
+    <broadcastChannelContext.Provider value={{ broadcastChannelService }}>
       {children}
-    </BroadcastChannelContext.Provider>
+    </broadcastChannelContext.Provider>
   );
 };
 
 export const useBroadcastChannel = (): BroadcastChannelService => {
-  const context = useContext(BroadcastChannelContext);
+  const context = useContext(broadcastChannelContext);
   if (!context) {
     throw new Error(
       "useBroadcastChannel must be used within a BroadcastChannelProvider",

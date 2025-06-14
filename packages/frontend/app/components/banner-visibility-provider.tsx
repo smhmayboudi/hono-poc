@@ -10,18 +10,21 @@ import { href } from "react-router";
 
 import { useBroadcastChannel } from "~/components/broadcast-channel-provider";
 
+interface BannerVisibilityContextType {
+  isVisible: boolean;
+  updateVisibility: (visible: boolean) => void;
+}
+
 type BannerVisibilityMessage = {
   type: "VISIBILITY_UPDATE";
   visible: boolean;
 };
 
-export const BannerVisibilityContext = createContext<{
-  isVisible: boolean;
-  updateVisibility: (visible: boolean) => void;
-}>({
-  isVisible: true,
-  updateVisibility: () => {},
-});
+export const bannerVisibilityContext =
+  createContext<BannerVisibilityContextType>({
+    isVisible: true,
+    updateVisibility: () => {},
+  });
 
 export const BannerVisibilityProvider: FC<PropsWithChildren> = ({
   children,
@@ -69,17 +72,17 @@ export const BannerVisibilityProvider: FC<PropsWithChildren> = ({
   };
 
   return (
-    <BannerVisibilityContext.Provider
+    <bannerVisibilityContext.Provider
       value={{
         isVisible,
         updateVisibility,
       }}
     >
       {children}
-    </BannerVisibilityContext.Provider>
+    </bannerVisibilityContext.Provider>
   );
 };
 
 export const useBannerVisibility = () => {
-  return useContext(BannerVisibilityContext);
+  return useContext(bannerVisibilityContext);
 };
