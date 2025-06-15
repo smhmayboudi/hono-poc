@@ -1,6 +1,7 @@
 import z from "zod";
 
 import { authClient } from "~/auth-client.server";
+import { csrf } from "~/csrf.server";
 import { userSession } from "~/session.server";
 
 import type { Route } from "./+types/api.auth.$";
@@ -174,6 +175,9 @@ const actionGetSession = async (request: Request) => {
 
 export const action = async ({ params, request }: Route.ActionArgs) => {
   const actionType = params["*"];
+  if (actionType === "signin" || actionType === "signup") {
+    await csrf.validate(request);
+  }
   switch (actionType) {
     case "signin":
       return actionSignInEmail(request);

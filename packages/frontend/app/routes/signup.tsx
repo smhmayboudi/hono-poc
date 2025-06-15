@@ -3,6 +3,7 @@ import { href, useFetcher, useNavigate } from "react-router";
 import { z } from "zod";
 
 import { AuthNotRequire, useAuth } from "~/components/auth-provider";
+import { CSRFInput } from "~/components/csrf-provider";
 import Button from "~/components/ui/button";
 import Icon from "~/components/ui/icon";
 import Loading from "~/components/ui/loading";
@@ -24,12 +25,13 @@ export default ({}: Route.ComponentProps) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const signupSchema = z.object({
+      csrf: z.string(),
       email: z.string().email(),
       password: z.string(),
       name: z.string(),
     });
     const signup = signupSchema.parse(Object.fromEntries(formData));
-    auth.signUp(signup.email, signup.name, signup.password, () => {
+    auth.signUp(signup.csrf, signup.email, signup.name, signup.password, () => {
       navigate(href("/"));
     });
   };
@@ -43,6 +45,7 @@ export default ({}: Route.ComponentProps) => {
           </div>
         ) : null}
         <fetcher.Form method="post" onSubmit={handleSubmit}>
+          <CSRFInput name="csrf" />
           <fieldset className="bg-base-200 border border-base-300 fieldset p-4 rounded-box">
             <legend className="fieldset-legend">Signup</legend>
             <label className="floating-label input validator">

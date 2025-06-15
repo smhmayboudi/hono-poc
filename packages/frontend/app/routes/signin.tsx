@@ -3,6 +3,7 @@ import { href, useFetcher, useLocation, useNavigate } from "react-router";
 import { z } from "zod";
 
 import { AuthNotRequire, useAuth } from "~/components/auth-provider";
+import { CSRFInput } from "~/components/csrf-provider";
 import Button from "~/components/ui/button";
 import Icon from "~/components/ui/icon";
 import Loading from "~/components/ui/loading";
@@ -25,14 +26,21 @@ export default ({}: Route.ComponentProps) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const signinSchema = z.object({
+      csrf: z.string(),
       email: z.string().email(),
       password: z.string(),
       rememberMe: z.string().optional(),
     });
     const signin = signinSchema.parse(Object.fromEntries(formData));
-    auth.signIn(signin.email, signin.password, signin.rememberMe === "on", () => {
-      navigate(location.state?.from?.pathname || "/", { replace: true });
-    });
+    auth.signIn(
+      signin.csrf,
+      signin.email,
+      signin.password,
+      signin.rememberMe === "on",
+      () => {
+        navigate(location.state?.from?.pathname || "/", { replace: true });
+      },
+    );
   };
 
   return (
@@ -44,6 +52,7 @@ export default ({}: Route.ComponentProps) => {
           </div>
         ) : null}
         <fetcher.Form method="post" onSubmit={handleSubmit}>
+          <CSRFInput name="csrf" />
           <fieldset className="bg-base-200 border border-base-300 fieldset p-4 rounded-box">
             <legend className="fieldset-legend">Signin</legend>
             <label className="floating-label input validator">

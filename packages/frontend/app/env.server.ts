@@ -18,6 +18,7 @@ const envSchema = z.object({
   AUTH_CLIENT_BASE_URL: z.string().default("http://127.0.0.1:8081/api/v1/auth"),
   CLIENT_BASE_URL: z.string().default("http://127.0.0.1:8081/"),
   COOKIE_SECRET: z.string().default("s3cret!"),
+  CSRF_SECRET: z.string().default("s3cret!"),
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
@@ -37,6 +38,7 @@ type EnvClient = Omit<
   | "AUTH_CLIENT_BASE_URL"
   | "CLIENT_BASE_URL"
   | "COOKIE_SECRET"
+  | "CSRF_SECRET"
   | "NODE_ENV"
   | "PORT"
   | "SESSION_SECRET"
@@ -73,5 +75,6 @@ declare global {
   interface Window {
     env: EnvClient;
     session?: SessionData | null;
+    token: string;
   }
 }

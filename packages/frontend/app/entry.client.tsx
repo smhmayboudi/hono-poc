@@ -10,6 +10,7 @@ import { getInitialNamespaces } from "remix-i18next/client";
 import { AuthProvider } from "~/components/auth-provider";
 import { BannerVisibilityProvider } from "~/components/banner-visibility-provider";
 import { BroadcastChannelProvider } from "~/components/broadcast-channel-provider";
+import { CSRFProvider } from "~/components/csrf-provider";
 import { ThemeProvider } from "~/components/theme-provider";
 import i18n from "~/localization/i18n";
 
@@ -35,15 +36,17 @@ const hydrate = async () => {
       document,
       <StrictMode>
         <I18nextProvider i18n={i18next}>
-          <BroadcastChannelProvider channelName="frontend">
-            <BannerVisibilityProvider>
-              <ThemeProvider>
-                <AuthProvider serverSession={window.session}>
-                  <HydratedRouter />
-                </AuthProvider>
-              </ThemeProvider>
-            </BannerVisibilityProvider>
-          </BroadcastChannelProvider>
+          <CSRFProvider token={window.token}>
+            <BroadcastChannelProvider channelName="frontend">
+              <AuthProvider serverSession={window.session}>
+                <BannerVisibilityProvider>
+                  <ThemeProvider>
+                    <HydratedRouter />
+                  </ThemeProvider>
+                </BannerVisibilityProvider>
+              </AuthProvider>
+            </BroadcastChannelProvider>
+          </CSRFProvider>
         </I18nextProvider>
       </StrictMode>,
     );

@@ -16,7 +16,9 @@ import { ServerRouter } from "react-router";
 import { AuthProvider } from "~/components/auth-provider";
 import { BannerVisibilityProvider } from "~/components/banner-visibility-provider";
 import { BroadcastChannelProvider } from "~/components/broadcast-channel-provider";
+import { CSRFProvider } from "~/components/csrf-provider";
 import { ThemeProvider } from "~/components/theme-provider";
+import { csrf } from "~/csrf.server";
 import i18n from "~/localization/i18n";
 import i18nextOpts from "~/localization/i18n.server";
 import { resources } from "~/localization/resource";
@@ -55,8 +57,7 @@ export default (
       (userAgent && isbot(userAgent)) || routerContext.isSpaMode
         ? "onAllReady"
         : "onShellReady";
-    const cookie = request.headers.get("cookie") || "";
-    const session = await userSession.getSession(cookie);
+    const [token] = await csrf.commitToken(request);
     const i18next = createInstance();
     await i18next.use(initReactI18next).init({
       ...i18n,
@@ -64,22 +65,26 @@ export default (
       ns: i18nextOpts.getRouteNamespaces(routerContext),
       resources,
     });
+    const cookie = request.headers.get("cookie");
+    const session = await userSession.getSession(cookie);
 
     const { abort, pipe } = renderToPipeableStream(
       <I18nextProvider i18n={i18next}>
-        <BroadcastChannelProvider channelName="frontend">
-          <BannerVisibilityProvider>
-            <ThemeProvider>
-              <AuthProvider serverSession={session.data}>
-                <ServerRouter
-                  context={routerContext}
-                  nonce={loadContext.nonce}
-                  url={request.url}
-                />
-              </AuthProvider>
-            </ThemeProvider>
-          </BannerVisibilityProvider>
-        </BroadcastChannelProvider>
+        <CSRFProvider token={token}>
+          <BroadcastChannelProvider channelName="frontend">
+            <AuthProvider serverSession={session.data}>
+              <BannerVisibilityProvider>
+                <ThemeProvider>
+                  <ServerRouter
+                    context={routerContext}
+                    nonce={loadContext.nonce}
+                    url={request.url}
+                  />
+                </ThemeProvider>
+              </BannerVisibilityProvider>
+            </AuthProvider>
+          </BroadcastChannelProvider>
+        </CSRFProvider>
       </I18nextProvider>,
       {
         nonce: loadContext.nonce,

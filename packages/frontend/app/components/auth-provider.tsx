@@ -36,6 +36,7 @@ interface AuthContextType {
   getSession: (abortController: AbortController) => Promise<void>;
   loading: boolean;
   signIn: (
+    csrf: string,
     email: string,
     password: string,
     rememberMe: boolean,
@@ -43,6 +44,7 @@ interface AuthContextType {
   ) => Promise<void>;
   signOut: (callback?: VoidFunction) => Promise<void>;
   signUp: (
+    csrf: string,
     email: string,
     name: string,
     password: string,
@@ -123,6 +125,7 @@ export const AuthProvider: FC<
   );
 
   const signIn = async (
+    csrf: string,
     email: string,
     password: string,
     rememberMe: boolean,
@@ -131,6 +134,7 @@ export const AuthProvider: FC<
     updateState({ error: null, loading: true });
     try {
       const formData = new URLSearchParams();
+      formData.append("csrf", csrf);
       formData.append("email", email);
       formData.append("password", password);
       formData.append("rememberMe", rememberMe.toString());
@@ -186,6 +190,7 @@ export const AuthProvider: FC<
   };
 
   const signUp = async (
+    csrf: string,
     email: string,
     name: string,
     password: string,
@@ -194,6 +199,7 @@ export const AuthProvider: FC<
     updateState({ error: null, loading: true });
     try {
       const formData = new URLSearchParams();
+      formData.append("csrf", csrf);
       formData.append("email", email);
       formData.append("name", name);
       formData.append("password", password);

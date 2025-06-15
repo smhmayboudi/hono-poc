@@ -16,50 +16,11 @@ import Footer from "~/components/ui/footer";
 import Header from "~/components/ui/header";
 import I18Status from "~/components/ui/i18-status";
 import Nav from "~/components/ui/nav";
+import { csrf } from "~/csrf.server";
 import styles from "~/styles.css?url";
 import { seo } from "~/utils/seo";
 
 import type { Route } from "./+types/root";
-
-export const Layout = () => {
-  const navigation = useNavigation();
-  const isNavigating = Boolean(navigation.location);
-  const loaderData = useRouteLoaderData<typeof loader>("root");
-  const { i18n } = useTranslation();
-
-  return (
-    <html dir={i18n.dir()} lang={i18n.language}>
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body className="flex flex-col min-h-screen">
-        {isNavigating && (
-          <progress className="absolute flex progress w-full"></progress>
-        )}
-        <I18Status />
-        <DarkModeStatus />
-        <AuthStatus />
-        <Header />
-        <div className="content flex flex-1">
-          <Nav />
-          <main className="flex-1 p-4">
-            <Outlet />
-          </main>
-        </div>
-        <Footer />
-        <ScrollRestoration nonce={loaderData?.nonce} />
-        <Scripts nonce={loaderData?.nonce} />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.env = ${JSON.stringify(loaderData?.envClient || {})};`,
-          }}
-          nonce={loaderData?.nonce}
-        />
-      </body>
-    </html>
-  );
-};
 
 export const headers = ({
   loaderHeaders,
@@ -69,17 +30,23 @@ export const headers = ({
   parentHeaders.set(
     "Content-Security-Policy",
     "base-uri 'self' http://localhost:5173 http://localhost:8081;" +
-      "default-src 'self';" +
+      "child-src 'none';" +
       "connect-src 'self' http://localhost:5173 ws://localhost:5173;" +
+      "default-src 'self';" +
       "font-src 'self';" +
       "form-action 'self';" +
       "frame-ancestors 'none';" +
+      "frame-src 'none';" +
       "img-src 'self' data: http://remix.run;" +
+      "media-src 'none';" +
       "object-src 'none';" +
+      "report-uri 'none';" +
       `script-src 'self' 'nonce-${loaderHeaders.get("nonce")}';` +
-      "upgrade-insecure-requests;",
+      "style-src 'self' 'unsafe-inline';" +
+      "upgrade-insecure-requests;" +
+      "worker-src 'none';",
   );
-  // parentHeaders.set("Content-Security-Policy-Report-Only", "default-src 'self'; script-src 'self' example-cdn.com; report-uri /csp-violation-report-endpoint");
+  // parentHeaders.set("Content-Security-Policy-Report-Only", "default-src 'self'; script-src 'self'; report-uri /csp-violation-report-endpoint");
   parentHeaders.set(
     "Permissions-Policy",
     "accelerometer=()," +
@@ -122,16 +89,20 @@ export const links: Route.LinksFunction = () => {
   ];
 };
 
-export const loader = async ({ context }: Route.LoaderArgs) =>
-  data(
+export const loader = async ({ context, request }: Route.LoaderArgs) => {
+  const [token, cookie] = await csrf.commitToken(request);
+
+  return data(
     {
       envClient: context.envClient,
       nonce: context.nonce,
+      token,
     },
     {
-      headers: { nonce: context.nonce },
+      headers: { nonce: context.nonce, "Set-Cookie": cookie ?? "" },
     },
   );
+};
 
 export const meta = ({}: Route.MetaArgs) => {
   const { metaTags } = seo();
@@ -144,4 +115,42 @@ export const meta = ({}: Route.MetaArgs) => {
   ];
 };
 
-export default () => <Outlet />;
+export default () => {
+  const navigation = useNavigation();
+  const isNavigating = Boolean(navigation.location);
+  const loaderData = useRouteLoaderData<typeof loader>("root");
+  const { i18n } = useTranslation();
+
+  return (
+    <html dir={i18n.dir()} lang={i18n.language}>
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body className="flex flex-col min-h-screen">
+        {isNavigating && (
+          <progress className="absolute flex progress w-full"></progress>
+        )}
+        <I18Status />
+        <DarkModeStatus />
+        <AuthStatus />
+        <Header />
+        <div className="content flex flex-1">
+          <Nav />
+          <main className="flex-1 p-4">
+            <Outlet />
+          </main>
+        </div>
+        <Footer />
+        <ScrollRestoration nonce={loaderData?.nonce} />
+        <Scripts nonce={loaderData?.nonce} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.env=${JSON.stringify(loaderData?.envClient || {})};window.token="${loaderData?.token}"`,
+          }}
+          nonce={loaderData?.nonce}
+        />
+      </body>
+    </html>
+  );
+};
