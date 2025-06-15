@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import remixI18n from "./i18n.server";
+import remixI18n from "~/localization/i18n.server";
 
 describe("Remix I18n", () => {
   it("returns the correct default language from the request", async () => {

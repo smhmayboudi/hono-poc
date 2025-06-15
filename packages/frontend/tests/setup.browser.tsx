@@ -11,12 +11,12 @@ import {
 import { afterEach, beforeEach, vi } from "vitest";
 import { render } from "vitest-browser-react";
 
-import i18n from "../app/localization/i18n";
+import i18n from "~/localization/i18n";
 import {
   type Language,
   type Namespace,
   resources,
-} from "../app/localization/resource";
+} from "~/localization/resource";
 
 export type StubRouteEntry = Parameters<typeof createRoutesStub>[0][0];
 

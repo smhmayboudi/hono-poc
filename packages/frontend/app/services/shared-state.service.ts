@@ -1,4 +1,4 @@
-import { BroadcastChannelService } from "./broadcast-channel.service";
+import { BroadcastChannelService } from "~/services/broadcast-channel.service";
 
 type StateUpdate<T> = {
   key: string;

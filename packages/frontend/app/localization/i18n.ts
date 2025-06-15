@@ -1,6 +1,6 @@
 import type { InitOptions } from "i18next";
 
-import { supportedLanguages } from "./resource";
+import { supportedLanguages } from "~/localization/resource";
 
 export default {
   defaultNS: "common",

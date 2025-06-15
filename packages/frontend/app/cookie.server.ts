@@ -1,6 +1,6 @@
 import { createCookie } from "react-router";
 
-import { getEnvServer } from "./env.server";
+import { getEnvServer } from "~/env.server";
 
 export const userCookie = createCookie("__user_cookie", {
   // encode

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import type { SessionData } from "./session.server";
+import type { SessionData } from "~/session.server";
 
 const envSchema = z.object({
   APP_PAGINATION_LIMIT: z
@@ -26,6 +26,7 @@ const envSchema = z.object({
     .refine((arg) => !Number.isNaN(Number(arg)) && Number(arg) >= 1, {
       message: "The string must be a valid number greater than or equal to 1",
     })
+    .transform((arg) => Number(arg))
     .default("3010"),
   SESSION_SECRET: z.string().default("s3cret!"),
 });

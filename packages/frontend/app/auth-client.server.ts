@@ -1,7 +1,7 @@
 import { jwtClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 
-import { getEnvServer } from "./env.server";
+import { getEnvServer } from "~/env.server";
 
 export const authClient = createAuthClient({
   baseURL: getEnvServer().AUTH_CLIENT_BASE_URL,

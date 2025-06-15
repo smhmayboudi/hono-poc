@@ -1,6 +1,6 @@
 import { createCookieSessionStorage } from "react-router";
 
-import { getEnvServer } from "./env.server";
+import { getEnvServer } from "~/env.server";
 
 export type SessionData = {
   token?: string;
