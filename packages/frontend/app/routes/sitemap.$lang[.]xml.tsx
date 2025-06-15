@@ -17,7 +17,6 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
   });
 
   return new Response(sitemap, {
-    headers: { "Content-Type": "application/xml; charset=utf-8" },
-    status: 200,
+    headers: { "Content-Type": "application/xml;charset=UTF8" },
   });
 };

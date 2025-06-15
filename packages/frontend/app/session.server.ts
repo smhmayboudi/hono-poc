@@ -24,12 +24,15 @@ export const userSession = createCookieSessionStorage<
   SessionFlashData
 >({
   cookie: {
+    // encode
     // domain
     // expires
     httpOnly: true,
-    maxAge: 60 * 60 * 24 * 30,
+    maxAge: 6.048e5,
     name: "__user_session",
+    // partitioned
     path: "/",
+    priority: "medium",
     sameSite: "lax",
     secrets: [getEnvServer().SESSION_SECRET],
     secure: getEnvServer().NODE_ENV === "production",

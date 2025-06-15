@@ -25,33 +25,31 @@ const actionSignInEmail = async (request: Request) => {
     session.set("token", data.token);
     session.set("user", data.user);
 
-    return new Response(
-      JSON.stringify({
+    return Response.json(
+      {
         token: data.token,
         user: data.user,
-      }),
+      },
       {
         headers: {
-          "Content-Type": "application/json",
           "Set-Cookie": await userSession.commitSession(session, {
             expires: signin.rememberMe
-              ? new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
+              ? new Date(Date.now() + 6.048e8)
               : undefined,
           }),
         },
-        status: 200,
       },
     );
   } catch (error) {
     session.flash("error", String(error));
 
-    return new Response(JSON.stringify({ error: String(error) }), {
-      headers: {
-        "Content-Type": "application/json",
-        "Set-Cookie": await userSession.commitSession(session),
+    return Response.json(
+      { error: String(error) },
+      {
+        headers: { "Set-Cookie": await userSession.commitSession(session) },
+        status: 400,
       },
-      status: 400,
-    });
+    );
   }
 };
 
@@ -68,23 +66,22 @@ const actionSignOut = async (request: Request) => {
       throw error;
     }
 
-    return new Response(JSON.stringify({}), {
-      headers: {
-        "Content-Type": "application/json",
-        "Set-Cookie": await userSession.destroySession(session),
+    return Response.json(
+      {},
+      {
+        headers: { "Set-Cookie": await userSession.destroySession(session) },
       },
-      status: 200,
-    });
+    );
   } catch (error) {
     session.flash("error", String(error));
 
-    return new Response(JSON.stringify({ error: String(error) }), {
-      headers: {
-        "Content-Type": "application/json",
-        "Set-Cookie": await userSession.commitSession(session),
+    return Response.json(
+      { error: String(error) },
+      {
+        headers: { "Set-Cookie": await userSession.commitSession(session) },
+        status: 400,
       },
-      status: 400,
-    });
+    );
   }
 };
 
@@ -105,39 +102,32 @@ const actionSignUpEmail = async (request: Request) => {
     session.set("token", data.token ?? undefined);
     session.set("user", data.user);
 
-    return new Response(
-      JSON.stringify({
+    return Response.json(
+      {
         token: data.token,
         user: data.user,
-      }),
+      },
       {
-        headers: {
-          "Content-Type": "application/json",
-          "Set-Cookie": await userSession.commitSession(session),
-        },
-        status: 200,
+        headers: { "Set-Cookie": await userSession.commitSession(session) },
       },
     );
   } catch (error) {
     session.flash("error", String(error));
 
-    return new Response(JSON.stringify({ error: String(error) }), {
-      headers: {
-        "Content-Type": "application/json",
-        "Set-Cookie": await userSession.commitSession(session),
+    return Response.json(
+      { error: String(error) },
+      {
+        headers: { "Set-Cookie": await userSession.commitSession(session) },
+        status: 400,
       },
-      status: 400,
-    });
+    );
   }
 };
 
 const actionGetSession = async (request: Request) => {
   const session = await userSession.getSession(request.headers.get("cookie"));
   if (!session.has("token") || !session.has("user")) {
-    return new Response(JSON.stringify({}), {
-      headers: { "Content-Type": "application/json" },
-      status: 200,
-    });
+    return Response.json({});
   }
   try {
     const { data, error } = await authClient.getSession({
@@ -148,40 +138,37 @@ const actionGetSession = async (request: Request) => {
       query: { disableCookieCache: true },
     });
     if (!data && !!error) {
-      return new Response(JSON.stringify({}), {
-        headers: {
-          "Content-Type": "application/json",
-          "Set-Cookie": await userSession.destroySession(session),
+      return Response.json(
+        {},
+        {
+          headers: { "Set-Cookie": await userSession.destroySession(session) },
         },
-        status: 200,
-      });
+      );
     }
     session.set("token", data.session.token);
     session.set("user", data.user);
 
-    return new Response(
-      JSON.stringify({
+    return Response.json(
+      {
         token: data.session.token,
         user: data.user,
-      }),
+      },
       {
         headers: {
-          "Content-Type": "application/json",
           "Set-Cookie": await userSession.commitSession(session, {
             expires: data.session.expiresAt,
           }),
         },
-        status: 200,
       },
     );
   } catch (error) {
-    return new Response(JSON.stringify({ error: String(error) }), {
-      headers: {
-        "Content-Type": "application/json",
-        "Set-Cookie": await userSession.destroySession(session),
+    return Response.json(
+      { error: String(error) },
+      {
+        headers: { "Set-Cookie": await userSession.destroySession(session) },
+        status: 400,
       },
-      status: 400,
-    });
+    );
   }
 };
 
@@ -196,10 +183,13 @@ export const action = async ({ params, request }: Route.ActionArgs) => {
       return actionSignOut(request);
   }
 
-  return new Response(JSON.stringify({ error: "Not Found" }), {
-    headers: { "Content-Type": "application/json" },
-    status: 404,
-  });
+  return Response.json(
+    { error: "Not Found" },
+    {
+      headers: { "Content-Type": "application/json" },
+      status: 404,
+    },
+  );
 };
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
@@ -209,8 +199,11 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
     return actionGetSession(request);
   }
 
-  return new Response(JSON.stringify({ error: "Not Found" }), {
-    headers: { "Content-Type": "application/json" },
-    status: 404,
-  });
+  return Response.json(
+    { error: "Not Found" },
+    {
+      headers: { "Content-Type": "application/json" },
+      status: 404,
+    },
+  );
 };

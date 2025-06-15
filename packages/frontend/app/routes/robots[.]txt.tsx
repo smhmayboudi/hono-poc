@@ -15,8 +15,5 @@ export const loader = async ({ context, request }: Route.LoaderArgs) => {
     },
   ]);
 
-  return new Response(robotsTxt, {
-    headers: { "Content-Type": "text/plain" },
-    status: 200,
-  });
+  return new Response(robotsTxt);
 };
