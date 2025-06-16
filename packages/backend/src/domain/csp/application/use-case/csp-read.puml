@@ -1,0 +1,9 @@
+@startuml CSP UseCase Read
+actor Client
+Client -> DrivingCSPRead
+DrivingCSPRead -> UseCaseCSPRead: execute
+UseCaseCSPRead -> DrivenCSPRead: read
+DrivenCSPRead --> UseCaseCSPRead: DomainCSP[]
+UseCaseCSPRead --> DrivingCSPRead: DomainCSP[]
+DrivingCSPRead --> Client
+@enduml

@@ -1,4 +1,12 @@
 import type {
+  PortDrivingCSPCreateRequest,
+  PortDrivingCSPCreateResponse,
+} from "../../../../domain/csp/application/port/driving/csp-create.ts";
+import type {
+  PortDrivingCSPReadRequest,
+  PortDrivingCSPReadResponse,
+} from "../../../../domain/csp/application/port/driving/csp-read.ts";
+import type {
   PortDrivingUserPOCCreateRequest,
   PortDrivingUserPOCCreateResponse,
 } from "../../../../domain/user-poc/application/port/driving/user-poc-create.ts";
@@ -72,6 +80,14 @@ import type {
 } from "../../../../domain/user-poc-view/application/port/driving/user-poc-view-update.ts";
 
 export type EventEmitterMap = {
+  CSPUseCaseCreate: {
+    request: PortDrivingCSPCreateRequest;
+    response: PortDrivingCSPCreateResponse;
+  };
+  CSPUseCaseRead: {
+    request: PortDrivingCSPReadRequest;
+    response: PortDrivingCSPReadResponse;
+  };
   UserPOCInformationUseCaseCreate: {
     request: PortDrivingUserPOCInformationCreateRequest;
     response: PortDrivingUserPOCInformationCreateResponse;

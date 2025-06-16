@@ -3,7 +3,7 @@ import type { z } from "@hono/zod-openapi";
 import type { requestQuerySchema } from "../shared/adapter/driving/request-query.ts";
 
 export const objectPropertiesBuildUrlQueryString = <
-  RQ extends z.ZodObject<z.ZodRawShape & { id: z.ZodString }>,
+  RQ extends z.ZodObject<z.ZodRawShape>,
 >(
   pagination?: {
     action: "first" | "last" | "next" | "prev" | "self";

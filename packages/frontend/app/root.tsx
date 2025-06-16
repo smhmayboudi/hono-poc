@@ -40,7 +40,7 @@ export const headers = ({
       "img-src 'self' data: http://remix.run;" +
       "media-src 'none';" +
       "object-src 'none';" +
-      "report-uri 'none';" +
+      "report-uri /api/csp;" +
       `script-src 'self' 'nonce-${loaderHeaders.get("nonce")}';` +
       "style-src 'self' 'unsafe-inline';" +
       "upgrade-insecure-requests;" +

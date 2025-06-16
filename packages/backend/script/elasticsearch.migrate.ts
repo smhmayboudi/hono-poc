@@ -2,10 +2,10 @@ import { pino } from "pino";
 
 import { config } from "../src/infrastructure/adapter/config/config.ts";
 import { database } from "../src/infrastructure/adapter/database/database.ts";
-import { userPOCView } from "../src/infrastructure/adapter/database/schema/view/user-poc-view.ts";
 import { elasticsearch } from "../src/infrastructure/adapter/elasticsearch/elasticsearch.ts";
 import { Logger } from "../src/infrastructure/adapter/logger/logger.ts";
 import { tracer } from "../src/infrastructure/adapter/opentelemetry/opentelemetry.ts";
+import { userPOCView } from "../src/infrastructure/application/port/database/schema/schema.ts";
 
 const level = "trace";
 const config2 = config(tracer);
@@ -62,6 +62,7 @@ for (const result of results) {
     index: "user_poc_view",
   });
 }
+
 await elasticsearch2.client().close();
 // eslint-disable-next-line n/no-process-exit
 process.exit(0);

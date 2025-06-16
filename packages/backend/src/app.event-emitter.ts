@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 
-import { userPOCView } from "./infrastructure/adapter/database/schema/view/user-poc-view.ts";
+import { userPOCView } from "../src/infrastructure/application/port/database/schema/schema.ts";
 import type { PortCacher } from "./infrastructure/application/port/cacher/cacher.ts";
 import type { PortDatabase } from "./infrastructure/application/port/database/database.ts";
 import type { PortElasticsearch } from "./infrastructure/application/port/elasticsearch/elasticsearch.ts";

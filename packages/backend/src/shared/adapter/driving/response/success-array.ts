@@ -44,7 +44,7 @@ export const successArrayResponseSchema = <
   });
 
 export const successArrayResponse = <
-  RQ extends z.ZodObject<z.ZodRawShape & { id: z.ZodString }>,
+  RQ extends z.ZodObject<z.ZodRawShape>,
   R extends z.infer<RQ> & { id: string },
 >(
   ctx: Context<Env>,

@@ -1,0 +1,9 @@
+@startuml CSP UseCase Create
+actor Client
+Client -> DrivingCSPCreate
+DrivingCSPCreate -> UseCaseCSPCreate: execute
+UseCaseCSPCreate -> DrivenCSPCreate: create
+DrivenCSPCreate --> UseCaseCSPCreate: void
+UseCaseCSPCreate --> DrivingCSPCreate: void
+DrivingCSPCreate --> Client
+@enduml

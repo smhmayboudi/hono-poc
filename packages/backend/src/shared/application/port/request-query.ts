@@ -13,7 +13,6 @@ export type ComparisonOperator = (typeof COMPARISON_OPERATORS)[number];
 
 export type RequestQuery<D> = {
   expand?: string | undefined;
-  // fields?: Fields<keyof D> | undefined;
   fields?: string | undefined;
   filters?:
     | [
@@ -24,6 +23,5 @@ export type RequestQuery<D> = {
     | undefined;
   limit?: string | undefined;
   offset?: string | undefined;
-  // sort?: Sort<keyof D> | undefined;
   sort?: string | undefined;
 };

@@ -6,6 +6,7 @@ import { pino } from "pino";
 import { appEventEmitter } from "./app.event-emitter.ts";
 import { page } from "./app.page.tsx";
 import { swagger } from "./app.swagger.ts";
+import { csp } from "./domain/csp/csp.ts";
 import { userPOC } from "./domain/user-poc/user-poc.ts";
 import { userPOCInformation } from "./domain/user-poc-information/user-poc-information.ts";
 import { userPOCView } from "./domain/user-poc-view/user-poc-view.ts";
@@ -22,6 +23,7 @@ import { authMiddleware } from "./infrastructure/adapter/middleware/auth.ts";
 import { loggerMiddleware } from "./infrastructure/adapter/middleware/logger.ts";
 import { opentelemetryMiddleware } from "./infrastructure/adapter/middleware/opentelemetry.ts";
 import { tracer } from "./infrastructure/adapter/opentelemetry/opentelemetry.ts";
+import { time } from "./infrastructure/adapter/time/time.ts";
 import { defaultHook } from "./shared/adapter/driving/default-hook.ts";
 import { notFoundHandler } from "./shared/adapter/driving/handler/not-found.ts";
 import { onErrorHandler } from "./shared/adapter/driving/handler/on-error.ts";
@@ -29,6 +31,7 @@ import { onErrorHandler } from "./shared/adapter/driving/handler/on-error.ts";
 const level = "trace";
 const basePath = "/api/v1";
 const authPath = `${basePath}/auth`;
+const cspPath = `${basePath}/csp`;
 const healthyPath = `${basePath}/healthy`;
 const k6TestPath = `${basePath}/user-poc-view`;
 const pagePath = "/page";
@@ -42,7 +45,7 @@ const auth2 = auth(
   cacher2,
   config2,
   database2,
-  [authPath, healthyPath, k6TestPath, pagePath, swaggerPath],
+  [authPath, cspPath, healthyPath, k6TestPath, pagePath, swaggerPath],
   new Logger(pino({ level })),
   new Logger(pino({ level })),
   new Logger(pino({ level })),
@@ -60,6 +63,7 @@ const eventEmitter2 = eventEmitter(
   tracer,
 );
 const generate2 = generate(tracer);
+const time2 = time(tracer);
 
 appEventEmitter(cacher2, database2, elasticsearch2, eventEmitter2);
 
@@ -89,7 +93,7 @@ app.use(
     auth2,
     basePath,
     config2,
-    [authPath, healthyPath, k6TestPath, pagePath, swaggerPath],
+    [authPath, cspPath, healthyPath, k6TestPath, pagePath, swaggerPath],
     new Logger(pino({ level })),
   ),
 );
@@ -98,6 +102,19 @@ app.on(["POST", "GET"], `${authPath}/*`, (ctx) => auth2.handler(ctx.req.raw));
 
 // /health/liveness, /health/readiness
 app.get(healthyPath, (ctx) => ctx.text(""));
+
+const { adapterDrivingCSPCreateRoute, adapterDrivingCSPReadRoute } = csp(
+  app,
+  basePath,
+  config2,
+  database2,
+  "csp",
+  eventEmitter2,
+  generate2,
+  new Logger(pino({ level })),
+  time2,
+  tracer,
+);
 
 export const {
   adapterDrivingUserPOCCreateRoute,
@@ -178,6 +195,8 @@ export default {
 };
 
 export type AppType =
+  | typeof adapterDrivingCSPCreateRoute
+  | typeof adapterDrivingCSPReadRoute
   | typeof adapterDrivingUserPOCCreateRoute
   | typeof adapterDrivingUserPOCDeleteRoute
   | typeof adapterDrivingUserPOCReadIDRoute

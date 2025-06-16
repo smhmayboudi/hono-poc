@@ -16,18 +16,7 @@ export default defineConfig({
     },
     include: ["**/*.test.ts"],
     pool: "threads",
-    reporters: [
-      "default",
-      [
-        "junit",
-        {
-          includeConsoleOutput: false,
-          outputFile: `${configDefaults.coverage.reportsDirectory}/junit.xml`,
-        },
-      ],
-    ],
-    watch: false,
-    workspace: [
+    projects: [
       {
         extends: true,
         optimizeDeps: {
@@ -64,5 +53,16 @@ export default defineConfig({
         },
       },
     ],
+    reporters: [
+      "default",
+      [
+        "junit",
+        {
+          includeConsoleOutput: false,
+          outputFile: `${configDefaults.coverage.reportsDirectory}/junit.xml`,
+        },
+      ],
+    ],
+    watch: false,
   },
 });
