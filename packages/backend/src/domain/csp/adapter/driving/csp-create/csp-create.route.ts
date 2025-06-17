@@ -30,10 +30,7 @@ export const cspCreateRoute = () =>
       201: {
         content: {
           "application/json": {
-            schema: successResponseSchema(
-              cspCreateResponseSchema,
-              "csp",
-            ),
+            schema: successResponseSchema(cspCreateResponseSchema, "csp"),
           },
         },
         description: "Created",

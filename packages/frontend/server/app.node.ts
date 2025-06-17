@@ -11,7 +11,10 @@ import { getLoadContext } from "./app.node.context";
 app.use(serveStatic({ root: "./build/client" }));
 
 serve(
-  { fetch: handler(build, app, { getLoadContext }).fetch, port: getEnvServer().PORT },
+  {
+    fetch: handler(build, app, { getLoadContext }).fetch,
+    port: getEnvServer().PORT,
+  },
   (info) => {
     console.info(`Listening on http://127.0.0.1:${info.port}`);
   },

@@ -28,7 +28,7 @@ type AuthApiResponse =
     };
 
 type AuthProviderMessage = {
-  type: "GET_SESSION";
+  type: "AUTH_GET_SESSION";
 };
 
 interface AuthContextType {
@@ -152,7 +152,7 @@ export const AuthProvider: FC<
           user: data.user,
         });
         broadcastChannel.postMessage<AuthProviderMessage>({
-          type: "GET_SESSION",
+          type: "AUTH_GET_SESSION",
         });
         callback?.();
       }
@@ -178,7 +178,7 @@ export const AuthProvider: FC<
         user: null,
       });
       broadcastChannel.postMessage<AuthProviderMessage>({
-        type: "GET_SESSION",
+        type: "AUTH_GET_SESSION",
       });
       callback?.();
     } catch (error) {
@@ -217,7 +217,7 @@ export const AuthProvider: FC<
           user: data.user,
         });
         broadcastChannel.postMessage<AuthProviderMessage>({
-          type: "GET_SESSION",
+          type: "AUTH_GET_SESSION",
         });
         callback?.();
       }
@@ -257,7 +257,7 @@ export const AuthProvider: FC<
     const abortController = new AbortController();
     const cleanup = broadcastChannel.onMessage<AuthProviderMessage>(
       (message) => {
-        if (message.type === "GET_SESSION") {
+        if (message.type === "AUTH_GET_SESSION") {
           getSession(abortController);
         }
       },
@@ -294,7 +294,7 @@ export const AuthStatus = () => {
 
   return (
     <div
-      className={`fixed flex mt-20 p-2 top-0 z-10 ${i18n.dir() === "ltr" ? "right-0" : "left-0"}`}
+      className={`fixed flex mt-20 p-4 top-0 z-10 ${i18n.dir() === "ltr" ? "right-0" : "left-0"}`}
     >
       <p className="dark:text-white">
         {auth.token && auth.user ? (

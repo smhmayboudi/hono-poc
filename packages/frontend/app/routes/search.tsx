@@ -22,8 +22,8 @@ export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const url = new URL(request.url);
   const query = url.searchParams.get("s") || "";
 
-  return users.filter((user) =>
-    user.name.toLowerCase().includes(query.toLowerCase()),
+  return users.filter(
+    (user) => !!query && user.name.toLowerCase().includes(query.toLowerCase()),
   );
 };
 

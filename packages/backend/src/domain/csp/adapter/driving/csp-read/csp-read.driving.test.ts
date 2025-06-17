@@ -47,7 +47,7 @@ describe("CSP Driving Read", () => {
     };
     const data0 = {
       timestamp: faker.date.past(),
-      "csp-report": {        
+      "csp-report": {
         "blocked-uri": faker.internet.url(),
         disposition: faker.internet.url(),
         "document-uri": faker.internet.url(),

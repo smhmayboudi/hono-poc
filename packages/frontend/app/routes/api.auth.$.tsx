@@ -196,9 +196,8 @@ export const action = async ({ params, request }: Route.ActionArgs) => {
   );
 };
 
-export const loader = async ({ request }: Route.LoaderArgs) => {
-  const url = new URL(request.url);
-  const actionType = url.pathname.split("/").pop();
+export const loader = async ({ params, request }: Route.LoaderArgs) => {
+  const actionType = params["*"];
   if (actionType === "getsession") {
     return actionGetSession(request);
   }

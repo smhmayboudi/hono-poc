@@ -22,10 +22,7 @@ export const cspReadRoute = () =>
       200: {
         content: {
           "application/json": {
-            schema: successArrayResponseSchema(
-              cspReadResponseSchema,
-              "csp",
-            ),
+            schema: successArrayResponseSchema(cspReadResponseSchema, "csp"),
           },
         },
         description: "OK",

@@ -10,6 +10,7 @@ import {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
+import { href } from "react-router";
 
 import { useBroadcastChannel } from "~/components/broadcast-channel-provider";
 import Button from "~/components/ui/button";
@@ -25,7 +26,7 @@ interface ThemeContextType {
 
 type ThemeMessage = {
   theme: ThemePreference;
-  type: "THEME_UPDATE";
+  type: "THEME_THEME";
 };
 
 const ThemeContext = createContext<ThemeContextType | null>(null);
@@ -33,25 +34,6 @@ const ThemeContext = createContext<ThemeContextType | null>(null);
 export const ThemeProvider: FC<
   PropsWithChildren<{ serverThemePreference?: ThemePreference }>
 > = ({ children, serverThemePreference = "system" }) => {
-  const getCookie = useCallback((name: string): "dark" | "light" | null => {
-    const cookies = document.cookie.split("; ");
-    for (const cookie of cookies) {
-      const [cookieName, cookieValue] = cookie.split("=");
-      if (cookieName === name) {
-        return cookieValue as "dark" | "light";
-      }
-    }
-    return null;
-  }, []);
-
-  const setCookie = useCallback(
-    (name: string, value: "dark" | "light", days = 365) => {
-      const expires = new Date(Date.now() + days * 86400e3).toUTCString();
-      document.cookie = `${name}=${value}; expires=${expires}; path=/; sameSite=lax`;
-    },
-    [],
-  );
-
   const broadcastChannel = useBroadcastChannel();
   const [currentTheme, setCurrentTheme] = useState<"light" | "dark">(
     serverThemePreference === "dark" ? "dark" : "light",
@@ -62,8 +44,23 @@ export const ThemeProvider: FC<
   );
 
   useEffect(() => {
+    const fetchInitialTheme = async () => {
+      const response = await fetch(
+        href("/api/preferences/*", { "*": "theme" }),
+      );
+      const data: {
+        theme: ThemePreference;
+      } = await response.json();
+      setThemePreference(data.theme || "system");
+      setIsHydrated(true);
+    };
+
+    fetchInitialTheme();
+  }, []);
+
+  useEffect(() => {
     const cleanup = broadcastChannel.onMessage<ThemeMessage>((message) => {
-      if (message.type === "THEME_UPDATE") {
+      if (message.type === "THEME_THEME") {
         setThemePreference(message.theme);
       }
     });
@@ -80,21 +77,19 @@ export const ThemeProvider: FC<
       setThemePreference((prev) => {
         const newValue = typeof action === "function" ? action(prev) : action;
         broadcastChannel.postMessage<ThemeMessage>({
-          type: "THEME_UPDATE",
+          type: "THEME_THEME",
           theme: newValue,
         });
-
+        fetch(href("/api/preferences/*", { "*": "theme" }), {
+          body: JSON.stringify({ theme: newValue }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        });
         return newValue;
       });
     },
     [broadcastChannel],
   );
-
-  useEffect(() => {
-    setIsHydrated(true);
-    const cookieValue = getCookie("__user_theme_preference");
-    setThemePreference(cookieValue ?? "system");
-  }, [getCookie]);
 
   useEffect(() => {
     if (!isHydrated) {
@@ -121,13 +116,7 @@ export const ThemeProvider: FC<
       return;
     }
     document.documentElement.setAttribute("data-theme", currentTheme);
-    if (themePreference !== "system") {
-      setCookie("__user_theme_preference", themePreference);
-    } else {
-      document.cookie =
-        "__user_theme_preference=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; sameSite=lax";
-    }
-  }, [currentTheme, themePreference, isHydrated, setCookie]);
+  }, [currentTheme, isHydrated]);
 
   return (
     <ThemeContext.Provider
@@ -183,7 +172,7 @@ export const DarkModeStatus = () => {
 
   return (
     <div
-      className={`fixed flex mt-10 p-2 top-0 z-10 ${i18n.dir() === "ltr" ? "right-0" : "left-0"}`}
+      className={`fixed flex mt-10 p-4 top-0 z-10 ${i18n.dir() === "ltr" ? "right-0" : "left-0"}`}
     >
       <Button c_size="xs" onClick={cycleTheme}>
         {getThemeText()}

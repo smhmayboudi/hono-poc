@@ -21,12 +21,6 @@ export const adapterDrivingCSPRead = (
   app.onError(onErrorHandler(config, logger));
   return app.openapi(
     cspReadRoute(),
-    cspReadHandler(
-      basePath,
-      config,
-      domainType,
-      logger,
-      drivingCSPRead,
-    ),
+    cspReadHandler(basePath, config, domainType, logger, drivingCSPRead),
   );
 };

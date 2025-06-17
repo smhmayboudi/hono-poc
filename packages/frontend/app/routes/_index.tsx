@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import Banner from "~/components/ui/banner";
+import { BannerStatus } from "~/components/banner-provider";
 import Search from "~/routes/search";
 
 import type { Route } from "./+types/_index";
@@ -22,7 +22,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
 
   return (
     <div>
-      <Banner />
+      <BannerStatus />
       <Search />
       <h1>{t("hi")}</h1>
       <h1>React Router and Hono</h1>

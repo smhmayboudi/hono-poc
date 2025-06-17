@@ -21,12 +21,6 @@ export const adapterDrivingCSPCreate = (
   app.onError(onErrorHandler(config, logger));
   return app.openapi(
     cspCreateRoute(),
-    cspCreateHandler(
-      basePath,
-      config,
-      domainType,
-      logger,
-      drivingCSPCreate,
-    ),
+    cspCreateHandler(basePath, config, domainType, logger, drivingCSPCreate),
   );
 };

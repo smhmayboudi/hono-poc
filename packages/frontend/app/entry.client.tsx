@@ -8,7 +8,7 @@ import { HydratedRouter } from "react-router/dom";
 import { getInitialNamespaces } from "remix-i18next/client";
 
 import { AuthProvider } from "~/components/auth-provider";
-import { BannerVisibilityProvider } from "~/components/banner-visibility-provider";
+import { BannerProvider } from "~/components/banner-provider";
 import { BroadcastChannelProvider } from "~/components/broadcast-channel-provider";
 import { CSRFProvider } from "~/components/csrf-provider";
 import { ThemeProvider } from "~/components/theme-provider";
@@ -39,11 +39,11 @@ const hydrate = async () => {
           <CSRFProvider token={window.token}>
             <BroadcastChannelProvider channelName="frontend">
               <AuthProvider serverSession={window.session}>
-                <BannerVisibilityProvider>
+                <BannerProvider>
                   <ThemeProvider>
                     <HydratedRouter />
                   </ThemeProvider>
-                </BannerVisibilityProvider>
+                </BannerProvider>
               </AuthProvider>
             </BroadcastChannelProvider>
           </CSRFProvider>

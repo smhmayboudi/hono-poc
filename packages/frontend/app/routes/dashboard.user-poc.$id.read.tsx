@@ -32,11 +32,11 @@ export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
 //   const res = await client.api.v1["user-poc"][":id"].$get({ param: params });
 //   if (res.ok) {
 //     const { data } = await res.json();
-// 
+//
 //     return { data };
 //   }
 //   const { errors } = await res.json();
-// 
+//
 //   return { errors };
 // };
 

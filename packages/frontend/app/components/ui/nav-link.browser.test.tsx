@@ -7,7 +7,9 @@ import { NavLink, type NavLinkProps } from "~/components/ui/nav-link";
 
 import type { StubRouteEntry } from "../../../tests/setup.browser";
 
-const getEntries: (linkProps?: NavLinkProps) => StubRouteEntry[] = (linkProps) => [
+const getEntries: (linkProps?: NavLinkProps) => StubRouteEntry[] = (
+  linkProps,
+) => [
   {
     path: "/first",
     Component: () => {

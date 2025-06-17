@@ -14,7 +14,7 @@ import type {
 import { ServerRouter } from "react-router";
 
 import { AuthProvider } from "~/components/auth-provider";
-import { BannerVisibilityProvider } from "~/components/banner-visibility-provider";
+import { BannerProvider } from "~/components/banner-provider";
 import { BroadcastChannelProvider } from "~/components/broadcast-channel-provider";
 import { CSRFProvider } from "~/components/csrf-provider";
 import { ThemeProvider } from "~/components/theme-provider";
@@ -73,7 +73,7 @@ export default (
         <CSRFProvider token={token}>
           <BroadcastChannelProvider channelName="frontend">
             <AuthProvider serverSession={session.data}>
-              <BannerVisibilityProvider>
+              <BannerProvider>
                 <ThemeProvider>
                   <ServerRouter
                     context={routerContext}
@@ -81,7 +81,7 @@ export default (
                     url={request.url}
                   />
                 </ThemeProvider>
-              </BannerVisibilityProvider>
+              </BannerProvider>
             </AuthProvider>
           </BroadcastChannelProvider>
         </CSRFProvider>
