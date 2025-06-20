@@ -9,10 +9,11 @@ import {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { href, Navigate, useLocation, useNavigate } from "react-router";
+import { href, useLocation, useNavigate } from "react-router";
 
 import { useBroadcastChannel } from "~/components/broadcast-channel-provider";
 import Button from "~/components/ui/button";
+import { Navigate } from "~/components/ui/navigate";
 import type { SessionData } from "~/session.server";
 
 type AuthApiResponse =
