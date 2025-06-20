@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import remixI18n from "~/localization/i18n.server";
 
-describe("Remix I18n", () => {
+describe("I18n Test", () => {
   it("returns the correct default language from the request", async () => {
     expect.assertions(1);
     const request = new Request("http://localhost:3000");

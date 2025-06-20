@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { twc } from "~/utils/css";
 
-describe("twc", () => {
+describe("TWC Test", () => {
   it("should merge classes", () => {
     expect.assertions(1);
     const classes = ["class1", "class2"];

@@ -2,7 +2,7 @@ import { userPreferencesBanner, userPreferencesTheme } from "~/cookie.server";
 
 import type { Route } from "./+types/api.preferences.$";
 
-export const actionBanner = async (request: Request) => {
+const actionBanner = async (request: Request) => {
   const cookie =
     (await userPreferencesBanner.parse(request.headers.get("cookie"))) || {};
   const jsonData = await request.json();
@@ -14,7 +14,7 @@ export const actionBanner = async (request: Request) => {
   });
 };
 
-export const actionTheme = async (request: Request) => {
+const actionTheme = async (request: Request) => {
   const cookie =
     (await userPreferencesTheme.parse(request.headers.get("cookie"))) || {};
   const jsonData = await request.json();
@@ -26,7 +26,7 @@ export const actionTheme = async (request: Request) => {
   });
 };
 
-export const loaderBanner = async (request: Request) => {
+const loaderBanner = async (request: Request) => {
   const cookie =
     (await userPreferencesBanner.parse(request.headers.get("cookie"))) || {};
   const visible = cookie.visible !== false;
@@ -34,7 +34,7 @@ export const loaderBanner = async (request: Request) => {
   return Response.json({ visible });
 };
 
-export const loaderTheme = async (request: Request) => {
+const loaderTheme = async (request: Request) => {
   const cookie =
     (await userPreferencesTheme.parse(request.headers.get("cookie"))) || {};
   const theme = cookie.theme;
