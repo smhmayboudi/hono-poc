@@ -73,8 +73,8 @@ export const getEnvClient = (): EnvClient => ({
 
 declare global {
   interface Window {
+    csrf: { token: string };
     env: EnvClient;
-    session?: SessionData | null;
-    token: string;
+    session: SessionData | null;
   }
 }

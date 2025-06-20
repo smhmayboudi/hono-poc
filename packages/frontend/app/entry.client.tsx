@@ -36,9 +36,9 @@ const hydrate = async () => {
       document,
       <StrictMode>
         <I18nextProvider i18n={i18next}>
-          <CSRFProvider token={window.token}>
+          <CSRFProvider token={window.csrf.token}>
             <BroadcastChannelProvider channelName="frontend">
-              <AuthProvider serverSession={window.session}>
+              <AuthProvider session={window.session}>
                 <BannerProvider>
                   <ThemeProvider>
                     <HydratedRouter />

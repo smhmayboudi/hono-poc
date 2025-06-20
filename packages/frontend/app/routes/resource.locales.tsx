@@ -6,7 +6,6 @@ import { resources } from "~/localization/resource";
 import type { Route } from "./+types/resource.locales";
 
 export const loader = async ({ context, request }: Route.LoaderArgs) => {
-  const { isProductionDeployment } = context;
   const url = new URL(request.url);
   const lng = z
     .string()
@@ -22,7 +21,7 @@ export const loader = async ({ context, request }: Route.LoaderArgs) => {
     })
     .parse(url.searchParams.get("ns"));
   const headers = new Headers();
-  if (isProductionDeployment) {
+  if (context.envServer.NODE_ENV === "production") {
     headers.set(
       "Cache-Control",
       cacheHeader({

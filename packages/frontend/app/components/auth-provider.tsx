@@ -58,8 +58,8 @@ interface AuthContextType {
 const authContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: FC<
-  PropsWithChildren<{ serverSession?: SessionData | null }>
-> = ({ children, serverSession }) => {
+  PropsWithChildren<{ session?: SessionData | null }>
+> = ({ children, session }) => {
   const updateState = useCallback(
     (updates: Partial<typeof state>) =>
       setState((prev) => ({ ...prev, ...updates })),
@@ -238,21 +238,21 @@ export const AuthProvider: FC<
     user: SessionData["user"] | null;
   }>({
     error: null,
-    loading: !serverSession,
-    token: serverSession?.token || null,
-    user: serverSession?.user || null,
+    loading: !session,
+    token: session?.token || null,
+    user: session?.user || null,
   });
 
   useEffect(() => {
     const abortController = new AbortController();
-    if (!serverSession) {
+    if (!session) {
       getSession(abortController);
     }
 
     return () => {
       abortController.abort();
     };
-  }, [serverSession, getSession]);
+  }, [session, getSession]);
 
   useEffect(() => {
     const abortController = new AbortController();

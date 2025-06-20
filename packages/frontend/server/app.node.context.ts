@@ -39,12 +39,8 @@ export const getLoadContext = async (args: GetLoadContextArgs) => {
     body: body as unknown,
     envClient: getEnvClient(),
     envServer: getEnvServer(),
-    extra: "stuff",
-    isProductionDeployment: getEnvServer().NODE_ENV === "production",
     locale,
     nonce,
-    pagination: { limit: "10", offset: "0" },
     t,
-    url: args.request.url,
   };
 };

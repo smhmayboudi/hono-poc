@@ -72,7 +72,7 @@ export default (
       <I18nextProvider i18n={i18next}>
         <CSRFProvider token={token}>
           <BroadcastChannelProvider channelName="frontend">
-            <AuthProvider serverSession={session.data}>
+            <AuthProvider session={session.data}>
               <BannerProvider>
                 <ThemeProvider>
                   <ServerRouter

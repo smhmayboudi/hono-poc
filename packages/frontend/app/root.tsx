@@ -7,10 +7,9 @@ import {
   Scripts,
   ScrollRestoration,
   useNavigation,
-  useRouteLoaderData,
 } from "react-router";
 
-import { AuthStatus } from "~/components/auth-provider";
+import { AuthStatus, useAuth } from "~/components/auth-provider";
 import { DarkModeStatus } from "~/components/theme-provider";
 import Footer from "~/components/ui/footer";
 import Header from "~/components/ui/header";
@@ -94,9 +93,9 @@ export const loader = async ({ context, request }: Route.LoaderArgs) => {
 
   return data(
     {
+      csrf: { token },
       envClient: context.envClient,
       nonce: context.nonce,
-      token,
     },
     {
       headers: { nonce: context.nonce, "Set-Cookie": cookie ?? "" },
@@ -115,10 +114,10 @@ export const meta = ({}: Route.MetaArgs) => {
   ];
 };
 
-export default () => {
+export default ({ loaderData }: Route.ComponentProps) => {
+  const auth = useAuth();
   const navigation = useNavigation();
   const isNavigating = Boolean(navigation.location);
-  const loaderData = useRouteLoaderData<typeof loader>("root");
   const { i18n } = useTranslation();
 
   return (
@@ -146,7 +145,7 @@ export default () => {
         <Scripts nonce={loaderData?.nonce} />
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.env=${JSON.stringify(loaderData?.envClient || {})};window.token="${loaderData?.token}"`,
+            __html: `window.csrf=${JSON.stringify(loaderData?.csrf)};window.env=${JSON.stringify(loaderData?.envClient || {})};window.session=${JSON.stringify({ token: auth.token, user: auth.user })};`,
           }}
           nonce={loaderData?.nonce}
         />
