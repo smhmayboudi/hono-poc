@@ -29,9 +29,9 @@ export const headers = ({
   parentHeaders.set("Cache-Control", "max-age=3600, s-maxage=86400");
   parentHeaders.set(
     "Content-Security-Policy",
-    "base-uri 'self' http://localhost:5173 http://localhost:8081;" +
+    "base-uri 'self' http://127.0.0.1:8081 http://localhost:8081;" +
       "child-src 'none';" +
-      "connect-src 'self' http://localhost:5173 ws://localhost:5173;" +
+      "connect-src 'self' http://127.0.0.1:8081 http://localhost:8081;" +
       "default-src 'self';" +
       "font-src 'self';" +
       "form-action 'self';" +
