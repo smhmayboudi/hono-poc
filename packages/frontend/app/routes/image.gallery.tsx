@@ -1,5 +1,7 @@
 import { href, NavLink } from "react-router";
 
+import type { Route } from "./+types/image.gallery";
+
 export const images = [
   "https://remix.run/blog-images/headers/the-future-is-now.jpg",
   "https://remix.run/blog-images/headers/waterfall.jpg",
@@ -11,7 +13,7 @@ export const images = [
 //   { content: "Image Gallery | description", name: "description" },
 // ];
 
-export default () => (
+export default ({}: Route.ComponentProps) => (
   <>
     <div className="image-list">
       <h1>Image Gallery</h1>

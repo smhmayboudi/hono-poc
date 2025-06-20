@@ -2,7 +2,7 @@ import { href } from "react-router";
 
 import { Link } from "~/components/ui/link";
 
-// import type { Route } from "./+types/about";
+import type { Route } from "./+types/about";
 
 // export const meta = ({}: Route.MetaArgs) => [
 //   { title: "About" },
@@ -21,7 +21,7 @@ import { Link } from "~/components/ui/link";
 //   { content: "Dashboard | description", name: "description" },
 // ];
 
-export default () => (
+export default ({}: Route.ComponentProps) => (
   <div>
     <h1>About</h1>
     <p>About Description</p>
