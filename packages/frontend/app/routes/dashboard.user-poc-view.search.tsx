@@ -7,45 +7,25 @@ import hydrateFallback from "~/components/hydrate-fallback";
 import Icon from "~/components/ui/icon";
 import { Link } from "~/components/ui/link";
 import Loading from "~/components/ui/loading";
+import { userSession } from "~/session.server";
 import { sleep } from "~/utils/time";
 
 import type { Route } from "./+types/dashboard.user-poc-view.search";
-
-// export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
-//   console.log("CLIENT - clientLoader");
-//   await sleep(1000);
-//   const url = new URL(request.url);
-//   const limit =
-//     url.searchParams.get("limit") || window.env.APP_PAGINATION_LIMIT;
-//   const offset =
-//     url.searchParams.get("offset") || window.env.APP_PAGINATION_OFFSET;
-//   const search = url.searchParams.get("search") || "";
-//   const client = hc<AppType>("http://127.0.0.1:8081/");
-//   const res = await client.api.v1["user-poc-view"].search.$post({
-//     json: { query: search },
-//     query: { limit, offset },
-//   });
-//   if (res.ok) {
-//     const { data } = await res.json();
-//
-//     return { data, search };
-//   }
-//   const { errors } = await res.json();
-//
-//   return { errors };
-// };
-
-// clientLoader.hydrate = true as const;
 
 export const action = async ({ context, request }: Route.ActionArgs) => {
   console.log("SERVER - action");
   await sleep(1000);
   const formData = await request.formData();
-  const limit = (formData.get("limit") as string) || context.pagination.limit;
+  const limit =
+    (formData.get("limit") as string) || context.envClient.APP_PAGINATION_LIMIT;
   const offset =
-    (formData.get("offset") as string) || context.pagination.offset;
+    (formData.get("offset") as string) ||
+    context.envClient.APP_PAGINATION_OFFSET;
   const search = (formData.get("search") as string) || "";
-  const client = hc<AppType>("http://127.0.0.1:8081/");
+  const session = await userSession.getSession(request.headers.get("cookie"));
+  const client = hc<AppType>(context.envClient.APP_BASE_URL, {
+    headers: { authorization: `Bearer ${session.get("token") ?? ""}` },
+  });
   const res = await client.api.v1["user-poc-view"].search.$post({
     json: { query: search },
     query: { limit, offset },
@@ -152,6 +132,15 @@ export default ({}: Route.ComponentProps) => {
         </>
       ) : (
         <p className="p-3">No Records</p>
+      )}
+      {fetcher.data?.errors ? (
+        fetcher.data.errors.map((values) => (
+          <p key={values.code}>
+            {values.title}[{values.code}]: {values.detail}
+          </p>
+        ))
+      ) : (
+        <></>
       )}
     </div>
   );

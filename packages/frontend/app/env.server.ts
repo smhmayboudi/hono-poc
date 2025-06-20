@@ -3,6 +3,7 @@ import { z } from "zod";
 import type { SessionData } from "~/session.server";
 
 const envSchema = z.object({
+  APP_BASE_URL: z.string().default("http://127.0.0.1:8081/"),
   APP_PAGINATION_LIMIT: z
     .string()
     .refine((arg) => !Number.isNaN(Number(arg)) && Number(arg) >= 1, {
@@ -15,8 +16,6 @@ const envSchema = z.object({
       message: "The string must be a valid number greater than or equal to 0",
     })
     .default("0"),
-  AUTH_CLIENT_BASE_URL: z.string().default("http://127.0.0.1:8081/api/v1/auth"),
-  CLIENT_BASE_URL: z.string().default("http://127.0.0.1:8081/"),
   COOKIE_SECRET: z.string().default("s3cret!"),
   CSRF_SECRET: z.string().default("s3cret!"),
   NODE_ENV: z
@@ -35,13 +34,7 @@ const envSchema = z.object({
 type EnvServer = z.infer<typeof envSchema>;
 type EnvClient = Omit<
   z.infer<typeof envSchema>,
-  | "AUTH_CLIENT_BASE_URL"
-  | "CLIENT_BASE_URL"
-  | "COOKIE_SECRET"
-  | "CSRF_SECRET"
-  | "NODE_ENV"
-  | "PORT"
-  | "SESSION_SECRET"
+  "COOKIE_SECRET" | "CSRF_SECRET" | "NODE_ENV" | "PORT" | "SESSION_SECRET"
 >;
 
 let env: EnvServer;
@@ -67,6 +60,7 @@ const initEnv = () => {
 export const getEnvServer = (): EnvServer => (env ? env : initEnv());
 
 export const getEnvClient = (): EnvClient => ({
+  APP_BASE_URL: getEnvServer().APP_BASE_URL,
   APP_PAGINATION_LIMIT: getEnvServer().APP_PAGINATION_LIMIT,
   APP_PAGINATION_OFFSET: getEnvServer().APP_PAGINATION_OFFSET,
 });

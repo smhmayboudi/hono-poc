@@ -11,27 +11,6 @@ import { sleep } from "~/utils/time";
 
 import type { Route } from "./+types/dashboard.user-poc-information.$id.update";
 
-// export const action = async ({ params, request }: Route.ActionArgs) => {
-//   console.log("SERVER - action");
-//   const formData = await request.formData();
-//   const address = formData.get("address") as string;
-//   const age = Number(formData.get("age") as string);
-//   const userId = formData.get("userId") as string;
-//   const client = hc<AppType>("http://127.0.0.1:8081/");
-//   const res = await client.api.v1["user-poc-information"][":id"].$patch({
-//     json: { address, age, userId },
-//     param: params,
-//   });
-//   if (res.ok) {
-//     const { data } = await res.json();
-//
-//     return { data };
-//   }
-//   const { errors } = await res.json();
-//
-//   return { errors };
-// };
-
 export const clientAction = async ({
   params,
   request,
@@ -42,7 +21,9 @@ export const clientAction = async ({
   const address = formData.get("address") as string;
   const age = Number(formData.get("age") as string);
   const userId = formData.get("userId") as string;
-  const client = hc<AppType>("http://127.0.0.1:8081/");
+  const client = hc<AppType>(window.env.APP_BASE_URL, {
+    headers: { authorization: `Bearer ${window.session?.token ?? ""}` },
+  });
   const res = await client.api.v1["user-poc-information"][":id"].$patch({
     json: { address, age, userId },
     param: params,
@@ -60,7 +41,9 @@ export const clientAction = async ({
 export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
   console.log("CLIENT - clientLoader");
   await sleep(1000);
-  const client = hc<AppType>("http://127.0.0.1:8081/");
+  const client = hc<AppType>(window.env.APP_BASE_URL, {
+    headers: { authorization: `Bearer ${window.session?.token ?? ""}` },
+  });
   const res = await client.api.v1["user-poc-information"][":id"].$get({
     param: params,
   });
@@ -73,22 +56,6 @@ export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
 
   return { errors };
 };
-
-// clientLoader.hydrate = true as const;
-
-// export const loader = async ({ params }: Route.LoaderArgs) => {
-//   console.log("SERVER - loader");
-//   const client = hc<AppType>("http://127.0.0.1:8081/");
-//   const res = await client.api.v1["user-poc-information"][":id"].$get({ param: params });
-//   if (res.ok) {
-//     const { data } = await res.json();
-//
-//     return { data };
-//   }
-//   const { errors } = await res.json();
-//
-//   return { errors };
-// };
 
 // export const meta = ({ params }: Route.MetaArgs) => [
 //   { title: `User POC Information Update #${params.id}` },
@@ -189,7 +156,7 @@ export default ({ loaderData, params }: Route.ComponentProps) => {
       {fetcher.data?.data?.id ? <p>#{fetcher.data.data.id} updated.</p> : <></>}
       {fetcher.data?.errors ? (
         fetcher.data.errors.map((values) => (
-          <p>
+          <p key={values.code}>
             {values.title}[{values.code}]: {values.detail}
           </p>
         ))

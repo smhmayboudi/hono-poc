@@ -18,7 +18,9 @@ export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
     url.searchParams.get("limit") || window.env.APP_PAGINATION_LIMIT;
   const offset =
     url.searchParams.get("offset") || window.env.APP_PAGINATION_OFFSET;
-  const client = hc<AppType>("http://127.0.0.1:8081/");
+  const client = hc<AppType>(window.env.APP_BASE_URL, {
+    headers: { authorization: `Bearer ${window.session?.token ?? ""}` },
+  });
   const res = await client.api.v1["user-poc"].$get({
     query: { limit, offset },
   });
@@ -31,29 +33,6 @@ export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
 
   return { errors };
 };
-
-// clientLoader.hydrate = true as const;
-
-// export const loader = async ({ request }: Route.LoaderArgs) => {
-//   console.log("SERVER - loader");
-//   const url = new URL(request.url);
-//   const limit =
-//     url.searchParams.get("limit") || window.env.APP_PAGINATION_LIMIT;
-//   const offset =
-//     url.searchParams.get("offset") || window.env.APP_PAGINATION_OFFSET;
-//   const client = hc<AppType>("http://127.0.0.1:8081/");
-//   const res = await client.api.v1["user-poc"].$get({
-//     query: { limit, offset },
-//   });
-//   if (res.ok) {
-//     const { data } = await res.json();
-//
-//     return { data };
-//   }
-//   const { errors } = await res.json();
-//
-//   return { errors };
-// };
 
 // export const meta = ({}: Route.MetaArgs) => [
 //   { title: "User POC Read" },
@@ -200,6 +179,15 @@ export default ({ loaderData }: Route.ComponentProps) => {
         </>
       ) : (
         <p className="p-3">No Records</p>
+      )}
+      {loaderData.errors ? (
+        loaderData.errors.map((value) => (
+          <span key={value.status}>
+            {value.code} [{value.status}]: {value.detail}
+          </span>
+        ))
+      ) : (
+        <></>
       )}
     </div>
   );

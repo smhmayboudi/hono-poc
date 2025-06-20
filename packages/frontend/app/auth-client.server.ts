@@ -4,12 +4,7 @@ import { createAuthClient } from "better-auth/react";
 import { getEnvServer } from "~/env.server";
 
 export const authClient = createAuthClient({
-  baseURL: getEnvServer().AUTH_CLIENT_BASE_URL,
-  credentials: "include",
-  emailAndPassword: {
-    autoSignIn: true,
-    enabled: true,
-  },
-  headers: { accept: "application/json", authorization: "Bearer" },
+  basePath: "/api/v1/auth",
+  baseURL: getEnvServer().APP_BASE_URL,
   plugins: [jwtClient()],
-}) as ReturnType<typeof createAuthClient>;
+});

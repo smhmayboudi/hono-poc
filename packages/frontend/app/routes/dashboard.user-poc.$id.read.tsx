@@ -12,7 +12,9 @@ import type { Route } from "./+types/dashboard.user-poc.$id.read";
 export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
   console.log("CLIENT - clientLoader");
   await sleep(1000);
-  const client = hc<AppType>("http://127.0.0.1:8081/");
+  const client = hc<AppType>(window.env.APP_BASE_URL, {
+    headers: { authorization: `Bearer ${window.session?.token ?? ""}` },
+  });
   const res = await client.api.v1["user-poc"][":id"].$get({ param: params });
   if (res.ok) {
     const { data } = await res.json();
@@ -23,30 +25,6 @@ export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
 
   return { errors };
 };
-
-// clientLoader.hydrate = true as const;
-
-// export const loader = async ({ params }: Route.LoaderArgs) => {
-//   console.log("SERVER - loader");
-//   const client = hc<AppType>("http://127.0.0.1:8081/");
-//   const res = await client.api.v1["user-poc"][":id"].$get({ param: params });
-//   if (res.ok) {
-//     const { data } = await res.json();
-//
-//     return { data };
-//   }
-//   const { errors } = await res.json();
-//
-//   return { errors };
-// };
-
-// export const meta = ({ params }: Route.MetaArgs) => [
-//   { title: `User POC ReadID #${params.id}` },
-//   {
-//     content: `User POC ReadID #${params.id} | description`,
-//     name: "description",
-//   },
-// ];
 
 export default ({ loaderData, params }: Route.ComponentProps) => (
   <div>

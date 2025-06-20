@@ -11,25 +11,6 @@ import { sleep } from "~/utils/time";
 
 import type { Route } from "./+types/dashboard.user-poc.$id.update";
 
-// export const action = async ({ params, request }: Route.ActionArgs) => {
-//   console.log("SERVER - action");
-//   const formData = await request.formData();
-//   const fullname = formData.get("fullname") as string;
-//   const client = hc<AppType>("http://127.0.0.1:8081/");
-//   const res = await client.api.v1["user-poc"][":id"].$patch({
-//     json: { fullname },
-//     param: params,
-//   });
-//   if (res.ok) {
-//     const { data } = await res.json();
-//
-//     return { data };
-//   }
-//   const { errors } = await res.json();
-//
-//   return { errors };
-// };
-
 export const clientAction = async ({
   params,
   request,
@@ -38,7 +19,9 @@ export const clientAction = async ({
   await sleep(1000);
   const formData = await request.formData();
   const fullname = formData.get("fullname") as string;
-  const client = hc<AppType>("http://127.0.0.1:8081/");
+  const client = hc<AppType>(window.env.APP_BASE_URL, {
+    headers: { authorization: `Bearer ${window.session?.token ?? ""}` },
+  });
   const res = await client.api.v1["user-poc"][":id"].$patch({
     json: { fullname },
     param: params,
@@ -56,7 +39,9 @@ export const clientAction = async ({
 export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
   console.log("CLIENT - clientLoader");
   await sleep(1000);
-  const client = hc<AppType>("http://127.0.0.1:8081/");
+  const client = hc<AppType>(window.env.APP_BASE_URL, {
+    headers: { authorization: `Bearer ${window.session?.token ?? ""}` },
+  });
   const res = await client.api.v1["user-poc"][":id"].$get({ param: params });
   if (res.ok) {
     const { data } = await res.json();
@@ -67,22 +52,6 @@ export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
 
   return { errors };
 };
-
-// clientLoader.hydrate = true as const;
-
-// export const loader = async ({ params }: Route.LoaderArgs) => {
-//   console.log("SERVER - loader");
-//   const client = hc<AppType>("http://127.0.0.1:8081/");
-//   const res = await client.api.v1["user-poc"][":id"].$get({ param: params });
-//   if (res.ok) {
-//     const { data } = await res.json();
-//
-//     return { data };
-//   }
-//   const { errors } = await res.json();
-//
-//   return { errors };
-// };
 
 // export const meta = ({ params }: Route.MetaArgs) => [
 //   { title: `User POC Update #${params.id}` },
@@ -155,7 +124,7 @@ export default ({ loaderData, params }: Route.ComponentProps) => {
       {fetcher.data?.data?.id ? <p>#{fetcher.data.data.id} updated.</p> : <></>}
       {fetcher.data?.errors ? (
         fetcher.data.errors.map((values) => (
-          <p>
+          <p key={values.code}>
             {values.title}[{values.code}]: {values.detail}
           </p>
         ))

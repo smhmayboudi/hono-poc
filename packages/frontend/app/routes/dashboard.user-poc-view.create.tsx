@@ -11,26 +11,6 @@ import { sleep } from "~/utils/time";
 
 import type { Route } from "./+types/dashboard.user-poc-view.create";
 
-// export const action = async ({ request }: Route.ActionArgs) => {
-//   console.log("SERVER - action");
-//   const formData = await request.formData();
-//   const address = formData.get("address") as string;
-//   const age = Number(formData.get("age") as string);
-//   const fullname = formData.get("fullname") as string;
-//   const client = hc<AppType>("http://127.0.0.1:8081/");
-//   const res = await client.api.v1["user-poc-view"].$post({
-//     json: { address, age, fullname },
-//   });
-//   if (res.ok) {
-//     const { data } = await res.json();
-//
-//     return { data };
-//   }
-//   const { errors } = await res.json();
-//
-//   return { errors };
-// };
-
 export const clientAction = async ({ request }: Route.ClientActionArgs) => {
   console.log("CLIENT - clientAction");
   await sleep(1000);
@@ -38,7 +18,9 @@ export const clientAction = async ({ request }: Route.ClientActionArgs) => {
   const address = formData.get("address") as string;
   const age = Number(formData.get("age") as string);
   const fullname = formData.get("fullname") as string;
-  const client = hc<AppType>("http://127.0.0.1:8081/");
+  const client = hc<AppType>(window.env.APP_BASE_URL, {
+    headers: { authorization: `Bearer ${window.session?.token ?? ""}` },
+  });
   const res = await client.api.v1["user-poc-view"].$post({
     json: { address, age, fullname },
   });
@@ -142,7 +124,7 @@ export default ({}: Route.ComponentProps) => {
       {fetcher.data?.data?.id ? <p>#{fetcher.data.data.id} created.</p> : <></>}
       {fetcher.data?.errors ? (
         fetcher.data.errors.map((values) => (
-          <p>
+          <p key={values.code}>
             {values.title}[{values.code}]: {values.detail}
           </p>
         ))
