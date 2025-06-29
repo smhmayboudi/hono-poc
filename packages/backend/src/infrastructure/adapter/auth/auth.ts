@@ -110,24 +110,6 @@ export class Auth2 implements PortAuth {
     return this.auth.handler(request);
   }
 
-  async roleHasPermission(
-    permission: Record<string, string[]>,
-    role: "admin" | "user",
-  ): Promise<boolean> {
-    this.logger.assign({
-      [ATTR_CODE_FUNCTION_NAME]: "roleHasPermission-auth.infrastructure",
-      config: this.config,
-      role,
-    });
-    this.logger.debug({});
-    const userHasPermission = await this.auth.api.userHasPermission({
-      body: { permission, role },
-    });
-    this.logger.debug({ userHasPermission });
-
-    return userHasPermission.success;
-  }
-
   async session(ctx: Context<Env>): Promise<Session | null> {
     this.logger.assign({
       [ATTR_CODE_FUNCTION_NAME]: "session-auth.infrastructure",

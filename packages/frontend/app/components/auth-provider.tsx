@@ -13,13 +13,14 @@ import { href, useLocation, useNavigate } from "react-router";
 
 import { useBroadcastChannel } from "~/components/broadcast-channel-provider";
 import Button from "~/components/ui/button";
+import Loading from "~/components/ui/loading";
 import { Navigate } from "~/components/ui/navigate";
 import type { SessionData } from "~/session.server";
 
 type AuthApiResponse =
   | {
       error?: never;
-      token: string;
+      token: SessionData["token"];
       user: SessionData["user"];
     }
   | {
@@ -35,7 +36,7 @@ type AuthProviderMessage = {
 interface AuthContextType {
   error: Error | null;
   getSession: (abortController: AbortController) => Promise<void>;
-  loading: boolean;
+  isLoading: boolean;
   signIn: (
     csrf: string,
     email: string,
@@ -51,14 +52,14 @@ interface AuthContextType {
     password: string,
     callback?: VoidFunction,
   ) => Promise<void>;
-  token: string | null;
+  token: SessionData["token"] | null;
   user: SessionData["user"] | null;
 }
 
 const authContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: FC<
-  PropsWithChildren<{ session?: SessionData | null }>
+  PropsWithChildren<{ session: SessionData | null }>
 > = ({ children, session }) => {
   const updateState = useCallback(
     (updates: Partial<typeof state>) =>
@@ -92,7 +93,7 @@ export const AuthProvider: FC<
 
   const getSession = useCallback(
     async (abortController: AbortController) => {
-      updateState({ error: null, loading: true });
+      updateState({ error: null, isLoading: true });
       try {
         const data = await fetchAuth(
           href("/api/auth/*", { "*": "getsession" }),
@@ -104,21 +105,23 @@ export const AuthProvider: FC<
         if (data.error) {
           updateState({
             error: null,
-            loading: false,
+            isLoading: false,
             token: null,
             user: null,
           });
         }
         updateState({
           error: null,
-          loading: false,
+          isLoading: false,
           token: data.token,
           user: data.user,
         });
       } catch (error) {
         updateState({
           error: error instanceof Error ? error : new Error("getSession Error"),
-          loading: false,
+          isLoading: false,
+          token: null,
+          user: null,
         });
       }
     },
@@ -132,7 +135,7 @@ export const AuthProvider: FC<
     rememberMe: boolean,
     callback?: VoidFunction,
   ) => {
-    updateState({ error: null, loading: true });
+    updateState({ error: null, isLoading: true });
     try {
       const formData = new URLSearchParams();
       formData.append("csrf", csrf);
@@ -148,7 +151,7 @@ export const AuthProvider: FC<
       if (data.token && data.user) {
         updateState({
           error: null,
-          loading: false,
+          isLoading: false,
           token: data.token,
           user: data.user,
         });
@@ -160,13 +163,15 @@ export const AuthProvider: FC<
     } catch (error) {
       updateState({
         error: error instanceof Error ? error : new Error("signIn Error"),
-        loading: false,
+        isLoading: false,
+        token: null,
+        user: null,
       });
     }
   };
 
   const signOut = async (callback?: VoidFunction) => {
-    updateState({ error: null, loading: true });
+    updateState({ error: null, isLoading: true });
     try {
       const data = await fetchAuth(href("/api/auth/*", { "*": "signout" }));
       if (data.error) {
@@ -174,7 +179,7 @@ export const AuthProvider: FC<
       }
       updateState({
         error: null,
-        loading: false,
+        isLoading: false,
         token: null,
         user: null,
       });
@@ -185,7 +190,9 @@ export const AuthProvider: FC<
     } catch (error) {
       updateState({
         error: error instanceof Error ? error : new Error("signOut Error"),
-        loading: false,
+        isLoading: false,
+        token: null,
+        user: null,
       });
     }
   };
@@ -197,7 +204,7 @@ export const AuthProvider: FC<
     password: string,
     callback?: VoidFunction,
   ) => {
-    updateState({ error: null, loading: true });
+    updateState({ error: null, isLoading: true });
     try {
       const formData = new URLSearchParams();
       formData.append("csrf", csrf);
@@ -213,7 +220,7 @@ export const AuthProvider: FC<
       if (data.token && data.user) {
         updateState({
           error: null,
-          loading: false,
+          isLoading: false,
           token: data.token,
           user: data.user,
         });
@@ -225,7 +232,9 @@ export const AuthProvider: FC<
     } catch (error) {
       updateState({
         error: error instanceof Error ? error : new Error("signUp Error"),
-        loading: false,
+        isLoading: false,
+        token: null,
+        user: null,
       });
     }
   };
@@ -233,19 +242,19 @@ export const AuthProvider: FC<
   const broadcastChannel = useBroadcastChannel();
   const [state, setState] = useState<{
     error: Error | null;
-    loading: boolean;
-    token: string | null;
+    isLoading: boolean;
+    token: SessionData["token"] | null;
     user: SessionData["user"] | null;
   }>({
     error: null,
-    loading: !session,
+    isLoading: !session,
     token: session?.token || null,
     user: session?.user || null,
   });
 
   useEffect(() => {
     const abortController = new AbortController();
-    if (!session) {
+    if (!session?.token || !session?.user) {
       getSession(abortController);
     }
 
@@ -289,11 +298,13 @@ export const useAuth = () => {
 };
 
 export const AuthStatus = () => {
-  const { i18n } = useTranslation();
   const auth = useAuth();
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
 
-  return (
+  return auth.isLoading ? (
+    <Loading c_size="xs" />
+  ) : (
     <div
       className={`fixed flex mt-20 p-4 top-0 z-10 ${i18n.dir() === "ltr" ? "right-0" : "left-0"}`}
     >
@@ -345,6 +356,17 @@ export const AuthNotRequire = ({ children }: { children: JSX.Element }) => {
 export const AuthRequire = ({ children }: { children: JSX.Element }) => {
   const auth = useAuth();
   const location = useLocation();
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    if (!auth.token || !auth.user) {
+      auth.getSession(abortController);
+    }
+
+    return () => {
+      abortController.abort();
+    };
+  }, [auth]);
 
   return auth.token && auth.user ? (
     children

@@ -47,7 +47,7 @@ const actionSignInEmail = async (request: Request) => {
     return Response.json(
       { error: String(error) },
       {
-        headers: { "Set-Cookie": await userSession.commitSession(session) },
+        headers: { "Set-Cookie": await userSession.destroySession(session) },
         status: 400,
       },
     );
@@ -79,7 +79,7 @@ const actionSignOut = async (request: Request) => {
     return Response.json(
       { error: String(error) },
       {
-        headers: { "Set-Cookie": await userSession.commitSession(session) },
+        headers: { "Set-Cookie": await userSession.destroySession(session) },
         status: 400,
       },
     );
@@ -118,7 +118,7 @@ const actionSignUpEmail = async (request: Request) => {
     return Response.json(
       { error: String(error) },
       {
-        headers: { "Set-Cookie": await userSession.commitSession(session) },
+        headers: { "Set-Cookie": await userSession.destroySession(session) },
         status: 400,
       },
     );
@@ -133,10 +133,10 @@ const actionGetSession = async (request: Request) => {
   try {
     const { data, error } = await authClient.getSession({
       fetchOptions: {
-        credentials: "include",
+        // credentials: "include",
         headers: { Authorization: `Bearer ${session.get("token") ?? ""}` },
       },
-      query: { disableCookieCache: true },
+      query: { disableCookieCache: true, disableRefresh: true },
     });
     if (!data && !!error) {
       return Response.json(
@@ -163,6 +163,8 @@ const actionGetSession = async (request: Request) => {
       },
     );
   } catch (error) {
+    session.flash("error", String(error));
+
     return Response.json(
       { error: String(error) },
       {
